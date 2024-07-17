@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hideout Modpack</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .large-text {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            margin-bottom: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .text-content {
+            white-space: pre-wrap;
+            text-align: left;
+        }
+    </style>
+    <script>
+        function updateContent(type) {
+            const content = {
+                updates: "[UPDATES]\n\nUPDATE 1 7-10-24:\n-Updated Feats Extra\n\nUPDATE 2 7-16-24:\n-Updated Volition Cabinet",
+                newMods: "[NEW MODS]\n\nUPDATE (INCLUDED IN MOD PACK NOW) 1 7-10-24:\n-Compatibility Framework\n-Mod Configuration Menu (MCM)\n-Volition Cabinet\n-Auto Sell Loot\n-Preemptively Label Containers\n-Waypoint Inside Emerald Grove\n-Auto Lockpicking\n\nUPDATE 2 (INCLUDED IN MOD PACK NOW) 7-11-24:\n-Appearance Edit Enhanced\n\nUPDATE 3 7-16-24:\n-No More Stragglers",
+                modpackNotes: "N/A"
+            };
+            document.getElementById('content').innerText = content[type];
+        }
+    </script>
+</head>
+<body>
+    <div class="large-text">Hideout Modpack</div>
+    <div class="buttons">
+        <button onclick="updateContent('updates')">Updates</button>
+        <button onclick="updateContent('newMods')">NEW Mods</button>
+        <button onclick="updateContent('modpackNotes')">Modpack Notes</button>
+    </div>
+    <div id="content" class="text-content">Select a button to see the content.</div>
+</body>
+</html>
