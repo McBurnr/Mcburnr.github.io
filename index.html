@@ -16,6 +16,8 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            background-color: black;
+            color: white;
         }
         .large-text {
             font-size: 4vw;
@@ -26,16 +28,28 @@
         }
         button {
             margin: 5px;
-            padding: 10px 20px;
-            font-size: 2vw;
+            padding: 5px 10px;
+            font-size: 1.5vw;
             font-weight: 100; /* Weight of 10 interpreted as 100 */
         }
         .text-content {
             white-space: pre-wrap;
             text-align: left;
-            font-size: 1.8vw;
+            font-size: 1.5vw;
             font-weight: 600; /* Weight of 6 interpreted as 600 */
             max-width: 90vw;
+        }
+        .top-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #backToTopButton {
+            display: none;
+            margin-top: 20px;
+            padding: 5px 10px;
+            font-size: 1.5vw;
+            font-weight: 100;
         }
     </style>
     <script>
@@ -46,16 +60,27 @@
                 modpackNotes: "N/A"
             };
             document.getElementById('content').innerText = content[type];
+            document.querySelector('.top-row').style.display = 'none';
+            document.getElementById('backToTopButton').style.display = 'block';
+        }
+
+        function backToTop() {
+            document.querySelector('.top-row').style.display = 'flex';
+            document.getElementById('backToTopButton').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </head>
 <body>
-    <div class="large-text">Hideout Modpack</div>
-    <div class="buttons">
-        <button onclick="updateContent('updates')">Updates</button>
-        <button onclick="updateContent('newMods')">NEW Mods</button>
-        <button onclick="updateContent('modpackNotes')">Modpack Notes</button>
+    <div class="top-row">
+        <div class="large-text">Hideout Modpack</div>
+        <div class="buttons">
+            <button onclick="updateContent('updates')">Updates</button>
+            <button onclick="updateContent('newMods')">NEW Mods</button>
+            <button onclick="updateContent('modpackNotes')">Modpack Notes</button>
+        </div>
     </div>
     <div id="content" class="text-content">Select a button to see the content.</div>
+    <button id="backToTopButton" onclick="backToTop()">Back to Top</button>
 </body>
 </html>
