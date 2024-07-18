@@ -16,21 +16,25 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            background-color: black;
+            background: url('https://www.escapistmagazine.com/wp-content/uploads/2023/07/Astarion-BG3.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: white;
             overflow: hidden;
+            font-size: 2vw; /* Increase base font size */
         }
         .large-text {
-            font-size: 4vw;
+            font-size: 5vw; /* Increase header font size */
             margin-bottom: 20px;
+            white-space: nowrap; /* Ensure no line breaks */
+            opacity: 0; /* Initially hidden for animation */
         }
         .buttons {
             margin-bottom: 20px;
         }
         button {
             margin: 5px;
-            padding: 5px 10px;
-            font-size: 1.5vw;
+            padding: 10px 20px; /* Increase button padding */
+            font-size: 2.5vw; /* Increase button font size */
             font-weight: 100; /* Weight of 10 interpreted as 100 */
             background-color: #444;
             color: white;
@@ -43,7 +47,7 @@
         .text-content {
             white-space: pre-wrap;
             text-align: left;
-            font-size: 1.5vw;
+            font-size: 2.5vw; /* Increase text content font size */
             font-weight: 600; /* Weight of 6 interpreted as 600 */
             max-width: 90vw;
             visibility: hidden;
@@ -56,8 +60,8 @@
         #closeButton {
             display: none;
             margin-top: 20px;
-            padding: 5px 10px;
-            font-size: 1.5vw;
+            padding: 10px 20px; /* Increase close button padding */
+            font-size: 2.5vw; /* Increase close button font size */
             font-weight: 100;
             background-color: #444;
             color: white;
@@ -98,6 +102,7 @@
             }
             contentElement.style.visibility = 'visible';
             document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.large-text').style.display = 'none';
             document.getElementById('closeButton').style.display = 'block';
         }
 
@@ -107,12 +112,49 @@
             const contentElement = document.getElementById('content');
             const lastModified = new Date(document.lastModified);
             const dateString = lastModified.toLocaleDateString(); // Get date without time
-            contentElement.innerText = `Last Update: ${dateString}`;
+            animateScrambledText(`Last Update: ${dateString}`, contentElement);
+            document.querySelector('.large-text').style.display = 'block';
             contentElement.style.visibility = 'visible';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function animateScrambledText(targetText, element) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let scrambledText = '';
+            let counter = 0;
+            const interval = setInterval(() => {
+                scrambledText = targetText.split('').map((char, index) => {
+                    if (index < counter) {
+                        return targetText[index];
+                    }
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join('');
+                element.innerText = scrambledText;
+                if (counter >= targetText.length) {
+                    clearInterval(interval);
+                }
+                counter++;
+            }, 50); // Adjust speed here
+        }
+
+        function animateMatrixText() {
+            const largeTextElement = document.querySelector('.large-text');
+            const text = largeTextElement.textContent;
+            largeTextElement.innerHTML = '';
+
+            let delay = 0;
+            for (let char of text) {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.animationDelay = `${delay}s`;
+                largeTextElement.appendChild(span);
+                delay += 0.05; // Adjust speed here
+            }
+            largeTextElement.style.opacity = 1; // Make visible for animation
+        }
+
         window.onload = function() {
+            animateMatrixText(); // Animate "Hideout Modpack" text on load
             closeTopRow(); // Set default text on load
         };
     </script>
