@@ -47,7 +47,7 @@
         }
         #logo-image {
             position: absolute;
-            bottom: 10px;
+            bottom: 70px;
             right: 10px;
             width: 125px;
             height: 125px;
@@ -58,10 +58,13 @@
         }
         #footer {
             position: absolute;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            margin-bottom: 10px;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+            transition: color 0.3s;
         }
         #temp-message {
             color: red;
@@ -72,13 +75,33 @@
             display: none;
         }
         #status-label {
-            color: green;
-            display: block; /* Ensures the label is on its own line */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: block;
         }
         .instructions {
             font-size: 16px;
-            color: green; /* Making the instructions green for visibility */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
             margin-top: 5px;
+            border-radius: 5px;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            width: 250px;
+            height: 250px;
+            overflow: hidden;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 </head>
@@ -86,7 +109,10 @@
     <div class="container">
         <h1>Mudae Image React Generator</h1>
         <p class="instructions">Must Include charname and username somewhere.</p>
-        <p class="instructions">Use (\\) to add a line break (shows next text on a new line, like this one)</p>
+        <p class="instructions">Use (\) to add a line break (shows next text on a new line, like this one)</p>
+        <div class="image-container">
+            <img id="result-image" alt="Generated Image" style="display:none;">
+        </div>
         <a href="https://www.youtube.com/@mcburn_" title="Made by McBurn">
             <img id="logo-image" src="https://image.api.playstation.com/cdn/UP1023/CUSA07718_00/i4j7kjwDuul0n7ykki1iNBdBV5jtniJr.png" alt="Logo">
         </a>
@@ -96,9 +122,6 @@
         <button onclick="copyToClipboard()">Copy</button><br>
         <label id="status-label">Awaiting Input</label>
         <div id="temp-message"></div>
-        <div class="image-container">
-            <img id="result-image" alt="Generated Image" style="display:none;">
-        </div>
     </div>
     <div id="footer">Made by McBurn</div>
 
@@ -106,6 +129,17 @@
         let inputText = "";
         let imageText = "";
         let finalizedText = "";
+
+        const footer = document.getElementById('footer');
+        const logoImage = document.getElementById('logo-image');
+
+        logoImage.addEventListener('mouseover', () => {
+            footer.textContent = 'Subscribe ;)';
+        });
+
+        logoImage.addEventListener('mouseout', () => {
+            footer.textContent = 'Made by McBurn';
+        });
 
         function generate() {
             inputText = document.getElementById('inputText').value + ".png";
