@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mudae Image React Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://i.imgur.com/soS0SJ4.jpeg');
+            background-size: cover;
+            color: white;
+            position: relative;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: 300px;
+            height: 30px;
+            font-size: 18px;
+            margin: 10px;
+            background-color: black;
+            color: white;
+            border: 1px solid gray;
+            padding: 5px;
+            transition: box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus {
+            box-shadow: 0 0 8px 2px white;
+        }
+        button {
+            width: 150px;
+            height: 40px;
+            font-size: 18px;
+            margin: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            transition: box-shadow 0.3s ease;
+        }
+        button:hover {
+            box-shadow: 0 0 8px 2px white;
+        }
+        #logo-image {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 125px;
+            height: 125px;
+            transition: box-shadow 0.3s ease;
+        }
+        #logo-image:hover {
+            box-shadow: 0 0 8px 2px red;
+        }
+        #footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            margin-bottom: 10px;
+        }
+        #temp-message {
+            color: red;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        #status-label {
+            color: green;
+            display: block; /* Ensures the label is on its own line */
+        }
+        .instructions {
+            font-size: 16px;
+            color: green; /* Making the instructions green for visibility */
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mudae Image React Generator</h1>
+        <p class="instructions">Must Include charname and username somewhere.</p>
+        <p class="instructions">Use (\\) to add a line break (shows next text on a new line, like this one)</p>
+        <a href="https://www.youtube.com/@mcburn_" title="Made by McBurn">
+            <img id="logo-image" src="https://image.api.playstation.com/cdn/UP1023/CUSA07718_00/i4j7kjwDuul0n7ykki1iNBdBV5jtniJr.png" alt="Logo">
+        </a>
+        <input type="text" id="inputText" placeholder="Enter your text"><br>
+        <input type="text" id="imageText" placeholder="Enter image URL"><br>
+        <button onclick="generate()">Generate</button>
+        <button onclick="copyToClipboard()">Copy</button><br>
+        <label id="status-label">Awaiting Input</label>
+        <div id="temp-message"></div>
+        <div class="image-container">
+            <img id="result-image" alt="Generated Image" style="display:none;">
+        </div>
+    </div>
+    <div id="footer">Made by McBurn</div>
+
+    <script>
+        let inputText = "";
+        let imageText = "";
+        let finalizedText = "";
+
+        function generate() {
+            inputText = document.getElementById('inputText').value + ".png";
+            imageText = document.getElementById('imageText').value;
+
+            if (inputText && imageText) {
+                finalizedText = "https://api.memegen.link/images/custom/" + inputText + "?background=" + imageText;
+                finalizedText = finalizedText.replace(/username/gi, "_username_")
+                                             .replace(/charname/gi, "_charname_")
+                                             .replace(/ /g, "_")
+                                             .replace(/_{2,}/g, "_");
+
+                document.getElementById('status-label').innerText = finalizedText;
+                document.getElementById('result-image').src = finalizedText;
+                document.getElementById('result-image').style.display = 'block';
+            } else {
+                displayTempMessage('Please fill both text fields.');
+            }
+        }
+
+        function copyToClipboard() {
+            if (finalizedText) {
+                navigator.clipboard.writeText(finalizedText).then(() => {
+                    displayTempMessage('Copied to clipboard');
+                }, () => {
+                    displayTempMessage('Failed to copy');
+                });
+            } else {
+                displayTempMessage('Nothing to copy');
+            }
+        }
+
+        function displayTempMessage(message) {
+            const messageDiv = document.getElementById('temp-message');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
+        }
+    </script>
+</body>
+</html>
