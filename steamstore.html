@@ -48,9 +48,9 @@
 </head>
 <body>
     <!-- Rickroll Video -->
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&enablejsapi=1&rel=0&controls=0&showinfo=0" 
+    <div id="video-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer;">
+        <iframe id="rickroll-video" width="560" height="315" 
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0&controls=0&showinfo=0" 
         title="Rick Astley - Never Gonna Give You Up (Video)" 
         frameborder="0" 
         allow="autoplay; encrypted-media" 
@@ -81,5 +81,26 @@
         showGif('gif4', 7000);  // Fourth GIF after 7 seconds
         showGif('gif5', 9000);  // Fifth GIF after 9 seconds
         showGif('gif6', 11000); // Sixth GIF after 11 seconds
+
+        // Function to simulate a click on the video container
+        function simulateClick() {
+            var videoContainer = document.getElementById("video-container");
+            videoContainer.click();
+        }
+
+        // Set a delay to ensure the video iframe is fully loaded before simulating the click
+        setTimeout(simulateClick, 1000);
+
+        // Event listener to start playing the video on click
+        document.getElementById('video-container').addEventListener('click', function() {
+            var iframe = document.getElementById('rickroll-video');
+            var player = new YT.Player(iframe, {
+                events: {
+                    'onReady': function(event) {
+                        event.target.playVideo();
+                    }
+                }
+            });
+        });
     </script>
 </body>
