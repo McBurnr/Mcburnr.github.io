@@ -31,8 +31,8 @@
             height: 50px;
             background-image: url('https://media.tenor.com/x8v1oNUOmg4AAAAM/rickroll-roll.gif');
             background-size: cover;
-            animation: dance 3s infinite ease-in-out;
             opacity: 0;
+            animation: dance 3s infinite ease-in-out;
         }
 
         @keyframes dance {
@@ -42,7 +42,8 @@
 
         @keyframes appear {
             0% { opacity: 0; }
-            100% { opacity: 1; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
@@ -65,22 +66,38 @@
     <div id="gif5" class="rickroll-gif" style="top: 80%; left: 40%;"></div>
     <div id="gif6" class="rickroll-gif" style="top: 90%; left: 50%;"></div>
 
+    <!-- Additional GIFs -->
+    <div id="gif7" class="rickroll-gif" style="top: 15%; left: 15%;"></div>
+    <div id="gif8" class="rickroll-gif" style="top: 25%; left: 75%;"></div>
+    <div id="gif9" class="rickroll-gif" style="top: 45%; left: 35%;"></div>
+    <div id="gif10" class="rickroll-gif" style="top: 55%; left: 85%;"></div>
+    <div id="gif11" class="rickroll-gif" style="top: 75%; left: 45%;"></div>
+    <div id="gif12" class="rickroll-gif" style="top: 85%; left: 55%;"></div>
+    <div id="gif13" class="rickroll-gif" style="top: 5%; left: 5%;"></div>
+    <div id="gif14" class="rickroll-gif" style="top: 95%; left: 95%;"></div>
+    <div id="gif15" class="rickroll-gif" style="top: 50%; left: 50%;"></div>
+    <div id="gif16" class="rickroll-gif" style="top: 40%; left: 20%;"></div>
+    <div id="gif17" class="rickroll-gif" style="top: 30%; left: 60%;"></div>
+    <div id="gif18" class="rickroll-gif" style="top: 70%; left: 30%;"></div>
+    <div id="gif19" class="rickroll-gif" style="top: 65%; left: 10%;"></div>
+    <div id="gif20" class="rickroll-gif" style="top: 85%; left: 20%;"></div>
+    <div id="gif21" class="rickroll-gif" style="top: 25%; left: 40%;"></div>
+
     <script>
-        // Function to make GIFs appear gradually
+        // Function to make GIFs appear and fade out gradually
         function showGif(id, delay) {
             setTimeout(function() {
                 var gif = document.getElementById(id);
-                gif.style.animation = 'appear 2s forwards, dance 3s infinite ease-in-out';
+                gif.style.animation = 'appear 5s forwards, dance 3s infinite ease-in-out';
             }, delay);
         }
 
         // Show GIFs with staggered delays
-        showGif('gif1', 1000);  // First GIF appears after 1 second
-        showGif('gif2', 3000);  // Second GIF after 3 seconds
-        showGif('gif3', 5000);  // Third GIF after 5 seconds
-        showGif('gif4', 7000);  // Fourth GIF after 7 seconds
-        showGif('gif5', 9000);  // Fifth GIF after 9 seconds
-        showGif('gif6', 11000); // Sixth GIF after 11 seconds
+        let delay = 1000;
+        for (let i = 1; i <= 21; i++) {
+            showGif('gif' + i, delay);
+            delay += 1000;
+        }
 
         // Function to simulate a click on the video container
         function simulateClick() {
