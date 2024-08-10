@@ -31,28 +31,54 @@
             height: 50px;
             background-image: url('https://media.tenor.com/x8v1oNUOmg4AAAAM/rickroll-roll.gif');
             background-size: cover;
-            animation: float 5s infinite ease-in-out;
+            animation: dance 3s infinite ease-in-out;
+            opacity: 0;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-100px) translateX(100px); }
-            100% { transform: translateY(0) translateX(0); }
+        @keyframes dance {
+            0%, 100% { transform: rotate(0); }
+            50% { transform: rotate(20deg); }
+        }
+
+        @keyframes appear {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <!-- Rickroll Video -->
-    <audio autoplay>
-        <source src="https://www.myinstants.com/media/sounds/rick-astley-never-gonna-give-you-up.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=0" 
+        title="Rick Astley - Never Gonna Give You Up (Video)" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen></iframe>
+    </div>
 
     <!-- Rickroll GIFs -->
-    <div class="rickroll-gif" style="top: 10%; left: 10%;"></div>
-    <div class="rickroll-gif" style="top: 20%; left: 70%;"></div>
-    <div class="rickroll-gif" style="top: 50%; left: 30%;"></div>
-    <div class="rickroll-gif" style="top: 60%; left: 80%;"></div>
-    <div class="rickroll-gif" style="top: 80%; left: 40%;"></div>
-    <div class="rickroll-gif" style="top: 90%; left: 50%;"></div>
+    <div id="gif1" class="rickroll-gif" style="top: 10%; left: 10%;"></div>
+    <div id="gif2" class="rickroll-gif" style="top: 20%; left: 70%;"></div>
+    <div id="gif3" class="rickroll-gif" style="top: 50%; left: 30%;"></div>
+    <div id="gif4" class="rickroll-gif" style="top: 60%; left: 80%;"></div>
+    <div id="gif5" class="rickroll-gif" style="top: 80%; left: 40%;"></div>
+    <div id="gif6" class="rickroll-gif" style="top: 90%; left: 50%;"></div>
+
+    <script>
+        // Function to make GIFs appear gradually
+        function showGif(id, delay) {
+            setTimeout(function() {
+                var gif = document.getElementById(id);
+                gif.style.animation = 'appear 2s forwards, dance 3s infinite ease-in-out';
+            }, delay);
+        }
+
+        // Show GIFs with staggered delays
+        showGif('gif1', 1000);  // First GIF appears after 1 second
+        showGif('gif2', 3000);  // Second GIF after 3 seconds
+        showGif('gif3', 5000);  // Third GIF after 5 seconds
+        showGif('gif4', 7000);  // Fourth GIF after 7 seconds
+        showGif('gif5', 9000);  // Fifth GIF after 9 seconds
+        showGif('gif6', 11000); // Sixth GIF after 11 seconds
+    </script>
 </body>
