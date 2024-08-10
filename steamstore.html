@@ -48,15 +48,11 @@
     </style>
 </head>
 <body>
-    <!-- Rickroll Video -->
-    <div id="video-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer;">
-        <iframe id="rickroll-video" width="560" height="315" 
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0&controls=0&showinfo=0" 
-        title="Rick Astley - Never Gonna Give You Up (Video)" 
-        frameborder="0" 
-        allow="autoplay; encrypted-media" 
-        allowfullscreen></iframe>
-    </div>
+    <!-- Rickroll Sound -->
+    <audio autoplay loop>
+        <source src="https://shattereddisk.github.io/rickroll/rickroll.mp4" type="audio/mp4">
+        Your browser does not support the audio element.
+    </audio>
 
     <!-- Rickroll GIFs -->
     <div id="gif1" class="rickroll-gif" style="top: 10%; left: 10%;"></div>
@@ -92,32 +88,18 @@
             }, delay);
         }
 
-        // Show GIFs with staggered delays
-        let delay = 1000;
-        for (let i = 1; i <= 21; i++) {
-            showGif('gif' + i, delay);
-            delay += 1000;
+        // Function to loop the GIF appearance
+        function loopGifs() {
+            let delay = 0;
+            for (let i = 1; i <= 21; i++) {
+                showGif('gif' + i, delay);
+                delay += 1000; // 1 second between each GIF
+            }
+            // Restart the loop after the last GIF fades out
+            setTimeout(loopGifs, delay + 5000); // 5 seconds to fade out
         }
 
-        // Function to simulate a click on the video container
-        function simulateClick() {
-            var videoContainer = document.getElementById("video-container");
-            videoContainer.click();
-        }
-
-        // Set a delay to ensure the video iframe is fully loaded before simulating the click
-        setTimeout(simulateClick, 1000);
-
-        // Event listener to start playing the video on click
-        document.getElementById('video-container').addEventListener('click', function() {
-            var iframe = document.getElementById('rickroll-video');
-            var player = new YT.Player(iframe, {
-                events: {
-                    'onReady': function(event) {
-                        event.target.playVideo();
-                    }
-                }
-            });
-        });
+        // Start the GIF loop
+        loopGifs();
     </script>
 </body>
