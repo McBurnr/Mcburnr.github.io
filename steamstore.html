@@ -12,6 +12,34 @@
     <meta property="og:locale" content="en_US">
 
     <title>Steam Store</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('https://eu-images.contentstack.com/v3/assets/bltbc1876152fcd9f07/blt2b8764409ee528d4/6581b901b66c93040af02acb/steam_store_credit.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rickroll-gif {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://media.giphy.com/media/o9gW9uZw8q15u/giphy.gif');
+            background-size: cover;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(100px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+    </style>
 </head>
 <body>
     <!-- Rickroll Video -->
@@ -22,4 +50,12 @@
         allow="autoplay; encrypted-media" 
         allowfullscreen></iframe>
     </div>
+
+    <!-- Rickroll GIFs -->
+    <div class="rickroll-gif" style="top: 10%; left: 10%;"></div>
+    <div class="rickroll-gif" style="top: 20%; left: 70%;"></div>
+    <div class="rickroll-gif" style="top: 50%; left: 30%;"></div>
+    <div class="rickroll-gif" style="top: 60%; left: 80%;"></div>
+    <div class="rickroll-gif" style="top: 80%; left: 40%;"></div>
+    <div class="rickroll-gif" style="top: 90%; left: 50%;"></div>
 </body>
