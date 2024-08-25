@@ -12,15 +12,22 @@
             padding: 20px;
             position: relative;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
         textarea {
             width: 100%;
+            max-width: 600px;
             height: 150px;
             margin-bottom: 10px;
             background-color: black;
             color: white;
             border: 1px solid white;
             padding: 10px;
+            box-sizing: border-box;
         }
         button {
             font-size: 18px;
@@ -30,6 +37,7 @@
             border: 1px solid white;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
+            margin: 5px;
         }
         button:hover {
             background-color: white;
@@ -40,6 +48,9 @@
             font-weight: bold;
             white-space: pre-wrap;
             cursor: pointer;
+            max-width: 600px;
+            text-align: center;
+            word-wrap: break-word;
         }
         #copiedOverlay {
             display: none;
@@ -54,6 +65,7 @@
             border: 2px solid white;
             border-radius: 10px;
             z-index: 1000;
+            text-align: center;
         }
         #footer-button {
             position: fixed;
@@ -67,6 +79,53 @@
         }
         #footer-button img:hover {
             transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            textarea, #output {
+                max-width: 100%;
+            }
+            button {
+                width: 100%;
+                max-width: 100%;
+                font-size: 16px;
+                padding: 8px;
+            }
+            #footer-button img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-width: 768px) {
+            body {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            textarea {
+                height: 120px;
+            }
+            button {
+                margin: 10px 0;
+            }
+        }
+
+        @media (orientation: portrait) and (max-width: 768px) {
+            body {
+                flex-direction: column;
+                justify-content: center;
+                padding: 10px;
+            }
+            textarea {
+                height: 150px;
+            }
+            button {
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
