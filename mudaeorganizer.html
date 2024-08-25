@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mudae List Organizer</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            padding: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button:hover {
+            background-color: white;
+            color: black;
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+            white-space: pre-wrap;
+            cursor: pointer;
+        }
+        #copiedOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            border: 2px solid white;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        #footer-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        #footer-button img {
+            width: 125px;
+            height: 125px;
+            transition: transform 0.3s;
+        }
+        #footer-button img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mudae List Organizer</h1>
+    <p>Made by McBurn</p>
+
+    <textarea id="nameList" placeholder="Enter names, one per line..."></textarea><br>
+
+    <button onclick="separateNames()">Separate Names</button>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <div id="output" onclick="copyToClipboard()"></div>
+
+    <div id="copiedOverlay">Copied!</div>
+
+    <div id="footer-button">
+        <a href="https://www.youtube.com/@mcburn_" target="_blank">
+            <img src="https://image.api.playstation.com/cdn/UP1023/CUSA07718_00/zrbaWzWALt454KiMM0ZI6fFFjmH1FSKi.png" alt="YouTube Link">
+        </a>
+    </div>
+
+    <script>
+        function separateNames() {
+            const nameList = document.getElementById('nameList').value.trim().split('\n');
+            const separatedNames = nameList.join('$');
+            document.getElementById('output').innerText = separatedNames;
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('output').innerText;
+            navigator.clipboard.writeText(outputText).then(() => {
+                showCopiedOverlay();
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        function showCopiedOverlay() {
+            const overlay = document.getElementById('copiedOverlay');
+            overlay.style.display = 'block';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
