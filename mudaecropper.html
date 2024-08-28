@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper with Border Option</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 225px;
+            height: 350px;
+            border: 2px solid #fff;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        #uploaded-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            user-select: none;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .slider-container {
+            margin: 10px 0;
+            width: 200px;
+        }
+
+        .slider-label {
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .slider {
+            width: 100%;
+        }
+
+        .color-picker-container {
+            margin: 10px 0;
+            width: 200px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+        }
+
+        .button-container button {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container">
+        <canvas id="image-canvas" width="225" height="350"></canvas>
+    </div>
+
+    <div id="controls">
+        <div class="slider-container">
+            <div class="slider-label">Width:</div>
+            <input type="range" id="width-slider" class="slider" min="50" max="1000">
+        </div>
+        <div class="slider-container">
+            <div class="slider-label">Height:</div>
+            <input type="range" id="height-slider" class="slider" min="50" max="1000">
+        </div>
+        <label><input type="checkbox" id="lock-aspect-ratio"> Lock Aspect Ratio</label>
+        <label><input type="checkbox" id="border-toggle"> Add Border</label>
+        <div class="color-picker-container">
+            <div class="slider-label">Border Color:</div>
+            <input type="color" id="border-color" value="#ffffff">
+        </div>
+        <div class="button-container">
+            <input type="file" id="image-upload" accept="image/*">
+            <button id="save-image">Save Image</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadInput = document.getElementById('image-upload');
+        const imageCanvas = document.getElementById('image-canvas');
+        const ctx = imageCanvas.getContext('2d');
+        const widthSlider = document.getElementById('width-slider');
+        const heightSlider = document.getElementById('height-slider');
+        const lockAspectRatio = document.getElementById('lock-aspect-ratio');
+        const borderToggle = document.getElementById('border-toggle');
+        const borderColorPicker = document.getElementById('border-color');
+        const saveButton = document.getElementById('save-image');
+
+        let uploadedImage = new Image();
+        let aspectRatio;
+        let imageX = 0, imageY = 0;
+        let imageWidth, imageHeight;
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage.src = event.target.result;
+                    uploadedImage.onload = function() {
+                        aspectRatio = uploadedImage.width / uploadedImage.height;
+                        imageWidth = uploadedImage.width;
+                        imageHeight = uploadedImage.height;
+                        drawImage();
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function drawImage() {
+            ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+            ctx.drawImage(uploadedImage, imageX, imageY, imageWidth, imageHeight);
+        }
+
+        widthSlider.addEventListener('input', () => {
+            const width = widthSlider.value;
+            if (lockAspectRatio.checked) {
+                imageHeight = width / aspectRatio;
+                heightSlider.value = imageHeight;
+            }
+            imageWidth = width;
+            drawImage();
+        });
+
+        heightSlider.addEventListener('input', () => {
+            const height = heightSlider.value;
+            if (lockAspectRatio.checked) {
+                imageWidth = height * aspectRatio;
+                widthSlider.value = imageWidth;
+            }
+            imageHeight = height;
+            drawImage();
+        });
+
+        saveButton.addEventListener('click', () => {
+            // Clear the canvas before drawing the final image
+            ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+
+            // Draw the image onto the canvas
+            ctx.drawImage(uploadedImage, imageX, imageY, imageWidth, imageHeight);
+
+            // Add the border only to the saved image if the option is selected
+            if (borderToggle.checked) {
+                ctx.strokeStyle = borderColorPicker.value;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0, 0, imageCanvas.width, imageCanvas.height);
+            }
+
+            // Save the image from the canvas
+            const croppedImage = imageCanvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = croppedImage;
+            link.download = 'cropped-image.png';
+            link.click();
+        });
+
+        imageCanvas.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialX = imageX;
+            initialY = imageY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                let dx = e.clientX - startX;
+                let dy = e.clientY - startY;
+                imageX = initialX + dx;
+                imageY = initialY + dy;
+                drawImage();
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+    </script>
+</body>
+</html>
