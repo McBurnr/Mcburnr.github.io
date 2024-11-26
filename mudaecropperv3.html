@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mudae Image Cropper</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+	background-image: url('https://i.imgur.com/soS0SJ4.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0;
+        min-height: 100vh;
+        }
+
+        #container {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 225px;
+            height: 350px;
+            border: 2px solid #fff;
+            overflow: hidden;
+        }
+
+        #image-canvas {
+            cursor: move;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 250px;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .slider {
+            width: 100%;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .number-input {
+            width: 60px;
+            padding: 4px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        #image-upload {
+            display: none;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #444;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #555;
+        }
+
+        #zoom-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        footer h2 {
+            margin: 5px 0 0;
+            font-size: 16px;
+            font-weight: normal;
+        }
+  #footer-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  #footer-button img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  #footer-button img:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.7));
+  }
+    </style>
+<div id="footer-button">
+  <a href="https://www.youtube.com/@mcburn_" target="_blank">
+    <img src="https://image.api.playstation.com/cdn/UP1023/CUSA07718_00/zrbaWzWALt454KiMM0ZI6fFFjmH1FSKi.png" alt="YouTube Link">
+  </a>
+</div>
+</head>
+<body>
+    <div id="container">
+        <div id="canvas-container">
+            <canvas id="image-canvas" width="225" height="350"></canvas>
+        </div>
+
+        <div id="controls">
+            <div class="slider-container">
+                <div class="input-group">
+                    <label>Width:</label>
+                    <input type="number" id="width-number" class="number-input" min="50" max="1000">
+                    <input type="range" id="width-slider" class="slider" min="50" max="1000">
+                </div>
+            </div>
+            
+            <div class="slider-container">
+                <div class="input-group">
+                    <label>Height:</label>
+                    <input type="number" id="height-number" class="number-input" min="50" max="1000">
+                    <input type="range" id="height-slider" class="slider" min="50" max="1000">
+                </div>
+            </div>
+
+            <div id="zoom-container">
+                <label>Zoom:</label>
+                <button id="zoom-out">-</button>
+                <span id="zoom-level">100%</span>
+                <button id="zoom-in">+</button>
+            </div>
+
+            <div class="input-group">
+                <label><input type="checkbox" id="lock-aspect-ratio" checked> Lock Aspect Ratio</label>
+            </div>
+
+            <div class="input-group">
+                <label><input type="checkbox" id="border-toggle"> Add Border</label>
+            </div>
+
+            <div class="input-group">
+                <label>Border Color:</label>
+                <input type="color" id="border-color" value="#ffffff">
+            </div>
+
+            <div class="button-container">
+                <label class="upload-btn" for="image-upload">Choose Image</label>
+                <input type="file" id="image-upload" accept="image/*">
+                <button id="save-image">Save Image</button>
+                <button id="reset-position">Reset Position</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h1>Mudae Image Cropper</h1>
+        <h2>Made by McBurn</h2>
+    </footer>
+
+
+    <script>
+        const uploadInput = document.getElementById('image-upload');
+        const imageCanvas = document.getElementById('image-canvas');
+        const ctx = imageCanvas.getContext('2d');
+        const widthSlider = document.getElementById('width-slider');
+        const heightSlider = document.getElementById('height-slider');
+        const widthNumber = document.getElementById('width-number');
+        const heightNumber = document.getElementById('height-number');
+        const lockAspectRatio = document.getElementById('lock-aspect-ratio');
+        const borderToggle = document.getElementById('border-toggle');
+        const borderColorPicker = document.getElementById('border-color');
+        const saveButton = document.getElementById('save-image');
+        const resetButton = document.getElementById('reset-position');
+        const zoomInButton = document.getElementById('zoom-in');
+        const zoomOutButton = document.getElementById('zoom-out');
+        const zoomLevel = document.getElementById('zoom-level');
+
+        let uploadedImage = new Image();
+        let aspectRatio = 1;
+        let imageX = 0, imageY = 0;
+        let imageWidth = 225, imageHeight = 350;
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+        let zoomFactor = 1;
+        let originalWidth, originalHeight;
+
+        function initializeImage() {
+            aspectRatio = uploadedImage.width / uploadedImage.height;
+            originalWidth = uploadedImage.width;
+            originalHeight = uploadedImage.height;
+
+            // Calculate initial dimensions to fit the canvas while maintaining aspect ratio
+            if (aspectRatio > imageCanvas.width / imageCanvas.height) {
+                imageWidth = imageCanvas.width;
+                imageHeight = imageWidth / aspectRatio;
+            } else {
+                imageHeight = imageCanvas.height;
+                imageWidth = imageHeight * aspectRatio;
+            }
+
+            // Center the image
+            imageX = (imageCanvas.width - imageWidth) / 2;
+            imageY = (imageCanvas.height - imageHeight) / 2;
+
+            // Update UI controls
+            updateSliders();
+            drawImage();
+        }
+
+        function updateSliders() {
+            widthSlider.value = imageWidth;
+            heightSlider.value = imageHeight;
+            widthNumber.value = Math.round(imageWidth);
+            heightNumber.value = Math.round(imageHeight);
+        }
+
+        function drawImage() {
+            ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+            
+            // Draw checkered background to show transparency
+            const squareSize = 10;
+            for (let x = 0; x < imageCanvas.width; x += squareSize) {
+                for (let y = 0; y < imageCanvas.height; y += squareSize) {
+                    ctx.fillStyle = (x + y) % (squareSize * 2) === 0 ? '#444' : '#333';
+                    ctx.fillRect(x, y, squareSize, squareSize);
+                }
+            }
+
+            // Draw the image
+            ctx.drawImage(uploadedImage, imageX, imageY, imageWidth, imageHeight);
+
+            // Draw border if enabled
+            if (borderToggle.checked) {
+                ctx.strokeStyle = borderColorPicker.value;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0, 0, imageCanvas.width, imageCanvas.height);
+            }
+        }
+
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage.src = event.target.result;
+                    uploadedImage.onload = initializeImage;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Synchronize number inputs with sliders
+        function syncInputs(value, isWidth) {
+            if (isWidth) {
+                widthSlider.value = value;
+                widthNumber.value = Math.round(value);
+                if (lockAspectRatio.checked) {
+                    const newHeight = value / aspectRatio;
+                    heightSlider.value = newHeight;
+                    heightNumber.value = Math.round(newHeight);
+                    imageHeight = newHeight;
+                }
+                imageWidth = value;
+            } else {
+                heightSlider.value = value;
+                heightNumber.value = Math.round(value);
+                if (lockAspectRatio.checked) {
+                    const newWidth = value * aspectRatio;
+                    widthSlider.value = newWidth;
+                    widthNumber.value = Math.round(newWidth);
+                    imageWidth = newWidth;
+                }
+                imageHeight = value;
+            }
+            drawImage();
+        }
+
+        widthSlider.addEventListener('input', (e) => syncInputs(e.target.value, true));
+        heightSlider.addEventListener('input', (e) => syncInputs(e.target.value, false));
+        widthNumber.addEventListener('input', (e) => syncInputs(e.target.value, true));
+        heightNumber.addEventListener('input', (e) => syncInputs(e.target.value, false));
+
+        // Zoom functionality
+        zoomInButton.addEventListener('click', () => {
+            zoomFactor *= 1.1;
+            imageWidth *= 1.1;
+            imageHeight *= 1.1;
+            updateSliders();
+            drawImage();
+            zoomLevel.textContent = `${Math.round(zoomFactor * 100)}%`;
+        });
+
+        zoomOutButton.addEventListener('click', () => {
+            zoomFactor *= 0.9;
+            imageWidth *= 0.9;
+            imageHeight *= 0.9;
+            updateSliders();
+            drawImage();
+            zoomLevel.textContent = `${Math.round(zoomFactor * 100)}%`;
+        });
+
+        // Reset position
+        resetButton.addEventListener('click', () => {
+            if (uploadedImage.src) {
+                initializeImage();
+                zoomFactor = 1;
+                zoomLevel.textContent = '100%';
+            }
+        });
+
+        // Image dragging
+        imageCanvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialX = imageX;
+            initialY = imageY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                imageX = initialX + dx;
+                imageY = initialY + dy;
+                drawImage();
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+// Image dragging for touch devices
+imageCanvas.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    initialX = imageX;
+    initialY = imageY;
+    e.preventDefault(); // Prevent scrolling
+});
+
+window.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+        const touch = e.touches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        imageX = initialX + dx;
+        imageY = initialY + dy;
+        drawImage();
+        e.preventDefault(); // Prevent scrolling
+    }
+});
+
+window.addEventListener('touchend', () => {
+    isDragging = false;
+});
+
+        // Save functionality
+        saveButton.addEventListener('click', () => {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = imageCanvas.width;
+            tempCanvas.height = imageCanvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw checkered background
+            const squareSize = 10;
+            for (let x = 0; x < tempCanvas.width; x += squareSize) {
+                for (let y = 0; y < tempCanvas.height; y += squareSize) {
+                    tempCtx.fillStyle = (x + y) % (squareSize * 2) === 0 ? '#444' : '#333';
+                    tempCtx.fillRect(x, y, squareSize, squareSize);
+                }
+            }
+
+            // Draw the image
+            tempCtx.drawImage(uploadedImage, imageX, imageY, imageWidth, imageHeight);
+
+            // Add border if enabled
+            if (borderToggle.checked) {
+                tempCtx.strokeStyle = borderColorPicker.value;
+                tempCtx.lineWidth = 1;
+                tempCtx.strokeRect(0, 0, tempCanvas.width, tempCanvas.height);
+            }
+
+            const link = document.createElement('a');
+            link.download = 'cropped-image.png';
+            link.href = tempCanvas.toDataURL('image/png');
+            link.click();
+        });
+    </script>
+</body>
+</html>
