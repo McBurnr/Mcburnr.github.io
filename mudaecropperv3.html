@@ -23,20 +23,75 @@
         min-height: 100vh;
         }
 
-        #container {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 20px;
-        }
+/* Fixed size for the canvas */
+#canvas-container {
+    width: 225px; /* Maintain fixed width */
+    height: 350px; /* Maintain fixed height */
+    border: 2px solid #fff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Center the canvas */
+}
 
-        #canvas-container {
-            position: relative;
-            width: 225px;
-            height: 350px;
-            border: 2px solid #fff;
-            overflow: hidden;
-        }
+/* Make the overall layout responsive */
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    #container {
+        flex-direction: column; /* Stack canvas and controls vertically */
+        align-items: center;
+    }
+
+    #controls {
+        width: 90%; /* Allow controls to take up more space on smaller screens */
+        max-width: 400px;
+    }
+
+    button, .upload-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .number-input {
+        width: 50px;
+    }
+}
+
+
+/* Make the controls stack below the canvas on smaller screens */
+#container {
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Adjust font size and padding for smaller screens */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    button, .upload-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .number-input {
+        width: 50px;
+    }
+
+    #controls {
+        width: 100%; /* Make controls take full width */
+    }
+}
 
         #image-canvas {
             cursor: move;
@@ -442,6 +497,25 @@ window.addEventListener('touchend', () => {
             link.href = tempCanvas.toDataURL('image/png');
             link.click();
         });
+		
+		// Resize handler to ensure proper centering on small screens
+function adjustLayoutForMobile() {
+    const container = document.getElementById('container');
+    const canvasContainer = document.getElementById('canvas-container');
+    
+    // Adjustments for layout alignment, no need to change canvas size
+    if (window.innerWidth < 768) {
+        container.style.flexDirection = 'column';
+        canvasContainer.style.marginBottom = '20px';
+    } else {
+        container.style.flexDirection = 'row';
+        canvasContainer.style.marginBottom = '0';
+    }
+}
+
+// Apply adjustments when the window is resized or loaded
+window.addEventListener('resize', adjustLayoutForMobile);
+adjustLayoutForMobile();
     </script>
 </body>
 </html>
