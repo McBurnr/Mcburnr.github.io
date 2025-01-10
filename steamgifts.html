@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SteamGifts - Blasphemous 2</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1b2838;
+            color: white;
+        }
+        .nav {
+            background-color: #171a21;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #1e2329;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .game-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .game-image {
+            width: 340px;
+            height: auto;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        .game-info {
+            flex: 1;
+        }
+        .title {
+            font-size: 2rem;
+            margin: 0 0 1rem 0;
+            color: #66c0f4;
+        }
+        .description {
+            font-size: 1.1rem;
+            color: #acb2b8;
+            margin-bottom: 1rem;
+        }
+        .gifter {
+            font-size: 0.9rem;
+            color: #acb2b8;
+            margin-bottom: 2rem;
+        }
+        .gifter-name {
+            color: #66c0f4;
+            font-weight: bold;
+        }
+        .key-status {
+            background-color: #2e4553;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .button {
+            display: inline-block;
+            background-color: #66c0f4;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 2px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #4fa4d8;
+        }
+        .remaining {
+            color: #66c0f4;
+            font-weight: bold;
+        }
+        /* Hide link preview on hover */
+        .button {
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+    </style>
+    <!-- Script to prevent link preview -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.button').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="logo">SteamGifts</a>
+    </nav>
+    
+    <div class="container">
+        <div class="game-header">
+            <img class="game-image" src="https://images.gog-statics.com/f44105811337cc11b8b3d51387f96ac052e1ae5bbb783886aed4e22e55a4e7eb.jpg" alt="Blasphemous 2">
+            <div class="game-info">
+                <h1 class="title">Blasphemous 2</h1>
+                <p class="description">Claim your free Steam key for Blasphemous 2!</p>
+                <p class="gifter">Gifted by <span class="gifter-name">McBurn</span></p>
+            </div>
+        </div>
+        
+        <div class="key-status">
+            <p>Keys Remaining: <span class="remaining">1</span></p>
+        </div>
+        
+        <button class="button">Claim Steam Key</button>
+    </div>
+</body>
+</html>
