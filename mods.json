@@ -1,8 +1,5 @@
 {
-    "ExtendedBaseRange": {
-        "url": "http://mcburnr.github.io/ExtendedBaseRange.zip",
-        "version": 1.0
-    },
+
     "vuxRemoveFlyingStamina": {
         "url": "http://mcburnr.github.io/noflyingstamina.zip",
         "version": 1.0
