@@ -1,6 +1,12 @@
 {
+    "IncreaseMaxPurchaseLimit_P": {
+        "url": "http://mcburnr.github.io/IncreaseMaxPurchaseLimit_P.zip",
+        "version": 1.0,
+        "install_path": "paks"  // Can be "default" or "paks"
+    },
     "vuxRemoveFlyingStamina": {
         "url": "http://mcburnr.github.io/noflyingstamina.zip",
-        "version": 1.0
+        "version": 1.0,
+        "install_path": "default"    // This mod will go in the Paks/~mods directory
     }
 }
