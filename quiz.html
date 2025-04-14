@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hideout Discord Quiz Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #1e2124;
+            --darker-bg: #18191c;
+            --input-bg: #2e3136;
+            --text-color: #ffffff;
+            --muted-text: #a0a0a0;
+            --border-color: #303136;
+            --primary-color: #5865f2;
+            --danger-color: #ed4245;
+            --success-color: #57f287;
+            --warning-color: #fee75c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--darker-bg);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 10px;
+            margin: 5px 0;
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .quiz-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .quiz-item {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .quiz-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .quiz-description {
+            color: var(--muted-text);
+            margin-bottom: 10px;
+        }
+
+        .quiz-stats {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--darker-bg);
+            margin: 50px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: var(--text-color);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .questions-container {
+            margin-top: 20px;
+        }
+
+        .question-item {
+            background-color: var(--input-bg);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .answers-container {
+            margin-top: 10px;
+        }
+
+        .answer-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .answer-correct {
+            color: var(--success-color);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--darker-bg);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        /* For the question form */
+        .question-form {
+            display: none;
+            background-color: var(--input-bg);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .answer-form-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .answer-text {
+            flex-grow: 1;
+        }
+
+        .points-range {
+            display: flex;
+            gap: 10px;
+        }
+
+        .points-input {
+            width: 80px;
+        }
+
+        #fileInfo {
+            color: var(--muted-text);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Simple Discord Quiz Manager</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <button id="createQuizBtn" class="btn btn-primary">Create Quiz</button>
+                <button id="showAllBtn" class="btn">Show All Quizzes</button>
+            </div>
+            <div class="toolbar-group">
+                <input type="file" id="jsonFileInput" style="display: none;" accept=".json">
+                <button id="loadJsonBtn" class="btn btn-primary">Load JSON</button>
+                <button id="saveJsonBtn" class="btn btn-primary">Save JSON</button>
+            </div>
+        </div>
+
+        <div id="fileInfo"></div>
+
+        <div id="quizContainer" class="quiz-list">
+            <!-- Quizzes will be loaded here -->
+            <p>No quizzes loaded. Create a new quiz or load a quizzes.json file.</p>
+        </div>
+    </div>
+
+    <!-- Create/Edit Quiz Modal -->
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Quiz</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <form id="quizForm">
+                <input type="hidden" id="quizId">
+                <div class="form-group">
+                    <label for="quizTitle">Quiz Title</label>
+                    <input type="text" id="quizTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="quizDescription">Description</label>
+                    <textarea id="quizDescription" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="quizEndImage">End Image URL (optional)</label>
+                    <input type="text" id="quizEndImage" class="form-control">
+                </div>
+
+                <!-- Questions Section -->
+                <div class="questions-container">
+                    <div class="form-group">
+                        <h3>Questions</h3>
+                        <button type="button" id="addQuestionBtn" class="btn btn-primary">Add Question</button>
+                    </div>
+                    
+                    <div id="questionForm" class="question-form">
+                        <h3 id="questionFormTitle">Add Question</h3>
+                        <input type="hidden" id="questionIndex" value="-1">
+                        
+                        <div class="form-group">
+                            <label for="questionText">Question Text</label>
+                            <input type="text" id="questionText" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Points Range</label>
+                            <div class="points-range">
+                                <div>
+                                    <label for="minPoints">Min</label>
+                                    <input type="number" id="minPoints" class="form-control points-input" value="100" min="1">
+                                </div>
+                                <div>
+                                    <label for="maxPoints">Max</label>
+                                    <input type="number" id="maxPoints" class="form-control points-input" value="1000" min="1">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timeAllowed">Time Allowed (seconds)</label>
+                            <input type="number" id="timeAllowed" class="form-control" value="60" min="5">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="answerDisplayTime">Answer Display Time (seconds)</label>
+                            <input type="number" id="answerDisplayTime" class="form-control" value="10" min="3">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="questionImageUrl">Question Image URL (optional)</label>
+                            <input type="text" id="questionImageUrl" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="answerImageUrl">Answer Image URL (optional)</label>
+                            <input type="text" id="answerImageUrl" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="explanationText">Explanation (optional)</label>
+                            <textarea id="explanationText" class="form-control"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answers</label>
+                            <div id="answersContainer">
+                                <!-- Answers will be added here -->
+                            </div>
+                            <button type="button" id="addAnswerBtn" class="btn">Add Answer</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="button" id="saveQuestionBtn" class="btn btn-primary">Save Question</button>
+                            <button type="button" id="cancelQuestionBtn" class="btn">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <div id="questionsList">
+                        <!-- Questions will be listed here -->
+                        <p>No questions added yet.</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <button type="button" id="saveQuizBtn" class="btn btn-primary">Save Quiz</button>
+                    <button type="button" id="cancelQuizBtn" class="btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+<script>
+    // Global variables
+    let quizzes = { "quizzes": [] };
+    let currentQuestions = [];
+    let isEditMode = false;
+    let currentQuizIndex = -1;
+
+    // DOM Elements
+    const quizContainer = document.getElementById('quizContainer');
+    const quizModal = document.getElementById('quizModal');
+    const quizForm = document.getElementById('quizForm');
+    const questionForm = document.getElementById('questionForm');
+    const questionsList = document.getElementById('questionsList');
+    const answersContainer = document.getElementById('answersContainer');
+    const toast = document.getElementById('toast');
+    const fileInfo = document.getElementById('fileInfo');
+
+    // Buttons
+    const createQuizBtn = document.getElementById('createQuizBtn');
+    const showAllBtn = document.getElementById('showAllBtn');
+    const loadJsonBtn = document.getElementById('loadJsonBtn');
+    const saveJsonBtn = document.getElementById('saveJsonBtn');
+    const jsonFileInput = document.getElementById('jsonFileInput');
+    const closeModal = document.getElementById('closeModal');
+    const saveQuizBtn = document.getElementById('saveQuizBtn');
+    const cancelQuizBtn = document.getElementById('cancelQuizBtn');
+    const addQuestionBtn = document.getElementById('addQuestionBtn');
+    const saveQuestionBtn = document.getElementById('saveQuestionBtn');
+    const cancelQuestionBtn = document.getElementById('cancelQuestionBtn');
+    const addAnswerBtn = document.getElementById('addAnswerBtn');
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        // Try to load from localStorage
+        loadFromLocalStorage();
+        
+        // Button event listeners
+        createQuizBtn.addEventListener('click', showCreateQuizModal);
+        showAllBtn.addEventListener('click', renderQuizzes);
+        loadJsonBtn.addEventListener('click', () => jsonFileInput.click());
+        saveJsonBtn.addEventListener('click', saveJsonFile);
+        jsonFileInput.addEventListener('change', handleFileSelect);
+        
+        // Modal event listeners
+        closeModal.addEventListener('click', closeQuizModal);
+        saveQuizBtn.addEventListener('click', saveQuiz);
+        cancelQuizBtn.addEventListener('click', closeQuizModal);
+        
+        // Question form event listeners - FIXED to prevent event propagation
+        addQuestionBtn.addEventListener('click', function(event) {
+            // Stop the event from bubbling up to prevent closing the modal
+            event.stopPropagation();
+            event.preventDefault();
+            showAddQuestionForm();
+        });
+        
+        saveQuestionBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            saveQuestion();
+        });
+        
+        cancelQuestionBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            hideQuestionForm();
+        });
+        
+        addAnswerBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            addAnswer();
+        });
+    });
+
+    // Functions to handle quizzes
+    function showCreateQuizModal() {
+        isEditMode = false;
+        currentQuizIndex = -1;
+        currentQuestions = [];
+        
+        // Reset form
+        document.getElementById('quizId').value = '';
+        document.getElementById('quizTitle').value = '';
+        document.getElementById('quizDescription').value = '';
+        document.getElementById('quizEndImage').value = '';
+        
+        // Reset questions list
+        questionsList.innerHTML = '<p>No questions added yet.</p>';
+        
+        // Update modal title
+        document.getElementById('modalTitle').textContent = 'Create New Quiz';
+        
+        // Show modal
+        quizModal.style.display = 'block';
+    }
+
+    function showEditQuizModal(index) {
+        isEditMode = true;
+        currentQuizIndex = index;
+        const quiz = quizzes.quizzes[index];
+        currentQuestions = JSON.parse(JSON.stringify(quiz.questions || []));
+        
+        // Fill form with quiz data
+        document.getElementById('quizId').value = quiz.id || '';
+        document.getElementById('quizTitle').value = quiz.title || '';
+        document.getElementById('quizDescription').value = quiz.description || '';
+        document.getElementById('quizEndImage').value = quiz.end_image || '';
+        
+        // Update modal title
+        document.getElementById('modalTitle').textContent = 'Edit Quiz';
+        
+        // Render questions list
+        renderQuestionsList();
+        
+        // Show modal
+        quizModal.style.display = 'block';
+    }
+
+    function closeQuizModal() {
+        quizModal.style.display = 'none';
+        hideQuestionForm();
+    }
+
+    function saveQuiz() {
+        const title = document.getElementById('quizTitle').value.trim();
+        const description = document.getElementById('quizDescription').value.trim();
+        const endImage = document.getElementById('quizEndImage').value.trim();
+        
+        if (!title) {
+            showToast('Please enter a quiz title', 'error');
+            return;
+        }
+        
+        if (currentQuestions.length === 0) {
+            showToast('Please add at least one question', 'error');
+            return;
+        }
+        
+        const quizData = {
+            id: document.getElementById('quizId').value || generateId(),
+            title: title,
+            description: description,
+            end_image: endImage || null,
+            questions: currentQuestions
+        };
+        
+        if (isEditMode && currentQuizIndex >= 0) {
+            // Update existing quiz
+            quizzes.quizzes[currentQuizIndex] = quizData;
+            showToast('Quiz updated successfully', 'success');
+        } else {
+            // Add new quiz
+            quizzes.quizzes.push(quizData);
+            showToast('Quiz created successfully', 'success');
+        }
+        
+        // Save to localStorage
+        saveToLocalStorage();
+        
+        // Close modal and refresh list
+        closeQuizModal();
+        renderQuizzes();
+    }
+
+    function deleteQuiz(index) {
+        if (confirm('Are you sure you want to delete this quiz?')) {
+            quizzes.quizzes.splice(index, 1);
+            saveToLocalStorage();
+            renderQuizzes();
+            showToast('Quiz deleted successfully', 'success');
+        }
+    }
+
+    // Functions to handle questions - FIXED
+    function showAddQuestionForm() {
+        console.log("Opening add question form");
+        
+        // Reset form
+        document.getElementById('questionIndex').value = '-1';
+        document.getElementById('questionText').value = '';
+        document.getElementById('minPoints').value = '100';
+        document.getElementById('maxPoints').value = '1000';
+        document.getElementById('timeAllowed').value = '60';
+        document.getElementById('answerDisplayTime').value = '10';
+        document.getElementById('questionImageUrl').value = '';
+        document.getElementById('answerImageUrl').value = '';
+        document.getElementById('explanationText').value = '';
+        
+        // Clear answers container
+        answersContainer.innerHTML = '';
+        
+        // Add default answers
+        addAnswer();
+        addAnswer();
+        addAnswer();
+        addAnswer();
+        
+        // Update form title
+        document.getElementById('questionFormTitle').textContent = 'Add Question';
+        
+        // Show form
+        questionForm.style.display = 'block';
+        
+        // Scroll to form
+        questionForm.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showEditQuestionForm(index) {
+        console.log("Opening edit question form for index:", index);
+        
+        if (index < 0 || index >= currentQuestions.length) {
+            showToast('Invalid question index', 'error');
+            return;
+        }
+        
+        const question = currentQuestions[index];
+        
+        // Fill form with question data
+        document.getElementById('questionIndex').value = index;
+        document.getElementById('questionText').value = question.question || '';
+        document.getElementById('minPoints').value = question.points_range?.min || 100;
+        document.getElementById('maxPoints').value = question.points_range?.max || 1000;
+        document.getElementById('timeAllowed').value = question.time_allowed || 60;
+        document.getElementById('answerDisplayTime').value = question.answer_display_time || 10;
+        document.getElementById('questionImageUrl').value = question.question_image || '';
+        document.getElementById('answerImageUrl').value = question.answer_image || '';
+        document.getElementById('explanationText').value = question.explanation || '';
+        
+        // Clear answers container
+        answersContainer.innerHTML = '';
+        
+        // Add existing answers
+        if (question.answers && question.answers.length > 0) {
+            question.answers.forEach((answer, idx) => {
+                const isCorrect = question.correct_answers.includes(idx);
+                addAnswer(answer.text, isCorrect);
+            });
+        } else {
+            // Add default answers if none exist
+            addAnswer();
+            addAnswer();
+        }
+        
+        // Update form title
+        document.getElementById('questionFormTitle').textContent = `Edit Question ${index + 1}`;
+        
+        // Show form
+        questionForm.style.display = 'block';
+        
+        // Scroll to form
+        questionForm.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function hideQuestionForm() {
+        questionForm.style.display = 'none';
+    }
+function saveQuestion() {
+        const questionText = document.getElementById('questionText').value.trim();
+        const minPoints = parseInt(document.getElementById('minPoints').value);
+        const maxPoints = parseInt(document.getElementById('maxPoints').value);
+        const timeAllowed = parseInt(document.getElementById('timeAllowed').value);
+        const answerDisplayTime = parseInt(document.getElementById('answerDisplayTime').value);
+        const questionImageUrl = document.getElementById('questionImageUrl').value.trim();
+        const answerImageUrl = document.getElementById('answerImageUrl').value.trim();
+        const explanationText = document.getElementById('explanationText').value.trim();
+        const questionIndex = parseInt(document.getElementById('questionIndex').value);
+        
+        if (!questionText) {
+            showToast('Please enter question text', 'error');
+            return;
+        }
+        
+        // Gather answers
+        const answers = [];
+        const correctAnswers = [];
+        const answerItems = answersContainer.querySelectorAll('.answer-form-item');
+        
+        let hasValidAnswer = false;
+        
+        answerItems.forEach((item, idx) => {
+            const textInput = item.querySelector('.answer-text');
+            const isCorrect = item.querySelector('.answer-correct').checked;
+            
+            if (textInput.value.trim()) {
+                answers.push({
+                    text: textInput.value.trim()
+                });
+                
+                if (isCorrect) {
+                    correctAnswers.push(answers.length - 1);
+                }
+                
+                hasValidAnswer = true;
+            }
+        });
+        
+        if (!hasValidAnswer || answers.length < 2) {
+            showToast('Please add at least 2 answers', 'error');
+            return;
+        }
+        
+        if (correctAnswers.length === 0) {
+            showToast('Please mark at least one answer as correct', 'error');
+            return;
+        }
+        
+        // Create question object
+        const questionData = {
+            question: questionText,
+            time_allowed: timeAllowed,
+            answers: answers,
+            correct_answers: correctAnswers,
+            points_range: {
+                min: minPoints,
+                max: maxPoints
+            },
+            answer_display_time: answerDisplayTime
+        };
+        
+        if (explanationText) {
+            questionData.explanation = explanationText;
+        }
+        
+        if (questionImageUrl) {
+            questionData.question_image = questionImageUrl;
+        }
+        
+        if (answerImageUrl) {
+            questionData.answer_image = answerImageUrl;
+        }
+        
+        if (questionIndex >= 0) {
+            // Update existing question
+            currentQuestions[questionIndex] = questionData;
+            showToast('Question updated successfully', 'success');
+        } else {
+            // Add new question
+            currentQuestions.push(questionData);
+            showToast('Question added successfully', 'success');
+        }
+        
+        // Hide form and update question list
+        hideQuestionForm();
+        renderQuestionsList();
+    }
+
+    function deleteQuestion(index) {
+        if (confirm('Are you sure you want to delete this question?')) {
+            currentQuestions.splice(index, 1);
+            renderQuestionsList();
+            showToast('Question deleted successfully', 'success');
+        }
+    }
+
+    function addAnswer(text = '', isCorrect = false) {
+        const answerItem = document.createElement('div');
+        answerItem.className = 'answer-form-item';
+        
+        answerItem.innerHTML = `
+            <input type="checkbox" class="answer-correct" ${isCorrect ? 'checked' : ''}>
+            <input type="text" class="form-control answer-text" placeholder="Enter answer text" value="${text}">
+            <button type="button" class="btn btn-danger remove-answer">×</button>
+        `;
+        
+        // Add event listener to remove button with stopPropagation
+        const removeBtn = answerItem.querySelector('.remove-answer');
+        removeBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            
+            const answerCount = answersContainer.querySelectorAll('.answer-form-item').length;
+            if (answerCount > 2) {
+                answerItem.remove();
+            } else {
+                showToast('You need at least 2 answers', 'error');
+            }
+        });
+        
+        answersContainer.appendChild(answerItem);
+    }
+
+    // FIXED: Improved renderQuestionsList function with proper event handling
+    function renderQuestionsList() {
+        if (currentQuestions.length === 0) {
+            questionsList.innerHTML = '<p>No questions added yet.</p>';
+            return;
+        }
+        
+        questionsList.innerHTML = '';
+        
+        currentQuestions.forEach((question, index) => {
+            const questionItem = document.createElement('div');
+            questionItem.className = 'question-item';
+            
+            questionItem.innerHTML = `
+                <div class="question-header">
+                    <h4>${index + 1}. ${question.question}</h4>
+                    <div>
+                        <button class="btn btn-primary edit-question" data-index="${index}">Edit</button>
+                        <button class="btn btn-danger delete-question" data-index="${index}">Delete</button>
+                    </div>
+                </div>
+                <div class="quiz-stats">
+                    Time: ${question.time_allowed}s | Points: ${question.points_range.min}-${question.points_range.max}
+                </div>
+                <div class="answers-container">
+                    ${question.answers.map((answer, idx) => `
+                        <div class="answer-item ${question.correct_answers.includes(idx) ? 'answer-correct' : ''}">
+                            ${idx + 1}. ${answer.text} ${question.correct_answers.includes(idx) ? '✓' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            questionsList.appendChild(questionItem);
+        });
+        
+        // CRITICAL FIX: Properly attach event listeners to edit and delete buttons
+        // with stopPropagation to prevent the modal from closing
+        const editButtons = questionsList.querySelectorAll('.edit-question');
+        const deleteButtons = questionsList.querySelectorAll('.delete-question');
+        
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Stop the event from bubbling up and closing the modal
+                event.stopPropagation();
+                event.preventDefault();
+                
+                const index = parseInt(this.getAttribute('data-index'));
+                console.log("Edit button clicked for question at index:", index);
+                showEditQuestionForm(index);
+            });
+        });
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Stop the event from bubbling up and closing the modal
+                event.stopPropagation();
+                event.preventDefault();
+                
+                const index = parseInt(this.getAttribute('data-index'));
+                deleteQuestion(index);
+            });
+        });
+    }
+
+    // Function to render quizzes
+    function renderQuizzes() {
+        if (quizzes.quizzes.length === 0) {
+            quizContainer.innerHTML = '<p>No quizzes found. Create a new quiz or load a quizzes.json file.</p>';
+            return;
+        }
+        
+        quizContainer.innerHTML = '';
+        
+        quizzes.quizzes.forEach((quiz, index) => {
+            const quizItem = document.createElement('div');
+            quizItem.className = 'quiz-item';
+            
+            quizItem.innerHTML = `
+                <div class="quiz-header">
+                    <span class="quiz-title">#${quiz.id} ${quiz.title}</span>
+                    <div>
+                        <button class="btn edit-quiz" data-index="${index}">Edit</button>
+                        <button class="btn btn-danger delete-quiz" data-index="${index}">Delete</button>
+                    </div>
+                </div>
+                <div class="quiz-description">${quiz.description || ''}</div>
+                <div class="quiz-stats">Questions: ${quiz.questions.length}</div>
+            `;
+            
+            quizContainer.appendChild(quizItem);
+            
+            // Add event listeners
+            const editBtn = quizItem.querySelector('.edit-quiz');
+            const deleteBtn = quizItem.querySelector('.delete-quiz');
+            
+            editBtn.addEventListener('click', () => showEditQuizModal(index));
+            deleteBtn.addEventListener('click', () => deleteQuiz(index));
+        });
+    }
+
+    // File handling functions
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validate quiz structure
+                if (!data.quizzes || !Array.isArray(data.quizzes)) {
+                    throw new Error('Invalid quiz file structure. Missing "quizzes" array.');
+                }
+                
+                // Set quizzes and render
+                quizzes = data;
+                renderQuizzes();
+                
+                // Save to localStorage
+                saveToLocalStorage();
+                
+                // Update file info
+                fileInfo.textContent = `Loaded file: ${file.name} (${quizzes.quizzes.length} quizzes)`;
+                
+                showToast(`Successfully loaded ${quizzes.quizzes.length} quizzes`, 'success');
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                showToast('Error loading file: ' + error.message, 'error');
+            }
+        };
+        
+        reader.readAsText(file);
+    }
+
+    function saveJsonFile() {
+        const jsonString = JSON.stringify(quizzes, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'quizzes.json';
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+        
+        showToast('Quiz data saved to quizzes.json', 'success');
+    }
+
+    // Utility functions
+    function generateId() {
+        return Math.floor(1000000 + Math.random() * 9000000).toString();
+    }
+
+    function showToast(message, type = 'success') {
+        const toastElement = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        toastElement.className = `toast toast-${type}`;
+        toastMessage.textContent = message;
+        
+        toastElement.style.display = 'block';
+        
+        setTimeout(() => {
+            toastElement.style.display = 'none';
+        }, 3000);
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('quizzes', JSON.stringify(quizzes));
+        console.log('Saved to localStorage:', quizzes);
+    }
+
+    function loadFromLocalStorage() {
+        const storedQuizzes = localStorage.getItem('quizzes');
+        if (storedQuizzes) {
+            try {
+                quizzes = JSON.parse(storedQuizzes);
+                renderQuizzes();
+                fileInfo.textContent = `Loaded from localStorage: ${quizzes.quizzes.length} quizzes`;
+                return true;
+            } catch (error) {
+                console.error('Error loading from localStorage:', error);
+                return false;
+            }
+        }
+        return false;
+    }
+</script>
+</body>
+</html>
