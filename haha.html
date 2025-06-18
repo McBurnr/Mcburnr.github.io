@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>! INTRUSION DETECTED !</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --hacker-green: #00ff41;
+            --hacker-green-dark: #008a23;
+            --background-color: #000;
+            --text-color: #d1ffd7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        /* Hi there! You should subscribe to @McBurn_ on Youtube they're a cool dude */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.imgchest.com/files/yxkczo9rlw7.jpg');
+            background-repeat: repeat;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Instead of spending time looking at my code, why not subscribe to BladeCifer on YT or follow NajoxP5X on X as well? */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.75);
+            border: 3px solid var(--hacker-green);
+            box-shadow: 0 0 25px var(--hacker-green), inset 0 0 15px var(--hacker-green-dark);
+            padding: 2rem 3rem;
+            max-width: 90%;
+            width: 800px;
+            border-radius: 10px;
+            backdrop-filter: blur(3px);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Glitchy Hacked Title */
+        .hacked-title {
+            font-size: 3rem;
+            color: var(--hacker-green);
+            text-shadow: 0 0 10px var(--hacker-green);
+            position: relative;
+            animation: glitch 2.5s infinite;
+            margin-bottom: 1rem;
+        }
+
+        .hacked-title::before,
+        .hacked-title::after {
+            content: '!! ACCESS DENIED !!';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            overflow: hidden;
+        }
+
+        .hacked-title::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .hacked-title::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+            clip: rect(85px, 450px, 90px, 0);
+            animation: glitch-anim2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: none; }
+            2% { transform: translate(-2px, 2px); }
+            4% { transform: translate(2px, -2px); }
+            6% { transform: translate(-2px, 2px); }
+            8% { transform: translate(2px, -2px); }
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); } 100% { clip: rect(42px, 9999px, 44px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(85px, 9999px, 90px, 0); } 100% { clip: rect(85px, 9999px, 90px, 0); }
+        }
+		
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            min-height: 50px; /* Space for text to type in */
+        }
+        .message .cursor {
+            display: inline-block;
+            background-color: var(--hacker-green);
+            width: 10px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent; }
+            50% { background-color: var(--hacker-green); }
+        }
+
+        /* Was the steam key not enough for you? ;-; */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: rgba(0, 255, 65, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: 1px solid var(--hacker-green-dark);
+        }
+
+        .link-text {
+            font-size: 1.2rem;
+        }
+
+        .hacker-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: transparent;
+            border: 2px solid var(--hacker-green);
+            color: var(--hacker-green);
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+
+        .hacker-button:hover {
+            background: var(--hacker-green);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--hacker-green);
+            transform: translateY(-2px);
+        }
+        
+        .hacker-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .return-button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-container"></div>
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="main-container">
+        <h1 class="hacked-title">!! ACCESS DENIED !!</h1>
+        <p id="typing-message" class="message"></p>
+
+        <div class="links-container">
+
+            <div class="link-item">
+                <span class="link-text">>> This guy's got some cool stuff! Check him out!</span>
+                <a href="https://www.youtube.com/@bladeciferBCM?sub_confirmation=1" target="_blank" class="hacker-button">
+                    <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25 1.09-.83 1.82-1.88 2.18-1.16.4-5.61.39-7.68.39-3.33 0-5.74.04-7.68-.39-1.06-.36-1.64-1.09-1.88-2.18-.28-1.03-.44-2.64-.44-4.83l.06-1.11c.06-1.01.15-1.78.28-2.52.28-.9.84-1.46 1.88-1.72C5.97 3.99 9.07 4 12 4s6.03-.01 7.68.34c1.06.26 1.64.82 1.88 1.72z"></path></svg>
+                    Subscribe to @bladeciferBCM
+                </a>
+            </div>
+
+            <div class="link-item">
+                <span class="link-text">>> He's posting top-tier intel on X!</span>
+                <a href="https://x.com/NajoxP5X" target="_blank" class="hacker-button">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                    Follow NajoxP5X
+                </a>
+            </div>
+
+            <div class="link-item">
+                <span class="link-text">>> And the Oracle says to sub to the wiki creator! ;)</span>
+                <a href="https://www.youtube.com/@mcburn_?sub_confirmation=1" target="_blank" class="hacker-button">
+                     <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25 1.09-.83 1.82-1.88 2.18-1.16.4-5.61.39-7.68.39-3.33 0-5.74.04-7.68-.39-1.06-.36-1.64-1.09-1.88-2.18-.28-1.03-.44-2.64-.44-4.83l.06-1.11c.06-1.01.15-1.78.28-2.52.28-.9.84-1.46 1.88-1.72C5.97 3.99 9.07 4 12 4s6.03-.01 7.68.34c1.06.26 1.64.82 1.88 1.72z"></path></svg>
+                    Subscribe to @mcburn_
+                </a>
+            </div>
+        </div>
+
+        <button id="returnBtn" class="hacker-button return-button">Return to Wiki</button>
+    </div>
+
+    <script>
+												/* Intruding the intrusion page. Very funny. */
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        const drawMatrix = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'var(--hacker-green)';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+
+        setInterval(drawMatrix, 33);
+        
+												/* You made it to the end! Nice job! */
+				/* If you screenshot this and put it in the discord I'll give you a role or something. (first one only) */
+											/* https://discord.com/invite/5bq2EWyT4w  */
+
+        const messageElement = document.getElementById('typing-message');
+        const text = "Heh. Did you really think you could snoop around in MY system? Cute. You're lucky I don't brick your device. Instead, how about you check out some of these cool people?";
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                messageElement.innerHTML = text.substring(0, i + 1) + '<span class="cursor">&nbsp;</span>';
+                i++;
+                setTimeout(typeWriter, 50);
+            } else {
+                 messageElement.innerHTML = text;
+            }
+        }
+        
+        document.getElementById('returnBtn').addEventListener('click', () => {
+            if (document.referrer && document.referrer.length > 0) {
+                 window.history.back();
+            } else {
+                 window.location.href = "https://mcburnr.github.io/p5xwiki.html";
+            }
+        });
+        
+        setTimeout(typeWriter, 500);
+
+//==================================================================================//
+//           This is the DevTools Trap you're probably familar with ; )             //
+//==================================================================================//
+(function() {
+    const redirectUrl = 'https://cdn.imgchest.com/files/7lxcp2olqp7.png'; //Redirects to smug futaba face
+    const detectionThreshold = 160; // Timeout Threshold for checking the debugging window. Learning!
+
+    let isRedirecting = false; //We're not directing just yet until...y'know
+
+    // This triggers a redirect whenever the devtools window is opened and closed, debuggging is resumed, or you navigate to another page
+	// Fun, right?
+    function triggerRedirect() {
+        if (isRedirecting) {
+            return;
+        }
+        isRedirecting = true;
+        // This is the message that appears on the wiki when you open the devtools/inspect window
+        console.log('%c! INTRUSION DETECTED !', 'color: #00ff00; font-size: 24px; font-weight: bold; font-family: monospace;');
+        console.log('%c>> Whoa, trying to peek under the hood? Naughty, naughty! Let me just... fix that for you. Heh. <<', 'color: #00ff00; font-family: monospace;');
+        window.location.href = redirectUrl; // where we navigate to under const directUrl at the top
+    }
+
+    // --- This is the first "Devtools Trap" which checks the debug timer ---
+    // This runs periodically. If devtools are open, the 'debugger' line will cause a pause.
+    // When execution resumes, it checks how long the pause was.
+!
+    setInterval(() => {
+        const startTime = performance.now();
+        debugger;
+	// If you're looking at this, why not check out the source code for a little lesson?
+	// By the way, if you close this, something cool will happen
+        const endTime = performance.now();
+        if (endTime - startTime > detectionThreshold) {
+            triggerRedirect();
+        }
+    }, 1000);
+
+
+    // --- This is our second "Devtools Trap" ---
+    // This creates an object when the console tries to display its properties
+    // It'll then execute the 'get' function, triggering to our smug futaba face ;)
+    const devtoolsTrapElement = document.createElement('div'); // Creates a "div" element so that we can...
+    Object.defineProperty(devtoolsTrapElement, 'id', { // Define it as an id element!
+        get: function() { // Getting a function ready for...
+            triggerRedirect(); // Triggering our redirect!
+            // Displays dummy text for the console window before the redirect
+            return 'YOU-HAVE-BEEN-HACKED'; // Scary Futaba Message
+        }
+    });
+
+    setInterval(() => {
+        // We're not going to set an interval to check for the object we created, and when it triggers.
+        // Nothing happens if the devtools aren't open, but will "spring" the trap if it's open.
+        console.log(devtoolsTrapElement); // Logging it to the console
+        console.clear(); // Clears the console to mess with people trying to look at the devtools logs
+    }, 1500); // The interval is set to 1500ms
+
+
+		// Hope you enjoyed the little demonstration!
+		// The wiki currently sits at a little over 3,000 lines of code (as of 6/18/25) and will go open source eventually!
+		// But for now, It's just a jumbled pile of code I work on in my free time.
+		// (Yes, most of that is css....hoo, boy)
+})();
+
+    </script>
+	
+	
+</body>
+
+</html>
