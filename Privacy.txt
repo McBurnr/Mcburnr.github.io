@@ -1,0 +1,94 @@
+Privacy Policy for Renne, which is a Discord Bot currently operating as a Guild Tracker Bot for the Discord Server: Gacha Metaverse
+Effective Date: June 29, 2025
+
+This Privacy Policy describes how the Guild Tracker Bot (Renne) collects, uses, and stores information. 
+Your privacy is important to us, and we are committed to being transparent about our data practices. 
+By using the Bot, you agree to the collection and use of information in accordance with this policy.
+
+1. Information We Collect
+The Bot is designed to be functional while collecting the minimum amount of data necessary. 
+The data we collect and process includes:
+
+Server (Guild) Information (from Gacha Metaverse):
+Server ID: To identify the specific Discord server where the Bot is operating (which is currently Gacha Metaverse)
+
+Role IDs: IDs for member, leader, and waiting list roles for Gacha Metaverse as configured by the Gacha Metaverse server administrators.
+
+Channel IDs: IDs for the main status channel on Gacha Metaverse, notification channels on Gacha Metaverse, and private guild channel,
+and categories on Gacha Metaverse, as configured by Gacha Metaverse server administrators.
+
+Gacha Metaverse Discord User Information:
+User ID: By being a member of Gacha Metaverse, we use your Discord User ID to manage your roles 
+(e.g., adding you to a waiting list or guild) and to associate you with your In-Game Name (IGN).
+
+In-Game Names (IGNs): The Bot (Renne) stores the IGNs that you or a guild leader, or administrator sets, which is then linked to your Discord User ID.
+This is not saved locally, and only within the Bot's (Renne's) cache, and is stored until the Bot (Renne) either goes offline,
+restarts, or has a significant status changed that may clear this data.
+
+Vice Leader Status: We store the Discord User IDs of Gacha Metaverse members who are designated as Vice Leaders to grant them command permissions.
+
+2. How We Use Your Information
+The information collected is used exclusively for the core functionality of the Bot (Renne). This includes:
+
+Displaying guild member counts.
+
+Assigning and removing waiting list and guild roles.
+
+Sending notifications about guild status changes.
+
+Creating and securing private guild channels.
+
+Enforcing permissions for commands (e.g., allowing leaders and vice leaders to manage their guild).
+
+Displaying IGNs in guild-specific lists.
+
+We do not use Discord Metaverse Discord Member data for analytics, advertising, or any purpose outside of the Bot's (Renne's) described features. 
+We do not share your data with any third parties.
+We do not save any data locally, and any data described as "saved locally" or as "saved information" that would not be cleared (on restart, etc.) within
+the bot, includes, but is not limited to:
+Guild Names
+
+Guild Member Counts
+
+Guild Member Leader User ID's
+
+Guild Member Vice Leader User ID's
+
+Guild Status Text (To notify Gacha Metaverse Discord Users that a Guild is Recruiting or otherwise)
+
+Guild Member User ID's for "Waiting Roles" (roles given to Gacha Metaverse Discord Users) which are defined as Roles given to Gacha Metaverse
+Discord Server members in which the bot later "pings" a specific Waiting List role if the Guild Member Counts status happens to change.
+
+3. Data Storage and Retention
+All of the data listed above, including server configurations and user-specific information like IGNs and Vice Leader status, 
+is stored in the Bot's in-memory configuration while it is running, and at no point is new information, which is given by the user, to the Bot (Renne)
+ever saved locally.
+Upon the Bot (Renne) being restarted or shut down, all user-submitted data is no longer retained by the Bot (Renne).
+
+This data is not permanently stored in a database. 
+Data defined as "permanently stored" is available in the "How We Use Your Information" section of this Privacy Policy.
+If the Bot is restarted, this information is re-initialized from its source code configuration. 
+Data like assigned IGNs and Vice Leader lists will persist only as long as the Bot's process is active.
+If the Bot (Renne) is no longer active, the information does not retain, and users must provide previously submitted information given to the Bot (Renne)
+for the Bot (Renne) to have access to the user-specified information that was lost due to this process. 
+
+4. Your Rights and Data Control
+You have control over your data in the following ways:
+
+You can remove yourself from a waiting list by removing your reaction or using the /waitlist command.
+
+You can set or update your own In-Game Name using the /setign command.
+
+Leaving a Discord server where the Bot is active will effectively remove any association the Bot has with your account on that server.
+
+If you wish for any of your data (like your stored IGN) to be removed, you can request this from your guild leader or a server administrator, 
+who can use the Bot's commands to manage this data.
+If a guild leader or server administrator is not available at the time of your request, The Bot Developer (McBurn) may also remove your data 
+if you so wish to do so.
+
+5. Changes to This Privacy Policy
+We may update this Privacy Policy from time to time. 
+Users within the supported platform of the Bot (Renne) will be notified of any significant changes to this Privacy Policy. 
+Your continued use of the Bot (Renne) after such changes constitutes your acceptance of the new Privacy Policy.
+Significant changes to the Privacy Policy vary, and unless there is a considerable change as determined by the Bot Developer (McBurn), 
+users will not be notified of these changes, as they (almost always) would be deemed to insigifcantly impact any affected parties.
