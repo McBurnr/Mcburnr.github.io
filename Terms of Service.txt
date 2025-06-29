@@ -1,0 +1,71 @@
+Terms of Service for Renne, which is a Discord Bot specifically created as a Guild Tracker Bot.
+A guild tracker bot and its purpose is clearly defined within this Terms of Service as expressed by the sections below this introductory, ending
+at the sentence beginning with "By inviting" and ending with "these Terms", which is the sixth sentence within this terms of service.
+The Effective Date of this Terms of Service is June 29, 2025.
+Welcome to the Renne Bot, currently operating as a Guild Tracker bot for Gacha Metaverse. 
+These Terms of Service ("Terms") govern your use of the Bot within the Discord platform and any server the Bot (Renne) primarily operates on. 
+By inviting the Bot to your Discord server, using it within Gacha Metaverse, or using its commands, you agree to be bound by these Terms.
+
+
+1. Description of Service
+The Bot (Renne) provides tools for managing guilds within a Discord server. 
+Its (the Bot; Renne) features include, but are not limited to:
+Tracking member counts for specified roles within Gacha Metaverse, which is a server on the Discord platform.
+Managing automated waiting lists via reactions and commands for the Gacha Metaverse server.
+Creating and managing private, role-restricted channels for guilds for the Gacha Metaverse server.
+Allowing guild leadership to manage members, vice leaders, and in-game names (IGNs) for the Gacha Metaverse server.
+Providing notifications for guild status changes for the Gacha Metaverse server.
+
+2. User Conduct and Responsibilities
+You agree to use the Bot in compliance with the Discord Terms of Service and all applicable local, national, and international laws. 
+You are responsible for all activities conducted through your account and for the configuration of the Bot on your server.
+You agree not to:
+Use the Bot (Renne) for any illegal or unauthorized purpose, and to primarily use it on Gacha Metaverse.
+Abuse the Bot's commands, such as by spamming or attempting to cause errors.
+Attempt to circumvent any security or permission checks implemented by the Bot.
+
+3. Data and Configuration
+The Bot's (Renne) functionality relies on configuration data provided by Gacha Metaverse, including Role IDs, Channel IDs, and other settings. 
+The Bot (Renne) is not responsible for errors arising from incorrect configuration.
+The Bot (Renne) is made for primary use on the Gacha Metaverse server, and is made to operate within the Gacha Metaverse server; by using it on other
+servers not configurted for the Bot (Renne) we do not offer any support and will not configure the Bot (Renne) to work on other servers.
+
+4. Availability and Modifications to Service
+The Developer (McBurn) of the Bot (Renne) works to ensure that the Bot (Renne) is available and functional at all times. 
+However, service may be interrupted for maintenance, upgrades, or unforeseen network failures. 
+The Bot Developer (McBurn) reserves the right to modify, suspend, or discontinue the Bot, or any of its features, at any time with or without notice.
+
+5. Disclaimer of Warranties
+The Bot (Renne) is provided "as is" and "as available" and made to operate within Gacha Metaverse.
+Use on unsupported and unconfigured servers that are not Gacha Metaverse void support or warranties of any kind, express or implied. 
+The Bot Developer (McBurn) does not warrant that the service will be uninterrupted, error-free, or secure. 
+You use the Bot at your own sole risk; which is clarified as an "as is" state, and any problems that occur are to be witheld of liability on Gacha Metaverse.
+If the bot operates on another server, especially one not configured for the Bot (Renne) then liability is to be witheld as it is an unsupported platform for the Bot (Renne)
+and outside the scope of its use.
+
+
+6. Limitation of Liability
+In no event shall the Bot's (Renne) Developer (McBurn) or affiliates (The Administration of Gacha Metaverse) be liable for any direct, indirect, 
+incidental, special, or consequential damages arising out of or in any way connected with the use of the Bot or the inability to use the Bot, even 
+if advised of the possibility of such damages.
+
+7. Termination
+The Bot Developer (McBurn) reserves the right to terminate your access to the Bot, without any notice, for any violation of these Terms or the 
+Discord Terms of Service. 
+These terms and conditions are subject to change, and the Bot (Renne) Developer (McBurn) may withdraw your access at any
+time for any reason while your usage of the Bot (Renne) continues or well after your use of the Bot (Renne).
+This may include blocking the Bot from operating on your server.
+The only server or platform the bot is supported and configured on is the Gacha Metaverse Server on the Discord Platform.
+
+8. Changes to Terms
+These Terms and Conditions may update from time to time. 
+Users within the supported platform of the Bot (Renne) will be notified of any significant changes to these Terms of Service. 
+Your continued use of the Bot (Renne) after such changes constitutes your acceptance of the new Terms.
+Significant changes to the Terms of Service vary, and unless there is a considerable change, users will not be notified of these changes.
+
+
+9. Contact Information
+If you have any questions about these Terms, the only point of contact is the Discord User "McBurn" on the Gacha Metaverse Discord Server.
+You may reach the Gacha Metaverse Discord Server by using the Server Discovery feature from within the Discord Platform, or by following this link:
+https://discord.gg/gachametaverse
+The Discord Platform requires a registered account on its platform to access the Gacha Metaverse Discord Server.
