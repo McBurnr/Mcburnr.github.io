@@ -29,6 +29,9 @@ The Bot's (Renne) functionality relies on configuration data provided by Gacha M
 The Bot (Renne) is not responsible for errors arising from incorrect configuration.
 The Bot (Renne) is made for primary use on the Gacha Metaverse server, and is made to operate within the Gacha Metaverse server; by using it on other
 servers not configurted for the Bot (Renne) we do not offer any support and will not configure the Bot (Renne) to work on other servers.
+The Bot (Renne) collects two forms of data, so it is able to leave servers it is not configured for, which are as follows:
+- Server ID's (of servers that Renne is invited to): So that the Bot (Renne) is able to check to see if it should be in a server, and if not, will send a message and leave the server.
+- Server Names (of servers that Renne is invited to): For console logging, and to potentially see if the bot is intentionally being mass invited; in which case, the invites for the bot will be turned off, and the data collection will be ceased.
 
 4. Availability and Modifications to Service
 The Developer (McBurn) of the Bot (Renne) works to ensure that the Bot (Renne) is available and functional at all times. 
