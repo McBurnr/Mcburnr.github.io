@@ -113,7 +113,7 @@ body {
         color: #ccc;
         font-weight: 600;
     }
-/* Site Wrapper Adjustment */
+	
 .site-wrapper {
     max-width: 1300px;
     padding: 1rem 1.5rem 1.5rem;
@@ -259,7 +259,7 @@ body {
 .arcana-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem; /* Reduced gap */
+    gap: 1rem;
 }
 
 .arcana-card {
@@ -285,7 +285,7 @@ body {
     align-items: center;
     gap: 0.75rem;
     border-bottom: 1px solid var(--shadow-color-medium);
-    padding-bottom: 0.75rem; /* Reduced padding */
+    padding-bottom: 0.75rem;
 }
 
 
@@ -652,6 +652,110 @@ body {
     .confidant-table { font-size: 0.9rem; width: 100%; border-collapse: collapse; }
     .confidant-table th, .confidant-table td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--shadow-color-light); }
 
+#quick-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#quick-nav-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.quick-nav-content {
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.quick-nav-header {
+    margin-bottom: 3rem;
+}
+
+.quick-nav-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.quick-nav-header p {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+.quick-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .quick-nav-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.quick-nav-card {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--shadow-color-light);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.quick-nav-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px var(--shadow-color-medium);
+    border-color: var(--primary-color);
+}
+
+.quick-nav-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quick-nav-card:hover .quick-nav-card-bg {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.quick-nav-card-name {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+}
+
+
     @media (max-width: 768px) {
         body { 
             padding-top: 70px; 
@@ -729,7 +833,6 @@ body {
             grid-template-columns: 1fr;
         }
 		
-        /* --- Modal Adjustments --- */
         .modal-content { 
             width: 95vw; 
             max-height: 85vh; 
@@ -905,6 +1008,42 @@ body.sidebar-open .site-wrapper {
     }
 }
 
+.quick-nav-card::after,
+.sidebar-nav .guide-card::after,
+.sidebar-nav a.guide-card::after {
+    content: attr(data-preview);
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: 'Crimson Text', serif;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none; /* It's pronounced Rules Card */
+}
+
+.quick-nav-card:hover::after,
+.sidebar-nav .guide-card:hover::after,
+.sidebar-nav a.guide-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: 10px;
+}
+
+.sidebar-nav .guide-card:hover::after,
+.sidebar-nav a.guide-card:hover::after {
+    bottom: auto;
+    top: 105%;
+    left: 50%;
+}
 
 </style>
 
@@ -925,28 +1064,55 @@ body.sidebar-open .site-wrapper {
     </button>
 </header>
 
-<nav id="collapsible-sidebar" class="collapsible-sidebar">
-    <div class="sidebar-header">
-        <img src="https://cdn.imgchest.com/files/y8xcnkwlkb4.png" alt="LufelNet Logo" class="sidebar-logo">
-        <h3 class="sidebar-title">P5X Wiki</h3>
+<div id="quick-nav-overlay">
+<div class="quick-nav-grid">
+    <div class="quick-nav-card" data-target="guide-gameplay" data-preview="Beginner's guide">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4gdcx3vrow4.png');"></div>
+        <div class="quick-nav-card-name">Gameplay</div>
     </div>
+    <div class="quick-nav-card" data-target="guide-arcana" data-preview="Revelation/Universe Arcana cards">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlmd4.png');"></div>
+        <div class="quick-nav-card-name">Arcana</div>
+    </div>
+    <div class="quick-nav-card" data-target="guide-gacha" data-preview="breakdown of the gacha system">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+        <div class="quick-nav-card-name">Gacha System</div>
+    </div>
+    <div class="quick-nav-card" data-target="guide-confidants" data-preview="confidants,rank-up choices,and gifts">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+        <div class="quick-nav-card-name">Confidants</div>
+    </div>
+    <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units and builds">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+        <div class="quick-nav-card-name">Units</div>
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+
+<nav id="collapsible-sidebar" class="collapsible-sidebar">
 <nav class="sidebar-nav">
-    <div class="guide-card" data-target="guide-gameplay">
+    <div class="guide-card" data-target="guide-gameplay" data-preview="Beginner's guide">
         <img src="https://cdn.imgchest.com/files/4gdcx3vrow4.png" alt="Gameplay Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Gameplay</div>
     </div>
-    <div class="guide-card" data-target="guide-arcana">
+    <div class="guide-card" data-target="guide-arcana" data-preview="Revelation and Universe Arcana cards">
         <img src="https://cdn.imgchest.com/files/yd5ce5zlmd4.png" alt="Arcana Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Arcana</div>
     </div>
-     <div class="guide-card" data-target="guide-gacha">
+     <div class="guide-card" data-target="guide-gacha" data-preview="breakdown of the gacha system">
         <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Gacha System Icon" class="guide-card-icon">
         <div class="guide-card-name">Gacha System</div>
     </div>
-    <div class="guide-card" data-target="guide-confidants">
+    <div class="guide-card" data-target="guide-confidants" data-preview="confidants,rank-up choices,and gifts">
         <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Confidants Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Confidants</div>
     </div>
+    <a href="https://mcburnr.github.io/p5xunits.html" class="guide-card" data-preview="Browse all playable units, their skills, and builds">
+        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Units Guide Icon" class="guide-card-icon">
+        <div class="guide-card-name">Units</div>
+    </a>
 </nav>
 </nav>
 
@@ -1259,6 +1425,27 @@ body.sidebar-open .site-wrapper {
 const menuToggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('collapsible-sidebar');
 const overlay = document.getElementById('main-overlay');
+const quickNavOverlay = document.getElementById('quick-nav-overlay');
+const quickNavCards = document.querySelectorAll('.quick-nav-card');
+
+function selectInitialGuide(targetId) {
+    if (!targetId) return;
+
+    const targetSidebarCard = document.querySelector(`.sidebar-nav .guide-card[data-target="${targetId}"]`);
+    if (targetSidebarCard) {
+        targetSidebarCard.click();
+    }
+
+    quickNavOverlay.classList.add('hidden');
+}
+
+quickNavCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const targetId = card.dataset.target;
+        selectInitialGuide(targetId);
+    });
+});
+
 
 function toggleSidebar() {
     menuToggle.classList.toggle('open');
