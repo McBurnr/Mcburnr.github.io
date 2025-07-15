@@ -1553,18 +1553,19 @@ body.sidebar-open .site-wrapper {
             </div>
 
             <!-- Critical Calculation -->
-            <div id="crit_calc_card" class="calculator-card border-green-500 rounded-lg p-6 space-y-4">
-                <h2 class="text-3xl text-white">ⓓ Critical Calculation</h2>
-                <div><label for="crit_rate" class="block mb-1 text-sm font-medium text-gray-300">Critical Rate</label><div class="input-group"><input type="number" id="crit_rate" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="crit_effect" class="block mb-1 text-sm font-medium text-gray-300">Critical Effect (Crit Mult.)</label><div class="input-group"><input type="number" id="crit_effect" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-green-400">Result (Average Multiplier)</label><div id="crit_calc_result" class="output-field p-3 rounded text-center">100.00%</div></div>
-                 <div class="flex space-x-2 pt-2">
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_formula_box">Show Formula</button>
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_comments">Comments</button>
-                </div>
-                <div id="crit_calc_formula_box" class="formula-box"><code>100% + crit_rate_% * (crit_effect_% - 100%)</code></div>
-                <div id="crit_calc_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
-            </div>
+<!-- Critical Calculation -->
+<div id="crit_calc_card" class="calculator-card border-green-500 rounded-lg p-6 space-y-4">
+    <h2 class="text-3xl text-white">ⓓ Critical Calculation</h2>
+    <div><label for="crit_rate" class="block mb-1 text-sm font-medium text-gray-300">Critical Rate</label><div class="input-group"><input type="number" id="crit_rate" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
+    <div><label for="crit_effect" class="block mb-1 text-sm font-medium text-gray-300">Critical Effect (Crit Mult.)</label><div class="input-group"><input type="number" id="crit_effect" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
+    <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-green-400">Result (Average Multiplier)</label><div id="crit_calc_result" class="output-field p-3 rounded text-center">100.00%</div></div>
+     <div class="flex space-x-2 pt-2">
+        <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_formula_box">Show Formula</button>
+        <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_comments">Comments</button>
+    </div>
+    <div id="crit_calc_formula_box" class="formula-box"><code>(100% + crit_rate_%) * (crit_effect_% - 100%)</code></div>
+    <div id="crit_calc_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
+</div>
         </div>
     </div>
 </section>
@@ -1700,8 +1701,8 @@ function calculateDamage() {
     const defenseMultiplier = defenseDivisor <= 0 ? 1 : 1 - (effectiveEnemyDef / defenseDivisor);
     outputs.enemy_def.textContent = defenseMultiplier.toFixed(4);
 
-    // ⓓ Critical Calculation
-    const critMultiplier = 1 + getPercent('crit_rate') * (getPercent('crit_effect') - 1);
+// ⓓ Critical Calculation (Update thanks to Matthieus)
+const critMultiplier = (1 + getPercent('crit_rate')) * (getPercent('crit_effect') - 1);
     outputs.crit_calc.textContent = (critMultiplier * 100).toFixed(2) + '%';
 }
 
