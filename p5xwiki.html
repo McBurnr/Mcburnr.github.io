@@ -1,0 +1,2896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>P5X Guides & Terms - by McBurn</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+    
+    :root {
+        --primary-color: #ff0000;
+        --primary-color-dark: #cc0000;
+        --gradient-primary: rgba(255, 0, 0, 0.9);
+        --shadow-color-light: rgba(255, 0, 0, 0.3);
+        --shadow-color-medium: rgba(255, 0, 0, 0.4);
+        --background-image: url('https://cdn.imgchest.com/files/4apc5o8wzq4.png');
+    }
+
+    body.theme-blue {
+        --primary-color: #0055ff;
+        --primary-color-dark: #0033cc;
+        --gradient-primary: rgba(0, 85, 255, 0.9);
+        --shadow-color-light: rgba(0, 85, 255, 0.3);
+        --shadow-color-medium: rgba(0, 85, 255, 0.4);
+        --background-image: url('https://cdn.imgchest.com/files/4jdcv9p3ko4.png');
+    }
+
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) #0a0a0a;
+    }
+
+    html::-webkit-scrollbar {
+        width: 10px;
+    }
+    html::-webkit-scrollbar-track {
+        background: #0a0a0a;
+    }
+    html::-webkit-scrollbar-thumb {
+        background-color: var(--primary-color);
+        border-radius: 5px;
+    }
+    html::-webkit-scrollbar-thumb:hover {
+        background-color: var(--primary-color-dark);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+body {
+    font-family: 'Crimson Text', serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    padding-top: 80px; 
+}
+    .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background-image: var(--background-image);
+        background-repeat: repeat-x;
+        background-size: auto 100%;
+        animation: scrollBackground 30s linear infinite;
+        z-index: -1;
+        opacity: 0.3;
+    }
+
+    @keyframes scrollBackground {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--gradient-primary), rgba(15, 15, 15, 0.95));
+    box-shadow: 0 4px 20px var(--shadow-color-light);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+}
+
+.header-text h1 {
+    font-size: 1.6rem; /* Smaller title */
+    margin-bottom: 0;
+}
+
+.header-text p {
+    font-size: 0.8rem; /* Smaller PIPIS */
+}
+    
+    .header h1 {
+        font-family: 'Cinzel', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        margin-bottom: 0.1rem;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+        color: #ccc;
+        font-weight: 600;
+    }
+	
+.site-wrapper {
+    max-width: 1300px;
+    padding: 1rem 1.5rem 1.5rem;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.guide-card:not(:nth-child(2n)) {
+    border-right-color: var(--primary-color);
+}
+
+.guide-card:nth-child(-n+2) {
+    border-bottom-color: var(--primary-color);
+}
+
+.side-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25rem;
+    position: sticky;
+    top: 96px;
+    align-self: start;
+}
+.main-content-area {
+    min-width: 0;
+}
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.5rem;
+}
+
+.guide-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(30,30,30,0.5);
+    border: 2px solid var(--shadow-color-light);
+    padding: 0.5rem;
+    aspect-ratio: 1 / 1;
+}
+
+.guide-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px var(--shadow-color-medium);
+    z-index: 10;
+}
+    
+.guide-card.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 25px var(--shadow-color-medium);
+}
+
+.guide-card-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin-bottom: 0.25rem;
+    border: 2px solid transparent;
+}
+
+.guide-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    width: 100%;
+}
+
+.guide-content-panel {
+    display: none;
+    padding: 1.5rem;
+    margin-top: 0; /* This is important. Or is it? */
+    background: rgba(10, 10, 10, 0.85);
+    border-radius: 15px;
+    border: 1px solid var(--shadow-color-light);
+    animation: fadeIn 0.5s ease;
+}
+
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .guide-content-panel.active {
+        display: block;
+    }
+
+    .guide-content-panel h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        border-left: 4px solid var(--primary-color);
+        padding-left: 1rem;
+    }
+    
+    .guide-content-panel h3 {
+        font-size: 1.4rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .arcana-tabs {
+        display: flex;
+        border-bottom: 2px solid var(--shadow-color-medium);
+        margin-bottom: 2rem;
+    }
+
+    .arcana-tab {
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: #ccc;
+        font-family: 'Cinzel', serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .arcana-tab:hover { color: var(--primary-color); }
+    .arcana-tab.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+    }
+
+    .arcana-tab-content { display: none; }
+    .arcana-tab-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+    
+.arcana-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.arcana-card {
+    background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(45, 45, 45, 0.9));
+    border-radius: 10px;
+    border: 1px solid var(--shadow-color-light);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+    
+    .arcana-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 25px var(--shadow-color-medium);
+        border-color: var(--primary-color);
+    }
+
+.arcana-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--shadow-color-medium);
+    padding-bottom: 0.75rem;
+}
+
+
+.arcana-card-image {
+    width: 50px; /* Originally, I was going to use larger images, but settled on scaling it down to 50px */
+    height: 50px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+    .arcana-card-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+.arcana-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+    .global-note {
+        background-color: #c00;
+        color: #fff;
+        padding: 0.2rem 0.6rem;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+.arcana-card-effect {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+    .arcana-card-effect strong { color: #fff; font-weight: bold; }
+    .highlight-number { color: #ff9900; font-weight: bold; }
+    
+    /* If you have not watched that one moushley video from resident evil you are missing out */
+    .confidant-grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.25rem;
+    }
+	
+.accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.accordion-item {
+    border: 1px solid var(--shadow-color-light);
+    border-radius: 10px;
+    background: rgba(20, 20, 20, 0.7);
+    transition: background-color 0.25s ease-in-out;
+}
+
+.accordion-item.active {
+    background: rgba(30, 30, 30, 0.9);
+}
+
+.accordion-trigger {
+    font-size: 1.5rem !important;
+    color: #fff !important;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--shadow-color-light);
+    padding: 1rem 1.5rem !important;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.25s ease-in-out;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+.accordion-item.active .accordion-trigger,
+.accordion-trigger:hover {
+    color: var(--primary-color) !important;
+}
+
+.accordion-item.active .accordion-trigger {
+    border-bottom-color: var(--primary-color);
+}
+
+.accordion-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 1rem;
+    object-fit: contain;
+    transition: transform 0.25s ease-in-out;
+}
+
+.accordion-trigger:hover .accordion-icon {
+    transform: scale(1.1);
+}
+
+.accordion-trigger::after {
+    content: '+';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    font-weight: bold;
+    transition: transform 0.25s ease-in-out;
+}
+
+.accordion-item.active .accordion-trigger::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    /* If I ever tried to load Prydwen I would be assaulted by ads for womens underwear */
+    transition: max-height 0.25s ease-in-out, padding 0.25s ease-in-out;
+    padding: 0 1.5rem;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 2000px; 
+    padding: 1.5rem;
+}
+	
+	.guide-credits {
+        font-style: italic;
+        color: #ccc;
+        margin-bottom: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    
+    .guide-credits strong {
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .accordion-content ul {
+        list-style-position: inside;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .accordion-content li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    .guide-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .guide-table th, .guide-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--shadow-color-light);
+    }
+
+    .guide-table th {
+        font-family: 'Cinzel', serif;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .guide-table img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        vertical-align: middle;
+        margin-right: 1rem;
+    }
+    
+    .guide-table .item-name {
+        font-weight: bold;
+        color: #fff;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .feature-item {
+        background: rgba(10, 10, 10, 0.5);
+        border: 1px solid var(--shadow-color-light);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .feature-item strong {
+        font-family: 'Cinzel', serif;
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--shadow-color-medium);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .feature-item p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+	
+    /* Considering adding filtering for element and name previews like in the main site. It's on the list. */
+    .search-container-arcana {
+        margin-bottom: 1.5rem;
+    }
+
+    #arcanaSearchInput {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 1rem;
+        font-family: 'Crimson Text', serif;
+        color: #fff;
+        background-color: rgba(20, 20, 20, 0.7);
+        border: 1px solid var(--shadow-color-light);
+        border-radius: 8px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    #arcanaSearchInput::placeholder {
+        color: #888;
+    }
+
+    #arcanaSearchInput:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 10px var(--shadow-color-medium);
+    }
+    .confidant-grid-card {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        border: 3px solid transparent;
+        text-align: center;
+        padding: 0.5rem 0.5rem 0.25rem;
+    }
+
+    .confidant-grid-card:hover { transform: translateY(-5px); border-color: var(--shadow-color-medium); }
+    .confidant-grid-card:active { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+
+    .confidant-grid-icon {
+        width: 100%;
+        height: 140px;
+        margin-bottom: 0.25rem;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 10px;
+    }
+
+    .confidant-grid-name {
+        font-family: 'Cinzel', serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .modal {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal.show { display: flex; opacity: 1; }
+
+    .modal-content {
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+        border: 2px solid var(--primary-color);
+        border-radius: 20px;
+        max-width: 95%;
+        max-height: 90vh;
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 50px var(--shadow-color-light);
+        backdrop-filter: blur(10px);
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 2px solid var(--primary-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        font-family: 'Cinzel', serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .close-btn {
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .close-btn:hover { background: var(--primary-color-dark); }
+
+    .modal-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .tabs { display: flex; flex-wrap: wrap; border-bottom: 2px solid var(--primary-color); background: rgba(20, 20, 20, 0.3); }
+
+    .tab {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: #ccc;
+        font-family: 'Cinzel', serif;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .tab:hover { color: var(--primary-color); }
+    .tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+
+    .tab-content-container { flex: 1; overflow-y: auto; padding: 1.5rem; }
+    .tab-content-container .tab-content {
+        display: none;
+    }
+    .tab-content-container .tab-content.active {
+        display: block;
+    }
+    .confidant-table { font-size: 0.9rem; width: 100%; border-collapse: collapse; }
+    .confidant-table th, .confidant-table td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--shadow-color-light); }
+
+#quick-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#quick-nav-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.quick-nav-content {
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.quick-nav-header {
+    margin-bottom: 3rem;
+}
+
+.quick-nav-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.quick-nav-header p {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+.quick-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .quick-nav-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.quick-nav-card {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--shadow-color-light);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.quick-nav-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px var(--shadow-color-medium);
+    border-color: var(--primary-color);
+}
+
+.quick-nav-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quick-nav-card:hover .quick-nav-card-bg {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.quick-nav-card-name {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+}
+
+
+    @media (max-width: 768px) {
+        body { 
+            padding-top: 70px; 
+        }
+        
+        .header { 
+            padding: 0.5rem 1rem; 
+        }
+        .header-text h1, .header h1 { 
+            font-size: 1.2rem; 
+        }
+        .header-text p, .header p { 
+            font-size: 0.7rem; 
+        }
+
+.site-wrapper {
+    max-width: 1300px;
+    padding: 1rem 1.5rem 1.5rem;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+        .side-nav {
+            position: static;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            align-self: initial;
+        }
+        
+        .guide-card {
+            width: auto;
+            padding: 0.5rem;
+        }
+
+        .guide-card-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.25rem;
+        }
+
+        .guide-card-name {
+            font-size: 0.75rem;
+        }
+
+        .guide-content-panel { 
+            padding: 1rem; 
+        }
+
+        .guide-content-panel h1 { font-size: 1.6rem; }
+        .guide-content-panel h2 { font-size: 1.3rem; }
+        .guide-content-panel h3 { font-size: 1.1rem; }
+        p, li, .confidant-notes { font-size: 0.9rem; }
+
+        .arcana-grid { 
+            grid-template-columns: 1fr; 
+            gap: 1rem; 
+        }
+
+        .arcana-tabs { 
+            flex-wrap: wrap; 
+            justify-content: center; 
+        }
+        .arcana-tab { 
+            font-size: 1rem; 
+            padding: 0.8rem; 
+        }
+
+        .confidant-grid-container { 
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.75rem; 
+        }
+        .confidant-grid-name { 
+            font-size: 0.9rem; 
+        }
+       .feature-grid {
+            grid-template-columns: 1fr;
+        }
+		
+        .modal-content { 
+            width: 95vw; 
+            max-height: 85vh; 
+        }
+        .modal-header { 
+            padding: 0.75rem 1rem; 
+        }
+        .modal-title { 
+            font-size: 1.1rem; 
+        }
+        .tabs { 
+            justify-content: center; 
+        }
+        .tab { 
+            padding: 0.75rem; 
+            font-size: 0.8rem; 
+        }
+        .tab-content-container { 
+            padding: 1rem; 
+        }
+        .confidant-table th, .confidant-table td { 
+            padding: 0.5rem; 
+            font-size: 0.85rem; 
+            word-break: break-word;
+        }
+    }
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--gradient-primary), rgba(15, 15, 15, 0.95));
+    box-shadow: 0 4px 20px var(--shadow-color-light);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.menu-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    padding: 0;
+    z-index: 1100;
+    flex-shrink: 0;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.collapsible-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: #1a1a1a url('https://cdn.imgchest.com/files/p7bwcnq5gq7.png') no-repeat center center;
+    background-size: cover;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid var(--primary-color);
+}
+
+.collapsible-sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(0,0,0,0.5);
+    border-bottom: 1px solid var(--shadow-color-medium);
+}
+
+.sidebar-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.sidebar-nav .guide-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    aspect-ratio: auto;
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+}
+
+.sidebar-nav .guide-card-icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 0;
+}
+
+.sidebar-nav .guide-card-name {
+    font-size: 1.1rem;
+    text-align: left;
+}
+
+.main-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.main-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.sidebar-open .site-wrapper {
+    margin-left: 280px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    /* Not as much CSS as the character site, which may change later. */
+    body.sidebar-open .site-wrapper {
+        margin-left: 0;
+    }
+    
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+.quick-nav-card::after,
+.sidebar-nav .guide-card::after,
+.sidebar-nav a.guide-card::after {
+    content: attr(data-preview);
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: 'Crimson Text', serif;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none; /* It's pronounced Rules Card */
+}
+
+.quick-nav-card:hover::after,
+.sidebar-nav .guide-card:hover::after,
+.sidebar-nav a.guide-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: 10px;
+}
+
+.sidebar-nav .guide-card:hover::after,
+.sidebar-nav a.guide-card:hover::after {
+    bottom: auto;
+    top: 105%;
+    left: 50%;
+}
+
+</style>
+
+</head>
+    <div class="background"></div>
+    
+<header class="header">
+    <!-- The text now comes FIRST -->
+    <div class="header-text">
+        <h1>P5X Guides & Terms</h1>
+        <p>A collection of gameplay mechanics and systems.</p>
+    </div>
+    <!-- And then I came SECOND -->
+    <button id="menu-toggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<div id="quick-nav-overlay">
+<div class="quick-nav-grid">
+    <div class="quick-nav-card" data-target="guide-gameplay" data-preview="Beginner's guide">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4gdcx3vrow4.png');"></div>
+        <div class="quick-nav-card-name">Gameplay</div>
+    </div>
+    <div class="quick-nav-card" data-target="guide-arcana" data-preview="Revelation/Universe Arcana cards">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlmd4.png');"></div>
+        <div class="quick-nav-card-name">Arcana</div>
+    </div>
+    <div class="quick-nav-card" data-target="guide-gacha" data-preview="breakdown of the gacha system">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+        <div class="quick-nav-card-name">Gacha System</div>
+    </div>
+    <div class="quick-nav-card" data-target="guide-confidants" data-preview="confidants,rank-up choices,and gifts">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+        <div class="quick-nav-card-name">Confidants</div>
+    </div>
+    <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units and builds">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+        <div class="quick-nav-card-name">Units</div>
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+
+<nav id="collapsible-sidebar" class="collapsible-sidebar">
+<nav class="sidebar-nav">
+    <div class="guide-card" data-target="guide-gameplay" data-preview="Beginner's guide">
+        <img src="https://cdn.imgchest.com/files/4gdcx3vrow4.png" alt="Gameplay Guide Icon" class="guide-card-icon">
+        <div class="guide-card-name">Gameplay</div>
+    </div>
+    <div class="guide-card" data-target="guide-arcana" data-preview="Revelation and Universe Arcana cards">
+        <img src="https://cdn.imgchest.com/files/yd5ce5zlmd4.png" alt="Arcana Guide Icon" class="guide-card-icon">
+        <div class="guide-card-name">Arcana</div>
+    </div>
+     <div class="guide-card" data-target="guide-gacha" data-preview="breakdown of the gacha system">
+        <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Gacha System Icon" class="guide-card-icon">
+        <div class="guide-card-name">Gacha System</div>
+    </div>
+    <div class="guide-card" data-target="guide-confidants" data-preview="confidants,rank-up choices,and gifts">
+        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Confidants Guide Icon" class="guide-card-icon">
+        <div class="guide-card-name">Confidants</div>
+    </div>
+    <a href="https://mcburnr.github.io/p5xunits.html" class="guide-card" data-preview="Browse all playable units, their skills, and builds">
+        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Units Guide Icon" class="guide-card-icon">
+        <div class="guide-card-name">Units</div>
+    </a>
+</nav>
+</nav>
+
+<div id="main-overlay" class="main-overlay"></div>
+
+    <div class="site-wrapper">
+        <main class="main-content-area">
+            <div class="guide-content-container">
+            
+            
+ <section class="guide-content-panel" id="guide-gameplay">
+                <h1>Persona 5: The Phantom X Beginner’s Guide</h1>
+                <div class="guide-credits">
+                    <p>Written by <strong>Tenacity</strong></p>
+                    <p>Contributors: Chozo, RedHarv, UnnamedRando, l0kii_</p>
+                    <p><em>Items marked with a * are not yet available in EN/JP/SEA.</em></p>
+                </div>
+
+                <div class="accordion-container">
+                    <!-- FAQ -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">FAQs & Must-Know Tips</h2>
+                        <div class="accordion-content">
+                            <h3>FAQ</h3>
+                            <ul>
+                                <li><strong>What’s a good Tier List?</strong> - Generally, Tier Lists do not portray a character’s actual performance well in P5X. It is not recommended to rely solely on them to gauge performance or decide who to pull for.</li>
+                                <li><strong>What should I spend my Meta Jewels on?</strong> - Generally, only spend Meta Jewels on Platinum Tickets and Milicoins.</li>
+                                <li><strong>What are the endgame modes?</strong> - Sea of Souls Trials, Doors of Nightmare, and Astrolabe Trials*.</li>
+                                <li><strong>How does the gacha work?</strong> - For character banners, you choose between Fated Bond (80-pity, 50/50 chance) and Exclusive Bond* (110-pity, guaranteed).</li>
+                                <li><strong>How does teambuilding work?</strong> - A standard team consists of 1 DPS, Wonder (support role), a primary support, a secondary support or sustain, and a navigator.</li>
+                            </ul>
+                            <h3>Gameplay Tips</h3>
+                            <ul>
+                                <li>Always do your dailies and finish limited-time events to maximize rewards.</li>
+                                <li>Use Lufel’s Business Plan to familiarize yourself with the game and earn extra rewards.</li>
+                                <li>Turn off "Auto-Select 1 More Target" in Battle Settings for better tactical control.</li>
+                                <li>Prioritize monthly shop resets for Platinum/Gold Tickets, Meta Jewels, and Universe Cards.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- General -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">General Progression
+						<img src="https://cdn.imgchest.com/files/7bwckdnmax7.png" alt="" class="accordion-icon">
+						</h2>
+                        <div class="accordion-content">
+                            <h3>Wonder Level & Superego Level</h3>
+                            <p>Wonder (the protagonist) gains EXP from quests and spending Stamina. His level dictates the max level for all other characters. After reaching level 80, Wonder can gain Superego Levels (S-LVL) for additional core stat buffs.</p>
+                            <h3>Characters, Skills & Weapons</h3>
+                            <p>Characters are leveled up using materials and require a "breakthrough" every 10 levels. Weapon levels are shared between all of a character's weapons, so don't hesitate to level up 4-star versions.</p>
+                            <h3>Character Classes</h3>
+                            <div class="feature-grid">
+                                <div class="feature-item"><strong>Sweeper:</strong> Deals with groups of foes through multi-target attacks.</div>
+                                <div class="feature-item"><strong>Assassin:</strong> Takes down single enemies with targeted attacks.</div>
+                                <div class="feature-item"><strong>Strategist:</strong> Buffs allies' stats to improve their combat abilities.</div>
+                                <div class="feature-item"><strong>Saboteur:</strong> Debuffs foes' stats to give the party the upper hand.</div>
+                                <div class="feature-item"><strong>Medic:</strong> Specializes in healing skills that restore the party's HP.</div>
+                                <div class="feature-item"><strong>Guardian:</strong> Protects allies and increases the party's defense.</div>
+                                <div class="feature-item"><strong>Elucidator:</strong> Helps allies from off-field with buffs and support skills. Navigators share a % of their stats with the team.</div>
+                            </div>
+                            <h3>Awareness and Forge (Reform)</h3>
+                            <p><strong>Awareness (A):</strong> Getting character duplicates increases their Awareness (up to A6), granting new effects, stats, or skill levels.</p>
+                            <p><strong>Reform (R):</strong> Getting weapon duplicates increases their Reform level (up to R6), upgrading the weapon's existing effect multipliers.</p>
+                            <h3>Revelation Cards & Mental Image*</h3>
+                            <p><strong>Revelation Cards:</strong> P5X’s gear system. Equipping 2 or 4 cards from the same set grants powerful bonuses. Mixing sets is not recommended.</p>
+                            <p><strong>Mental Image*:</strong> An advanced upgrade system unlocked at Wonder Level 70, allowing further upgrades to character stats and skills.</p>
+                        </div>
+                    </div>
+
+                    <!-- Wonder -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">Wonder & Personas</h2>
+                        <div class="accordion-content">
+                            <h3>Wonder's Schema & Daggers</h3>
+                            <p>Instead of Revelation Cards, Wonder has a unique skill tree called the Schema, which is upgraded using Inspiration Points. He also uses unique daggers that can be obtained without gacha. Prioritize obtaining "All In" and "Ex Machina*" from Palace exploration.</p>
+                            <h3>Personas: Obtaining & Inheritance</h3>
+                            <p>Personas are mainly obtained through fusion and the Persona shop. It's most efficient to farm each Persona once from their stage, then purchase subsequent copies from the shop. Skills can be inherited either randomly from other Personas or guaranteed via Skill Cards.</p>
+                        </div>
+                    </div>
+
+                    <!-- Team -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">Teambuilding & Exploration</h2>
+                        <div class="accordion-content">
+                            <h3>Teambuilding</h3>
+                            <p>A typical team consists of a DPS, a support, a second support or sustain, Wonder, and a Navigator. Wonder will almost always be your flex role, but almost always provides more benefit by helping the buffer/debuffer role.</p>
+                            <h3>Exploration: Palaces & Mementos</h3>
+                            <p>Palaces do not disappear after completion, so explore them thoroughly for rewards like Meta Jewels and Wonder's daggers. Mementos floors have fixed layouts and also offer unique rewards.</p>
+                            <h3>Business Plan</h3>
+                            <p>Lufel’s Business Plan is a new-player guide with huge rewards, including a free 5-star character and weapon of your choice from the initial trio (Mona, Panther, Skull).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Daily -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">Daily Activities</h2>
+                        <div class="accordion-content">
+                            <h3>City Activities & Social Stats</h3>
+                            <p>Spend daily energy on activities like part-time jobs and hanging out with Synergies (Confidants) to raise your five social stats: Knowledge, Guts, Proficiency, Kindness, and Charm. These are required to advance Synergy ranks.</p>
+                            <h3>Synergies (Confidants)</h3>
+                            <p>Synergies grant social/currency perks rather than combat buffs. You can give them gifts to increase Fondness faster. Prioritize these Synergies:</p>
+                            <ul>
+                                <li><strong>Merope:</strong> Unlocks more Persona fusions.</li>
+                                <li><strong>Tomoko:</strong> Unlocks more part-time jobs and increases social stat gains.</li>
+                                <li><strong>Miyu*:</strong> Increases Fondness gain with all Synergies.</li>
+                                <li><strong>Riko*:</strong> Unlocks more hangout spots.</li>
+                                <li><strong>Kiyoshi*:</strong> Provides books that grant extra social stats and perks.</li>
+                            </ul>
+                             <h3>Metaverse Farming Stages</h3>
+                            <p>Spend Stamina to farm materials. Early on, focus on upgrade materials. At Wonder Level 60, switch to farming Revelation Cards, as you are guaranteed gold-rarity drops.</p>
+                        </div>
+                    </div>
+
+                    <!-- Currencies -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">Important Currencies & Items</h2>
+                        <div class="accordion-content">
+                             <h3>Important Currencies</h3>
+                             <table class="guide-table">
+                                <thead><tr><th>Currency</th><th>Description</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>Meta Jewels</strong></td><td>The main gacha currency.</td></tr>
+                                    <tr><td><strong>Gold/Platinum Tickets</strong></td><td>Used for Standard/Limited character banners.</td></tr>
+                                    <tr><td><strong>Platinum Milicoin</strong></td><td>Used for Weapon banners.</td></tr>
+                                    <tr><td><strong>Fated Echoes</strong></td><td>Used to buy Wonder’s Daggers in the Destinyland Shop.</td></tr>
+                                    <tr><td><strong>Stardust</strong></td><td>Used in the Velvet shop for Dagger dupes.</td></tr>
+                                    <tr><td><strong>Carnival Coin</strong></td><td>Used in the Carpe Diem shop for Universe Cards.</td></tr>
+                                    <tr><td><strong>Salamander/Gecko Coins</strong></td><td>Used to purchase 5-star/4-star weapons from Iwai’s shop.</td></tr>
+                                </tbody>
+                             </table>
+                             <h3>Important Items</h3>
+                             <table class="guide-table">
+                                <thead><tr><th>Item</th><th>Description</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>Thief Compendium / Iris Perfume</strong></td><td>Character EXP / Ascension materials.</td></tr>
+                                    <tr><td><strong>Parts / Weapon Crystals</strong></td><td>Weapon EXP / Ascension materials.</td></tr>
+                                    <tr><td><strong>Persona Cube / Skill Incense</strong></td><td>Persona EXP / Skill Upgrade materials.</td></tr>
+                                    <tr><td><strong>MaraThon Energy / Coffee Aid</strong></td><td>Restores City Energy / Metaverse Stamina.</td></tr>
+                                    <tr><td><strong>Awareness Gift Box / Shard</strong></td><td>Provides a duplicate or progress towards one for a standard character.</td></tr>
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+
+                    <!-- Gacha & Game Modes -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-trigger">Gacha & Game Modes</h2>
+                        <div class="accordion-content">
+                            <h3>The Gacha System</h3>
+                            <p>P5X uses a pity system. Limited character banners offer a choice between "Fated Bond" (80 pity, 50/50 chance) and "Exclusive Bond*" (110 pity, guaranteed). Weapon banners have a 70 pity with a 50/50 system. It's generally not recommended to pull for characters who will later be added to the standard banner.</p>
+                            <h3>Permanent and Recurring Events</h3>
+                            <ul>
+                                <li><strong>Crossing Fates:</strong> Permanent story collaboration chapters. Clear them when they release to get all limited-time rewards.</li>
+                                <li><strong>Character Stories:</strong> Released with new 5-star characters, offering rewards and a temporary stamina-based farm. Unlock them when available to gain permanent access.</li>
+                                <li><strong>Writing Fate:</strong> A recurring event that allows you to craft two custom Revelation Cards. This is extremely valuable.</li>
+                            </ul>
+                            <h3>Endgame Modes</h3>
+                            <p>The endgame meta revolves around seasonal modes with rotating bosses and environmental effects, rewarding a wide roster of built characters.</p>
+                            <ul>
+                                <li><strong>Sea of Souls (SOS) Trials:</strong> A seasonal competitive mode where you score points against two bosses.</li>
+                                <li><strong>Nightmare’s Gateway:</strong> A seasonal guild (Companio) raid mode where you fight up to 3 bosses, requiring multiple teams.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+			
+			
+            <section class="guide-content-panel" id="guide-arcana">
+                <h2>Arcana Cards</h2>
+                <p class="guide-credits">Guide by: UnnamedRando</p>
+				<div class="search-container-arcana">
+                    <input type="text" id="arcanaSearchInput" placeholder="Search for cards by name or effect..." autocomplete="off">
+                </div>
+                <div class="arcana-tabs">
+                    <button class="arcana-tab active" data-tab="revelation">Revelation Cards</button>
+                    <button class="arcana-tab" data-tab="universe">Universe Cards</button>
+                </div>
+                    <!-- Ok I did cheat a little here and use CTRL + V an unholy amount of times -->
+                <div class="arcana-tab-content active" id="arcana-content-revelation">
+                    <h3>Revelation Cards</h3>
+                    <div class="arcana-grid">
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7ogcbkr86oy.png" alt="Control" class="arcana-card-image"><div class="arcana-card-title">Control</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> HP increased by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When using skills to attack an enemy, it will cause additional damage of <span class="highlight-number">8%</span> of its own health to the main target.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/y2pcko39eb7.png" alt="Courage" class="arcana-card-image"><div class="arcana-card-title">Courage</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Physical damage increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Crit DMG is increased by <span class="highlight-number">30%</span>, lasting for <span class="highlight-number">2</span> rounds; the same effect will be obtained again after causing a critical hit.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7lxcpdjg5o7.png" alt="Defeat" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Defeat</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increases Effect Hit Rate by <span class="highlight-number">15%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increases fire damage to enemies affected by ailments by <span class="highlight-number">20%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yq9c3eb5w34.png" alt="Despair" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Despair</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase ATK by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When dealing Persona skill damage, increase the current Persona skill damage by <span class="highlight-number">25%</span> if your last Persona skill damage was a different element.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yrgcnzbkp84.png" alt="Fixation" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Fixation</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase ATK by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase ATK by <span class="highlight-number">25%</span> for <span class="highlight-number">3</span> turns; Gain this effect again when you use Theurgy.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7mmc9rqwdg7.png" alt="Futility" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Futility</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase ATK by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase EHR by <span class="highlight-number">30%</span> for <span class="highlight-number">2</span> turns; Gain this effect again when you deal TECHNICAL.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/739cx6bn2n7.png" alt="Labor" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Labor</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase HP by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When equipped by Navigator Thieves: Increase all allies' HP, ATK and DEF by <span class="highlight-number">8%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7w6c2v6ma6y.png" alt="Love" class="arcana-card-image"><div class="arcana-card-title">Love</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> The healing effect is increased by <span class="highlight-number">9%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When treating a party member whose health value is not higher than <span class="highlight-number">50%</span>, the healing effect will be increased by <span class="highlight-number">23%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/ye3c2dwp9j4.png" alt="Oppression" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Oppression</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase Physical DMG by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Gain [Resentment] after every hit of skill damage: Increase ATK by <span class="highlight-number">5%</span> for <span class="highlight-number">2</span> turn up to <span class="highlight-number">6</span> stacks.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4z9cvwj86m7.png" alt="Opulence" class="arcana-card-image"><div class="arcana-card-title">Opulence</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Ice DMG increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Follow-up attack damage is increased by <span class="highlight-number">40%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4gdcxpwv654.png" alt="Peace" class="arcana-card-image"><div class="arcana-card-title">Peace</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Defense increased by <span class="highlight-number">20%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Shield effect increased by <span class="highlight-number">18%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/y8xcnkvljm4.png" alt="Pleasure" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Pleasure</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase Psy DMG by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase ATK by <span class="highlight-number">15%</span> when dealing Psy damage. Additionally increase ATK by <span class="highlight-number">15%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/45xcv9pkrw7.png" alt="Power" class="arcana-card-image"><div class="arcana-card-title">Power</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Own attack increased by <span class="highlight-number">12%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase own attack by <span class="highlight-number">10%</span> every <span class="highlight-number">6</span> turns (Enemies and allies turn count for this effect), can be stacked <span class="highlight-number">3</span> times.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4apc53qdeb4.png" alt="Prosperity" class="arcana-card-image"><div class="arcana-card-title">Prosperity</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Reduces incoming DMG by <span class="highlight-number">8%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When entering battle immediately recovers <span class="highlight-number">25%</span> of HIGHLIGHT charge, doesn't stack.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/46acqb8a2b7.png" alt="Prudence" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Prudence</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Decrease SPD by <span class="highlight-number">3</span>, Increase ATK by <span class="highlight-number">18%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase DMG Dealt by <span class="highlight-number">16%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yvdcwdzb5ny.png" alt="Reconciliation" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Reconciliation</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increases Speed by <span class="highlight-number">6</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> During combat your HP, ATK, DEF increase by <span class="highlight-number">15%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yxkczgvj6k7.png" alt="Renewal" class="arcana-card-image"><div class="arcana-card-title">Renewal</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Electric damage increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> After any party member uses electric skills, the user's own electric damage will be increased by <span class="highlight-number">9%</span>, up to <span class="highlight-number">3</span> stacks.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/49zc2begq3y.png" alt="Ruin" class="arcana-card-image"><div class="arcana-card-title">Ruin</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Curse damage increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase skill damage to enemies with debuffs by <span class="highlight-number">20%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4nec8mbwpp4.png" alt="Strife" class="arcana-card-image"><div class="arcana-card-title">Strife</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Fire damage increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Attack increased by <span class="highlight-number">15%</span>. If the enemy is weak to fire, the attack will be increased by an additional <span class="highlight-number">15%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7bwckd3gzl7.png" alt="Success" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Success</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increases Crit Rate by <span class="highlight-number">7.5%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Follow Up Attack Damage is increased by <span class="highlight-number">40%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7kzcab9ejr7.png" alt="Truth" class="arcana-card-image"><div class="arcana-card-title">Truth</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase Nuke DMG by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Deal <span class="highlight-number">30%</span> ATK damage to the main target if the enemy is inflicted with Elemental Ailments.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/y2pcko39gb7.png" alt="Victory" class="arcana-card-image"><div class="arcana-card-title">Victory</div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Wind damage increased by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Each attack has a <span class="highlight-number">25%</span> fixed probability of causing additional damage equal to <span class="highlight-number">20%</span> of your own attack.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7lxcpdjgqo7.png" alt="Virtue" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Virtue</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increase Bless DMG by <span class="highlight-number">10%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> Increase Bless skill CRIT by <span class="highlight-number">12%</span> when your HP% is not less than <span class="highlight-number">50%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4jdcvj2wox4.png" alt="Worry" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Worry</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>2-Set:</strong> Increases SP Recovery by <span class="highlight-number">80%</span>.</div><div class="arcana-card-effect"><strong>4-Set:</strong> When entering battle immediately recovers <span class="highlight-number">25%</span> of HIGHLIGHT charge, doesn't stack.</div></div>
+                    </div>
+                </div>
+
+                <div class="arcana-tab-content" id="arcana-content-universe">
+                    <h3>Universe Cards</h3>
+                    <div class="arcana-grid">
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7pjcqwbbdg7.png" alt="Acceptance" class="arcana-card-image"><div class="arcana-card-title">Acceptance</div></div><div class="arcana-card-effect"><strong>Peace:</strong> Increase DEF by <span class="highlight-number">40%</span> for <span class="highlight-number">2</span> turns when attacked.</div><div class="arcana-card-effect"><strong>Strife:</strong> Each enemy on field increases your attack by <span class="highlight-number">8%</span>, up to <span class="highlight-number">40%</span>.</div><div class="arcana-card-effect"><strong>Love:</strong> Increase ATK by <span class="highlight-number">25%</span> when using Healing skills.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7bwckd33em7.png" alt="Awareness" class="arcana-card-image"><div class="arcana-card-title">Awareness</div></div><div class="arcana-card-effect"><strong>Truth:</strong> Increase DMG Dealt by <span class="highlight-number">12%</span> when attacking enemies inflicted with Elemental Ailments, up to <span class="highlight-number">2</span> stacks.</div><div class="arcana-card-effect"><strong>Control:</strong> Increase all allies' Fire DMG by <span class="highlight-number">6%</span> for <span class="highlight-number">2</span> turns when you inflict Burn.</div><div class="arcana-card-effect"><strong>Ruin:</strong> Increase ATK by <span class="highlight-number">9%</span> after every hit of damage to enemy with debuffs for <span class="highlight-number">1</span> turn, up to <span class="highlight-number">3</span> stacks.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7kzcab99wl7.png" alt="Creation" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Creation</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Worry:</strong> Increases CRIT DMG by <span class="highlight-number">15%</span>/<span class="highlight-number">30%</span>/<span class="highlight-number">45%</span> when you have <span class="highlight-number">100%</span>/<span class="highlight-number">150%</span>/<span class="highlight-number">200%</span> SP Recovery</div><div class="arcana-card-effect"><strong>Reconciliation:</strong> At the start of battle, increases the DMG Dealt of the ally with the lowest SPD by <span class="highlight-number">12%</span>, doesn't stack</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/7ogcbkrrw9y.png" alt="Departure" class="arcana-card-image"><div class="arcana-card-title">Departure</div></div><div class="arcana-card-effect"><strong>Control:</strong> Decrease main target's DEF by <span class="highlight-number">23%</span> for <span class="highlight-number">2</span> turns after attacking them with a skill.</div><div class="arcana-card-effect"><strong>Prosperity:</strong> Increase all allies' DMG Dealt by <span class="highlight-number">8%</span> for <span class="highlight-number">1</span> turn when attacking enemies.</div><div class="arcana-card-effect"><strong>Ruin:</strong> Increase ATK by <span class="highlight-number">30%</span> for <span class="highlight-number">3</span> turns after defeating an enemy.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4nec8mbbnx4.png" alt="Faith" class="arcana-card-image"><div class="arcana-card-title">Faith</div></div><div class="arcana-card-effect"><strong>Peace:</strong> After granting Shield, increase the target's DEF by <span class="highlight-number">7%</span> for <span class="highlight-number">2</span> turns up to <span class="highlight-number">3</span> stacks.</div><div class="arcana-card-effect"><strong>Love:</strong> Increase Healing Effect by <span class="highlight-number">1%</span> for every <span class="highlight-number">800</span> HP you have, up to <span class="highlight-number">20%</span>.</div><div class="arcana-card-effect"><strong>Futility:</strong> Increase all Thieves' DMG Dealt to enemies under TECHNICAL Ailment by <span class="highlight-number">10%</span>, can't be triggered again.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/49zc2bee9qy.png" alt="Freedom" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Freedom</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Success:</strong> Gain <span class="highlight-number">1</span> [Glory] when using a persona skill, up to <span class="highlight-number">2</span> stacks. When triggering a Follow Up, consumes all [Glory] to increase that Follow Up's PEN by <span class="highlight-number">8%</span> per stack.</div><div class="arcana-card-effect"><strong>Defeat:</strong> Increases all allies' DMG Dealt to enemies with debuffs by <span class="highlight-number">8%</span>, doesn't stack</div><div class="arcana-card-effect"><strong>Despair:</strong> When dealing Almighty damage, increase ATK by <span class="highlight-number">35%</span> and CRIT Rate by <span class="highlight-number">12%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yxkczgvvkw7.png" alt="Growth" class="arcana-card-image"><div class="arcana-card-title">Growth</div></div><div class="arcana-card-effect"><strong>Opulence:</strong> Increase Ice DMG Bonus by <span class="highlight-number">10%</span> for <span class="highlight-number">2</span> turns when triggering Follow Up, up to <span class="highlight-number">3</span> stacks.</div><div class="arcana-card-effect"><strong>Renewal:</strong> Increase Follow Up CRIT DMG by <span class="highlight-number">50%</span>.</div><div class="arcana-card-effect"><strong>Power:</strong> Increase the cap of the ATK buff up to <span class="highlight-number">5</span> stacks.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/yvdcwdzzggy.png" alt="Harmony" class="arcana-card-image"><div class="arcana-card-title">Harmony</div></div><div class="arcana-card-effect"><strong>Victory:</strong> Increase the target's DMG Taken by <span class="highlight-number">12%</span> for <span class="highlight-number">2</span> turns when triggering the effect of the Revelation card's buff.</div><div class="arcana-card-effect"><strong>Power:</strong> Increase DMG Bonus by <span class="highlight-number">10%</span> for all allies with the same element, can't be triggered again.</div><div class="arcana-card-effect"><strong>Truth:</strong> Increase all allies' Nuke DMG by <span class="highlight-number">5%</span> for <span class="highlight-number">2</span> turns when inflicting Elemental Ailments, each stack is counted independently.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/46acqb883g7.png" alt="Hope" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Hope</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Fixation:</strong> When dealing <span class="highlight-number">1</span> hit of skill damage, increase own Fire DMG by <span class="highlight-number">3%</span> for <span class="highlight-number">3</span> turns, up to <span class="highlight-number">8</span> stacks; When reaching <span class="highlight-number">8</span> stacks, additionally increase own CRIT Rate by <span class="highlight-number">6%</span>.</div><div class="arcana-card-effect"><strong>Labor:</strong> When equipped by Elucidate Thieves: When using a skill on allies, increase the skill target's PEN by <span class="highlight-number">5%</span> for <span class="highlight-number">1</span> turn.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4apc53qqw34.png" alt="Integrity" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Integrity</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Pleasure:</strong> Increase DMG Bonus up to <span class="highlight-number">30%</span> based on <span class="highlight-number">80%</span> of your Healing Bonus.</div><div class="arcana-card-effect"><strong>Labor:</strong> When equipped by Navigator Thieves: Increase all allies' HP, ATK and DEF by an additional <span class="highlight-number">2%</span> with each ally with the same element.</div><div class="arcana-card-effect"><strong>Fixation:</strong> After using Theurgy, increase all Thieves' DMG Dealt by <span class="highlight-number">10%</span> for <span class="highlight-number">3</span> turns.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/45xcv9ppqe7.png" alt="Meditation" class="arcana-card-image"><div class="arcana-card-title">Meditation</div></div><div class="arcana-card-effect"><strong>Opulence:</strong> Increase Follow Up CRIT DMG by <span class="highlight-number">50%</span>.</div><div class="arcana-card-effect"><strong>Courage:</strong> Increase Physical and Electric DMG by <span class="highlight-number">12%</span>. Increase the effect to <span class="highlight-number">24%</span> when there's only <span class="highlight-number">1</span> enemy.</div><div class="arcana-card-effect"><strong>Love:</strong> Increase Healing Effect by <span class="highlight-number">28%</span> for <span class="highlight-number">2</span> turns after landing a Crit.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/4gdcxpwwoe4.png" alt="Resolve" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Resolve</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Virtue:</strong> Increase DMG Bonus by <span class="highlight-number">10%</span>/<span class="highlight-number">20%</span>/<span class="highlight-number">30%</span> when you reached <span class="highlight-number">6000</span>/<span class="highlight-number">9000</span>/<span class="highlight-number">12000</span> HP.</div><div class="arcana-card-effect"><strong>Labor:</strong> When equipped by Navigator Thieves: Decrease the main target's DEF by <span class="highlight-number">10%</span> for <span class="highlight-number">2</span> turns when inflicting debuffs.</div><div class="arcana-card-effect"><strong>Prudence:</strong> At the start of battle, if your SPD is at the <span class="highlight-number">3rd</span>/<span class="highlight-number">4th</span> slot, then additionally increase own ATK by <span class="highlight-number">24%</span>/<span class="highlight-number">30%</span>.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/ye3c2dww8l4.png" alt="Trust" class="arcana-card-image"><div class="arcana-card-title">Trust</div></div><div class="arcana-card-effect"><strong>Renewal:</strong> Increase all allies' Electric DMG by <span class="highlight-number">12%</span> when the Electric DMG buff effect reached <span class="highlight-number">3</span> stacks, can't be triggered again</div><div class="arcana-card-effect"><strong>Power:</strong> When the battle starts, increase the attack of other party members by <span class="highlight-number">10%</span> and cannot be triggered repeatedly.</div><div class="arcana-card-effect"><strong>Prosperity:</strong> When using skills on allies, the damage of all party members will be increased by <span class="highlight-number">8%</span> for <span class="highlight-number">2</span> rounds.</div></div>
+                        <div class="arcana-card"><div class="arcana-card-header"><img src="https://cdn.imgchest.com/files/739cx6bbgb7.png" alt="Wisdom" class="arcana-card-image"><div class="arcana-card-title-wrapper"><div class="arcana-card-title">Wisdom</div><span class="global-note">Not on Global</span></div></div><div class="arcana-card-effect"><strong>Oppression:</strong> Increase Physical DMG and Effect Hit Rate by <span class="highlight-number">20%</span> when [Resentment] is not less than <span class="highlight-number">5</span> stacks.</div><div class="arcana-card-effect"><strong>Pleasure:</strong> Increase DMG Bonus up to <span class="highlight-number">30%</span> based on <span class="highlight-number">50%</span> of your Effect Hit Rate.</div><div class="arcana-card-effect"><strong>Virtue:</strong> When using HIGHLIGHT, increases ATK by <span class="highlight-number">30%</span> and DMG Dealt by <span class="highlight-number">25%</span>.</div></div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+
+
+            
+            <section class="guide-content-panel" id="guide-gacha">
+                <!-- Gacha System -->
+                <h2>Gacha System</h2>
+                <p class="guide-credits">Guide by: Tenacity & UnnamedRando</p>
+                
+                <h3>Overview on the System</h3>
+                <p>This game runs on a gacha system, which is similar to gachapon machines or crane games where you put in coins in hope for a toy. This “machine” is called a banner. Different banners may have different pools of prizes (Weapons, characters, Personas) and slightly different mechanics. Every time you pull on a banner, there is a low chance that you will get a 5-star. This is the main method to obtain characters and high-tier weapons.</p>
+
+                <h4>Rarity</h4>
+                <p>Rarity is indicated by the number of stars a character/Persona/weapon has. A character is always either 4 or 5 stars. 4-stars are associated with the color yellow, while 5-stars are associated with purple. Weapons and Personas can range from 2–5 stars.</p>
+
+                <h4>Metaverse Ambers and Pulling Currency</h4>
+                <p>To pull on banners, you need Ambers. Ambers are used to buy gold and purple tickets (for character-related banners) and weapon coins (for weapon banners). A gold and purple ticket both cost 150 Ambers each, while a weapon coin costs 100 Ambers. It is strongly advised against spending Ambers on gold tickets, as you get many for free and the banners are permanent. Spending Ambers on purple tickets and weapon coins is better, as they are used on Limited Banners.</p>
+
+                <h4>Pity</h4>
+                <p>The number of times you pull on a banner is tracked, this is called pity. When reaching a certain number (hard pity), you are guaranteed a 5-star. There is a range before hard pity with increased rates, known as soft pity. When a Limited Banner ends, your pity is retained and transferred to the next Limited Banner. For every 10 pulls, you are guaranteed at least one 4-star.</p>
+                
+                <h4>50/50 and the Standard Pool</h4>
+                <p>On some banners, there is a 50/50 system. When you get a 5-star, the game flips a coin to decide if you get the featured limited 5-star or a 5-star from the standard pool. The standard pool includes all released 4-star weapons, characters, their 5-star weapons, and 2-star Personas, plus a specific group of 5-star characters and their weapons. If you lose the 50/50, your next 5-star is guaranteed to be the featured character/weapon.</p>
+
+                <h4>Fated Bond & Exclusive Bond</h4>
+                <p>On limited character banners, you can choose between Exclusive Bond (guaranteed featured character at a higher pity) and Fated Bond (50/50 chance at a lower pity). These do not share a pity count. Choose carefully based on your risk tolerance.</p>
+                
+                <h4>Duplicates</h4>
+                <p>If you get a character/weapon you already own, you can use these duplicates to strengthen them. For characters, this increases their Awareness level, granting new buffs and stats. For weapons, it increases their Reform level, upgrading existing effects.</p>
+
+                <h4>Cognitive Currencies</h4>
+                <p>Pulling also grants Cognitive Afterimages, Sections, and Shards. These can be exchanged for various items in the Cognition Shop.</p>
+
+                <h3>Types of Banners</h3>
+                <ul>
+                    <li><strong>Phantom Thieves of Hearts/Beginner Banner:</strong> Uses gold tickets. Discounted 10-pulls. Get a choice of a 5-star character (Skull, Mona, or Panther) at 50 pulls.</li>
+                    <li><strong>Kadola Starlight Show:</strong> Uses purple tickets. A "Super Rerun" banner available for new players, letting you pick 3 characters from a large pool to pull for.</li>
+                    <li><strong>Kaidol Draft/Standard Banner:</strong> Uses gold tickets. Pull from the standard pool of characters and personas. At 300 pulls, you can choose one of five specific 5-star characters.</li>
+                    <li><strong>Weapon Banner/Silent Tension:</strong> Uses weapon coins. Hard pity at 70. Features a 50/50 system where you can select two standard weapons to potentially get if you lose the 50/50.</li>
+                    <li><strong>Limited Banner:</strong> Uses purple tickets. Features a limited 5-star character who won't be available again until a rerun.</li>
+                    <li><strong>YOU ARE MY DESTINY Banner:</strong> Uses purple tickets. Similar to the Starlight Show banner, but the pool of characters may differ. Grants Cognitive Afterimages with each pull.</li>
+                </ul>
+            </section>
+
+            <section class="guide-content-panel" id="guide-confidants">
+                <h2>Confidants</h2>
+                <div class="confidant-grid-container">
+                    <!-- confidant icons -->
+                </div>
+            </section>
+        </div>
+</div>
+    </main>
+
+    <div class="modal" id="confidantModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="confidantModalTitle"></h2>
+                <button class="close-btn" id="closeConfidantBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs" id="confidantTabsContainer">
+                    <!-- Confidant tabs -->
+                </div>
+                <div class="tab-content-container" id="confidantTabContentContainer">
+                    <!-- Confidant tab content-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const guideCards = document.querySelectorAll('.guide-card');
+            const contentPanels = document.querySelectorAll('.guide-content-panel');
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('collapsible-sidebar');
+const overlay = document.getElementById('main-overlay');
+const quickNavOverlay = document.getElementById('quick-nav-overlay');
+const quickNavCards = document.querySelectorAll('.quick-nav-card');
+
+function selectInitialGuide(targetId) {
+    if (!targetId) return;
+
+    const targetSidebarCard = document.querySelector(`.sidebar-nav .guide-card[data-target="${targetId}"]`);
+    if (targetSidebarCard) {
+        targetSidebarCard.click();
+    }
+
+    quickNavOverlay.classList.add('hidden');
+}
+
+quickNavCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const targetId = card.dataset.target;
+        selectInitialGuide(targetId);
+    });
+});
+
+
+function toggleSidebar() {
+    menuToggle.classList.toggle('open');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+    document.body.classList.toggle('sidebar-open');
+}
+
+menuToggle.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
+sidebar.querySelectorAll('.guide-card').forEach(card => {
+    card.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) {
+            toggleSidebar();
+        }
+    });
+});
+
+
+            guideCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetId = card.dataset.target;
+
+                    guideCards.forEach(c => c.classList.remove('active'));
+                    contentPanels.forEach(p => p.classList.remove('active'));
+
+                    card.classList.add('active');
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+
+            if (guideCards.length > 0) {
+                guideCards[0].click();
+            }
+
+            const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+            accordionTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const parentItem = trigger.parentElement;
+                    parentItem.classList.toggle('active');
+                });
+            });
+			
+
+const confidantData = {
+    "Merope": {
+        "icon": "https://cdn.imgchest.com/files/49zc2bpgvny.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Sports Activity: Basic Training"],
+            ["Rank 2", "Unlocks Trait: Lone Wolf", "Increases membrosia from sports activities by 20%"],
+            ["Rank 3", "Unlocks Sports Activity: Professional Training", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Height of Summer", "Unlocks new story"],
+            ["Rank 5", "Unlocks Sports Activity: Strengthening Training", "Increases stat gains from sports activities by 20%"],
+            ["Rank 6", "Unlocks Trait: Raging Waves", "Unlocks new story"],
+            ["Rank 7", "Unlocks Sports Activity: Hellish Training", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Indomitable", "Reduces cost of sports activities by 20%"],
+            ["Rank 9", "Unlocks Sports Activity: Godly Training", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Endless Summer", "Allows you to obtain a Merope-exclusive momento."]
+        ],
+        "guide": {
+            "notes": "Merope is one of the most important confidants in the game as she helps you unlock various Personas to fuse and good perks while fusing. It recommended to get her to atleast Rank 15 or all the way to Rank 20.",
+            "skills": [
+                ["1", "Road to Idol", "Gacha is unlocked"],
+                ["5", "Special Service", "Unlocks Archangel as a fusion"],
+                ["7", "Ideal Image", "Unlocks Setanta as a fusion"],
+                ["9", "Vip Seats", "Unlocks Anubis as a fusion"],
+                ["11", "Under Spotlight", "Unlock Okuninushi as a fusion"],
+                ["13", "My Push is Justice", "Unlock Narcissus as a fusion"],
+                ["15", "Fanchant Feedback", "When fusing a persona that is either 2 star or 3 star and rank 4 or below there is a chance to get an additional coin"],
+                ["20", "Dance with Shadow", "Unlocks Kohryu as a fusion"]
+            ],
+            "requirements": [
+                ["Request # 1", "Jack Frost with Lucky Punch"],
+                ["Request # 2", "Neko-Shogun with Tarukaja"],
+                ["Request # 3", "Lilim with Attack Strengthening I"],
+                ["Request # 4", "Unicorn with Treatment Strengthening II"],
+                ["Request # 5", "Byakyo with Bufudyne"],
+                ["Request # 6", "Daisojou with Spirit Drain"],
+                ["Request # 7", "Complete a Mementos side quest"],
+                ["Request # 8", "Dominion with Matarukaja"]
+            ],
+            "hangouts": [
+                ["Shimokitazawa", "What does it mean? (+50) <br>I understand (+60)"],
+                ["Shibuya", "It’s too exaggerated (+50) <br>Turns out there is such an explanation (+60)"],
+                ["Jimbocho", "I only read comics (+50) <br>My hobby is reading (+60)"],
+                ["Odaiba Seaside Park", "Started to make my heart beat faster (+60) <br>It depends on who the target is (+50)"],
+                ["Ikebukuro", "Do you want to hold hands? (+60) <br>It’s too early for us (+50)"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "Further study or job search...? (+40) <br>I haven't thought about it (+50) <br>I'm happier (+60)"],
+                ["Rank 4 -> 5", "Idol again? (+50) <br>I haven't thought about it… (+40) <br>Do you like idols? (+60)"],
+                ["Rank 6 -> 7", "?(+40) <br>Definitely refuse (+50) <br>I hope you can explain... (+60)"],
+                ["Rank 8 -> 9", "Calm down first (+50) <br>She is troubled (+60) <br>My guest, the time is up, (+40)"],
+                ["Rank 10 -> 11", "So profound (+40) <br>Does this really make sense (+50) <br>Is it just that Merope wants to order? (+60)"],
+                ["Rank 12 -> 13", "It’s quite difficult (+50) <br>Go for it (+40) <br>I’m looking forward to your skills (+60)"],
+                ["Rank 14 -> 15", "It’s quite difficult (+50) <br>Go for it (+40) <br>I’m looking forward to your skills (+60)"],
+                ["Rank 16 -> 17", "So there is such a secret (+50) <br>It’s not easy… (+40) <br>You work hard (+60)"],
+                ["Rank 19 -> 20", "I have to finish it well (+50) <br>I can’t help it (+40) <br>Of course! (+60)"]
+            ],
+            "gifts": [
+                ["AMN005 debut album", "76", "38", "38", "¥18,600"],
+                ["Coaster", "8", "4", "4", "¥1,500"],
+                ["Glow stick", "12", "6", "6", "¥2,400"],
+                ["Idol Keychain", "10", "5", "5", "¥2,000"],
+                ["Maid Model", "68", "34", "34", "¥15,800"],
+                ["Cat Hair Clip", "20", "10", "10", "¥4000"],
+                ["Premium Sunglasses", "74", "37", "37", "¥18,000"],
+                ["Digital Camera", "128", "64", "64", "¥39,000"],
+                ["Weight-Bearing Wristband", "34", "17", "17", "¥6,800"],
+                ["Veritas", "32", "16", "16", "1 Gorgeous packaging, 1 Violet, 4 Lilies"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Arai Motoha": {
+        "icon": "https://cdn.imgchest.com/files/yq9c3ep5eg4.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Part-time Job: Convenience Store"],
+            ["Rank 2", "Unlocks Trait: Earnest", "Increases money gained from part-time jobs by 10%"],
+            ["Rank 3", "Unlocks Part-time Job: Flower Shop", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Hidden Strength", "Unlocks new story"],
+            ["Rank 5", "Unlocks Part-time Job: Bartender", "Increases money gained from part-time jobs by 20%"],
+            ["Rank 6", "Unlocks Trait: Cheerful", "Unlocks new story"],
+            ["Rank 7", "Unlocks Part-time Job: Field Work", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Hardworking", "Reduces vitality cost of part-time jobs by 20%"],
+            ["Rank 9", "Unlocks Part-time Job: Pet Shop", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Radiant", "Allows you to obtain an Arai-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Arai confidant isn't too important but it's recommened to leave her at Rank 15 to gain the metaverse perks she has to offer.",
+            "skills": [
+                ["1", "I Saw It", "During baseball practice challenge, you can use the third eye."],
+                ["5", "Let's Work Hard Together", "When the battle ends with an all out attack, the entire team's HP will be fully restored (only effective for wandering shadows in the hall of Palace and Mementos)"],
+                ["9", "Exercise More", "You can challenge new difficulties in the baseball practice stage and increase the types of goods that can be redeemed at the exchange shop."],
+                ["13", "Ready To Go", "After resting in a safe room, when the highlight energy isn't at 30%, you can recover 30% (only effective for wandering shadows in the hall of Palaces and Mementos)"],
+                ["17", "Bring it On", "You can challenge higher levels of difficulty in the baseball practice stage; furthering increasing the types of products that can be exchanged at the exchange shop."]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Proficiency Rank 3"],
+                ["Rank 4 -> 5", "Proficiency Rank 5"],
+                ["Rank 6 -> 7", "Proficiency Rank 6"],
+                ["Rank 8 -> 9", "Proficiency Rank 8"],
+                ["Rank 10 -> 11", "Proficiency Rank 10"],
+                ["Rank 12 -> 13", "Proficiency Rank 11"],
+                ["Rank 14 -> 15", "Proficiency Rank 13"],
+                ["Rank 16 -> 17", "Proficiency Rank 15"],
+                ["Rank 19 -> 20", "Proficiency Rank 17"]
+            ],
+            "hangouts": [
+                ["Inokashira Park", "Cocoa Flavor +60<br>Mixed Fruit Flavor +50<br>Pudding Flavor +40"],
+                ["Shimokitazawa", "Squats+60<br>Abs +50<br>Sit Ups +40"],
+                ["Tsukishima", "It's okay because it's a topping +50<br>Should I order cheese? +60"],
+                ["Shibuya", "Let's try +50<br>Want to play? +60"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "That won't happen +50<br>Okay +60<br>No need to push yourself +40"],
+                ["Rank 4 -> 5", "I'm relying on +60<br>Okay +40<br>Let's lift 100kg together +50"],
+                ["Rank 6 -> 7", "I see +50<br>Aren't you eating too much? +40<br>Let's cheer up together +60"],
+                ["Rank 8 -> 9", "You can win +60<br>If you train+50<br>4th, pitcher… +40"],
+                ["Rank 10 -> 11", "Yeah +40<br>Well +50<br>…… +60"],
+                ["Rank 12 -> 13", "No Options"],
+                ["Rank 14 -> 15", "Don't you like baseball? +40<br>Want to continue playing baseball? +60<br>Is the Phantom Thieves important? +50<br><br>For the sake of my colleagues (best friend route)<br>Because Motoha is precious (Soulmate route)"],
+                ["Rank 16 -> 17", "Good job +50<br>It was cool +60<br>No regrets? +40"],
+                ["Rank 19 -> 20", "No Options"],
+                ["Rank 19 -> 20(Lovers)", "Not scary +40<br>I think Motoha would be scared +50<br><br>[Additional choices]<br>It's okay because I'm here +40<br>Grab my arm +50"]
+            ],
+            "gifts": [
+                ["GOAT Baseball Bat", "52", "26", "26", "¥11,000"],
+                ["GOAT Absorbent Towel", "16", "8", "8", "¥3,000"],
+                ["GOAT Baseball Gloves", "34", "17", "17", "¥6,900"],
+                ["GOAT Baseball Uniform", "44", "22", "22", "¥8,900"],
+                ["A Guide to Eating While Walking", "4", "2", "2", "¥700"],
+                ["Sumo Theme Sticker Set", "8", "4", "4", "¥1,600"],
+                ["Heart Shaped Ring", "250", "125", "125", "¥88,000"],
+                ["Cat Hair Pin", "20", "10", "10", "¥4,000"],
+                ["Sports Protective Gear", "14", "7", "7", "¥2,800"],
+                ["Lily Everlasting Flower", "26", "13", "13", "1 Gorgeous packaging, 4 Lilies"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Ayaka Sakai": {
+        "icon": "https://cdn.imgchest.com/files/4jdcvjrwjm4.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Concert"],
+            ["Rank 2", "Unlocks Trait: Melodious", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Karaoke", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Rhythmic", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Music Store", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Passionate", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Live House", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Harmonious", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Jazz Club", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Virtuoso", "Allows you to obtain a Sakai-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Ayaka is crazzy good for the rhythm game mode as she can you land perfect notes much easier. It's recommened to rank her all the way to Rank 15 to max her music perks.",
+            "skills": [
+                ["1", "Solo Turning Point", "When playing the rhythm game,it is easier to obtain Perfect and Great."],
+                ["5", "Savior Hurry", "When playing, a single key Miss will be automatically corrected to Perfect every 10 seconds."],
+                ["7", "Solo Rock", "Unlock the song: Seize the Light"],
+                ["13", "Twelve Tone Sunset", "When playing,the end of the long key will be automatically be played even if the hand is not released."],
+                ["17", "Greet Dawn Star with You", "Unlock the song: Wonder Light"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Proficiency Rank 3"],
+                ["Rank 4 -> 5", "Proficiency Rank 5"],
+                ["Rank 6 -> 7", "Proficiency Rank 6"],
+                ["Rank 8 -> 9", "Proficiency Rank 8"],
+                ["Rank 10 -> 11", "Proficiency Rank 10"],
+                ["Rank 12 -> 13", "Proficiency Rank 11"],
+                ["Rank 14 -> 15", "Proficiency Rank 13"],
+                ["Rank 16 -> 17", "Proficiency Rank 15"],
+                ["Rank 19 -> 20", "Proficiency Rank 17"]
+            ],
+            "hangouts": [
+                ["Inokashira Park", "I need a change of pace +60<br>Isn't it better to be alone…? +50"],
+                ["Miura Coast", "I'm glad you asked me to come +60<br>I think I'm a little hungry +50"],
+                ["Suidobashi", "Let's go ride the Ferris wheel +60<br>Let's challenge the roller coaster +50"],
+                ["Yongenjaya", "Old Masterpiece Movies +60<br>Latest movies… +50"],
+                ["Odaiba Seaside Park", "It's a great place +60<br>I think it's a good place… ? +50"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "Cherish yourself first +60<br>It's okay even after tomorrow +50"],
+                ["Rank 4 -> 5", "Don't be impatient +50<br>I'll always be with you +60"],
+                ["Rank 6 -> 7", "That was a great song +40<br>Are you nervous? +50"],
+                ["Rank 8 -> 9", "It was a good song +60<br>Well sung +50"],
+                ["Rank 10 -> 11", "Find what you want to say +50<br>Try to estimate +40<br>Anyone you want to pass along? +60"],
+                ["Rank 12 -> 13", "I did nothing wrong +40<br>Do you have anything to say now? +60<br>What do you want to do now? +50"],
+                ["Rank 14 -> 15", "Because I wanted to hear the performance… +50<br>Could it be my mood? +40<br>I hope you feel better +60<br><br>I am rooting for you as a fan.Friends<br>I share the same feelings as Ayaka.Lovers"],
+                ["Rank 16 -> 17", "Congratulations +50<br>I want to hear it quickly +60"],
+                ["Rank 19 -> 20", "Come back +60<br>It must have been passed on to her too +50"],
+                ["Rank 19 -> 20(Lovers)", "You can stay until tomorrow +60<br>Let's do a session together +50"]
+            ],
+            "gifts": [
+                ["AMN005 first album", "76", "38", "38", "¥18600"],
+                ["Milk Flavor Bar Pack", "24", "12", "12", "¥4890"],
+                ["High-performance electric toothbrush", "105", "52", "52", "¥29800"],
+                ["Heart hand mirror", "6", "3", "3", "¥1200"],
+                ["All scale harmonica", "84", "42", "42", "¥21800"],
+                ["Carousel Music Box", "24", "12", "12", "¥4800"],
+                ["Other Management Set", "30", "15", "15", "¥6000"],
+                ["Strange Clear Day Doll", "4", "2", "2", "¥800"],
+                ["Choker Necklace", "74", "37", "37", "¥18000"],
+                ["Golden Mokseo Tea", "26", "13", "13", "1 Gorgeous Packaging, 4 Osmanthus."],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Kanou Shun": {
+        "icon": "https://cdn.imgchest.com/files/7lxcpdwgdw7.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Skateboard Park"],
+            ["Rank 2", "Unlocks Trait: Sporty", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Bouldering", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Thrillseeker", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Skydiving", "Doubles guts gained from leisure activities"],
+            ["Rank 6", "Unlocks Trait: Energetic", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Bungee Jumping", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Bold", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Paragliding", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Unflinching", "Allows you to obtain a Kanou-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Kanou Confidant offers various perks for those looking to cook food. It's recommended to get him at Rank 15 to max out his cooking perks.",
+            "skills": [
+                ["1", "Exclusive Cooking Recipes", "Unlock new types of dishes that can be made"],
+                ["5", "Food Handling Tips", "When making food, there is a chance that some of that the materials to make the food will be returned."],
+                ["9", "Practiced Cooking", "Increased the chance of making perfect food"],
+                ["12", "Cooking Experience", "When making a dish there is a certain chance that you will get an extra one."],
+                ["15", "Precious Recipe", "Further increase the types of dishes that can be made"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Guts Rank 3"],
+                ["Rank 4 -> 5", "Guts Rank 5"],
+                ["Rank 6 -> 7", "Guts Rank 6"],
+                ["Rank 8 -> 9", "Guts Rank 8"],
+                ["Rank 10 -> 11", "Guts Rank 10"],
+                ["Rank 12 -> 13", "Guts Rank 11"],
+                ["Rank 14 -> 15", "Guts Rank 13"],
+                ["Rank 16 -> 17", "Guts Rank 15"],
+                ["Rank 19 -> 20", "Guts Rank 17"]
+            ],
+            "hangouts": [
+                ["Shibuya", "Expected +60<br>I think it tastes like it's worth the price +50"],
+                ["Shimokitazawa", "Buy at the store +60<br><br>Every day is different +50<br>I don't eat +40"],
+                ["Harajuku", "I see a smile +60<br>View animation goods +50"],
+                ["Asakusa", "Old store's Jeonbyeong +60<br>Photogenic Fruit Tea +50"],
+                ["Ueno", "Worth a try +60<br>Shun, food is art +50"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "Great analysis +50<br>I'm slowly eating ramen... +60<br>Are you going to add monjayaki? +40"],
+                ["Rank 4 -> 5", "It starts now +50<br>Grew up +60<br>Did you lose? +40"],
+                ["Rank 6 -> 7", "What? +40<br>It's so sudden... +60<br>Maybe you know +50"],
+                ["Rank 8 -> 9", "What does Shun want to do? +60<br>Look at me… +50<br>The case fee is also important +40"],
+                ["Rank 10 -> 11", "It must look good +40<br>You need to decide on your customer base +50<br>The theme of the competition is important +60"],
+                ["Rank 12 -> 13", "Yeah +40<br>Are you the thin-eared type? +50<br>It's getting fun +60"],
+                ["Rank 14 -> 15", "Fried rice is good +60<br>To the same thing as you unconditionally+40<br>For ordering something other than Shun's ramen+50"],
+                ["Rank 16 -> 17", "You did that +50<br>I should thank the boss +60<br>I want to eat... +40"],
+                ["Rank 19 -> 20", "I'll be with you +60<br>Sometimes, other than ramen, +50<br> If you buy it +40"],
+                ["Rank 19 -> 20(Friends)", "I'll expect +60<br>Why are you suddenly making dessert? +50"]
+            ],
+            "gifts": [
+                ["Silver Bracelet", "224", "112", "112", "¥ 78,000"],
+                ["Special Nut Combination", "14", "7", "7", "¥ 2,800"],
+                ["Sweeping Robot", "100", "50", "50", "¥ 28,000"],
+                ["Handmade Flower Basket", "16", "8", "8", "¥ 3,200"],
+                ["Healthy Drink Set", "8", "4", "4", "¥ 1,680"],
+                ["Limited Edition Fountain Pen", "48", "24", "24", "¥ 10,000"],
+                ["Traditional Dim Sum Combination", "20", "10", "10", "¥ 3,800"],
+                ["Cartoon Apron", "8", "4", "4", "¥ 1,600"],
+                ["Instant Noodles Combo Pack", "18", "9", "9", "¥ 3,480"],
+                ["Kitchen Knives Set", "24", "12", "12", "¥ 4,900"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Kayo Tomiyama": {
+        "icon": "https://cdn.imgchest.com/files/y2pckox9o37.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Fishing"],
+            ["Rank 2", "Unlocks Trait: Diligent", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Cooking", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Loving", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Home Gardening", "Doubles Courage gained from leisure activities"],
+            ["Rank 6", "Unlocks Trait: Caring", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Idol Performance", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Considerate", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Shared Meal", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Gentle", "Allows you to obtain a Tomiyama-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Kayo is a decent confidant that provides with new outfits and access to more from the underground mall. Overall she should put be in last priority and invested until Rank 13",
+            "skills": [
+                ["1", "Fashion Designer", "Obtain:Casual Formal Wear"],
+                ["3", "New Trend", "Obtain:Green Casual formal Wear"],
+                ["9", "Diversity in Fashion", "You can buy new clothes at Shibuya Underground"],
+                ["13", "Carefully Sewn", "You can now buy new clothes at \"Shibuya Underground Mall, High-end Clothing Store\""],
+                ["20", "Special Taste", "Obtain: Casual School Wear"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Charm Rank 3"],
+                ["Rank 4 -> 5", "Charm Rank 5"],
+                ["Rank 6 -> 7", "Charm Rank 6"],
+                ["Rank 8 -> 9", "Charm Rank 8"],
+                ["Rank 10 -> 11", "Charm Rank 10"],
+                ["Rank 12 -> 13", "Charm Rank 11"],
+                ["Rank 14 -> 15", "Charm Rank 13"],
+                ["Rank 16 -> 17", "Charm Rank 15"],
+                ["Rank 19 -> 20", "Charm Rank 17"]
+            ],
+            "hangouts": [
+                ["Ikebukuro", "I'll think of it as dating practice +50<br>Isn't your husband jealous? +60"],
+                ["Shibuya", "I've heard of it +60<br>Where is the yellow? +50"],
+                ["Shimokitazawa", "What does it smell like? +60<br>Sweat smell? +50"],
+                ["Harajuku", "Old shops in Harajuku? +60<br>What era is it? +50"],
+                ["Odaiba Seaside Park", "It feels a bit young +50<br>Feeling like a big sister? +60"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "We live in the same reality +50<br>If you give up, it's over +60<br>How old are you? +40"],
+                ["Rank 4 -> 5", "Teenager's Mind +50<br>Cashless +40<br>Inconvenient but enjoyable memories +60"],
+                ["Rank 6 -> 7", "It's a little disappointing +50<br>There's no need to fight... +40<br>I'm also looking at +60"],
+                ["Rank 8 -> 9", "There are a lot of side dishes +50<br>It's high in calories +40<br>Food to pray for success? +60"],
+                ["Rank 10 -> 11", "Prepare your favorite food +50<br>No need to be special +60<br>Curry…? +40"],
+                ["Rank 12 -> 13", "That's today's teenagers +40<br>No, it's not +60<br>Where is the broad-minded lady? +50"],
+                ["Rank 14 -> 15", "What the hell is going on? +40<br>Calm down +50<br>Are you talking about Leo? +60"],
+                ["Rank 16 -> 17", "No Options"],
+                ["Rank 19 -> 20", "But you worked hard +60<br>Is today a reflection meeting? +50<br>The result wasn't bad +40"],
+                ["Rank 19 -> 20(Friends)", "Are you mother-in-law? +50<br>Sorry, Mother-in-law +60"]
+            ],
+            "gifts": [
+                ["Simple Cosmetic Bag", "28", "14", "14", "¥ 5,500"],
+                ["Gossip News Weekly", "2", "1", "1", "¥ 500"],
+                ["Fashion Magazine", "2", "1", "1", "¥ 500"],
+                ["Designer Perfume", "224", "112", "112", "¥ 78,000"],
+                ["Deep Red Lipstick", "30", "15", "15", "¥ 6,000"],
+                ["The Latest Beauty Device", "24", "12", "12", "¥ 9,800"],
+                ["Rose Bath Giftbox", "16", "8", "8", "¥ 3,200"],
+                ["Dress Up Doll", "70", "35", "35", "¥ 16,000"],
+                ["Premium Fragrance Combination", "20", "10", "10", "¥ 3,800"],
+                ["Universal Vitamin Tablets", "22", "11", "11", "¥ 4,500"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Kira Kitazato": {
+        "icon": "https://cdn.imgchest.com/files/7kzcaboebe7.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Bar"],
+            ["Rank 2", "Unlocks Trait: Mature", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Jazz Club", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Alluring", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Billiards", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Mysterious", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Darts", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Confident", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Casino", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Irresistible", "Allows you to obtain a Kitazato-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Kira is a good confidant for the metaverse when it comes to Guns. Maxing him out is recommended.",
+            "skills": [
+                ["1", "Quick Reload", "When Thieves attack with guns, increase Gun DMG by 10%"],
+                ["5", "Fully Loaded", "When Thieves ran out of ammo, refill 100% ammo after 2 turns"],
+                ["7", "Pull the Trigger", "When Thieves attack with guns, increase Gun DMG by 10%"],
+                ["13", "Ignite Gunpowder", "When Thieves attack with guns, increase Gun DMG by 10%"],
+                ["17", "Full Auto", "When Thieves ran out of ammo, refill 100% ammo after 1 turn"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Knowledge 3"],
+                ["Rank 4 -> 5", "Knowledge 5"],
+                ["Rank 6 -> 7", "Knowledge 6"],
+                ["Rank 8 -> 9", "Knowledge 8"],
+                ["Rank 10 -> 11", "Knowledge 10"],
+                ["Rank 12 -> 13", "Knowledge 11"],
+                ["Rank 14 -> 15", "Knowledge 13"],
+                ["Rank 16 -> 17", "Knowledge 15"],
+                ["Rank 19 -> 20", "Knowledge 17"]
+            ],
+            "hangouts": [
+                ["Kanda", "It is also possible+50<br>The doctor's ability is more important +60"],
+                ["Shinjuku", "What kind of book are you looking forward to? 50<br>Actually, it contains+60"],
+                ["Kichioji", "Want to be a popular person +40<br>What about Kira? +60"],
+                ["Shibuya", "See the price +40<br>No rules +60"],
+                ["Zoshigaya", "It's just very ordinary +40<br>There are also some surprises +60"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "It makes sense +60<br>Forced explanation +40<br>Don't care what others think? +50"],
+                ["Rank 4 -> 5", "The progress is too fast +50<br>What is the purpose of the experiment? +60<br>What if I refuse? +40"],
+                ["Rank 6 -> 7", "She is a good sister +60<br>Do you hate her? +40<br>Can you introduce her to me? +50"],
+                ["Rank 8 -> 9", "Leave it to me +60<br>Is it better the other way around +50<br>No need for any battle strategy +40"],
+                ["Rank 10 -> 11", "This is the patient's freedom +50<br>I understand +60<br>Can I have more dishes? +40"],
+                ["Rank 12 -> 13", "Are you going to give up now? +50<br>You are not motivated enough +40<br>Say what you want to say +60"],
+                ["Rank 14 -> 15", "I think you think too much +40<br>Try to trust him +50<br>Even if it is a trap, you can use it +60"],
+                ["Rank 16 -> 17", "Do you want to run away? +50<br>Calm down first +60<br>It's too late to say this now +40"],
+                ["Rank 19 -> 20", "There is really no way +40<br>Do I have the right to refuse? +50<br>The \"deal\" is still in effect +60"]
+            ],
+            "gifts": [
+                ["GOAT Absorbent Towel", "16", "8", "8", "¥3,000"],
+                ["Lazy Cushion", "32", "16", "16", "¥ 6,500"],
+                ["Shooting Game Advanced Guide Collection", "22", "11", "11", "¥ 4,500"],
+                ["Household Thermos Cup", "16", "8", "8", "¥ 3,000"],
+                ["Soldier Set", "80", "40", "40", "¥ 20,000"],
+                ["Eye Protection Eyedrops", "40", "20", "20", "¥ 8,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Pancake Glasses", "104", "52", "52", "¥ 30,000"],
+                ["Premium Sunglasses", "74", "37", "37", "¥ 18,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Super Noisy Alarm Clock", "54", "18", "18", "¥ 7,000"],
+                ["48 Sided Cube", "30", "15", "15", "¥ 5,800"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Kiyoshi Kurotani": {
+        "icon": "https://cdn.imgchest.com/files/7ogcbkq8kpy.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Darts"],
+            ["Rank 2", "Unlocks Trait: Sharp", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Jazz Club", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Classy", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Aquarium", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Perceptive", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Bar", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Sophisticated", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Museum", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Refined", "Allows you to obtain a Kurotani-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Kiyoshi is the 3rd best city confidant as he gives you books that allow you to gain a stat or give you benfits for activities. Its recommened to level his rank to Rank 15",
+            "skills": [
+                ["1", "Rest Is Also A Battle", "Obtain the book Efficient Relaxation Method"],
+                ["3", "Healing Angel", "Get the book: All About First Aid"],
+                ["11", "Breaking Through Limitations", "Get the book: Muscle, GO!"],
+                ["15", "Already Know", "Get the book: Secret Techniques of Librarians!"],
+                ["20", "See Through All", "Get the book: Film and Film Critics"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Guts Rank 3"],
+                ["Rank 4 -> 5", "Guts Rank 5"],
+                ["Rank 6 -> 7", "Guts Rank 6"],
+                ["Rank 8 -> 9", "Guts Rank 8"],
+                ["Rank 10 -> 11", "Guts Rank 10"],
+                ["Rank 12 -> 13", "Guts Rank 11"],
+                ["Rank 14 -> 15", "Guts Rank 13"],
+                ["Rank 16 -> 17", "Guts Rank 15"],
+                ["Rank 19 -> 20", "Guts Rank 17"]
+            ],
+            "hangouts": [
+                ["Shibuya", "I know how you feel +60<br>I am different from you +50"],
+                ["Asakusa", "Okay +60<br>Wanna hold my hand? +50"],
+                ["Suidobashi", "It's a scary place +60<br>Not that dangerous +50"],
+                ["Ogikubo", "Good idea +60<br>I'm hungry... +50"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "Won't you let me go? +40<br>How long are you going to do this? +50<br>Surprisingly strong… +60"],
+                ["Rank 4 -> 5", "I can't leave Kurotani behind +60<br>Then, without specifications +50<br>What was the promise? +40"],
+                ["Rank 6 -> 7", "Can you send it to me? +60<br>What are you going to do now? +50"],
+                ["Rank 8 -> 9", "I'll leave your back to you +60<br>What does Kurotani want to do? +40<br>I'm ready +50"],
+                ["Rank 10 -> 11", "I understand the situation +40<br>I feel sorry for that girl. +60<br>This time there is a lot of information +50"],
+                ["Rank 12 -> 13", "I never thought you'd say that +40<br>I'm also thinking about many things +50<br>Did you get stabbed in the sore spot? +60"],
+                ["Rank 14 -> 15", "It was pretty coercive for me +50<br>So are you soulmates? +60<br>I understood a lot +40"],
+                ["Rank 16 -> 17", "I'll help you +50<br>I can't help it +40<br>Because we are soulmates+60"],
+                ["Rank 19 -> 20", "What did you learn? +40<br>What is a friend? +60<br>I should thank Takehan too +50"],
+                ["Rank 19 -> 20(Friends)", "For watching cartoons or playing games+50<br>Mostly just sleep +60"]
+            ],
+            "gifts": [
+                ["Supernatural Video", "110", "55", "55", "¥ 32,000"],
+                ["Incredible Glasses", "18", "9", "9", "¥ 3,560"],
+                ["Silver Bracelet", "224", "112", "112", "¥ 78,000"],
+                ["48 Sided Cube", "30", "15", "15", "¥ 5,800"],
+                ["Handmade Bookcover Set", "16", "8", "8", "¥ 3,000"],
+                ["Black Lacquer Mug", "10", "5", "5", "¥ 1,800"],
+                ["Cowhide Pencil Case", "14", "7", "7", "¥ 2,800"],
+                ["Men's Sun Hat", "8", "4", "4", "¥ 1,600"],
+                ["Popular Monthly Comic", "2", "1", "1", "¥ 480"],
+                ["Adult Smart Ring", "24", "12", "12", "¥ 4,700"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Kotone Montagne": {
+        "icon": "https://cdn.imgchest.com/files/7pjcqw8xwa7.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Ice Skating"],
+            ["Rank 2", "Unlocks Trait: Graceful", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Ballet", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Poised", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Dance Studio", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Artistic", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Theater", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Expressive", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Fashion Show", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Prima", "Allows you to obtain a Montagne-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Kotone's confidant is great for reducing the amount of time that commissions takes. And increase the quality of commissions that you can receive.",
+            "skills": [
+                ["1", "Eisenhower Matrix", "Decreases the time needed to complete Commissions by 5%"],
+                ["5", "Pareto Principle", "Increases the max refreshes on Standard Commissions by 1"],
+                ["7", "Pomodoro Technique", "Decreases the time needed to complete Commissions by 10%"],
+                ["13", "Spotlight Principle", "Increases the chance to get above blue quality Commissions"],
+                ["17", "Timeboxing Theory", "You can instant complete 3 Commissions per week"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Proficiency Rank 3"],
+                ["Rank 4 -> 5", "Proficiency Rank 5"],
+                ["Rank 6 -> 7", "Proficiency Rank 6"],
+                ["Rank 8 -> 9", "Proficiency Rank 8"],
+                ["Rank 10 -> 11", "Proficiency Rank 10"],
+                ["Rank 12 -> 13", "Proficiency Rank 11"],
+                ["Rank 14 -> 15", "Proficiency Rank 13"],
+                ["Rank 16 -> 17", "Proficiency Rank 15"],
+                ["Rank 19 -> 20", "Proficiency Rank 17"]
+            ],
+            "hangouts": [
+                ["Shibuya", "There is a very useful muscle tape +60<br>Do you need trauma medicine? +50"],
+                ["Yongenjaya", "Which movie do you want to watch? +60<br>Why do you suddenly want to watch a movie? +50"],
+                ["Kichijoji", "I will accompany you to listen here +60<br>It may be better to listen to music alone +50"],
+                ["Shimokitazawa", "Let me be your guide +60<br>It's ok for you to go alone.+50"],
+                ["Shinjuku", "Because it is dangerous +60<br>Because it is not beautiful +50"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "The movements are very graceful +50<br>The joy in my heart is not shown +60<br>I need to watch it again +40"],
+                ["Rank 4 -> 5", "I love you +50<br>I don't want to lie +60<br>So embarrassed +40"],
+                ["Rank 6 -> 7", "Because the jump attracted my attention +40<br>Because it looked beautiful +50<br>Because I wanted to applaud +60"],
+                ["Rank 8 -> 9", "I will help you no matter how many times +50<br>You don't have to face your troubles alone +40<br>I will always protect Kotone-chan+60"],
+                ["Rank 10 -> 11", "Let's think about it together +60<br>Don't rush to figure it out +50<br>This situation is very common +40"],
+                ["Rank 12 -> 13", "I am always willing to listen to you +40<br>You don't need to worry +50<br>It's good enough that you realize it +60"],
+                ["Rank 14 -> 15", "I understand what you mean +60<br>I think you are very attractive +50<br><br>Hope you'd say \"I will win\" (Close Friends)<br>Hope you'd say \"I like you\" (Soulmates)"],
+                ["Rank 16 -> 17", "Thanks for the hard work +40<br>Are you okay? +50<br>Great skating +60"],
+                ["Rank 19 -> 20", "Was thinking about Kotone-san when cooking +40<br>Cooking needs love +40"],
+                ["Rank 19 -> 20(Lovers)", "Do whatever you want +60<br>Would be bad if there's gossip +50"]
+            ],
+            "gifts": [
+                ["Snowflak themed Ornaments", "16", "8", "8", "¥2,850"],
+                ["Classic Music Collection", "28", "14", "14", "¥5,130"],
+                ["Premium Yoga Mat", "36", "18", "18", "¥6,650"],
+                ["Sport Headphones", "76", "38", "38", "¥18,800"],
+                ["High End Sports Watch", "122", "61", "61", "¥36,800"],
+                ["Scenery poetry", "32", "16", "16", "1 Cosmos Flower,1 Gorgeous Packaging,2 Osmanthus Fragrants"],
+                ["Elegant Wooden Comb", "72", "36", "36", "¥16150"],
+                ["Japanese Style Book Jacket", "16", "8", "8", "¥2850"],
+                ["Maid Model", "68", "34", "34", "¥15,800"],
+                ["Sports Protective Gear", "14", "7", "7", "¥2,800"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+            ]
+        }
+    },
+    "Masaki Ashiya": {
+        "icon": "https://cdn.imgchest.com/files/7bwckdvgda7.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Gym"],
+            ["Rank 2", "Unlocks Trait: Athletic", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Running", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Competitive", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Swimming", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Determined", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Bouldering", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Resilient", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: Martial Arts", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Unbeatable", "Allows you to obtain an Ashiya-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "Masaki is a confidant whose perks are focused on Tycoon.",
+            "skills": [
+                ["1", "Prisoner's Dilemma", "Unlocks the Tips Feature in Tycoon"],
+                ["5", "Coordination Problem", "Unlocks Masaki Ashiya in Tycoon"],
+                ["7", "Truel", "Unlocks the Masaki Ashiya Six of Diamonds Skin in Tycoon"],
+                ["13", "Segal's Law", "Unlocks the Card Counting Feature in Tycoon"],
+                ["17", "Eye for an Eye", "Unlocks More Items in the Tycoon Shop"]
+            ],
+            "socialStats": [
+                ["Rank 2 -> 3", "Kindness Rank 3"],
+                ["Rank 4 -> 5", "Kindness Rank 5"],
+                ["Rank 6 -> 7", "Kindness Rank 6"],
+                ["Rank 8 -> 9", "Kindness Rank 8"],
+                ["Rank 10 -> 11", "Kindness Rank 10"],
+                ["Rank 12 -> 13", "Kindness Rank 11"],
+                ["Rank 14 -> 15", "Kindness Rank 13"],
+                ["Rank 16 -> 17", "Kindness Rank 15"],
+                ["Rank 19 -> 20", "Kindness Rank 17"]
+            ],
+            "hangouts": [
+                ["Shimokitazawa", "Occasionally +40<br>Senpai how about you? +50"],
+                ["Kichioji", "What does the flower pot look like? +50<br>Is it expensive? +40"],
+                ["Inokashira Park", "Do you know trees well? +50<br>What about winter? +60"],
+                ["Asakusa", "Want to eat sweet food +50<br>Want to eat spicy food +40"],
+                ["Shinjuku", "Because of the store manager’s hobby +50<br>Because of different customer groups +40"]
+            ],
+            "rankUpChoices": [
+                ["Rank 2 -> 3", "Let's go to the restaurant that senior often goes to next time +50<br>Let's go to a family restaurant next time +40"],
+                ["Rank 4 -> 5", "I'm here+60<br>I'm waiting for senpai to send me+50<br>If you send a text message occasionally+40"],
+                ["Rank 6 -> 7", "Let's go+40<br>Luckily it's a family restaurant+50"],
+                ["Rank 8 -> 9", "You care about your family +40<br>I don't think it's embarrassing +50"],
+                ["Rank 10 -> 11", "I thought I could hold on +40<br>Just a little tired +50"],
+                ["Rank 12 -> 13", "That's right +40<br>Thank you for worrying about me +50"],
+                ["Rank 14 -> 15", "Okay +50<br>Don't mind if I do +40"],
+                ["Rank 16 -> 17", "Let's put it in order, let's go eat first +50<br>Yes, but are you hungry +60"],
+                ["Rank 19 -> 20", "None"],
+                ["Rank 19 -> 20(Friends)", "I'm used to it +40<br>I'm not alone because I have senpai here +60"]
+            ],
+            "gifts": [
+                ["Nostalgic theme cartoon badge", "18", "9", "9", "¥ 3,500"],
+                ["Illustrated directory of rare plants", "28", "14", "14", "¥ 5,500"],
+                ["music potted plant", "44", "22", "22", "¥ 8,800"],
+                ["Assembled home plant", "48", "24", "24", "¥ 10,000"],
+                ["Multiplayer card board game set", "134", "67", "67", "¥ 42,000"],
+                ["Scenery poetry", "32", "16", "16", "1 Cosmos Flower,1 Gorgeous Packaging,2 Osmanthus Fragrants"],
+                ["Weight-Bearing Wristband", "34", "17", "17", "¥6,800"],
+                ["All scale harmonica", "84", "42", "42", "¥21800"],
+                ["Handmade Bookcover Set", "16", "8", "8", "¥ 3,000"],
+                ["Glass Vase", "16", "8", "8", "¥ 3,200"],
+                ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+                ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"],
+                ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+                ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+                ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+                ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"]
+            ]
+        }
+    },
+    "Minami Miyashita": {
+        "icon": "https://cdn.imgchest.com/files/4nec8mjwm84.png",
+        "levels": [
+            ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Planetarium"],
+            ["Rank 2", "Unlocks Trait: Inquisitive", "Unlocks new story"],
+            ["Rank 3", "Unlocks Leisure Activity: Science Museum", "Unlocks new story"],
+            ["Rank 4", "Unlocks Trait: Analytical", "Unlocks new story"],
+            ["Rank 5", "Unlocks Leisure Activity: Library", "Unlocks new story"],
+            ["Rank 6", "Unlocks Trait: Intellectual", "Unlocks new story"],
+            ["Rank 7", "Unlocks Leisure Activity: Observatory", "Unlocks new story"],
+            ["Rank 8", "Unlocks Trait: Logical", "Reduces vitality cost of leisure activities by 20%"],
+            ["Rank 9", "Unlocks Leisure Activity: University Lecture", "Unlocks new story"],
+            ["Rank 10", "Unlocks Trait: Genius", "Allows you to obtain a Miyashita-exclusive momento"]
+        ],
+        "guide": {
+            "notes": "",
+            "skills": [],
+            "socialStats": [],
+            "hangouts": [],
+            "rankUpChoices": [],
+            "gifts": []
+        }
+    },
+"Mio Natsukawa": {
+    "icon": "https://cdn.imgchest.com/files/49zc2bpgbny.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Part-time Job: Shrine"],
+        ["Rank 2", "Unlocks Trait: Devout", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Temple", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Respectful", "Unlocks new story"],
+        ["Rank 5", "Unlocks Part-time Job: Calligraphy Class", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Traditional", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Tea Ceremony", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Serene", "Reduces vitality cost of part-time jobs by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Festival", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Pious", "Allows you to obtain a Natsukawa-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "",
+        "skills": [
+            ["1", "Live Wire Mall", "Unlock the [Online Shopping] feature; Can buy items from [Shibuya] online"],
+            ["5", "Safe Supply", "Can buy items from [Zoshigaya] online"],
+            ["7", "Supply Network", "Can buy items from [Yongen-Jaya] online"],
+            ["13", "Pipeline Expansion", "Can buy items from [Kichijoji] online"],
+            ["17", "Logistical Support", "Can buy items from [Shinjuku] online"],
+            ["20", "Warehouse Hideout", "Can buy items from [Akihabara] online"]
+        ],
+        "socialStats": [],
+        "hangouts": [],
+        "rankUpChoices": [],
+        "gifts": []
+    }
+},
+"Miyu Sahara": {
+    "icon": "https://cdn.imgchest.com/files/4apc53kd3a4.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Cat Cafe"],
+        ["Rank 2", "Unlocks Trait: Gentle", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Dog Park", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Kind-hearted", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Pet Shop", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Nurturing", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Animal Shelter", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Compassionate", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Wildlife Park", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Cherished", "Allows you to obtain a Sahara-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Miyu confidant focus on providing more points when gifting gifts to Confidants making her well worth it. It's recommened to get her Rank 17 to max her gifting perks.",
+        "skills": [
+            ["1", "Adorable Tips", "You can purchase the Limited Edition Keychain at the Kichijoji Energy Stone Store. Snack Value Pack can be purchased at Yongenjaya Supermarket."],
+            ["5", "Warm Open-Mindedness", "15% point increase when gifting gifts"],
+            ["7", "Big Brother, Nice to Meet You", "Premium Essential Oil Set' can be purchased at Shibuya Underground Shopping Mall Beauty Store. Night Cake can be purchased at Shibuya Underground Shopping Mall / High-end Supermarket."],
+            ["13", "Can I Act Cute?", "Tabletop Incense Machine can be purchased at Shibuya Underground Shopping Center and Beauty Salon. Musical Snow Globe Model can be purchased at Kichijoji Stationery Store."],
+            ["17", "Big Brother Is So Crafty", "15% point increase when gifting gifts"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Kindness Rank 3"],
+            ["Rank 4 -> 5", "Kindness Rank 5"],
+            ["Rank 6 -> 7", "Kindness Rank 6"],
+            ["Rank 8 -> 9", "Kindness Rank 8"],
+            ["Rank 10 -> 11", "Kindness Rank 10"],
+            ["Rank 12 -> 13", "Kindness Rank 11"],
+            ["Rank 14 -> 15", "Kindness Rank 13"],
+            ["Rank 16 -> 17", "Kindness Rank 15"],
+            ["Rank 19 -> 20", "Kindness Rank 17"]
+        ],
+        "hangouts": [
+            ["Shinjuku", "Don't go far from me+60<br>First of all, I have to finish what I have to do+50"],
+            ["Odaiba Seaside Park", "It's an honor +60<br>Why? +50"],
+            ["Miura Coast", "Tell me +60<br>I don't know if this will help +50"],
+            ["Shibuya", "Trust me +60<br>Will it live up to expectations? +50"],
+            ["Jinbocho", "I'm looking forward to it +60<br>Will it remain? +50"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "Can you tell me what's going on? +50<br>I just want to see the Little Mermaid +60"],
+            ["Rank 4 -> 5", "Yeah +60<br>Oh, yeah+40<br>Cheer up +50"],
+            ["Rank 6 -> 7", "Yeah +40<br>I don't know +50<br>Does it look like you? +60"],
+            ["Rank 8 -> 9", "Okay +60<br>Oh, brother ? +50"],
+            ["Rank 10 -> 11", "You have to worry about yourself +60<br>Let's keep it a secret +50"],
+            ["Rank 12 -> 13", "Anytime is okay +50<br>Don't you need help? +40<br>I'll be waiting +60"],
+            ["Rank 14 -> 15", "It is the result of Miyu's hard work. +60<br>What I did is not worth mentioning. +40<br>It is the result that Miyu takes for granted. +50<br><br>I hope you will give me some time. Friends<br>I also want to be with Miyu in the future. Lovers"],
+            ["Rank 16 -> 17", "Let's go together +60<br>Is it okay? +50"],
+            ["Rank 19 -> 20", "Don't worry +40<br>I didn't do anything +50<br>It's for Miyu's dream +60"],
+            ["Rank 19 -> 20(Lovers)", "My heart is also pounding +60<br>Calm down+50"]
+        ],
+        "gifts": [
+            ["Fairy Tale Deluxe", "20", "10", "10", "¥ 3800"],
+            ["Dress Up Doll", "70", "35", "35", "¥ 16,000"],
+            ["Premium Fragrance Combination", "20", "10", "10", "¥ 3,800"],
+            ["Cartoon Apron", "8", "4", "4", "¥ 1,600"],
+            ["Camellia Tea", "18", "9", "9", "4 Camellia + 1 Fancy Package"],
+            ["Collected Edition of Psychology Writings", "22", "11", "11", "¥ 4,500"],
+            ["Cartoon Theme Pillow", "20", "10", "10", "¥ 4,000"],
+            ["Advanced Custom Doll House", "44", "22", "22", "¥ 9,000"],
+            ["Mini Speaker", "120", "60", "60", "¥ 36,000"],
+            ["The Latest Drone", "112", "56", "56", "¥ 33,000"],
+            ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+            ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+            ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+            ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+            ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+            ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+        ]
+    }
+},
+"Riko Tanemura": {
+    "icon": "https://cdn.imgchest.com/files/45xcv9gk9b7.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Batting Cages"],
+        ["Rank 2", "Unlocks Trait: Tenacious", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Sports Store", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Fiery", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Gym", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Passionate", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Stadium", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Driven", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Pro Match", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Ace", "Allows you to obtain a Tanemura-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Riko's confidant focus on unlocking new hangout spots and gaining more points from intiving confidants to places.",
+        "skills": [
+            ["1", "Food and Love", "Unlocks the Hangout Spot \"Shibuya Buffet\""],
+            ["5", "Taste of Fireworks", "Unlocks the Hangout Spot \"Motomachi Chinatown\""],
+            ["7", "Blue Gate", "Unlocks the Hangout Spot \"Shinagawa Aquarium\", and gains more Confidant Points from Invitations"],
+            ["13", "Thoughts between Rice", "Unlocks the Hangout Spot \"Ginza Sushi Restaurant\""],
+            ["17", "Yellowing Times", "Unlocks the Hangout Spot \"Akihabara Electronics Store\", and gains more Confidant Points from Invitations"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Knowledge 3"],
+            ["Rank 4 -> 5", "Knowledge 5"],
+            ["Rank 6 -> 7", "Knowledge 6"],
+            ["Rank 8 -> 9", "Knowledge 8"],
+            ["Rank 10 -> 11", "Knowledge 10"],
+            ["Rank 12 -> 13", "Knowledge 11"],
+            ["Rank 14 -> 15", "Knowledge 13"],
+            ["Rank 16 -> 17", "Knowledge 15"],
+            ["Rank 19 -> 20", "Knowledge 17"]
+        ],
+        "hangouts": [
+            ["Shibuya", "Please +60<br>No thanks +50"],
+            ["Ueno", "I want to go and have a look +60<br>I want to take a break first +50"],
+            ["Kichijoji", "Want to research on my own +50<br>Want to know about trendy stores +60"],
+            ["Shinjuku", "Calm down +50<br>So you like movie theaters? +60"],
+            ["Shimokitazawa", "Of course you can +60<br>Skip patrol? +50"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "Found your real self? +50<br>All on you +40<br>Got to see Riko being cute +60"],
+            ["Rank 4 -> 5", "Let him know the real Riko +60<br>Riko have us +40<br>I don't think so +50"],
+            ["Rank 6 -> 7", "It fits you +60<br>Feels tough +40<br>Put it in the candidates? +50"],
+            ["Rank 8 -> 9", "Captain's duty +40<br>I'm happy you told me +60<br>Saying it could make you feel relaxed +50"],
+            ["Rank 10 -> 11", "Riko won't accept prevarication +60<br>Why embezzled the funds? +40<br>There is a reason for the soft treatment +50"],
+            ["Rank 12 -> 13", "Riko is also thinking about other paths +60<br>There is also the option of not being an heir +50<br>Riko will not be the heir +40"]
+        ],
+        "gifts": []
+    }
+},
+"Ruferu": {
+    "icon": "https://cdn.imgchest.com/files/y8xcnkwlkb4.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Dog Park"],
+        ["Rank 2", "Unlocks Trait: Animal Lover", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Pet Store", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Playful", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Cat Cafe", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Loyal", "Unlocks new story"],
+        ["Rank 7", "Unlocks Part-time Job: Vet Clinic", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Protective", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Animal Shelter", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Best Friend", "Allows you to obtain a Ruferu-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Ruferu is the only confidant whose Confidant can be progressed by the main story and has no dialog options to pick.",
+        "skills": [
+            ["1", "Deal Established", "Ruferu business goals can be completed from time to time"],
+            ["2", "Making Infiltration Tools", "Stealth items can be crafted (Only unlocked after unlocking the workbench)"],
+            ["3", "Infiltration Insights", "Can instantly kill low-level shadows in Palaces and Mementos"],
+            ["4", "Intermediate Recipe", "You can craft Treasure Hunter items for Kiuchi and Miyazawa Palaces"],
+            ["5", "Material Saving Insights", "When making a gift, there is a chance to return some of the materials that was used to make it."],
+            ["6", "Advanced Recipe", "More craftable gifts are added"],
+            ["7", "Gift Making Skills", "When making a gift, there is a chance to produce an extra"]
+        ],
+        "socialStats": [],
+        "hangouts": [],
+        "rankUpChoices": [],
+        "gifts": []
+    }
+},
+"Runa Dogenzaka": {
+    "icon": "https://cdn.imgchest.com/files/4gdcxplvp64.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Second-hand Shop"],
+        ["Rank 2", "Unlocks Trait: Frugal", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Flea Market", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Resourceful", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Arcade", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Nostalgic", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Retro Cafe", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Savvy", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Antique Shop", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Collector", "Allows you to obtain a Dogenzaka-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Runa confidant is great for discounted prices across various in game shops to obtain expensive gifts cheaper.",
+        "skills": [
+            ["1", "Saving Tips", "In Shibuya, most shops have slightly reduced prices"],
+            ["5", "Discount Tips", "In Akihabara, most shops have slightly reduced prices"],
+            ["7", "Smart Choices", "In Shinjuku, most shops have slightly reduced prices"],
+            ["13", "Smart Spending", "In Zoshigaya and Yogenjaya, most shops have slightly reduced prices"],
+            ["17", "Shopping Wisdom", "In Kichijoji, most street shops have slightly reduced prices"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Guts Rank 3"],
+            ["Rank 4 -> 5", "Guts Rank 5"],
+            ["Rank 6 -> 7", "Guts Rank 6"],
+            ["Rank 8 -> 9", "Guts Rank 8"],
+            ["Rank 10 -> 11", "Guts Rank 10"],
+            ["Rank 12 -> 13", "Guts Rank 11"],
+            ["Rank 14 -> 15", "Guts Rank 13"],
+            ["Rank 16 -> 17", "Guts Rank 15"],
+            ["Rank 19 -> 20", "Guts Rank 17"]
+        ],
+        "hangouts": [
+            ["Shibuya", "What an unexpected side 2<br>You know so well 3"],
+            ["Shinjuku", "It's Shibuya, so it's astringent 2<br>It's definitely miso ramen 3"],
+            ["Odaiba Seaside Park", "Are you good at Frisbee? 3<br>Poor dad... 2"],
+            ["Tsukishima", "Order everything on the menu 2<br>Select the most popular dishes first 3"],
+            ["Motomachi Chinatown", "This is really... 2<br>Shibuya is really deep 3"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "I like him very much +60<br>It's just so-so. +50<br>Actually I don't know him very well +40"],
+            ["Rank 4 -> 5", "Let's go together +50<br>There's really no other way +40<br>It's all for Shinchi +60"],
+            ["Rank 6 -> 7", "It was Liu Qi who touched his heart +60<br>I'm used to it +40<br>Everything is for Shinchi +50"],
+            ["Rank 8 -> 9", "Woof woof~! +60<br>Woof woof~ +50<br>…Woof woof~… +40"],
+            ["Rank 10 -> 11", "What matters is after being noticed +60<br>Black and red are also red +50<br>Just be ugly to the end +40"],
+            ["Rank 12 -> 13", "You were the first to infringe the copyright +40<br>Are you jealous of Ah Qi? +50<br>Apologize to Liu Qi +60"],
+            ["Rank 14 -> 15", "I'll \"convince\" him +50<br>Just asking casually +40<br>Leave it to me later +60<br><br>Because I love Shibuya (Close Friends)<br>Because I want to make Runa smile (Soulmates)"],
+            ["Rank 16 -> 17", "Shibuya is willing to tolerate everyone +60<br>Ryuichi is also quite naive +40<br>As expected of the seventh generation +50"],
+            ["Rank 19 -> 20", "I thought about it +40<br>I knew you can cook +40"],
+            ["Rank 19 -> 20(Lovers)", "Want to go to my room? +50<br>I want you to stay +60"]
+        ],
+        "gifts": [
+            ["Sports Cap", "18", "9", "9", "¥ 3,500"],
+            ["Styling Ballon Set", "14", "7", "7", "¥ 2,550"],
+            ["Cartoon sleeping eye mask", "30", "15", "15", "¥5,590"],
+            ["Advanced Sewing Tools Set", "48", "24", "24", "¥9,800"],
+            ["Mini Marshmallow Machine", "84", "42", "42", "¥20,800"],
+            ["Potted Music Plant", "44", "22", "22", "¥ 8,800"],
+            ["Mascot Plushie", "40", "20", "20", "¥7800"],
+            ["Cute Lunch Box", "32", "16", "16", "¥3200"],
+            ["Choker Necklace", "74", "37", "37", "¥ 18000"],
+            ["Pancake Glasses", "104", "52", "52", "¥ 30,000"],
+            ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+            ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+            ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+            ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+            ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+            ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+        ]
+    }
+},
+"Tomoko Noge": {
+    "icon": "https://cdn.imgchest.com/files/4z9cvwn8wz7.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Batting Cages"],
+        ["Rank 2", "Unlocks Trait: Studious", "Doubles knowledge gained from studying"],
+        ["Rank 3", "Unlocks Leisure Activity: Bookstore", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Straight-laced", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Library", "Doubles knowledge from leisure activities"],
+        ["Rank 6", "Unlocks Trait: Calm", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Game Center", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Level-headed", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Billiards", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Perceptive", "Allows you to obtain a Noge-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Tomoko is the best city confidant in the game as she can give you jobs and extra social stats while working. It's recommended to get her to atleast Rank 13 to gain the maximum amount of social stats while working",
+        "skills": [
+            ["1", "Part-Time Worker Debut", "You can work at Shibuya Dessert Shop"],
+            ["5", "Observation Experience", "When working, the social stats you gain while working is increased."],
+            ["7", "Reception Expert", "You can work at Shibuya Drug Store"],
+            ["13", "Service Experience", "When working, the social stats you gain while working will be additional increased"],
+            ["17", "Customer Observation", "You can work part-time at Shinjuku Bookstore"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Kindness Rank 3"],
+            ["Rank 4 -> 5", "Kindness Rank 5"],
+            ["Rank 6 -> 7", "Kindness Rank 6"],
+            ["Rank 8 -> 9", "Kindness Rank 8"],
+            ["Rank 10 -> 11", "Kindness Rank 10"],
+            ["Rank 12 -> 13", "Kindness Rank 11"],
+            ["Rank 14 -> 15", "Kindness Rank 13"],
+            ["Rank 16 -> 17", "Kindness Rank 15"],
+            ["Rank 19 -> 20", "Kindness Rank 17"]
+        ],
+        "hangouts": [
+            ["Shibuya", "Let's choose a pretty bouquet +60<br>It's better to choose it yourself... +50"],
+            ["Shinjuku", "It's nothing +60<br>It's a little awkward since there are only two of us... +50"],
+            ["Suidobashi", "I'm so sorry about this... +50<br>Then I won't give up +60"],
+            ["Odaiba Seaside Park", "Okay +60<br>In that situation... +50"],
+            ["Inokashira Park", "Respectable +60<br>Don't you have to work part-time too...? +50"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "So +60<br>is it... +40<br>Nice pitching +50"],
+            ["Rank 4 -> 5", "You can get stronger quickly +40<br>Don't overdo it +60<br>If it's training, I'll help you +50"],
+            ["Rank 6 -> 7", "Should I suggest it to the store manager? +40<br>Let's plan and try properly +60<br>It's worth a try +50"],
+            ["Rank 8 -> 9", "No way +60<br>I did nothing but +50<br>Now it's time to start becoming independent +40"],
+            ["Rank 10 -> 11", "Help me +60<br>Can you really do it…? +40<br>Today I am the florist owner +50"],
+            ["Rank 12 -> 13", "That's a big improvement +50<br>I'm a little disappointed +60<br>What is today’s recommended menu? +40"],
+            ["Rank 14 -> 15", "Sometimes I like things like this +50<br>Okay? +40<br>I'm glad the weather is nice +60<br><br>Until Kotone’s heart is healed (Friends)<br>I will always be by Tomoko's side (Lovers)"],
+            ["Rank 16 -> 17", "We'll be together +60<br>Don't overdo it +50"],
+            ["Rank 19 -> 20", "Of course +50<br>I'm still worried +40<br>Let's calm down! +60"],
+            ["Rank 19 -> 20(Lovers)", "It's just the two of us today +50<br><br>My parents are traveling +60"]
+        ],
+        "gifts": [
+            ["Magazine", "4", "2", "2", "¥800"],
+            ["Mascot Plushie", "40", "20", "20", "¥7800"],
+            ["Milk Flavor Bar Pack", "12", "24", "24", "¥4890"],
+            ["Cat Hairpin", "30", "10", "10", "¥4000"],
+            ["Heartshaped Ring", "250", "125", "125", "¥88,000"],
+            ["Cute Lunch Box", "32", "16", "16", "¥3200"],
+            ["Super Noisy Alarm Clock", "54", "18", "18", "¥7000"],
+            ["Heartshaped Hand Mirror", "12", "6", "6", "¥1200"],
+            ["Sunflower Seeds", "36", "18", "18", "Sunflower x6,Single Packet 1"],
+            ["Uji Matcha Pudding", "112", "56", "56", "¥12,000"],
+            ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+            ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+            ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+            ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+            ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+            ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+        ]
+    }
+},
+"Yaoling Li": {
+    "icon": "https://cdn.imgchest.com/files/ye3c2djpd84.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Movie Watching"],
+        ["Rank 2", "Unlocks Trait: Cultured", "Doubles insight gained from watching movies"],
+        ["Rank 3", "Unlocks Leisure Activity: Window Shopping", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Self-Made", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Exhibit Watching", "Doubles charm gained from leisure activities"],
+        ["Rank 6", "Unlocks Trait: Elegant", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Livehouse", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Free-spirited", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: VR Games", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Dazzling", "Allows you to obtain a Li-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Yaoling Li is a mixed bag confidant as she can give you recipes to cook Chinese dishes and allow you to craft battle items. It recommened to rank her all the way to Rank 13 to max out her crafting perks.",
+        "skills": [
+            ["1", "Ingenuity", "You craft small items to use in battle."],
+            ["5", "Chinese Cuisine Recipes", "Some Chinese dishes to cook are unlocked"],
+            ["7", "Fruits of Labor", "More in battle items can be crafted"],
+            ["13", "Dexterous Skills", "When crafting combat items, some materials may be returned."],
+            ["17", "The Charm of Chinese Cuisine", "More Chinese cuisine are unlocked"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Knowledge 3"],
+            ["Rank 4 -> 5", "Knowledge 5"],
+            ["Rank 6 -> 7", "Knowledge 6"],
+            ["Rank 8 -> 9", "Knowledge 8"],
+            ["Rank 10 -> 11", "Knowledge 10"],
+            ["Rank 12 -> 13", "Knowledge 11"],
+            ["Rank 14 -> 15", "Knowledge 13"],
+            ["Rank 16 -> 17", "Knowledge 15"],
+            ["Rank 19 -> 20", "Knowledge 17"]
+        ],
+        "hangouts": [
+            ["Kanda", "I heard +60<br>I have no idea +50"],
+            ["Tsukishima", "That could be +60<br>Is that so? +50"],
+            ["Asakusa", "Want to take the water bus? +60<br>Want to go to the aquarium? +50"],
+            ["Joshigaya", "I'll buy it +60<br>Buy me +50"],
+            ["Shimokitazawa", "Does it matter? +50<br>Yaoling answer +60"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "How about trying out different experiences? +60<br>This is a serious problem… +40<br>Don't be so impatient +50"],
+            ["Rank 4 -> 5", "Maybe +40<br>How about Yaoling? +60<br>I will work hard except for studying +50"],
+            ["Rank 6 -> 7", "Yaoling, cheer up too +60<br>Go at your own pace +50<br>First of all, it's important to enjoy it +40"],
+            ["Rank 8 -> 9", "I have to do something +60<br>Other people's house circumstances... +50<br>I'm still not sure +40"],
+            ["Rank 10 -> 11", "Good opportunity +60<br>I want to talk about more stories +50<br>Looks like it'll be fun to study +40"],
+            ["Rank 12 -> 13", "Do you know matcha well? +60<br>You have a huge appetite +40<br>Lady who knows the difference +50"],
+            ["Rank 14 -> 15", "The truth must be felt +60<br>Let's speak politely +40<br>I have no choice but to say what I want to say +50<br><br>Because I promised you. Friends<br>Yaoling is precious to me.Lovers"],
+            ["Rank 16 -> 17", "It must have been conveyed +50<br>I don't know +40<br>Believe +60"],
+            ["Rank 19 -> 20", "Best answer +50<br>Maybe I'm thinking too much? +40<br>Dad's being mean... +60"],
+            ["Rank 19 -> 20(Lovers)", "It's pretty... +60<br>It's amazing... +50"]
+        ],
+        "gifts": [
+            ["Limited card set", "16", "8", "8", "¥ 3,200"],
+            ["Supernatural Video", "110", "55", "55", "¥ 32,000"],
+            ["Incredible Glasses", "18", "9", "9", "¥ 3,560"],
+            ["Special Nut Combination", "14", "7", "7", "¥ 2,800"],
+            ["Adult Smart Ring", "24", "12", "12", "¥ 4,700"],
+            ["Digital Camera", "128", "64", "64", "¥39,800"],
+            ["Traditional Dim Sum Combination", "20", "10", "10", "¥ 3,800"],
+            ["Kendama", "12", "6", "6", "¥2,400"],
+            ["High Performance Electric Toothbrush", "104", "52", "52", "¥29,800"],
+            ["Jasmine Tea", "18", "9", "9", "1 Simple Packing,6 Jasmine"],
+            ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+            ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+            ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+            ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+            ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+            ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+        ]
+    }
+},
+"YUI": {
+    "icon": "https://cdn.imgchest.com/files/7w6c2vgmvqy.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Part-time Job: Cafe"],
+        ["Rank 2", "Unlocks Trait: Focused", "Unlocks new story"],
+        ["Rank 3", "Unlocks Part-time Job: Ramen Shop", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Reserved", "Unlocks new story"],
+        ["Rank 5", "Unlocks Part-time Job: Cake Shop", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Observant", "Unlocks new story"],
+        ["Rank 7", "Unlocks Part-time Job: Cinema", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Efficient", "Reduces vitality cost of part-time jobs by 20%"],
+        ["Rank 9", "Unlocks Part-time Job: Hotel", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Reliable", "Allows you to obtain a YUI-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "YUI is a good confidants for players who are looking to invest into planting. Its recommened to rank her all the way to Rank 17 to max her planting perks.",
+        "skills": [
+            ["1", "Chat With Plants", "Planting time reduced"],
+            ["5", "Make Friends with Plants", "Unlock more flower pots and vegetable pots"],
+            ["9", "Thoughts of Response", "Planting and harvesting provide opportunities to obtain seeds"],
+            ["13", "Cultivation Insights", "Planting has a certain chance of obtaining additional plant"],
+            ["17", "Convey Wishes", "Planting time significantly reduced"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Kindness Rank 3"],
+            ["Rank 4 -> 5", "Kindness Rank 5"],
+            ["Rank 6 -> 7", "Kindness Rank 6"],
+            ["Rank 8 -> 9", "Kindness Rank 8"],
+            ["Rank 10 -> 11", "Kindness Rank 10"],
+            ["Rank 12 -> 13", "Kindness Rank 11"],
+            ["Rank 14 -> 15", "Kindness Rank 13"],
+            ["Rank 16 -> 17", "Kindness Rank 15"],
+            ["Rank 19 -> 20", "Kindness Rank 17"]
+        ],
+        "hangouts": [
+            ["Field", "It's huge +60<br>Really for beginners? +40"],
+            ["Nearby", "I don't feel like it, but I'll go... +60<br>It doesn't suit me +40"],
+            ["Far Away", "Want to live? +60<br>It won't be easy to raise +40"],
+            ["Snowfield", "I want to go sledding +60<br><br>I want to do winter sports +50<br>Dig a hole in the snow +40"],
+            ["Manager's Field", "No Choice"]
+        ],
+        "rankUpChoices": [
+            ["Rank 2 -> 3", "I like it +60<br>Embarrassing +40<br>Raise the title a bit more +50"],
+            ["Rank 4 -> 5", "Let's talk a lot in the future +60<br>If you're just a conversation partner... +40<br>Are you okay with me? +50"],
+            ["Rank 6 -> 7", "Looks fun +60<br>What are you doing? +40<br>Bazooka...? +50"],
+            ["Rank 8 -> 9", "Ms.YUI? +40<br>Do you like French fries? +60<br>Baron +50"],
+            ["Rank 10 -> 11", "Should I give you some more water? +50<br>Is the fertilizer wrong? +40<br>Are there any pests? +60"],
+            ["Rank 12 -> 13", "I'll be with you +60<br>Everyday is a bit… +40<br>There may be another problem +50"],
+            ["Rank 14 -> 15", "That makes sense +50<br>Is that the problem…? +60<br>YUI replied +40"],
+            ["Rank 16 -> 17", "Things that don't require much hands +60<br>Sunlight is also important +50<br>Inspiration is important +40"],
+            ["Rank 19 -> 20", "YUI and everyone worked hard +40<br>I'm just a trigger +60<br>Do you think my title will go up too? +50"],
+            ["Rank 19 -> 20(Friends)", "I'm so into farming... +60<br>I have a houseplant… +50<br><br>[Additional Choices]<br>Are you living together? +60<br>Listen to my opinion too +50"]
+        ],
+        "gifts": [
+            ["Idol's Light Game Card", "24", "12", "12", "¥ 4,900"],
+            ["Magnet Necklace", "24", "12", "12", "¥ 4,800"],
+            ["Desktop Mini Cactus", "8", "4", "4", "¥ 1,500"],
+            ["Themed Flower pots", "2", "1", "1", "¥ 500"],
+            ["Sweeping Robot", "100", "50", "50", "¥ 28,000"],
+            ["Glass Vase", "16", "8", "8", "¥ 3,200"],
+            ["Handmade Flower Basket", "16", "8", "8", "¥ 3,200"],
+            ["Chocolate Truffles", "28", "14", "14", "¥ 12,000"],
+            ["Designer Perfume", "224", "112", "112", "¥ 78,000"],
+            ["Watercolor Postcard", "4", "2", "2", "¥ 800"],
+            ["Limited Edition Keychain", "16", "8", "8", "¥ 3,000"],
+            ["Thick Snacks Value Pack", "16", "8", "8", "¥ 3,000"],
+            ["Music Snow Globe Model", "24", "12", "12", "¥ 10,000"],
+            ["Chestnut Cake", "30", "15", "15", "¥ 6,000"],
+            ["Desktop Incense Machine", "56", "28", "28", "¥ 7,700"],
+            ["Advanced Essential Oil Combination", "38", "19", "19", "¥ 12,000"]
+        ]
+    }
+},
+"Yumi Shiina": {
+    "icon": "https://cdn.imgchest.com/files/739cx6on667.png",
+    "levels": [
+        ["Rank 1", "Unlocks Confidant", "Unlocks Leisure Activity: Aquarium"],
+        ["Rank 2", "Unlocks Trait: Calm", "Unlocks new story"],
+        ["Rank 3", "Unlocks Leisure Activity: Planetarium", "Unlocks new story"],
+        ["Rank 4", "Unlocks Trait: Dreamy", "Unlocks new story"],
+        ["Rank 5", "Unlocks Leisure Activity: Art Museum", "Unlocks new story"],
+        ["Rank 6", "Unlocks Trait: Imaginative", "Unlocks new story"],
+        ["Rank 7", "Unlocks Leisure Activity: Cat Cafe", "Unlocks new story"],
+        ["Rank 8", "Unlocks Trait: Empathetic", "Reduces vitality cost of leisure activities by 20%"],
+        ["Rank 9", "Unlocks Leisure Activity: Hot Springs", "Unlocks new story"],
+        ["Rank 10", "Unlocks Trait: Serene", "Allows you to obtain a Shiina-exclusive momento"]
+    ],
+    "guide": {
+        "notes": "Yumi is the second best city confidant as she can let you craft drinks to restore action points. It's recommened to rank her all the way to Rank 17 for the chance to obtain double drinks.",
+        "skills": [
+            ["1", "Shake", "Unlock new drinks at the cooking station (which can improve properties after drinking)"],
+            ["5", "Strain", "The cooking station unlocks more new drinks (which can restore action points after drinking)"],
+            ["9", "Blend", "Allows you to purchase an additional Assam Tea at the Shinjuku Convenience Store"],
+            ["13", "Frozen", "Increased chance of making perfect drinks when making drinks"],
+            ["17", "Dual Mixing", "50% chance to create an extra drink when making drinks"]
+        ],
+        "socialStats": [
+            ["Rank 2 -> 3", "Charm Rank 3"],
+            ["Rank 4 -> 5", "Charm Rank 5"],
+            ["Rank 6 -> 7", "Charm Rank 6"],
+            ["Rank 8 -> 9", "Charm Rank 8"],
+            ["Rank 10 -> 11", "Charm Rank 10"],
+            ["Rank 12 -> 13", "Charm Rank 11"],
+            ["Rank 14 -> 15", "Charm Rank 13"],
+            ["Rank 16 -> 17", "Charm Rank 15"],
+            ["Rank 19 -> 20", "Charm Rank 17"]
+        ],
+        "hangouts": [
+            ["Shibuya", "If it's guidance, trust me +50<br>Let's play together +60"],
+            ["Shinjuku", "It's a pity... +50<br>When you become an adult +60"],
+            ["Odaiba Seaside Park", "It's an honor +50<br>Please give me the second one too +60"],
+            ["Ikebukuro", "Add star shaped ice +50<br>Expressing the night sky with colors +60"],
+            ["Tsukishima", "Call me master +50<br>I tried my best for Shiina +60"]
+        ],
+        "rankUpChoices": [],
+        "gifts": []
+    }
+}
+};
+
+
+
+            const confidantGridContainer = document.querySelector('#guide-confidants .confidant-grid-container');
+            const confidantModal = document.getElementById('confidantModal');
+            const confidantModalTitle = document.getElementById('confidantModalTitle');
+            const closeConfidantBtn = document.getElementById('closeConfidantBtn');
+            const confidantTabsContainer = document.getElementById('confidantTabsContainer');
+            const confidantTabContentContainer = document.getElementById('confidantTabContentContainer');
+
+function openConfidantModal(confidantName) {
+                const data = confidantData[confidantName];
+                if (!data) return;
+
+                confidantModalTitle.textContent = confidantName;
+
+                confidantTabsContainer.innerHTML = `
+                    <button class="tab active" data-tab="guide">Guide</button>
+                    <button class="tab" data-tab="levels">Levels/Unlocks</button>
+                `;
+                
+                let guideContentHTML = '<div class="confidant-guide-content">';
+                if (data.guide) {
+                    if(data.guide.notes && data.guide.notes.length > 0) {
+                        guideContentHTML += `<div class="confidant-notes">${data.guide.notes}</div>`;
+                    }
+                    if(data.guide.skills && data.guide.skills.length > 0) {
+                        guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Confidant Skills</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Rank</th><th>Ability</th><th>Description</th></tr></thead>
+                                    <tbody>${data.guide.skills.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2] || ''}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                    if(data.guide.socialStats && data.guide.socialStats.length > 0) {
+                        guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Social Stat Requirements</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Rank Up</th><th>Requirement</th></tr></thead>
+                                    <tbody>${data.guide.socialStats.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                    if(data.guide.requirements && data.guide.requirements.length > 0) {
+                         guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Fusion Requirements</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Rank</th><th>Requirement</th></tr></thead>
+                                    <tbody>${data.guide.requirements.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                     if(data.guide.hangouts && data.guide.hangouts.length > 0) {
+                         guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Hangout Choices</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Place</th><th>Dialog Options</th></tr></thead>
+                                    <tbody>${data.guide.hangouts.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                    if(data.guide.rankUpChoices && data.guide.rankUpChoices.length > 0) {
+                         guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Confidant Rank Up Choices</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Rank</th><th>Dialog Options</th></tr></thead>
+                                    <tbody>${data.guide.rankUpChoices.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                     if(data.guide.gifts && data.guide.gifts.length > 0) {
+                         guideContentHTML += `
+                            <div class="confidant-guide-section">
+                                <h4>Gifts</h4>
+                                <table class="confidant-table">
+                                    <thead><tr><th>Gift</th><th>First Time Points</th><th>Favorite Points</th><th>General Points</th><th>Cost</th></tr></thead>
+                                    <tbody>${data.guide.gifts.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td></tr>`).join('')}</tbody>
+                                </table>
+                            </div>`;
+                    }
+                }
+                guideContentHTML += '</div>';
+
+                // --- Build Levels Tab Content ---
+                const levelsTable = `
+                    <table class="confidant-table">
+                        <thead><tr><th>Rank</th><th>Unlocks/Reward</th><th>Effect</th></tr></thead>
+                        <tbody>${(data.levels || []).map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2] || ''}</td></tr>`).join('')}</tbody>
+                    </table>`;
+
+                // Set initial content
+                confidantTabContentContainer.innerHTML = `
+                    <div class="tab-content active" id="confidant-tab-guide">${guideContentHTML}</div>
+                    <div class="tab-content" id="confidant-tab-levels">${levelsTable}</div>
+                `;
+
+                confidantModal.classList.add('show');
+
+                // Add tab switching logic for the modal
+                const tabs = confidantTabsContainer.querySelectorAll('.tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+
+                        const tabName = tab.dataset.tab;
+                        confidantTabContentContainer.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        const targetContent = document.getElementById(`confidant-tab-${tabName}`);
+                        if (targetContent) {
+                            targetContent.classList.add('active');
+                        }
+                    });
+                });
+            }
+
+            function closeConfidantModal() {
+                confidantModal.classList.remove('show');
+            }
+
+            if (confidantGridContainer) {
+                const confidantNames = Object.keys(confidantData);
+                
+                if (confidantNames.length > 0) {
+                    confidantNames.forEach(name => {
+                        const confidant = confidantData[name];
+                        const card = document.createElement('div');
+                        card.className = 'confidant-grid-card';
+                        
+                        card.innerHTML = `
+                            <img src="${confidant.icon || 'https://cdn.imgchest.com/files/7w6c29mozey.png'}" alt="${name}" class="confidant-grid-icon">
+                            <div class="confidant-grid-name">${name}</div>
+                        `;
+
+                        card.addEventListener('click', () => openConfidantModal(name));
+                        confidantGridContainer.appendChild(card);
+                    });
+                }
+            }
+            
+            closeConfidantBtn.addEventListener('click', closeConfidantModal);
+            confidantModal.addEventListener('click', (e) => {
+                if (e.target === confidantModal) {
+                    closeConfidantModal();
+                }
+            });
+        });
+		
+// --- ARCANA CARD TABS ---
+            const arcanaTabs = document.querySelectorAll('#guide-arcana .arcana-tab');
+            const arcanaContents = document.querySelectorAll('#guide-arcana .arcana-tab-content');
+
+            arcanaTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = `arcana-content-${tab.dataset.tab}`;
+
+                    arcanaTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    arcanaContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // --- ARCANA SEARCH BAR ---
+            const arcanaSearchInput = document.getElementById('arcanaSearchInput');
+            if (arcanaSearchInput) {
+                arcanaSearchInput.addEventListener('input', () => {
+                    const searchTerm = arcanaSearchInput.value.toLowerCase();
+                    const allArcanaCards = document.querySelectorAll('#guide-arcana .arcana-card');
+
+                    allArcanaCards.forEach(card => {
+                        const cardText = card.textContent.toLowerCase();
+                        if (cardText.includes(searchTerm)) {
+                            // Use 'flex' as it's the default display style for these cards
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+    </script>
+</body>
+</html>
