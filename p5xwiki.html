@@ -1169,11 +1169,11 @@ body.sidebar-open .site-wrapper {
         <div class="quick-nav-card-name">Confidants</div>
     </div>
     <div class="quick-nav-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4z9cvq8xk87.png');"></div>
         <div class="quick-nav-card-name">Calculator</div>
     </div>
     <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units, their skills, and builds.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yvdcwxbogoy.png');"></div>
         <div class="quick-nav-card-name">Units</div>
     </a>
 </div>
@@ -1200,11 +1200,11 @@ body.sidebar-open .site-wrapper {
         <div class="guide-card-name">Confidants</div>
     </div>
     <div class="guide-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
-        <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Calculator Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/4z9cvq8xk87.png" alt="Calculator Icon" class="guide-card-icon">
         <div class="guide-card-name">Calculator</div>
     </div>
     <a href="https://mcburnr.github.io/p5xunits.html" class="guide-card" data-preview="Browse all playable units, their skills, and builds.">
-        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Units Guide Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/yvdcwxbogoy.png" alt="Units Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Units</div>
     </a>
 </nav>
@@ -1493,82 +1493,89 @@ body.sidebar-open .site-wrapper {
             </section>
         </div>
 		
-		<!-- Add this new section for the calculator -->
+<!-- Damage Calculator -->
+<!-- Damage Calculator Section -->
 <section class="guide-content-panel" id="guide-calculator">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <div class="text-center mb-10">
             <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Damage Calculator</h1>
-            <p id="credits" class="text-gray-500 mt-2">Damage Calculations by Root on Lufle.net</p>
+            <p id="credits" class="text-gray-500 mt-2">Damage Calculations by AbsolRoot on Lufle.net</p>
             <p id="credits" class="text-gray-500 mt-2">Spreadsheet & Adjustments by Matthieu/mathieubdg on Discord</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Main Calculator Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <!-- Attack Power Calculation -->
-            <div id="atk_power_card" class="calculator-card border-red-500 rounded-lg p-6 space-y-4">
-                <h2 class="text-3xl text-white">ⓐ Attack Power</h2>
-                <div><label for="char_atk" class="block mb-1 text-sm font-medium text-gray-300">Character Attack Value</label><div class="input-group"><input type="number" id="char_atk" class="input-field" value="0" step="any"></div></div>
-                <div><label for="weapon_atk" class="block mb-1 text-sm font-medium text-gray-300">Weapon Attack Value</label><div class="input-group"><input type="number" id="weapon_atk" class="input-field" value="0" step="any"></div></div>
-                <div><label for="atk_percent" class="block mb-1 text-sm font-medium text-gray-300">Attack %</label><div class="input-group"><input type="number" id="atk_percent" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="atk_flat" class="block mb-1 text-sm font-medium text-gray-300">Attack Constant (flat)</label><div class="input-group"><input type="number" id="atk_flat" class="input-field" value="0" step="any"></div></div>
-                <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-red-400">Result</label><div id="atk_power_result" class="output-field p-3 rounded text-center">0.00</div></div>
-                <div class="flex space-x-2 pt-2">
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="atk_power_formula_box">Show Formula</button>
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="atk_power_comments">Comments</button>
-                </div>
-                <div id="atk_power_formula_box" class="formula-box"><code>(char_atk + weapon_atk) * (1 + atk_%) + atk_flat</code></div>
-                <div id="atk_power_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
+            <!-- A: Attack Power -->
+            <div class="calculator-card border-red-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓐ Attack Power</h2>
+                <div><label for="char_atk" class="block mb-1 text-xs font-medium text-gray-300">Character Attack</label><div class="input-group"><input type="number" id="char_atk" class="input-field py-2" value="0" step="any"></div></div>
+                <div><label for="weapon_atk" class="block mb-1 text-xs font-medium text-gray-300">Weapon Attack</label><div class="input-group"><input type="number" id="weapon_atk" class="input-field py-2" value="0" step="any"></div></div>
+                <div><label for="atk_percent" class="block mb-1 text-xs font-medium text-gray-300">Attack %</label><div class="input-group"><input type="number" id="atk_percent" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="atk_flat" class="block mb-1 text-xs font-medium text-gray-300">Flat Attack</label><div class="input-group"><input type="number" id="atk_flat" class="input-field py-2" value="0" step="any"></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-red-400">Result</label><div id="atk_power_result" class="output-field p-2 rounded text-center text-xl">0.00</div></div>
             </div>
 
-            <!-- Damage Bonus Calculation -->
-            <div id="dmg_bonus_card" class="calculator-card border-yellow-500 rounded-lg p-6 space-y-4">
-                <h2 class="text-3xl text-white">ⓑ Damage Bonus</h2>
-                <div><label for="atk_multiplier" class="block mb-1 text-sm font-medium text-gray-300">Attack Multiplier</label><div class="input-group"><input type="number" id="atk_multiplier" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="elemental_multiplier" class="block mb-1 text-sm font-medium text-gray-300">Elemental Damage Multiplier</label><div class="input-group"><input type="number" id="elemental_multiplier" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="enemy_damage_taken" class="block mb-1 text-sm font-medium text-gray-300">Increased Damage Taken by Enemy</label><div class="input-group"><input type="number" id="enemy_damage_taken" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-yellow-400">Result</label><div id="dmg_bonus_result" class="output-field p-3 rounded text-center">100.00%</div></div>
-                 <div class="flex space-x-2 pt-2">
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="dmg_bonus_formula_box">Show Formula</button>
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="dmg_bonus_comments">Comments</button>
-                </div>
-                <div id="dmg_bonus_formula_box" class="formula-box"><code>100% + atk_multiplier_% + elemental_multiplier_% + enemy_damage_taken_%</code></div>
-                <div id="dmg_bonus_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
+            <!-- B: Damage Bonus -->
+            <div class="calculator-card border-yellow-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓑ Damage Bonus</h2>
+                <div><label for="atk_multiplier" class="block mb-1 text-xs font-medium text-gray-300">Attack Multiplier</label><div class="input-group"><input type="number" id="atk_multiplier" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="elemental_multiplier" class="block mb-1 text-xs font-medium text-gray-300">Elemental Damage</label><div class="input-group"><input type="number" id="elemental_multiplier" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="enemy_damage_taken" class="block mb-1 text-xs font-medium text-gray-300">Increased Damage Taken</label><div class="input-group"><input type="number" id="enemy_damage_taken" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-yellow-400">Result</label><div id="dmg_bonus_result" class="output-field p-2 rounded text-center text-xl">100.00%</div></div>
             </div>
 
-            <!-- Enemy Defense Calculation -->
-            <div id="enemy_def_card" class="calculator-card border-blue-500 rounded-lg p-6 space-y-4">
-                <h2 class="text-3xl text-white">ⓒ Enemy Defense</h2>
-                <div><label for="enemy_def" class="block mb-1 text-sm font-medium text-gray-300">Enemy Defense Value</label><div class="input-group"><input type="number" id="enemy_def" class="input-field" value="0" step="any"></div></div>
-                <div><label for="add_def_coeff" class="block mb-1 text-sm font-medium text-gray-300">Additional Defense Coefficient</label><div class="input-group"><input type="number" id="add_def_coeff" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="pierce_rate" class="block mb-1 text-sm font-medium text-gray-300">Pierce Rate</label><div class="input-group"><input type="number" id="pierce_rate" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="def_reduction" class="block mb-1 text-sm font-medium text-gray-300">Defense Reduction</label><div class="input-group"><input type="number" id="def_reduction" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-                <div><label for="winded" class="block mb-1 text-sm font-medium text-gray-300">Winded?</label><div class="input-group"><select id="winded" class="input-field"><option value="not_winded">Not Winded</option><option value="winded">Winded</option></select></div></div>
-                <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-blue-400">Result (Damage Multiplier)</label><div id="enemy_def_result" class="output-field p-3 rounded text-center">0.00</div></div>
-                 <div class="flex space-x-2 pt-2">
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="enemy_def_formula_box">Show Formula</button>
-                    <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="enemy_def_comments">Comments</button>
-                </div>
-                <div id="enemy_def_formula_box" class="formula-box"><code>1 - (effective_def / (effective_def + 1400))</code></div>
-                <div id="enemy_def_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
+            <!-- C: Enemy Defense -->
+            <div class="calculator-card border-blue-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓒ Enemy Defense</h2>
+                <div><label for="enemy_def" class="block mb-1 text-xs font-medium text-gray-300">Enemy Defense</label><div class="input-group"><input type="number" id="enemy_def" class="input-field py-2" value="0" step="any"></div></div>
+                <div><label for="add_def_coeff" class="block mb-1 text-xs font-medium text-gray-300">Add. Defense Coeff.</label><div class="input-group"><input type="number" id="add_def_coeff" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="pierce_rate" class="block mb-1 text-xs font-medium text-gray-300">Pierce Rate</label><div class="input-group"><input type="number" id="pierce_rate" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="def_reduction" class="block mb-1 text-xs font-medium text-gray-300">Defense Reduction</label><div class="input-group"><input type="number" id="def_reduction" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="winded" class="block mb-1 text-xs font-medium text-gray-300">Winded?</label><div class="input-group"><select id="winded" class="input-field py-2"><option value="not_winded">No</option><option value="winded">Yes</option></select></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-blue-400">Result (Multiplier)</label><div id="enemy_def_result" class="output-field p-2 rounded text-center text-xl">0.0000</div></div>
             </div>
 
-            <!-- Critical Calculation -->
-<!-- Critical Calculation -->
-<div id="crit_calc_card" class="calculator-card border-green-500 rounded-lg p-6 space-y-4">
-    <h2 class="text-3xl text-white">ⓓ Critical Calculation</h2>
-    <div><label for="crit_rate" class="block mb-1 text-sm font-medium text-gray-300">Critical Rate</label><div class="input-group"><input type="number" id="crit_rate" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-    <div><label for="crit_effect" class="block mb-1 text-sm font-medium text-gray-300">Critical Effect (Crit Mult.)</label><div class="input-group"><input type="number" id="crit_effect" class="input-field" value="0" step="any"><span class="input-adornment">%</span></div></div>
-    <div class="pt-2"><label class="block mb-1 text-sm font-bold uppercase tracking-wider text-green-400">Result (Average Multiplier)</label><div id="crit_calc_result" class="output-field p-3 rounded text-center">100.00%</div></div>
-     <div class="flex space-x-2 pt-2">
-        <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_formula_box">Show Formula</button>
-        <button class="toggle-btn text-xs py-1 px-2 rounded w-full" data-target="crit_calc_comments">Comments</button>
-    </div>
-    <div id="crit_calc_formula_box" class="formula-box"><code>(100% + crit_rate_%) * (crit_effect_% - 100%)</code></div>
-    <div id="crit_calc_comments" class="comments-section"><textarea class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-sm" placeholder="Temporary notes..."></textarea></div>
-</div>
+            <!-- D: Critical Calculation -->
+            <div class="calculator-card border-green-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓓ Critical Calculation</h2>
+                <div><label for="crit_rate" class="block mb-1 text-xs font-medium text-gray-300">Critical Rate</label><div class="input-group"><input type="number" id="crit_rate" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div><label for="crit_effect" class="block mb-1 text-xs font-medium text-gray-300">Critical Effect</label><div class="input-group"><input type="number" id="crit_effect" class="input-field py-2" value="150" step="any"><span class="input-adornment">%</span></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-green-400">Result (Avg. Multiplier)</label><div id="crit_calc_result" class="output-field p-2 rounded text-center text-xl">100.00%</div></div>
+            </div>
+
+            <!-- E: Skill Coefficient -->
+            <div class="calculator-card border-purple-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓔ Skill Coefficient</h2>
+                <div><label for="skill_coeff" class="block mb-1 text-xs font-medium text-gray-300">Skill Coefficient</label><div class="input-group"><input type="number" id="skill_coeff" class="input-field py-2" value="100" step="any"><span class="input-adornment">%</span></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-purple-400">Result (Multiplier)</label><div id="skill_coeff_result" class="output-field p-2 rounded text-center text-xl">100.00%</div></div>
+            </div>
+
+            <!-- F: Weakness Coefficient -->
+            <div class="calculator-card border-cyan-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓕ Weakness Coefficient</h2>
+                <div><label for="weakness_coeff" class="block mb-1 text-xs font-medium text-gray-300">Enemy Resistance</label><div class="input-group"><select id="weakness_coeff" class="input-field py-2"><option value="1">Normal (100%)</option><option value="1.2">Weak (120%)</option><option value="0.5">Resist (50%)</option></select></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-cyan-400">Result (Multiplier)</label><div id="weakness_coeff_result" class="output-field p-2 rounded text-center text-xl">100.00%</div></div>
+            </div>
+
+            <!-- G: Final Damage Bonus -->
+            <div class="calculator-card border-pink-500 rounded-lg p-4 space-y-3">
+                <h2 class="text-2xl text-white">ⓖ Final Damage Bonus</h2>
+                <div><label for="final_dmg_bonus" class="block mb-1 text-xs font-medium text-gray-300">Final Damage Bonus</label><div class="input-group"><input type="number" id="final_dmg_bonus" class="input-field py-2" value="0" step="any"><span class="input-adornment">%</span></div></div>
+                <div class="pt-1"><label class="block mb-1 text-xs font-bold uppercase tracking-wider text-pink-400">Result (Multiplier)</label><div id="final_dmg_bonus_result" class="output-field p-2 rounded text-center text-xl">100.00%</div></div>
+            </div>
+        </div>
+
+        <!-- Final Damage Output -->
+        <div class="mt-8 bg-gray-900 border-2 border-red-600 rounded-xl p-6 shadow-lg shadow-red-500/20">
+            <h2 class="text-4xl text-center text-white uppercase">Final Damage Estimate</h2>
+            <div id="total_damage_result" class="text-6xl text-center font-bold text-red-500 mt-4">0 ~ 0</div>
+            <p class="text-center text-gray-400 mt-2">(Based on a random range coefficient of 0.95 to 1.05)</p>
         </div>
     </div>
 </section>
+
+
 
 		
 </div>
@@ -1674,59 +1681,74 @@ if (calculatorSection) {
         atk_multiplier: document.getElementById('atk_multiplier'), elemental_multiplier: document.getElementById('elemental_multiplier'), enemy_damage_taken: document.getElementById('enemy_damage_taken'),
         enemy_def: document.getElementById('enemy_def'), add_def_coeff: document.getElementById('add_def_coeff'), pierce_rate: document.getElementById('pierce_rate'), def_reduction: document.getElementById('def_reduction'), winded: document.getElementById('winded'),
         crit_rate: document.getElementById('crit_rate'), crit_effect: document.getElementById('crit_effect'),
+        skill_coeff: document.getElementById('skill_coeff'),
+        weakness_coeff: document.getElementById('weakness_coeff'),
+        final_dmg_bonus: document.getElementById('final_dmg_bonus'),
     };
     const outputs = {
         atk_power: document.getElementById('atk_power_result'), dmg_bonus: document.getElementById('dmg_bonus_result'), enemy_def: document.getElementById('enemy_def_result'), crit_calc: document.getElementById('crit_calc_result'),
+        skill_coeff: document.getElementById('skill_coeff_result'),
+        weakness_coeff: document.getElementById('weakness_coeff_result'),
+        final_dmg_bonus: document.getElementById('final_dmg_bonus_result'),
+        total_damage: document.getElementById('total_damage_result'),
     };
 
+// --- DAMAGE CALCULATOR LOGIC ---
 function calculateDamage() {
     const getVal = (id) => parseFloat(inputs[id].value) || 0;
     const getPercent = (id) => (parseFloat(inputs[id].value) || 0) / 100;
 
-    // ⓐ Attack Power Calculation
-    const attackPower = (getVal('char_atk') + getVal('weapon_atk')) * (1 + getVal('atk_percent') / 100) + getVal('atk_flat');
+    // A: Attack Power
+    const attackPower = (getVal('char_atk') + getVal('weapon_atk')) * (1 + getPercent('atk_percent')) + getVal('atk_flat');
     outputs.atk_power.textContent = attackPower.toFixed(2);
 
-    // ⓑ Damage Bonus Calculation
+    // B: Damage Bonus
     const damageBonus = 1 + getPercent('atk_multiplier') + getPercent('elemental_multiplier') + getPercent('enemy_damage_taken');
     outputs.dmg_bonus.textContent = (damageBonus * 100).toFixed(2) + '%';
     
-    // ⓒ Enemy Defense Calculation (Corrected)
-    // The multiplier for Winded is 0.88 (a 12% reduction), not 0.5.
-    const windedMultiplier = inputs.winded.value === 'winded' ? 0.88 : 1; 
+    // C: Enemy Defense
+    const windedMultiplier = inputs.winded.value === 'winded' ? 0.88 : 1;
     const defenseCoefficient = (1 + getPercent('add_def_coeff')) * (1 - getPercent('pierce_rate')) - getPercent('def_reduction');
     const effectiveEnemyDef = getVal('enemy_def') * defenseCoefficient * windedMultiplier;
-    
     const defenseDivisor = effectiveEnemyDef + 1400;
     const defenseMultiplier = defenseDivisor <= 0 ? 1 : 1 - (effectiveEnemyDef / defenseDivisor);
     outputs.enemy_def.textContent = defenseMultiplier.toFixed(4);
 
-// ⓓ Critical Calculation (Update thanks to Matthieus)
-const critMultiplier = (1 + getPercent('crit_rate')) * (getPercent('crit_effect') - 1);
+    // D: Critical Calculation (Corrected Average Damage Formula)
+    const critRate = getPercent('crit_rate');
+    const critEffect = getPercent('crit_effect');
+    // This formula calculates the average damage multiplier from critical hits.
+    // (1 - critRate) is the chance of a non-crit (100% damage).
+    // (critRate * critEffect) is the damage contribution from crits.
+    const critMultiplier = (1 - critRate) + (critRate * critEffect);
     outputs.crit_calc.textContent = (critMultiplier * 100).toFixed(2) + '%';
-}
 
-    function setupToggleButtons() {
-        calculatorSection.querySelectorAll('.toggle-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const targetId = e.currentTarget.dataset.target;
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const isVisible = targetElement.style.display === 'block';
-                    targetElement.style.display = isVisible ? 'none' : 'block';
-                    e.currentTarget.classList.toggle('active', !isVisible);
-                }
-            });
-        });
-    }
+    // E: Skill Coefficient
+    const skillCoeff = getPercent('skill_coeff');
+    outputs.skill_coeff.textContent = (skillCoeff * 100).toFixed(2) + '%';
+
+    // F: Weakness Coefficient
+    const weaknessCoeff = parseFloat(inputs.weakness_coeff.value) || 1;
+    outputs.weakness_coeff.textContent = (weaknessCoeff * 100).toFixed(2) + '%';
+
+    // G: Final Damage Bonus
+    const finalDmgBonus = 1 + getPercent('final_dmg_bonus');
+    outputs.final_dmg_bonus.textContent = (finalDmgBonus * 100).toFixed(2) + '%';
+
+    // Final Damage Calculation
+    const baseDamage = attackPower * damageBonus * defenseMultiplier * critMultiplier * skillCoeff * weaknessCoeff * finalDmgBonus;
+    const minDamage = baseDamage * 0.95;
+    const maxDamage = baseDamage * 1.05;
+    outputs.total_damage.textContent = `${Math.round(minDamage).toLocaleString()} ~ ${Math.round(maxDamage).toLocaleString()}`;
+}
 
     Object.values(inputs).forEach(input => {
         if(input) input.addEventListener('input', calculateDamage);
     });
     
     calculateDamage();
-    setupToggleButtons();
 }
+
 
 
 
