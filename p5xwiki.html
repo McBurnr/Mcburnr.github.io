@@ -1131,6 +1131,236 @@ body.sidebar-open .site-wrapper {
     left: 50%;
 }
 
+.persona-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.25rem;
+}
+
+.persona-card {
+    position: relative;
+    border-radius: 15px;
+    /* overflow: hidden; */ /* This line was removed to allow the glow effect to show */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 3px solid transparent;
+    text-align: center;
+    padding: 0.5rem 0.5rem 0.25rem;
+}
+
+.persona-card:hover { 
+    transform: translateY(-5px); 
+    border-color: var(--shadow-color-medium); 
+}
+
+.persona-card-icon {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 0.25rem;
+    object-fit: contain; /* Use contain to see the whole image */
+    border-radius: 10px;
+}
+
+.persona-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.persona-modal-content {
+    width: 900px; /* Wider modal for persona details */
+    max-width: 95%;
+}
+
+.persona-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.persona-detail-card {
+    background: rgba(10, 10, 10, 0.85);
+    border-radius: 15px;
+    border: 1px solid var(--shadow-color-light);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.persona-detail-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--shadow-color-medium);
+    padding-bottom: 0.5rem;
+}
+
+.persona-skill-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .persona-skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.persona-skill-item {
+    background: rgba(30, 30, 30, 0.7);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.persona-skill-item strong {
+    display: block;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.persona-skill-item p {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.persona-recommended-skills .skill {
+    margin-bottom: 1rem;
+}
+
+.persona-recommended-skills .skill:last-child {
+    margin-bottom: 0;
+}
+
+.persona-footer-note {
+    margin-top: 1.5rem;
+    font-style: italic;
+    color: #aaa;
+    text-align: center;
+    font-size: 0.9rem;
+    background: rgba(10, 10, 10, 0.85);
+    padding: 0.75rem;
+    border-radius: 10px;
+}
+
+/* Container for the stars and name at the bottom of the card */
+.persona-card-details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 20%, transparent);
+    text-align: center;
+    border-radius: 0 0 12px 12px;
+}
+
+.persona-rarity {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 0.25rem;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.persona-rarity-star {
+    font-size: 1.1rem;
+    line-height: 1;
+    color: #4a5568; /* Hollow/empty star color */
+    transition: color 0.3s;
+}
+
+/* NEW: Animation for all filled stars */
+.persona-rarity-star.filled {
+    animation: star-pulse 2s infinite ease-in-out;
+}
+
+/* Rarity 2: Green */
+.rarity-2 .persona-rarity-star.filled { color: #48bb78; animation-delay: 0.1s; }
+.rarity-2 { animation: subtle-pulse-green 3s infinite alternate; } /* Keep border pulse on hover */
+
+/* Rarity 3: Silver */
+.rarity-3 .persona-rarity-star.filled { color: #c0c0c0; animation-delay: 0.2s; }
+.rarity-3 { animation: subtle-pulse-silver 2.5s infinite alternate; } /* Keep border pulse on hover */
+
+/* Rarity 4: Gold */
+.rarity-4 .persona-rarity-star.filled { color: #f6e05e; animation-delay: 0.3s; }
+.rarity-4 {
+    animation: pulse-gold 2s infinite;
+}
+
+/* Rarity 5: Rainbow (FIXED) */
+.rarity-5 .persona-rarity-star.filled {
+    background: linear-gradient(90deg, #ff4b4b, #ffb44b, #fffb8b, #4bff8d, #4bffff, #4b7aff, #b54bff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 1px rgba(255,255,255,0.2); /* Fallback for visibility */
+    animation: rainbow-text 3s ease infinite, star-pulse 2s infinite ease-in-out;
+    animation-delay: 0.4s;
+}
+
+.rarity-5 {
+    position: relative;
+}
+
+.rarity-5::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 18px;
+    border: 3px solid transparent;
+    background: linear-gradient(45deg, #ff4b4b, #ffb44b, #fffb8b, #4bff8d, #4bffff, #4b7aff, #b54bff) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    z-index: -1;
+    animation: pulse-rainbow 2s infinite;
+}
+
+/* Keyframes for animations */
+@keyframes star-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes subtle-pulse-green {
+    from { border-color: #2f855a; }
+    to { border-color: #68d391; }
+}
+
+@keyframes subtle-pulse-silver {
+    from { border-color: #a0aec0; }
+    to { border-color: #e2e8f0; }
+}
+
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 4px #f6e05e, inset 0 0 4px #f6e05e; }
+    50% { box-shadow: 0 0 12px #f6e05e, inset 0 0 8px #f6e05e; }
+    100% { box-shadow: 0 0 4px #f6e05e, inset 0 0 4px #f6e05e; }
+}
+
+@keyframes pulse-rainbow {
+    0% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); }
+    100% { opacity: 0.7; transform: scale(1); }
+}
+
+@keyframes rainbow-text { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+
+
 </style>
 
 </head>
@@ -1151,7 +1381,7 @@ body.sidebar-open .site-wrapper {
 </header>
 
 <div id="quick-nav-overlay">
-<<div class="quick-nav-grid">
+<div class="quick-nav-grid">
     <div class="quick-nav-card" data-target="guide-gameplay" data-preview="Beginner's guide, daily activities, and progression tips.">
         <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4gdcx3vrow4.png');"></div>
         <div class="quick-nav-card-name">Gameplay</div>
@@ -1168,12 +1398,16 @@ body.sidebar-open .site-wrapper {
         <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
         <div class="quick-nav-card-name">Confidants</div>
     </div>
+    <div class="quick-nav-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/49zc2bpgvny.png');"></div>
+        <div class="quick-nav-card-name">Personas</div>
+    </div>
     <div class="quick-nav-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4z9cvq8xk87.png');"></div>
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
         <div class="quick-nav-card-name">Calculator</div>
     </div>
     <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units, their skills, and builds.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yvdcwxbogoy.png');"></div>
+        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/739cxznmge7.png');"></div>
         <div class="quick-nav-card-name">Units</div>
     </a>
 </div>
@@ -1195,16 +1429,20 @@ body.sidebar-open .site-wrapper {
         <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Gacha System Icon" class="guide-card-icon">
         <div class="guide-card-name">Gacha System</div>
     </div>
+     <div class="guide-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
+        <img src="https://cdn.imgchest.com/files/49zc2bpgvny.png" alt="Personas Icon" class="guide-card-icon">
+        <div class="guide-card-name">Personas</div>
+    </div>
     <div class="guide-card" data-target="guide-confidants" data-preview="View all confidant guides, rank-up choices, and gift preferences.">
         <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Confidants Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Confidants</div>
     </div>
     <div class="guide-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
-        <img src="https://cdn.imgchest.com/files/4z9cvq8xk87.png" alt="Calculator Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Calculator Icon" class="guide-card-icon">
         <div class="guide-card-name">Calculator</div>
     </div>
     <a href="https://mcburnr.github.io/p5xunits.html" class="guide-card" data-preview="Browse all playable units, their skills, and builds.">
-        <img src="https://cdn.imgchest.com/files/yvdcwxbogoy.png" alt="Units Guide Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/739cxznmge7.png" alt="Units Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Units</div>
     </a>
 </nav>
@@ -1223,6 +1461,7 @@ body.sidebar-open .site-wrapper {
                     <p>Written by <strong>Tenacity</strong></p>
                     <p>Contributors: Chozo, RedHarv, UnnamedRando, l0kii_</p>
                     <p><em>Items marked with a * are not yet available in EN/JP/SEA.</em></p>
+					<p><em><Click or Tap to view the original guide</em></p>
                 </div>
 
                 <div class="accordion-container">
@@ -1377,8 +1616,9 @@ body.sidebar-open .site-wrapper {
 			
 			
             <section class="guide-content-panel" id="guide-arcana">
-                <h2>Arcana Cards</h2>
-                <p class="guide-credits">Guide by: UnnamedRando</p>
+        <div class="text-center mb-10">
+            <p id="credits" class="text-gray-500 mt-2">Guide by UnnamedRando on <a href="https://discord.gg/p5xworldwide">P5X Worldwide Discord Server</a></p>
+        </div>
 				<div class="search-container-arcana">
                     <input type="text" id="arcanaSearchInput" placeholder="Search for cards by name or effect..." autocomplete="off">
                 </div>
@@ -1448,7 +1688,7 @@ body.sidebar-open .site-wrapper {
             <section class="guide-content-panel" id="guide-gacha">
                 <!-- Gacha System -->
                 <h2>Gacha System</h2>
-                <p class="guide-credits">Guide by: Tenacity & UnnamedRando</p>
+                <p class="guide-credits">Guide by: Tenacity & UnnamedRando on <a href="https://discord.gg/p5xworldwide">P5X Worldwide Discord Server</a></p>
                 
                 <h3>Overview on the System</h3>
                 <p>This game runs on a gacha system, which is similar to gachapon machines or crane games where you put in coins in hope for a toy. This “machine” is called a banner. Different banners may have different pools of prizes (Weapons, characters, Personas) and slightly different mechanics. Every time you pull on a banner, there is a low chance that you will get a 5-star. This is the main method to obtain characters and high-tier weapons.</p>
@@ -1486,21 +1726,22 @@ body.sidebar-open .site-wrapper {
             </section>
 
             <section class="guide-content-panel" id="guide-confidants">
-                <h2>Confidants</h2>
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Damage Calculator</h1>
+            <p id="credits" class="text-gray-500 mt-2">Guide by UnnamedRando on <a href="https://discord.gg/p5xworldwide">P5X Worldwide Discord Server</a></p>
+        </div>
                 <div class="confidant-grid-container">
                     <!-- confidant icons -->
                 </div>
             </section>
         </div>
 		
-<!-- Damage Calculator -->
-<!-- Damage Calculator Section -->
 <section class="guide-content-panel" id="guide-calculator">
     <div class="max-w-7xl mx-auto">
         <div class="text-center mb-10">
             <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Damage Calculator</h1>
-            <p id="credits" class="text-gray-500 mt-2">Damage Calculations by AbsolRoot on Lufle.net</p>
-            <p id="credits" class="text-gray-500 mt-2">Spreadsheet & Adjustments by Matthieu/mathieubdg on Discord</p>
+            <p id="credits" class="text-gray-500 mt-2">Damage Calculations by AbsolRoot on <a href="https://lufel.net">Lufel.net</a></p>
+            <p id="credits" class="text-gray-500 mt-2">Spreadsheet & Adjustments by Mathieu/mathieubdg on Discord</p>
         </div>
 
         <!-- Main Calculator Grid -->
@@ -1575,7 +1816,33 @@ body.sidebar-open .site-wrapper {
     </div>
 </section>
 
+<!-- SECTION FOR PERSONAS -->
+<section class="guide-content-panel" id="guide-personas">
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Persona's Guide</h1>
+            <p id="credits" class="text-gray-500 mt-2">Data by Iant on P5X Worldwide Discord Server</p>
+            <p id="credits" class="text-gray-500 mt-2">Original Guide by AbsolRoot on <a href="https://lufel.net">Lufel.net</a></p>
+        </div>
+<div class="search-container-persona" style="margin-bottom: 1.5rem;">
+    <input type="text" id="personaSearchInput" placeholder="Search Personas by name or keyword (e.g., ATK, Burn)..." autocomplete="off" style="width: 100%; padding: 10px 15px; font-size: 1rem; font-family: 'Crimson Text', serif; color: #fff; background-color: rgba(20, 20, 20, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 8px; outline: none; transition: all 0.3s ease;">
+</div>
+    <div class="persona-grid-container" id="persona-grid-container">
+        <!-- Persona cards -->
+    </div>
+</section>
 
+<!-- MODAL FOR PERSONA DETAILS -->
+<div class="modal" id="personaModal">
+    <div class="modal-content persona-modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title" id="personaModalTitle"></h2>
+            <button class="close-btn" id="closePersonaBtn">&times;</button>
+        </div>
+        <div class="modal-body persona-modal-body">
+            <!-- Persona details-->
+        </div>
+    </div>
+</div>
 
 		
 </div>
@@ -1673,7 +1940,6 @@ sidebar.querySelectorAll('.guide-card').forEach(card => {
                 });
             });
 			
-// --- DAMAGE CALCULATOR LOGIC ---
 const calculatorSection = document.getElementById('guide-calculator');
 if (calculatorSection) {
     const inputs = {
@@ -1693,7 +1959,6 @@ if (calculatorSection) {
         total_damage: document.getElementById('total_damage_result'),
     };
 
-// --- DAMAGE CALCULATOR LOGIC ---
 function calculateDamage() {
     const getVal = (id) => parseFloat(inputs[id].value) || 0;
     const getPercent = (id) => (parseFloat(inputs[id].value) || 0) / 100;
@@ -1717,8 +1982,6 @@ function calculateDamage() {
     // D: Critical Calculation (Corrected Average Damage Formula)
     const critRate = getPercent('crit_rate');
     const critEffect = getPercent('crit_effect');
-    // This formula calculates the average damage multiplier from critical hits.
-    // (1 - critRate) is the chance of a non-crit (100% damage).
     // (critRate * critEffect) is the damage contribution from crits.
     const critMultiplier = (1 - critRate) + (critRate * critEffect);
     outputs.crit_calc.textContent = (critMultiplier * 100).toFixed(2) + '%';
@@ -2956,6 +3219,1113 @@ const confidantData = {
 }
 };
 
+const personaData = {
+    "Janosik": {
+    "icon": "https://cdn.imgchest.com/files/7ogcbxl8g3y.png",
+	"rarity": 5,
+        uniqueSkill: {
+            name: "Reaper III",
+            description: "Increases ATK by 29.1%. At the start of battle, inflicts 1 foe with [Marked]. When allies attack foes with [Marked], increases ATK by 20%. Additionally decreases DEF by 12% for foes with [Marked]. When you attack foes with [Marked], deal an additional 18% ATK as Gun DMG to them. [Marked]: Reduce enemy defense by 29.6% for 2 turns."
+        },
+        mainSkill: {
+            name: "Tatra Shot",
+            description: "Deals 203.3% ATK as Gun DMG to 1 foe, has 75% fixed chance of inflicting [Marked]: Reduce enemy defense by 29.6% for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 360.0% ATK as Gun DMG to 1 foe."
+        },
+        recommended: [
+            { name: "Rakunda", description: "Decrease DEF of 1 foe by 38.8% for 3 turns." },
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+            { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Defense Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." }
+        ],
+        note: "If you don't use Janosik as the vanguard, when you use the Persona skill after replacing, the '[Marked]' is obtained at the start of battle is triggered, and the '[Marked]' is applied (only once). The buff also triggers '[Marked]'."
+    },
+    "Vishnu": {
+	"icon": "https://cdn.imgchest.com/files/yrgcn98k6j4.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Blessing to All III",
+            description: "Increases CRIT Rate by 17.5%. Increases EHR when inflicting Winded by 20% and increase dmg dealt to foes with Winded by 30%. Decreases the foes' DEF by 48% when refreshing or inflicting Winded for 2 turns."
+        },
+        mainSkill: {
+            name: "Winds of Nirvana",
+            description: "Deals 192.0% ATK Wind dmg to 1 foe, with a 75% base chance to inflict Winded; If foe is already inflicted with Winded, refreshes its duration, increases this damage by 27.0% and increases their Wind dmg taken by 27.0% for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deal 360% ATK as Wind dmg to 1 foe."
+        },
+        recommended: [
+            { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+            { name: "Windswept Boost", description: "Increases Windswept accuracy by 8.8%/12.5%/16.3%." },
+            { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." },
+            { name: "Magarudyne", description: "Deals 60.8% ATK Wind dmg to all foes and has a 33.8% chance of inflicting Wind Strike for 2 turns." },
+            { name: "Wind Boost", description: "Increases Wind damage by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." }
+        ],
+        note: "Through Magarudyne, you can apply area-wide defense reduction effects when inflicting Winded."
+    },
+    "Dionysus": {
+	"icon": "https://cdn.imgchest.com/files/yd5cemkzne4.png",
+		"rarity": 4,
+        uniqueSkill: {
+            name: "Draken Revelry III",
+            description: "Increases CRIT Rate by 14.8%. When using a Persona skill on allies, increases the main target's CRIT DMG by 30% for 2 turns."
+        },
+        mainSkill: {
+            name: "Revolution",
+            description: "Increase all allies CRIT by 6.5% + 1.1% for every 10% CRIT Wonder has to a maximum of 4.4% for 3 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+        },
+        recommended: [
+            { name: "Infinite Algorithm", description: "Increase all allies' ATK by 30% and damage to main target by 30% for 3 turns." },
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." },
+            { name: "Tarukaja", description: "Increase 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+            { name: "Rakukaja", description: "Increase 1 ally's DEF by 23.3% + 3.9% for every 500 DEF Wonder has to a maximum of 15.6% for 3 turns." },
+            { name: "Mediarahan", description: "Restores HP equal to 19.0% ATK + 575 to all allies." },
+            { name: "Healing Boost", description: "Increases Healing Effect by 4.2%/6.0%/7.8%/9.7%." },
+            { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Defense Boost", description: "Increase DEF by 8.8%/12.5%/16.3%." }
+        ],
+        note: "The core passive critical effect 30% increase also applies to healing through Mediarahan. Infinite Algorithm is a skill card distributed through paid events."
+    },
+    "Dominion": {
+	"icon": "https://cdn.imgchest.com/files/4gdcxm2vzp4.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Angel's Order III",
+            description: "Increases ATK by 29.1%. Gains 2 [Order] when using a skill on allies. When allies deals damage with a skill, consume 1 stack of [Order] to increase their DMG Dealt by 15% and ATK by 6.4% for 1 turn."
+        },
+        mainSkill: {
+            name: "Cohesion",
+            description: "Increases all allies' ATK by 15% + 1.25% for every 500 ATK you have, up to 10% for 2 turns. Increases the main target's dmg dealt by 8% + 1% for every 500 ATK you have, up to 5% for 1 turn."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+        },
+        recommended: [
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+            { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: "Through Order + Cohesion buffs, you can provide maximum ATK 31.4% and damage 31% increase effects in 1 turn."
+    },
+    "Nian": {
+	"icon": "https://cdn.imgchest.com/files/49zc2vag8dy.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Yearly Beast III",
+            description: "Increases ATK by 29.1%. After using Persona skill on enemies, inflicts the targets with [Yearly Sacrifice] for 2 turns. Enemies with [Yearly Sacrifice] will gain [Frightened] when taking Fire damage for the first time: Increases dmg taken by 12% for 3 turns. Also has a 75% base chance to inflict Burn for 2 turns."
+        },
+        mainSkill: {
+            name: "Fortune Devourer",
+            description: "Deals 104.0% ATK Curse dmg to all foes, decreases all foes' DEF by 10% and increases all foes Damage Over Time taken by 30% for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Curse dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Melodic Infiltration", description: "Decrease all foes' DEF by 32% and increase damage taken by 10% for 3 turns." },
+            { name: "Marakunda", description: "Decrease all foes' DEF by 27.1% for 3 turns." },
+            { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Definite Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." }
+        ],
+        note: "Rhythmic Intrusion is a skill card distributed through paid events and can be replaced with Marakunda."
+    },
+    "Surt": {
+	"icon": "https://cdn.imgchest.com/files/yq9c3vzbzm4.png",
+		"rarity": 3,
+        uniqueSkill: {
+            name: "Inferno Monarch I",
+            description: "Increases EHR by 20.9%. Increases EHR by 50% when inflicting Burn. Increases the effect by 30% when the foe is above 50% HP."
+        },
+        mainSkill: {
+            name: "Marakunda",
+            description: "Decrease DEF of all foes by 27.1% for 3 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK as Fire dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Definite Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." }
+        ],
+        note: "The only persona that possesses Marakunda besides the Marakunda skill card."
+    },
+    "Koumokuten": {
+	"icon": "https://cdn.imgchest.com/files/4z9cv9aj867.png",
+		"rarity": 4,
+        uniqueSkill: {
+            name: "Heavenly Gaze II",
+            description: "Increases EHR by 21.2%. At the start of battle, increases the ATK and CRIT Rate for the ally with the highest ATK by 14% and 6% for 3 turns, prioritizing Single-target/Multi-target Thief."
+        },
+        mainSkill: {
+            name: "Revolution",
+            description: "Increase all allies CRIT by 6.5% + 1.1% for every 10% CRIT Wonder has to a maximum of 4.4% for 3 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+        },
+        recommended: [
+            { name: "Rakunda", description: "Decrease DEF of 1 foe by 38.8% for 3 turns." },
+            { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+            { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." },
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." }
+        ],
+        note: "The core passive buff continues even after persona switching."
+    },
+    "Ame-no-Uzume": {
+	"icon": "https://cdn.imgchest.com/files/4gdcxm2wwa4.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Trembling Kagura I",
+            description: "Increases EHR by 13%. After inflicting Shock, increases all allies' CRIT Rate by 10.0% for 2 turns."
+        },
+        mainSkill: {
+            name: "Electric Surge",
+            description: "Deals 143.0% ATK Elec dmg to 1 foe, with a 100.0% base chance to inflict Shock for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deal 360% ATK as Elec dmg to 1 foe."
+        },
+        recommended: [
+            { name: "El Hjud", description: "Deals 64.8% ATK Electric dmg to all foes and has a 36.0% chance of inflicting Shock for 2 turns." },
+            { name: "Shock Boost", description: "Increase Shock accuracy by 8.8%/12.5%/16.3%/20.3%." },
+            { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+            { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+        ],
+        note: "Through area-wide shock, you can aim for a total of 20% critical rate increase with 10% from the core passive following the critical rate increase from shock."
+    },
+    "Succubus": {
+	"icon": "https://cdn.imgchest.com/files/45xcv8zpnv7.png",
+		"rarity": 4,
+        uniqueSkill: {
+            name: "Intoxicating Murmur I",
+            description: "Increases ATK by 3.5%. When using a skill on an ally, increases their CRIT Rate by 10.2% for 1 turn."
+        },
+        mainSkill: {
+            name: "Rebellion",
+            description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has to a maximum of 6.4% for 3 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+        },
+        recommended: [
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has to a maximum of 6.4% for 3 turns." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+            { name: "Rakukaja", description: "Increase 1 ally's DEF by 23.3% + 3.9% for every 500 DEF Wonder has to a maximum of 15.6% for 3 turns." }
+        ],
+        note: null
+    },
+    "Narcissus": {
+	"icon": "https://cdn.imgchest.com/files/yxkczqnvaj7.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Lost Fragrance II",
+            description: "Increases EHR by 24.9%. After inflicting Winded, increases the main target's dmg taken by 22.4% for 2 turns and increases own EHR by 18% for 2 turns."
+        },
+        mainSkill: {
+            name: "Wild Hunt",
+            description: "Deals 155.1% ATK Wind dmg to 1 foe and has a 100.0% chance of inflicting Winded for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Wind dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Wind Boost", description: "Increases Wind damage by 4.7%/6.7%/8.7%/10.8%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases Critical damage by 7%/10%/13%/16.2%." }
+        ],
+        note: null
+    },
+    "Norn": {
+	"icon": "https://cdn.imgchest.com/files/7w6c2qe6o2y.png",
+		"rarity": 5,
+        uniqueSkill: {
+            name: "Wind of Fate III",
+            description: "Increases DEF by 17.4%. After inflicting Winded, decreases the DEF of the inflicted enemies by 11.5% and increases own DEF by 30% for 2 turns."
+        },
+        mainSkill: {
+            name: "Wind Barrier",
+            description: "Grants 1 ally 19.5% ATK + 590 Shield for 2 turns. When that ally takes damage, there is a 55.0% base chance to inflict Winded for 2 turns on the source of damage."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Grants all allies 48.6% ATK + 1471 shield for 2 turns."
+        },
+        recommended: [
+            { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+            { name: "Windswept Boost", description: "Increases Windswept accuracy by 8.8%/12.5%/16.3%." },
+            { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." },
+            { name: "Magarula", description: "Deals 57.0% ATK Wind dmg to all foes and has a 31.7% chance of inflicting Wind Strike for 2 turns." },
+            { name: "Garudyne", description: "Deals 121.7% ATK Wind dmg to 1 foe and has a 67.6% chance of inflicting Wind Strike for 2 turns." },
+            { name: "Shield Boost", description: "Increase Shield Effect by 4.2%/6.7%/8.7%/9.7%." }
+        ],
+        note: "Although Vishnu was used in a different party, it can be used if the same mechanism is needed."
+    },
+    "Jikokuten": {
+	"icon": "https://cdn.imgchest.com/files/yrgcn98b6d4.png",
+		"rarity": 4,
+        uniqueSkill: {
+            name: "Wisdom of the East I",
+            description: "Increases DEF by 15.9%. When using a skill on allies, increases the main target's ATK by 13.5% for 2 turns, increases this effect by 10% when the target is below 60% HP."
+        },
+        mainSkill: {
+            name: "Matarukaja",
+            description: "Increase all allies ATK by 10.9% + 0.9% for every 500 ATK Wonder has to a maximum of 7.2% for 3 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+        },
+        recommended: [
+            { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+            { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." }
+        ],
+        note: "Provides consistent ATK buffs to allies, especially effective for low HP allies."
+    },
+    "Yamata-no-Orochi": {
+        uniqueSkill: {
+            name: "Screams of Sacrifice III",
+            description: "Increases CRIT Rate by 17.5%. At the start of battle, gains 3 stacks of [Screams of Sacrifice]. Gains 1 stack of [Screams of Sacrifice] at the end of your turn. When using the signature skill, if you have 3 stacks of [Screams of Sacrifice], then consumes 3 stacks of [Screams of Sacrifice] to inflict all foes with Freeze for 3 turns, and increases all foes' TECHNICAL dmg taken by 25% for 3 turns."
+        },
+        mainSkill: {
+            name: "Blizzard",
+            description: "Deals 100.0% ATK Ice dmg to all foes, with a 100% base chance to inflict all foes with Freeze for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deal 360% ATK as Ice dmg to 1 foe."
+        },
+        recommended: [
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Ice Boost", description: "Increases Ice damage by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: null
+    },
+    "Kohryu": {
+        uniqueSkill: {
+            name: "Lord of Auspiciousness III",
+            description: "Increases ATK by 29.1%. Works when not active: Gains 1 stack of [Four Symbols] when allies deal different elemental damage, up to 4 stacks. At the start of your turn, if you have at least 4 stacks of [Four Symbols], then consumes all [Four Symbols] to gain [Four Symbols' Power]: Increases own ATK by 30% and all allies' ATK by 15%, then evolves your signature skill for 2 turns."
+        },
+        mainSkill: {
+            name: "Devious Strike",
+            description: "Deals 101.4% ATK Psy dmg to all foes. Evolved: Deals 135.0% ATK Psy dmg to all foes. There is a 35.0% base chance to inflict all foes with Dizzy for 2 turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 180.0% ATK as Psy dmg to all foes."
+        },
+        recommended: [],
+        note: null
+    },
+    "Sraosha": {
+        uniqueSkill: {
+            name: "Listener of Sin III",
+            description: "Increases ATK by 29.1%. At the start of battle, gains 3 stacks of [God's Ear] for 3 turns, up to 3 stacks. When allies use [HIGHLIGHT], gains 1 stack of [God's Ear]. additionally gains 1 stack of [God's Ear] when Bless allies use [HIGHLIGHT]. When using the signature skill, consumes all [God's Ear], each stack increases Bless dmg taken by 6% for 2 turns. If [God's Ear] reaches 3 stacks, additionally decreases foes' DEF when taking Bless damage by 25%."
+        },
+        mainSkill: {
+            name: "Absolute Obedience",
+            description: "Deals 200% ATK Bless dmg to 1 foe. Increases their [HIGHLIGHT] dmg taken by 30% for 1 turn."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Bless dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Rakunda", description: "Decrease DEF of 1 foe by 38.8% for 3 turns." },
+            { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+            { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+            { name: "Bless Boost", description: "Increases Bless damage by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: "Can gain [God's Ear] stacks just by being in the party, not necessarily in the front line."
+    },
+    "Vasuki": {
+        uniqueSkill: {
+            name: "Serpent of the Sky and Earth III",
+            description: "Increase EHR by 34.9%. At the start of battle, gains 5 stacks of [Stare]. When allies add debuff effects with their skills, gains 1 stack of [Stare] for yourself (up to 5 stacks, 1 stack per ally per turn). When using the signature skill, if you have 5 stacks of [Stare], consumes all [Stare] to increase the damage effect taken by the main target of the skill by 15% and gain 1 stack of [Serpent's Bite]."
+        },
+        mainSkill: {
+            name: "Endless Bind",
+            description: "Increases the enemy's dmg taken by 16.0% and gains 1 stack of [Serpent's Bite] (up to 2 stacks). Effect lasts for 3 turns. [Serpent's Bite]: Each turn, the highest ATK Wonder deals 12.8% ATK Psy dmg to the target (maximum 300% of Wonder ATK)."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Gun dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [],
+        note: null
+    },
+    "Chernobog": {
+        uniqueSkill: {
+            name: "Deadly Silence III",
+            description: "Increases EHR by 34.9%. [Nightmare] decreases Effect RES by 15% and DEF by 10% for 2 turns. Under [Nightmare], increases enemies' Phys dmg taken by 8% for 1 turn. Additionally increases Phys dmg taken stacks by 1 after the enemy takes 3 hits of Phys damage, up to 3 stacks, each stack counts down independently."
+        },
+        mainSkill: {
+            name: "Painful Judgement",
+            description: "Deals 40.0% ATK Phys dmg to 1 enemy 3 times, inflicts the enemy with [Nightmare], and there is a 9% base chance to inflict Fear."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Phys dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+            { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." },
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Phys Boost", description: "Increase Physical damage by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: null
+    },
+    "Shiva": {
+        uniqueSkill: {
+            name: "Karma Reversal III",
+            description: "Increases ATK by 29.1%. Gains 1 stack of [Wisdom] at the start of turn, up to 3 stacks. Consumes all [Wisdom] when using the signature skill and triggers the following effects based on the amount consumed: 1 Stack: Increases this damage by 33%. 2 stacks: Decreases all foes' DEF by 45% for 1 turn. 3 Stacks: Increases all foes' Psy dmg CRIT Rate taken by 18% for 1 turn."
+        },
+        mainSkill: {
+            name: "Dance of Destruction",
+            description: "Deals 90.0% ATK Psy dmg to all foes and consumes all stacks of [Wisdom] and trigger the effects of [Karma Reversal]."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 90.0% ATK Psy dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+            { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." },
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Psy Boost", description: "Increase Psy damage by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: null
+    },
+    "Trumpeter": {
+        uniqueSkill: {
+            name: "Trumpet of Destruction III",
+            description: "Increases EHR by 34.9%. When using a Persona skill against an enemy, if the number of debuff effects on the target is 15 or more, increases your EHR by 50% for 2 turns and increases the enemy's dmg taken by 6.5% for 2 turns. After adding debuff effects to the enemy, decreases all foes' DEF by 12% for 2 turns."
+        },
+        mainSkill: {
+            name: "Wave of Despair",
+            description: "12.7% of base chance to put all foes into [Despair] status. [Despair]: Unable to act. SP is deducted every turn and dies after a few turns."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 45.0% ATK Almighty dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+        },
+        recommended: [
+            { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+            { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+        ],
+        note: null
+    },
+    "Okuninushi": {
+        uniqueSkill: {
+            name: "Regent's Majesty II",
+            description: "Increases CRIT Rate by 12.5%. After dealing damage with a Persona skill, increases foes' Psy dmg taken by 8.5% for 3 turns, up to 3 stacks. Increases Psy damage by 10% when attacking foes with this debuff."
+        },
+        mainSkill: {
+            name: "Mental Wave",
+            description: "Deals 88.0% ATK Psy dmg to all foes. Increases dmg dealt by 20% if the foe is inflicted with Mental Ailments. Additionally increases dmg dealt by 15% if the foe is weak to Psy."
+        },
+        highlight: {
+            name: "HIGHLIGHT",
+            description: "Deals 180.0% ATK as Psy dmg to all foes."
+        },
+        recommended: [
+            { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+            { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+            { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+            { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+            { name: "Phys Boost", description: "Increase Physical damage by 4.7%/6.7%/8.7%/10.8%." }
+        ],
+        note: null
+    },
+	"Zaou-Gongen": {
+    uniqueSkill: {
+        name: "Three Ages' Salvation III",
+        description: "Increases ATK by 29.1%. After dealing damage with a Persona skill, gives self and the highest ATK Single-target/Multi-target ally [Undying Truth] for 3 turns. [Undying Truth]: When dealing 4 hits of damage with skills, increases own ATK by 12% and dmg dealt by 10%."
+    },
+    mainSkill: {
+        name: "Fury Incarnate",
+        description: "Deals 45.0% ATK Fire dmg to 1 foe 4 times. Inflicts the foe with [Trauma] for 3 turns. During [Trauma], each time the target takes 1 hit of Fire dmg, increases their CRIT dmg taken by 3%, for 2 turns, up to 8 stacks."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deal 360% ATK as Fire dmg to 1 foe."
+    },
+    recommended: [
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Fire Boost", description: "Increases Fire damage by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: null
+},
+"Alice": {
+    uniqueSkill: {
+        name: "Curse of Rebirth III",
+        description: "Increases EHR by 34.9%. Increases all foes' Curse dmg taken by 18%. After any ally uses Curse skills, increases Alice's EHR and ATK by 12.0% for 2 turns, up to 3 stacks."
+    },
+    mainSkill: {
+        name: "Die For Me!",
+        description: "Increases all enemies' Curse DMG Taken by 17.5% + 2% for every 50% EHR you have, up to 10% for 2 turns. There is a high chance of insta-kill to enemies under 50% HP. The lower the HP, the higher the chance."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 90.0% ATK Curse dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+    },
+    recommended: [
+        { name: "Tarukaja", description: "Increases 1 ally's ATK by 15.5% + 1.3% for every 500 ATK you have, up to 10.4% for 3 turns." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+    ],
+    note: "Base accuracy 80% + Accuracy Enhancement IV 16.2% + Gloomy Sky 16.9% + Core Passive 34.9% + My Palace 2.3% = 150.3%, which can reach the 'Die For Me!' upper limit of 10%. (Gloomy Sky application unconfirmed)"
+},
+"Bishamonten": {
+    uniqueSkill: {
+        name: "Furious Umbrella III",
+        description: "Increases CRIT Rate by 17.5%. After using a skill on enemies, increases the main target's Nuke dmg taken by 10% for 1 turn for every Elemental Ailment they have, up to 3 stacks. All other enemies gain 40% of this effect."
+    },
+    mainSkill: {
+        name: "The King's Surrender",
+        description: "Deals 180.0% ATK Nuke dmg to 1 foe. Increases dmg dealt to enemy inflicted with Elemental Ailments by 25%."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deal 360% ATK as Nuke dmg to 1 foe."
+    },
+    recommended: [
+        { name: "Rakunda", description: "Decrease DEF of 1 foe by 38.8% for 3 turns." },
+        { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+        { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." }
+    ],
+    note: "The core passive effect is applied even when using Rakunda."
+},
+"Thor": {
+    uniqueSkill: {
+        name: "Thunder God's Majesty III",
+        description: "Increases CRIT DMG by 34.9%. When allies use Elec Persona skill / Follow Up / HIGHLIGHT / Theurgy, gains 1 stack of [Thunder God's Might] for 2 turns, up to 3 stacks. When you deal damage with a Persona skill, if you have 3 stacks of [Thunder God's Might], increases all enemies' Elec dmg taken by 12% and Elec CRIT dmg taken by 20% for 2 turns."
+    },
+    mainSkill: {
+        name: "Heavenly Thunder",
+        description: "Deals 112.0% ATK Elec dmg to all foes. When [Thunder God's Might] is at 3 stacks, there is an 80% base chance to inflict all enemies with Shock for 2 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Elec dmg to all foes."
+    },
+    recommended: [
+        { name: "Shock Boost", description: "Increase Shock accuracy by 8.8%/12.5%/16.3%/20.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Elec Boost", description: "Increases Electric damage by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: null
+},
+"Yurlungur": {
+    uniqueSkill: {
+        name: "Holy Pond's Serpent I",
+        description: "Increases CRIT DMG by 17.4%. Increases all foes' CRIT DMG taken by 14%, if they are inflicted with Shock, additionally increases the effect by 9%."
+    },
+    mainSkill: {
+        name: "Elec Break",
+        description: "Suppress innate Electric resistances of 1 foe for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 90.0% ATK as Elec dmg to all foes and increase their DMG Taken by 19.6% for 2 turns."
+    },
+    recommended: [
+        { name: "Ziodyne", description: "Deals 121.7% ATK Electric dmg to 1 foe and has a 67.6% chance of inflicting Shock for 2 turns." },
+        { name: "Shock Boost", description: "Increase Shock accuracy by 8.8%/12.5%/16.3%/20.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+    ],
+    note: null
+},
+"Throne": {
+    uniqueSkill: {
+        name: "Otherworldly Saint III",
+        description: "Increases ATK by 29.1%. At the start of battle, gains 8 stacks of [Tinder]. Gains 1 stack of [Tinder] when allies inflict Elemental Ailments, gains 1 additional stack of [Tinder] if that Elemental Ailment was Burn for 3 turns, up to 10 stacks, each skill can give up to 2 stacks of [Tinder]. When using a Persona skill on allies, if [Tinder] is at 4 stacks or above, consumes all [Tinder] and increases all allies' dmg dealt by 1% for 2 turns, with a 75% base chance to inflict 1 random enemy with Burn."
+    },
+    mainSkill: {
+        name: "Fire of Purification",
+        description: "Increases all allies' ATK by 8% + 0.5% for every 500 ATK you have, up to 4% for 3 turns. Gives the main target [Fire of Purification] for 3 turns. [Fire of Purification]: After dealing Persona skill damage to foes, there is a 75% base chance to inflict 1 random foe with burn."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+    },
+    recommended: [
+        { name: "Burn Boost", description: "Increases Burn accuracy by 8.8%/12.5%/16.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+    ],
+    note: "Adopted in a form used for characters who require burn effects (e.g., Mio)."
+},
+"Lamia": {
+    uniqueSkill: {
+        name: "Gorgons Greed I",
+        description: "Increases EHR by 13%. Increases EHR by 40% when inflicting Burn. After inflicting Burn, increases all allies' ATK by 12% for 2 turns."
+    },
+    mainSkill: {
+        name: "Fire Offering",
+        description: "Deals 150.0% ATK Fire dmg to 1 foe, with a 50% base chance to inflict Burn, double the chance if there are no enemies inflicted with Burn."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 90.0% ATK Fire dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+    },
+    recommended: [
+        { name: "Maragidyne", description: "Deals 60.8% ATK Fire damage to all foes and has a 33.8% chance of inflicting Burn for 2 turns." },
+        { name: "Burn Boost", description: "Increases Burn accuracy by 8.8%/12.5%/16.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+    ],
+    note: null
+},
+"Baphomet": {
+    uniqueSkill: {
+        name: "Demonic Melter III",
+        description: "Increases ATK by 24.9%. After dealing Persona skill damage to foes inflicted with Burn, increases all enemies' Fire dmg taken by 29% for 1 turn."
+    },
+    mainSkill: {
+        name: "Overheat",
+        description: "Deals 67.5% ATK Fire damage to all enemies and has a 100% fixed chance of inflicting Burn to the main target for 2 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Fire dmg to all foes."
+    },
+    recommended: [
+        { name: "El Jihad", description: "Deals 64.8% ATK Electric dmg to all foes and has a 36.0% chance of inflicting Shock for 2 turns." },
+        { name: "Shock Boost", description: "Increase Shock accuracy by 8.8%/12.5%/16.3%/20.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." }
+    ],
+    note: "Triggers core passive effect on enemies already in Burn state with [Overheat: Fire damage or El Jihad: Shock addition]."
+},
+"Yoshitsune": {
+    uniqueSkill: {
+        name: "Destined Streak III",
+        description: "Increases CRIT DMG by 34.9%. At the start of battle, gains 4 stacks of [Ambush]. When using the signature skill there is a 60% chance to gain [Ambush], each stack increases own ATK by 9% for 2 turns, up to 8 stacks. Increases the CRIT Rate of the signature skill by 30% when reaching 8 stacks."
+    },
+    mainSkill: {
+        name: "Hassou Tobi",
+        description: "Deals 15.0% ATK Phys dmg to all foes 8 times. For every 1 foe, increases skill damage by 5%, up to 15%."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Phys dmg to all foes."
+    },
+    recommended: [
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Phys Boost", description: "Increase Physical damage by 4.7%/6.7%/8.7%/10.8%." },
+        { name: "Attack Master", description: "Increase ATK by 8.5%/12.1%/15.7%/19.6% at the start of battle for 2 turns or until persona change." }
+    ],
+    note: null
+},
+"Neko Shogun": {
+    uniqueSkill: {
+        name: "Have a Dried Fish I",
+        description: "Increases EHR by 15%. At the start of battle, increases all allies' EHR by 10%, increases the EHR for the ally with the highest EHR by 14% for 2 turns."
+    },
+    mainSkill: {
+        name: "Hunter's Code",
+        description: "Increases 1 ally's damage dealt by 18.0% + 1.0% for every 20% Effect Hit Rate the ally has to a maximum of 6.0% for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Increase all allies dmg dealt by 29.5% for 2 turns."
+    },
+    recommended: [
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." }
+    ],
+    note: null
+},
+"Mithras": {
+    uniqueSkill: {
+        name: "Burning Sun's Blessing II",
+        description: "Increases HP by 11.6%. When using a skill on allies, increases their DEF by 14.5% for 2 turns. If they are above 50% HP, increases the effect by 50%."
+    },
+    mainSkill: {
+        name: "Marakukaja",
+        description: "Increase all allies DEF by 16.3% + 2.7% for every 500 DEF Wonder has to a maximum of 10.8% for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Grants all allies 48.6% ATK + 1471 shield for 2 turns."
+    },
+    recommended: [
+        { name: "Rakukaja", description: "Increase 1 ally's DEF by 23.3% + 3.9% for every 500 DEF Wonder has to a maximum of 15.6% for 3 turns." },
+        { name: "Rebellion", description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." }
+    ],
+    note: null
+},
+"Sandalphon": {
+    uniqueSkill: {
+        name: "Higher Protection III",
+        description: "Increases DEF by 43.6%. When Sandalphon is present, increases all shielded allies' DEF by 42%, gains 25% of this effect when not present. Decreases the HP cost to 15% when using the signature skill."
+    },
+    mainSkill: {
+        name: "Devoted Protection",
+        description: "Grants all allies 25.5% ATK + 771 shield. Increases the main target's dmg dealt when they have shield by 20.4% for 2 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Grants all allies 48.6% ATK + 1471 shield for 2 turns."
+    },
+    recommended: [
+        { name: "Shield Boost", description: "Increase Shield Effect by 4.2%/6.0%/7.8%/9.7%." },
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Regenerate", description: "Restores 1.9%/2.7%/3.5% of Max HP at the start of each turn." }
+    ],
+    note: "Can provide 10.5% defense bonus through backup deployment."
+},
+"Isis": {
+    uniqueSkill: {
+        name: "Ankh of Abundance I",
+        description: "Increases HP by 8.7%. When granting healing effects, the target recovers HP equal to 5% ATK for 2 turns starting next turn."
+    },
+    mainSkill: {
+        name: "Diarama",
+        description: "Restore HP equal to 35.6% ATK + 1077 to 1 ally."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Restore HP equal to 48.6% ATK + 1471 to all allies."
+    },
+    recommended: [
+        { name: "Healing Boost", description: "Increases Healing Effect by 4.2%/6.0%/7.8%/9.7%." },
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Defense Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." },
+        { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: "Attack enhancement applies to healing values. (Low priority due to limited impact)"
+},
+"Titania": {
+    uniqueSkill: {
+        name: "Fairy Queen's Disturbance III",
+        description: "Increases Healing Effect by 18%. After healing with a Persona skill, there is a 77.5% base chance to inflict 1 random enemy with a random Elemental Ailment and decreases their DEF by 9% for 2 turns."
+    },
+    mainSkill: {
+        name: "Invigorating Caress",
+        description: "Restores 18.0% ATK + 544 HP to all allies. Increases Healing Effect by 25% to allies under 50% HP. Restores 4 SP to all allies."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Restore HP equal to 48.6% ATK + 1471 HP to all allies."
+    },
+    recommended: [
+        { name: "Healing Boost", description: "Increases Healing Effect by 4.2%/6.0%/7.8%/9.7%." },
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Defense Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." },
+        { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: "Attack enhancement applies to healing values. (Low priority due to limited impact)"
+},
+"Parvati": {
+    uniqueSkill: {
+        name: "Mother Earth's Protection III",
+        description: "Increases HP by 21.2%. After using Healing skill, increases the healed allies' ATK by 16% and DEF by 10.5% for 1 turn."
+    },
+    mainSkill: {
+        name: "Diarama",
+        description: "Restore HP equal to 35.6% ATK + 1077 to 1 ally."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Restore HP equal to 48.6% ATK + 1471 HP to all allies."
+    },
+    recommended: [
+        { name: "Healing Boost", description: "Increases Healing Effect by 4.2%/6.0%/7.8%/9.7%." },
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Defense Boost", description: "Increases DEF by 8.8%/12.5%/16.3%." },
+        { name: "Damage Reduction", description: "Decrease damage taken by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: "Core passive effect also triggers on healing through highlights. Attack enhancement applies to healing values. (Low priority due to limited impact)"
+},
+"Siegfried": {
+    uniqueSkill: {
+        name: "Fearless Hero III",
+        description: "Increases ATK by 29.1%. At the start of battle, gains Dragon Blood. When using Phys skills, increases ATK by 10% for 3 turns. When using the main skill, boosts the effect of Dragon Blood, additionally increases damage by 28% and CRIT DMG by 28% when using Phys skills."
+    },
+    mainSkill: {
+        name: "Dragon Slayer",
+        description: "Deals 95.0% ATK Phys dmg to all enemies. If you don't have Dragon Blood, gain Dragon Blood. If you have Dragon Blood, boost Dragon Blood and refresh its duration."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Phys dmg to all foes."
+    },
+    recommended: [],
+    note: "Gains Dragon Blood at the start of battle just by being in the party."
+},
+"Apsaras": {
+    uniqueSkill: {
+        name: "Gentle Chant I",
+        description: "Increases DEF by 8.7%. When using a skill on allies, increases their DEF by 15.4% for 2 turns."
+    },
+    mainSkill: {
+        name: "Rebellion",
+        description: "Increase 1 ally's CRIT by 9.3% + 1.6% for every 10% CRIT Wonder has, up to 6.4% for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Increases all allies dmg dealt by 29.5% for 2 turns."
+    },
+    recommended: [
+        { name: "Auto-Maraku", description: "Increase DEF for all allies by 6.5%/9.1%/11.8%/14.7% at the start of battle for 2 turns or until persona change." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." }
+    ],
+    note: null
+},
+"King Frost": {
+    uniqueSkill: {
+        name: "Frozen Adjudication III",
+        description: "Increases DEF by 37.4%. After giving Shield to allies, increases the main target's DEF by 25% and Ice dmg bonus by 15% for 2 turns."
+    },
+    mainSkill: {
+        name: "Snow Aegis",
+        description: "Grants all allies 22.8% ATK + 690 shield for 2 turns. When the Shield is active increases DEF by 30%."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Grants all allies 48.6% ATK + 1471 shield for 2 turns."
+    },
+    recommended: [
+        { name: "Auto-Maraku", description: "Increase DEF for all allies by 6.5%/9.1%/11.8%/14.7% at the start of battle for 2 turns or until persona change." },
+        { name: "Shield Boost", description: "Increase Shield Effect by 4.2%/6.0%/7.8%/9.7%." },
+        { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." }
+    ],
+    note: null
+},
+"Lilith": {
+    uniqueSkill: {
+        name: "Midnight Seduction III",
+        description: "Increases ATK by 29.1%. When using Ice, Wind, or Curse skill, increases that Elemental dmg by 30% and dmg resistance by 10% for 2 turns. When Lilith uses Ice, Wind, or Curse skill, evolves the signature skill, makes it deal 1 hit of that element's damage, heavily increases skill damage and gains 15% PEN."
+    },
+    mainSkill: {
+        name: "Carnage Allure",
+        description: "Deals 25.0% ATK Almighty dmg to all foes, then deals 37.5% ATK Curse dmg. Skill can evolves into [Ice] [Wind] [Curse] form: Deals 25.0% ATK Almighty dmg, then deals 101.0% ATK (Ice, Wind, Curse) dmg."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 90.0% ATK as Almighty dmg to all foes."
+    },
+    recommended: [
+        { name: "Auto-Mataru", description: "Increase ATK for all allies by 4.2%/6.0%/7.9%/9.8% at the start of battle for 2 turns or until persona change." },
+        { name: "Speed Master", description: "Increases SPD by 6/9/12/15 and decreases DEF by 0%/4%/8%/12%." }
+    ],
+    note: "Rarely used except for increasing Almighty damage with Wonder weapons like Mechanical Arbiter."
+},
+"Anubis": {
+    uniqueSkill: {
+        name: "Judge of Souls III",
+        description: "Increases ATK by 29.1%. When dealing Bless damage, gains 2 stacks of Bless and there is a 50% fixed chance to inflict 1 stack of Curse to the main target. When dealing Curse damage the main target gains 2 stacks of Curse and there is a 50% fixed chance for you to gain 1 stack of Bless. Increases ATK by 27% when attacking enemies with Curse."
+    },
+    mainSkill: {
+        name: "Afterlife Judgement",
+        description: "Deals 165.0% ATK Curse dmg to 1 foe. When using this skill, each stack of Bless on you or each stack of Curse on the target increases DMG Dealt by 10%, up to 4 stacks."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deal 360% ATK as Curse dmg to 1 foe."
+    },
+    recommended: [
+        { name: "Demonic Decree", description: "Deals 142.5% ATK Curse damage to 1 foe and inflicts 2 stack(s) of Curse." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." }
+    ],
+    note: "Curse damage is affected by Almighty damage."
+},
+"Pazuzu": {
+    uniqueSkill: {
+        name: "Eternal Curse II",
+        description: "Increases ATK by 17.7%. After attacking foes with a Persona skill, there is a 60% fixed chance to inflict 1 stack of Curse on the main target. Immediately triggers all of the main target's Curse stacks."
+    },
+    mainSkill: {
+        name: "Maciga",
+        description: "Deals 66.5% ATK Curse dmg to all foes and has a chance to inflict 1 stack of Curse."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Curse dmg to all foes."
+    },
+    recommended: [
+        { name: "Demonic Decree", description: "Deals 142.5% ATK Curse damage to 1 foe and inflicts 2 stack(s) of Curse." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Agidyne", description: "Deals 121.7% ATK Fire damage to 1 foe and has a 67.6% chance of inflicting Burn for 2 turns." },
+        { name: "Burn Boost", description: "Increases Burn accuracy by 8.8%/12.5%/16.3%." },
+        { name: "Accuracy Boost", description: "Increase ailment accuracy by 7%/10%/13%/16.2%/19.4%." },
+        { name: "Ambient Aid", description: "Increase ailment accuracy by 9.1%/13%/16.9% when it rains." }
+    ],
+    note: "Operated with burn effects through Agidyne + Curse damage settlement through core passive. Curse effect damage is affected by Almighty damage."
+},
+"Belphegor": {
+    uniqueSkill: {
+        name: "Cold Wave of Sloth II",
+        description: "Increases Effect RES by 17%. After using a Persona skill on enemies, increases the main target's Ice dmg taken by 14.4% for 2 turns. If they are under 50% HP, additionally increases effect by 40%."
+    },
+    mainSkill: {
+        name: "Rakunda",
+        description: "Decrease DEF of 1 enemy by 38.8% for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 90.0% ATK Ice dmg to all foes and increase their dmg taken by 19.6% for 2 turns."
+    },
+    recommended: [
+        { name: "Diamond Dust", description: "Deals 129.5% ATK Ice damage to 1 foe and has a 72.0% chance of inflicting Freeze for 2 turns." },
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Ice Boost", description: "Increases Ice damage by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: null
+},
+"Yatagarasu": {
+    uniqueSkill: {
+        name: "Sun's Wrath III",
+        description: "Increases ATK by 17.5%. When you don't have any debuffs, increases ATK by 30% and Fire dmg dealt by 16.5%."
+    },
+    mainSkill: {
+        name: "Maragion",
+        description: "Deals 60.8% ATK Fire dmg to all foes and has a 33.8% chance of inflicting Burn for 2 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deals 180.0% ATK as Fire dmg to all foes."
+    },
+    recommended: [
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Fire Boost", description: "Increases Fire damage by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: "Adopted when granting Fire damage through Wonder."
+},
+"Girimehkala": {
+    uniqueSkill: {
+        name: "Elephant's Gaze II",
+        description: "Increases Effect Resistance by 17.4%. All allies take 20% less damage from enemies with any debuffs."
+    },
+    mainSkill: {
+        name: "Matarunda",
+        description: "Decreases ATK of all foes by 18.1% for 3 turns."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Grants all allies 48.6% ATK + 1471 shield for 2 turns."
+    },
+    recommended: [],
+    note: "Adopted when damage reduction effects are needed."
+},
+"Cu Chulainn": {
+    uniqueSkill: {
+        name: "Roaring Hound III",
+        description: "Increases CRIT Rate by 17.5%. Inflicts [Mortal Barb] when dealing Critical, detonates this the next time you use the signature skill, additionally increases skill damage by 87% ATK. When detonating, there is a low chance of insta-kill."
+    },
+    mainSkill: {
+        name: "Gae Bulg",
+        description: "Deals 174.0% ATK Phys dmg to 1 foe, increases CRIT Rate by 4% for every stack of debuffs the foe has, up to 20% Crit Rate Bonus."
+    },
+    highlight: {
+        name: "HIGHLIGHT",
+        description: "Deal 360% ATK as Phys dmg to 1 foe."
+    },
+    recommended: [
+        { name: "Attack Boost", description: "Increase ATK by 5.8%/8.3%/10.8%/13.5%/16.2%." },
+        { name: "Apt Pupil", description: "Increases Critical Rate by 3.5%/5.0%/6.5%/8.1%." },
+        { name: "Pinpoint", description: "Increases critical damage by 7%/10%/13%/16.2%." },
+        { name: "Magic Ability", description: "Increase damage dealt by 4.7%/6.7%/8.7%/10.8%/13.0%." },
+        { name: "Phys Boost", description: "Increase Physical damage by 4.7%/6.7%/8.7%/10.8%." }
+    ],
+    note: null
+}
+};
+
+
+const personaGridContainer = document.getElementById('persona-grid-container');
+const personaModal = document.getElementById('personaModal');
+const personaModalTitle = document.getElementById('personaModalTitle');
+const personaModalBody = document.querySelector('.persona-modal-body');
+const closePersonaBtn = document.getElementById('closePersonaBtn');
+
+function openPersonaModal(personaName) {
+    const data = personaData[personaName];
+    if (!data) return;
+
+    personaModalTitle.textContent = personaName;
+
+    let modalHTML = `
+        <div class="persona-detail-card">
+            <h4>Unique Skill: ${data.uniqueSkill.name}</h4>
+            <p>${data.uniqueSkill.description}</p>
+        </div>
+        <div class="persona-skill-grid">
+            <div class="persona-skill-item">
+                <strong>${data.mainSkill.name}</strong>
+                <p>${data.mainSkill.description}</p>
+            </div>
+            <div class="persona-skill-item">
+                <strong>${data.highlight.name}</strong>
+                <p>${data.highlight.description}</p>
+            </div>
+        </div>
+        <div class="persona-detail-card persona-recommended-skills">
+            <h4>Recommended Skills</h4>
+            ${data.recommended.map(skill => `
+                <div class="skill">
+                    <strong>${skill.name}</strong>
+                    <p>${skill.description}</p>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    if (data.note) {
+        modalHTML += `<div class="persona-footer-note">${data.note}</div>`;
+    }
+
+    personaModalBody.innerHTML = modalHTML;
+    personaModal.classList.add('show');
+}
+
+function closePersonaModal() {
+    personaModal.classList.remove('show');
+}
+
+if (personaGridContainer) {
+Object.keys(personaData).forEach(name => {
+    const data = personaData[name];
+    const card = document.createElement('div');
+    card.className = 'persona-card';
+    card.dataset.name = name;
+
+    // Add a rarity-specific class to the card for styling
+    if (data.rarity) {
+        card.classList.add(`rarity-${data.rarity}`);
+    }
+
+    // Generate the HTML for the stars display
+    let starsHTML = '';
+    if (data.rarity) {
+        for (let i = 1; i <= 5; i++) {
+            // Add 'filled' class to stars up to the rarity level
+            starsHTML += `<span class="persona-rarity-star ${i <= data.rarity ? 'filled' : ''}">★</span>`;
+        }
+    }
+
+    const iconUrl = data.icon || 'https://cdn.imgchest.com/files/49zc2bpgvny.png';
+
+    card.innerHTML = `
+        <img src="${iconUrl}" alt="${name}" class="persona-card-icon">
+        <div class="persona-card-details">
+            <div class="persona-rarity">${starsHTML}</div>
+            <div class="persona-card-name">${name}</div>
+        </div>
+    `;
+    card.addEventListener('click', () => openPersonaModal(name));
+    personaGridContainer.appendChild(card);
+});
+}
+
+closePersonaBtn.addEventListener('click', closePersonaModal);
+personaModal.addEventListener('click', (e) => {
+    if (e.target === personaModal) {
+        closePersonaModal();
+    }
+});
+
+const personaSearchInput = document.getElementById('personaSearchInput');
+if (personaSearchInput) {
+    personaSearchInput.addEventListener('input', () => {
+        const searchTerm = personaSearchInput.value.toLowerCase();
+        const allPersonaCards = document.querySelectorAll('#persona-grid-container .persona-card');
+
+        allPersonaCards.forEach(card => {
+            const personaName = card.dataset.name;
+            const data = personaData[personaName];
+            if (!data) {
+                card.style.display = 'none';
+                return;
+            }
+
+            // Create a comprehensive string of all persona info to search through
+            let searchableText = personaName.toLowerCase();
+            if (data.uniqueSkill) {
+                searchableText += ` ${data.uniqueSkill.name.toLowerCase()} ${data.uniqueSkill.description.toLowerCase()}`;
+            }
+            if (data.mainSkill) {
+                searchableText += ` ${data.mainSkill.name.toLowerCase()} ${data.mainSkill.description.toLowerCase()}`;
+            }
+            if (data.highlight) {
+                searchableText += ` ${data.highlight.name.toLowerCase()} ${data.highlight.description.toLowerCase()}`;
+            }
+            if (data.recommended) {
+                data.recommended.forEach(skill => {
+                    searchableText += ` ${skill.name.toLowerCase()} ${skill.description.toLowerCase()}`;
+                });
+            }
+            if (data.note) {
+                searchableText += ` ${data.note.toLowerCase()}`;
+            }
+
+            // Show or hide the card based on the search term
+            if (searchableText.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+}
 
 
             const confidantGridContainer = document.querySelector('#guide-confidants .confidant-grid-container');
