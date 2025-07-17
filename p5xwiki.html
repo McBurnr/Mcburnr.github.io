@@ -1735,6 +1735,49 @@ body.sidebar-open .site-wrapper {
 }
 /* END: New Filter Layout Styles */
 
+/* START: Copy Guide Button Styles */
+.modal-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.copy-guide-btn {
+    background-color: rgba(74, 85, 104, 0.5); /* #4a5568 with opacity */
+    color: white;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    font-family: 'Cinzel', serif;
+    border-radius: 6px;
+    border: 1px solid #718096;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative; /* For the notification */
+}
+.copy-guide-btn:hover {
+    background-color: #2d3748;
+}
+.copy-guide-btn .copy-notification {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #48bb78;
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+}
+.copy-guide-btn.copied .copy-notification {
+    opacity: 1;
+    visibility: visible;
+}
+/* END: Copy Guide Button Styles */
+
 </style>
 
 </head>
@@ -2285,10 +2328,16 @@ body.sidebar-open .site-wrapper {
 <!-- MODAL FOR PERSONA DETAILS -->
 <div class="modal" id="personaModal">
     <div class="modal-content persona-modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title" id="personaModalTitle"></h2>
-            <button class="close-btn" id="closePersonaBtn">&times;</button>
-        </div>
+<div class="modal-header">
+    <h2 class="modal-title" id="personaModalTitle"></h2>
+    <div class="modal-header-controls">
+        <button class="copy-guide-btn" id="copyPersonaGuideBtn">
+            Copy Guide
+            <span class="copy-notification">Copied!</span>
+        </button>
+        <button class="close-btn" id="closePersonaBtn">&times;</button>
+    </div>
+</div>
         <div class="modal-body persona-modal-body">
             <!-- Persona details-->
         </div>
@@ -2301,10 +2350,16 @@ body.sidebar-open .site-wrapper {
 
     <div class="modal" id="confidantModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="confidantModalTitle"></h2>
-                <button class="close-btn" id="closeConfidantBtn">&times;</button>
-            </div>
+<div class="modal-header">
+    <h2 class="modal-title" id="confidantModalTitle"></h2>
+    <div class="modal-header-controls">
+        <button class="copy-guide-btn" id="copyConfidantGuideBtn">
+            Copy Guide
+            <span class="copy-notification">Copied!</span>
+        </button>
+        <button class="close-btn" id="closeConfidantBtn">&times;</button>
+    </div>
+</div>
             <div class="modal-body">
                 <div class="tabs" id="confidantTabsContainer">
                     <!-- Confidant tabs -->
@@ -2317,6 +2372,60 @@ body.sidebar-open .site-wrapper {
     </div>
 
     <script>
+	// START: Deep Link & Meta Tag Generation
+function handleDeepLink() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const guideType = params.get('guide');
+        const guideName = params.get('name');
+
+        if (!guideType || !guideName) return;
+
+        let title = "P5X Wiki Guide";
+        let description = "A comprehensive guide for Persona 5: The Phantom X.";
+        let imageUrl = "https://cdn.imgchest.com/files/p7bwcnq5gq7.png"; // Default image
+        let color = "#ff0000";
+
+        if (guideType === 'persona' && personaData[guideName]) {
+            const data = personaData[guideName];
+            title = `Persona Guide: ${guideName}`;
+            imageUrl = data.icon || imageUrl;
+            description = `Rarity: ${'★'.repeat(data.rarity)}\nElement: ${data.element || 'N/A'}\n\n` +
+                          `▶ Unique Skill: ${data.uniqueSkill.name}\n${data.uniqueSkill.description}\n\n` +
+                          `▶ Main Skill: ${data.mainSkill.name}\n${data.mainSkill.description}`;
+        } else if (guideType === 'confidant' && confidantData[guideName]) {
+            const data = confidantData[guideName];
+            title = `Confidant Guide: ${guideName}`;
+            imageUrl = data.icon || imageUrl;
+            description = `Key Unlocks:\n` +
+                          (data.guide.skills || []).map(s => `• Rank ${s[0]}: ${s[1]}`).slice(0, 5).join('\n');
+        }
+
+        // Create and append meta tags to the <head>
+        const head = document.head;
+        const metaTags = [
+            { property: 'og:title', content: title },
+            { property: 'og:description', content: description },
+            { property: 'og:image', content: imageUrl },
+            { property: 'og:url', content: window.location.href },
+            { property: 'og:type', content: 'website' },
+            { name: 'theme-color', content: color }
+        ];
+
+        metaTags.forEach(tagInfo => {
+            const meta = document.createElement('meta');
+            for (const key in tagInfo) {
+                meta.setAttribute(key, tagInfo[key]);
+            }
+            head.appendChild(meta);
+        });
+    } catch (e) {
+        console.error("Error handling deep link:", e);
+    }
+}
+// Run this as soon as the script starts
+handleDeepLink();
+// END: Deep Link & Meta Tag Generation
         document.addEventListener('DOMContentLoaded', () => {
             const guideCards = document.querySelectorAll('.guide-card');
             const contentPanels = document.querySelectorAll('.guide-content-panel');
@@ -2325,6 +2434,50 @@ const sidebar = document.getElementById('collapsible-sidebar');
 const overlay = document.getElementById('main-overlay');
 const quickNavOverlay = document.getElementById('quick-nav-overlay');
 const quickNavCards = document.querySelectorAll('.quick-nav-card');
+
+// Add this inside your document.addEventListener('DOMContentLoaded', () => { ... });
+
+// START: Copy Button Logic
+function showCopyNotification(button) {
+    if (button.classList.contains('copied')) return; // Prevent re-triggering
+    button.classList.add('copied');
+    setTimeout(() => {
+        button.classList.remove('copied');
+    }, 2000);
+}
+
+function setupCopyButton(buttonId, guideType) {
+    const copyBtn = document.getElementById(buttonId);
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent modal from closing if button is inside
+            const guideName = this.dataset.name;
+            if (!guideName) return;
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?guide=${guideType}&name=${encodeURIComponent(guideName)}`;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = shareUrl;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyNotification(this);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        });
+    }
+}
+
+setupCopyButton('copyPersonaGuideBtn', 'persona');
+setupCopyButton('copyConfidantGuideBtn', 'confidant');
+
 
 function selectInitialGuide(targetId) {
     if (!targetId) return;
@@ -4814,7 +4967,7 @@ const elementIcons = {
 function openPersonaModal(personaName) {
     const data = personaData[personaName];
     if (!data) return;
-
+	document.getElementById('copyPersonaGuideBtn').dataset.name = personaName;
     personaModalTitle.textContent = personaName;
 
     let modalHTML = `
@@ -5021,6 +5174,7 @@ updateActiveState();
 function openConfidantModal(confidantName) {
                 const data = confidantData[confidantName];
                 if (!data) return;
+    document.getElementById('copyConfidantGuideBtn').dataset.name = confidantName;
 
                 confidantModalTitle.textContent = confidantName;
 
