@@ -2372,292 +2372,7 @@ body.sidebar-open .site-wrapper {
     </div>
 
     <script>
-	// START: Deep Link & Meta Tag Generation
-function handleDeepLink() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const guideType = params.get('guide');
-        const guideName = params.get('name');
-
-        if (!guideType || !guideName) return;
-
-        let title = "P5X Wiki Guide";
-        let description = "A comprehensive guide for Persona 5: The Phantom X.";
-        let imageUrl = "https://cdn.imgchest.com/files/p7bwcnq5gq7.png"; // Default image
-        let color = "#ff0000";
-
-        if (guideType === 'persona' && personaData[guideName]) {
-            const data = personaData[guideName];
-            title = `Persona Guide: ${guideName}`;
-            imageUrl = data.icon || imageUrl;
-            description = `Rarity: ${'★'.repeat(data.rarity)}\nElement: ${data.element || 'N/A'}\n\n` +
-                          `▶ Unique Skill: ${data.uniqueSkill.name}\n${data.uniqueSkill.description}\n\n` +
-                          `▶ Main Skill: ${data.mainSkill.name}\n${data.mainSkill.description}`;
-        } else if (guideType === 'confidant' && confidantData[guideName]) {
-            const data = confidantData[guideName];
-            title = `Confidant Guide: ${guideName}`;
-            imageUrl = data.icon || imageUrl;
-            description = `Key Unlocks:\n` +
-                          (data.guide.skills || []).map(s => `• Rank ${s[0]}: ${s[1]}`).slice(0, 5).join('\n');
-        }
-
-        // Create and append meta tags to the <head>
-        const head = document.head;
-        const metaTags = [
-            { property: 'og:title', content: title },
-            { property: 'og:description', content: description },
-            { property: 'og:image', content: imageUrl },
-            { property: 'og:url', content: window.location.href },
-            { property: 'og:type', content: 'website' },
-            { name: 'theme-color', content: color }
-        ];
-
-        metaTags.forEach(tagInfo => {
-            const meta = document.createElement('meta');
-            for (const key in tagInfo) {
-                meta.setAttribute(key, tagInfo[key]);
-            }
-            head.appendChild(meta);
-        });
-    } catch (e) {
-        console.error("Error handling deep link:", e);
-    }
-}
-// Run this as soon as the script starts
-handleDeepLink();
-// END: Deep Link & Meta Tag Generation
-        document.addEventListener('DOMContentLoaded', () => {
-            const guideCards = document.querySelectorAll('.guide-card');
-            const contentPanels = document.querySelectorAll('.guide-content-panel');
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.getElementById('collapsible-sidebar');
-const overlay = document.getElementById('main-overlay');
-const quickNavOverlay = document.getElementById('quick-nav-overlay');
-const quickNavCards = document.querySelectorAll('.quick-nav-card');
-
-// Add this inside your document.addEventListener('DOMContentLoaded', () => { ... });
-
-// START: Copy Button Logic
-function showCopyNotification(button) {
-    if (button.classList.contains('copied')) return; // Prevent re-triggering
-    button.classList.add('copied');
-    setTimeout(() => {
-        button.classList.remove('copied');
-    }, 2000);
-}
-
-function setupCopyButton(buttonId, guideType) {
-    const copyBtn = document.getElementById(buttonId);
-    if (copyBtn) {
-        copyBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent modal from closing if button is inside
-            const guideName = this.dataset.name;
-            if (!guideName) return;
-
-            const baseUrl = window.location.origin + window.location.pathname;
-            const shareUrl = `${baseUrl}?guide=${guideType}&name=${encodeURIComponent(guideName)}`;
-
-            const textArea = document.createElement("textarea");
-            textArea.value = shareUrl;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showCopyNotification(this);
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-            document.body.removeChild(textArea);
-        });
-    }
-}
-
-setupCopyButton('copyPersonaGuideBtn', 'persona');
-setupCopyButton('copyConfidantGuideBtn', 'confidant');
-
-
-function selectInitialGuide(targetId) {
-    if (!targetId) return;
-
-    const targetSidebarCard = document.querySelector(`.sidebar-nav .guide-card[data-target="${targetId}"]`);
-    if (targetSidebarCard) {
-        targetSidebarCard.click();
-    }
-
-    quickNavOverlay.classList.add('hidden');
-}
-
-quickNavCards.forEach(card => {
-    card.addEventListener('click', () => {
-        const targetId = card.dataset.target;
-        selectInitialGuide(targetId);
-    });
-});
-
-
-function toggleSidebar() {
-    menuToggle.classList.toggle('open');
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('show');
-    document.body.classList.toggle('sidebar-open');
-}
-
-menuToggle.addEventListener('click', toggleSidebar);
-overlay.addEventListener('click', toggleSidebar);
-
-sidebar.querySelectorAll('.guide-card').forEach(card => {
-    card.addEventListener('click', () => {
-        if (sidebar.classList.contains('open')) {
-            toggleSidebar();
-        }
-    });
-});
-
-
-            guideCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const targetId = card.dataset.target;
-
-                    guideCards.forEach(c => c.classList.remove('active'));
-                    contentPanels.forEach(p => p.classList.remove('active'));
-
-                    card.classList.add('active');
-                    const targetPanel = document.getElementById(targetId);
-                    if (targetPanel) {
-                        targetPanel.classList.add('active');
-                    }
-                });
-            });
-
-            if (guideCards.length > 0) {
-                guideCards[0].click();
-            }
-
-            const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-            accordionTriggers.forEach(trigger => {
-                trigger.addEventListener('click', () => {
-                    const parentItem = trigger.parentElement;
-                    parentItem.classList.toggle('active');
-                });
-            });
-			
-const calculatorSection = document.getElementById('guide-calculator');
-if (calculatorSection) {
-    const inputs = {
-        char_atk: document.getElementById('char_atk'), weapon_atk: document.getElementById('weapon_atk'), atk_percent: document.getElementById('atk_percent'), atk_flat: document.getElementById('atk_flat'),
-        atk_multiplier: document.getElementById('atk_multiplier'), elemental_multiplier: document.getElementById('elemental_multiplier'), enemy_damage_taken: document.getElementById('enemy_damage_taken'),
-        enemy_def: document.getElementById('enemy_def'), add_def_coeff: document.getElementById('add_def_coeff'), pierce_rate: document.getElementById('pierce_rate'), def_reduction: document.getElementById('def_reduction'), winded: document.getElementById('winded'),
-        crit_rate: document.getElementById('crit_rate'), crit_effect: document.getElementById('crit_effect'),
-        skill_coeff: document.getElementById('skill_coeff'),
-        weakness_coeff: document.getElementById('weakness_coeff'),
-        final_dmg_bonus: document.getElementById('final_dmg_bonus'),
-    };
-    const outputs = {
-        atk_power: document.getElementById('atk_power_result'), dmg_bonus: document.getElementById('dmg_bonus_result'), enemy_def: document.getElementById('enemy_def_result'), crit_calc: document.getElementById('crit_calc_result'),
-        skill_coeff: document.getElementById('skill_coeff_result'),
-        weakness_coeff: document.getElementById('weakness_coeff_result'),
-        final_dmg_bonus: document.getElementById('final_dmg_bonus_result'),
-        total_damage: document.getElementById('total_damage_result'),
-    };
-
-function calculateDamage() {
-    const getVal = (id) => parseFloat(inputs[id].value) || 0;
-    const getPercent = (id) => (parseFloat(inputs[id].value) || 0) / 100;
-
-    // A: Attack Power
-    const attackPower = (getVal('char_atk') + getVal('weapon_atk')) * (1 + getPercent('atk_percent')) + getVal('atk_flat');
-    outputs.atk_power.textContent = attackPower.toFixed(2);
-
-    // B: Damage Bonus
-    const damageBonus = 1 + getPercent('atk_multiplier') + getPercent('elemental_multiplier') + getPercent('enemy_damage_taken');
-    outputs.dmg_bonus.textContent = (damageBonus * 100).toFixed(2) + '%';
-    
-    // C: Enemy Defense
-    const windedMultiplier = inputs.winded.value === 'winded' ? 0.88 : 1;
-    const defenseCoefficient = (1 + getPercent('add_def_coeff')) * (1 - getPercent('pierce_rate')) - getPercent('def_reduction');
-    const effectiveEnemyDef = getVal('enemy_def') * defenseCoefficient * windedMultiplier;
-    const defenseDivisor = effectiveEnemyDef + 1400;
-    const defenseMultiplier = defenseDivisor <= 0 ? 1 : 1 - (effectiveEnemyDef / defenseDivisor);
-    outputs.enemy_def.textContent = defenseMultiplier.toFixed(4);
-
-    // D: Critical Calculation (Corrected Average Damage Formula)
-    const critRate = getPercent('crit_rate');
-    const critEffect = getPercent('crit_effect');
-    // (critRate * critEffect) is the damage contribution from crits.
-    const critMultiplier = (1 - critRate) + (critRate * critEffect);
-    outputs.crit_calc.textContent = (critMultiplier * 100).toFixed(2) + '%';
-
-    // E: Skill Coefficient
-    const skillCoeff = getPercent('skill_coeff');
-    outputs.skill_coeff.textContent = (skillCoeff * 100).toFixed(2) + '%';
-
-    // F: Weakness Coefficient
-    const weaknessCoeff = parseFloat(inputs.weakness_coeff.value) || 1;
-    outputs.weakness_coeff.textContent = (weaknessCoeff * 100).toFixed(2) + '%';
-
-    // G: Final Damage Bonus
-    const finalDmgBonus = 1 + getPercent('final_dmg_bonus');
-    outputs.final_dmg_bonus.textContent = (finalDmgBonus * 100).toFixed(2) + '%';
-
-    // Final Damage Calculation
-    const baseDamage = attackPower * damageBonus * defenseMultiplier * critMultiplier * skillCoeff * weaknessCoeff * finalDmgBonus;
-    const minDamage = baseDamage * 0.95;
-    const maxDamage = baseDamage * 1.05;
-    outputs.total_damage.textContent = `${Math.round(minDamage).toLocaleString()} ~ ${Math.round(maxDamage).toLocaleString()}`;
-}
-
-    Object.values(inputs).forEach(input => {
-        if(input) input.addEventListener('input', calculateDamage);
-    });
-    
-    calculateDamage();
-}
-
-const personaSection = document.getElementById('guide-personas');
-if (personaSection) {
-    const filtersWrapper = document.getElementById('persona-filters-wrapper');
-    const filterPanelToggle = document.getElementById('filter-panel-toggle');
-    const filterPositionToggle = document.getElementById('filter-position-toggle');
-
-    // Function to apply the layout based on the 'position' string ('top' or 'side')
-    const applyFilterLayout = (position) => {
-        if (position === 'side') {
-            personaSection.classList.remove('layout-top');
-            personaSection.classList.add('layout-side');
-        } else { // Default to 'top'
-            personaSection.classList.remove('layout-side');
-            personaSection.classList.add('layout-top');
-        }
-    };
-
-    // --- On Page Load ---
-    // 1. Get saved position from localStorage, defaulting to 'top' if not found.
-    const savedPosition = localStorage.getItem('personaFilterPosition') || 'top';
-    applyFilterLayout(savedPosition);
-
-    // 2. Start with the filter panel collapsed by default.
-    filtersWrapper.classList.add('collapsed');
-
-    // --- Event Listeners ---
-    // 3. Toggle the 'collapsed' class to show/hide the filter panel.
-    filterPanelToggle.addEventListener('click', () => {
-        filtersWrapper.classList.toggle('collapsed');
-    });
-
-    // 4. Toggle the layout class on the section and save the new preference.
-    filterPositionToggle.addEventListener('click', () => {
-        const isCurrentlySide = personaSection.classList.contains('layout-side');
-        const newPosition = isCurrentlySide ? 'top' : 'side';
-        applyFilterLayout(newPosition);
-        localStorage.setItem('personaFilterPosition', newPosition);
-    });
-}
-
-
-const confidantData = {
+	const confidantData = {
     "Merope": {
         "icon": "https://cdn.imgchest.com/files/49zc2bpgvny.png",
         "levels": [
@@ -4942,6 +4657,291 @@ const personaData = {
 }
 };
 
+	
+	
+	// START: Deep Link & Meta Tag Generation
+function handleDeepLink() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const guideType = params.get('guide');
+        const guideName = params.get('name');
+
+        if (!guideType || !guideName) return;
+
+        let title = "P5X Wiki Guide";
+        let description = "A comprehensive guide for Persona 5: The Phantom X.";
+        let imageUrl = "https://cdn.imgchest.com/files/p7bwcnq5gq7.png"; // Default image
+        let color = "#ff0000";
+
+        if (guideType === 'persona' && personaData[guideName]) {
+            const data = personaData[guideName];
+            title = `Persona Guide: ${guideName}`;
+            imageUrl = data.icon || imageUrl;
+            description = `Rarity: ${'★'.repeat(data.rarity)}\nElement: ${data.element || 'N/A'}\n\n` +
+                          `▶ Unique Skill: ${data.uniqueSkill.name}\n${data.uniqueSkill.description}\n\n` +
+                          `▶ Main Skill: ${data.mainSkill.name}\n${data.mainSkill.description}`;
+        } else if (guideType === 'confidant' && confidantData[guideName]) {
+            const data = confidantData[guideName];
+            title = `Confidant Guide: ${guideName}`;
+            imageUrl = data.icon || imageUrl;
+            description = `Key Unlocks:\n` +
+                          (data.guide.skills || []).map(s => `• Rank ${s[0]}: ${s[1]}`).slice(0, 5).join('\n');
+        }
+
+        // Create and append meta tags to the <head>
+        const head = document.head;
+        const metaTags = [
+            { property: 'og:title', content: title },
+            { property: 'og:description', content: description },
+            { property: 'og:image', content: imageUrl },
+            { property: 'og:url', content: window.location.href },
+            { property: 'og:type', content: 'website' },
+            { name: 'theme-color', content: color }
+        ];
+
+        metaTags.forEach(tagInfo => {
+            const meta = document.createElement('meta');
+            for (const key in tagInfo) {
+                meta.setAttribute(key, tagInfo[key]);
+            }
+            head.appendChild(meta);
+        });
+    } catch (e) {
+        console.error("Error handling deep link:", e);
+    }
+}
+// Run this as soon as the script starts
+handleDeepLink();
+// END: Deep Link & Meta Tag Generation
+        document.addEventListener('DOMContentLoaded', () => {
+            const guideCards = document.querySelectorAll('.guide-card');
+            const contentPanels = document.querySelectorAll('.guide-content-panel');
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('collapsible-sidebar');
+const overlay = document.getElementById('main-overlay');
+const quickNavOverlay = document.getElementById('quick-nav-overlay');
+const quickNavCards = document.querySelectorAll('.quick-nav-card');
+
+// Add this inside your document.addEventListener('DOMContentLoaded', () => { ... });
+
+// START: Copy Button Logic
+function showCopyNotification(button) {
+    if (button.classList.contains('copied')) return; // Prevent re-triggering
+    button.classList.add('copied');
+    setTimeout(() => {
+        button.classList.remove('copied');
+    }, 2000);
+}
+
+function setupCopyButton(buttonId, guideType) {
+    const copyBtn = document.getElementById(buttonId);
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent modal from closing if button is inside
+            const guideName = this.dataset.name;
+            if (!guideName) return;
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?guide=${guideType}&name=${encodeURIComponent(guideName)}`;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = shareUrl;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyNotification(this);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        });
+    }
+}
+
+setupCopyButton('copyPersonaGuideBtn', 'persona');
+setupCopyButton('copyConfidantGuideBtn', 'confidant');
+
+
+function selectInitialGuide(targetId) {
+    if (!targetId) return;
+
+    const targetSidebarCard = document.querySelector(`.sidebar-nav .guide-card[data-target="${targetId}"]`);
+    if (targetSidebarCard) {
+        targetSidebarCard.click();
+    }
+
+    quickNavOverlay.classList.add('hidden');
+}
+
+quickNavCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const targetId = card.dataset.target;
+        selectInitialGuide(targetId);
+    });
+});
+
+
+function toggleSidebar() {
+    menuToggle.classList.toggle('open');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+    document.body.classList.toggle('sidebar-open');
+}
+
+menuToggle.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
+sidebar.querySelectorAll('.guide-card').forEach(card => {
+    card.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) {
+            toggleSidebar();
+        }
+    });
+});
+
+
+            guideCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetId = card.dataset.target;
+
+                    guideCards.forEach(c => c.classList.remove('active'));
+                    contentPanels.forEach(p => p.classList.remove('active'));
+
+                    card.classList.add('active');
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+
+            if (guideCards.length > 0) {
+                guideCards[0].click();
+            }
+
+            const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+            accordionTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const parentItem = trigger.parentElement;
+                    parentItem.classList.toggle('active');
+                });
+            });
+			
+const calculatorSection = document.getElementById('guide-calculator');
+if (calculatorSection) {
+    const inputs = {
+        char_atk: document.getElementById('char_atk'), weapon_atk: document.getElementById('weapon_atk'), atk_percent: document.getElementById('atk_percent'), atk_flat: document.getElementById('atk_flat'),
+        atk_multiplier: document.getElementById('atk_multiplier'), elemental_multiplier: document.getElementById('elemental_multiplier'), enemy_damage_taken: document.getElementById('enemy_damage_taken'),
+        enemy_def: document.getElementById('enemy_def'), add_def_coeff: document.getElementById('add_def_coeff'), pierce_rate: document.getElementById('pierce_rate'), def_reduction: document.getElementById('def_reduction'), winded: document.getElementById('winded'),
+        crit_rate: document.getElementById('crit_rate'), crit_effect: document.getElementById('crit_effect'),
+        skill_coeff: document.getElementById('skill_coeff'),
+        weakness_coeff: document.getElementById('weakness_coeff'),
+        final_dmg_bonus: document.getElementById('final_dmg_bonus'),
+    };
+    const outputs = {
+        atk_power: document.getElementById('atk_power_result'), dmg_bonus: document.getElementById('dmg_bonus_result'), enemy_def: document.getElementById('enemy_def_result'), crit_calc: document.getElementById('crit_calc_result'),
+        skill_coeff: document.getElementById('skill_coeff_result'),
+        weakness_coeff: document.getElementById('weakness_coeff_result'),
+        final_dmg_bonus: document.getElementById('final_dmg_bonus_result'),
+        total_damage: document.getElementById('total_damage_result'),
+    };
+
+function calculateDamage() {
+    const getVal = (id) => parseFloat(inputs[id].value) || 0;
+    const getPercent = (id) => (parseFloat(inputs[id].value) || 0) / 100;
+
+    // A: Attack Power
+    const attackPower = (getVal('char_atk') + getVal('weapon_atk')) * (1 + getPercent('atk_percent')) + getVal('atk_flat');
+    outputs.atk_power.textContent = attackPower.toFixed(2);
+
+    // B: Damage Bonus
+    const damageBonus = 1 + getPercent('atk_multiplier') + getPercent('elemental_multiplier') + getPercent('enemy_damage_taken');
+    outputs.dmg_bonus.textContent = (damageBonus * 100).toFixed(2) + '%';
+    
+    // C: Enemy Defense
+    const windedMultiplier = inputs.winded.value === 'winded' ? 0.88 : 1;
+    const defenseCoefficient = (1 + getPercent('add_def_coeff')) * (1 - getPercent('pierce_rate')) - getPercent('def_reduction');
+    const effectiveEnemyDef = getVal('enemy_def') * defenseCoefficient * windedMultiplier;
+    const defenseDivisor = effectiveEnemyDef + 1400;
+    const defenseMultiplier = defenseDivisor <= 0 ? 1 : 1 - (effectiveEnemyDef / defenseDivisor);
+    outputs.enemy_def.textContent = defenseMultiplier.toFixed(4);
+
+    // D: Critical Calculation (Corrected Average Damage Formula)
+    const critRate = getPercent('crit_rate');
+    const critEffect = getPercent('crit_effect');
+    // (critRate * critEffect) is the damage contribution from crits.
+    const critMultiplier = (1 - critRate) + (critRate * critEffect);
+    outputs.crit_calc.textContent = (critMultiplier * 100).toFixed(2) + '%';
+
+    // E: Skill Coefficient
+    const skillCoeff = getPercent('skill_coeff');
+    outputs.skill_coeff.textContent = (skillCoeff * 100).toFixed(2) + '%';
+
+    // F: Weakness Coefficient
+    const weaknessCoeff = parseFloat(inputs.weakness_coeff.value) || 1;
+    outputs.weakness_coeff.textContent = (weaknessCoeff * 100).toFixed(2) + '%';
+
+    // G: Final Damage Bonus
+    const finalDmgBonus = 1 + getPercent('final_dmg_bonus');
+    outputs.final_dmg_bonus.textContent = (finalDmgBonus * 100).toFixed(2) + '%';
+
+    // Final Damage Calculation
+    const baseDamage = attackPower * damageBonus * defenseMultiplier * critMultiplier * skillCoeff * weaknessCoeff * finalDmgBonus;
+    const minDamage = baseDamage * 0.95;
+    const maxDamage = baseDamage * 1.05;
+    outputs.total_damage.textContent = `${Math.round(minDamage).toLocaleString()} ~ ${Math.round(maxDamage).toLocaleString()}`;
+}
+
+    Object.values(inputs).forEach(input => {
+        if(input) input.addEventListener('input', calculateDamage);
+    });
+    
+    calculateDamage();
+}
+
+const personaSection = document.getElementById('guide-personas');
+if (personaSection) {
+    const filtersWrapper = document.getElementById('persona-filters-wrapper');
+    const filterPanelToggle = document.getElementById('filter-panel-toggle');
+    const filterPositionToggle = document.getElementById('filter-position-toggle');
+
+    // Function to apply the layout based on the 'position' string ('top' or 'side')
+    const applyFilterLayout = (position) => {
+        if (position === 'side') {
+            personaSection.classList.remove('layout-top');
+            personaSection.classList.add('layout-side');
+        } else { // Default to 'top'
+            personaSection.classList.remove('layout-side');
+            personaSection.classList.add('layout-top');
+        }
+    };
+
+    // --- On Page Load ---
+    // 1. Get saved position from localStorage, defaulting to 'top' if not found.
+    const savedPosition = localStorage.getItem('personaFilterPosition') || 'top';
+    applyFilterLayout(savedPosition);
+
+    // 2. Start with the filter panel collapsed by default.
+    filtersWrapper.classList.add('collapsed');
+
+    // --- Event Listeners ---
+    // 3. Toggle the 'collapsed' class to show/hide the filter panel.
+    filterPanelToggle.addEventListener('click', () => {
+        filtersWrapper.classList.toggle('collapsed');
+    });
+
+    // 4. Toggle the layout class on the section and save the new preference.
+    filterPositionToggle.addEventListener('click', () => {
+        const isCurrentlySide = personaSection.classList.contains('layout-side');
+        const newPosition = isCurrentlySide ? 'top' : 'side';
+        applyFilterLayout(newPosition);
+        localStorage.setItem('personaFilterPosition', newPosition);
+    });
+}
 
 const personaGridContainer = document.getElementById('persona-grid-container');
 const personaModal = document.getElementById('personaModal');
