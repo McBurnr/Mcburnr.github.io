@@ -6,18 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>P5X Guides & Terms - by McBurn</title>
+    <title>P5X Wiki - by McBurn</title>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
     
-    :root {
-        --primary-color: #ff0000;
-        --primary-color-dark: #cc0000;
-        --gradient-primary: rgba(255, 0, 0, 0.9);
-        --shadow-color-light: rgba(255, 0, 0, 0.3);
-        --shadow-color-medium: rgba(255, 0, 0, 0.4);
-        --background-image: url('https://cdn.imgchest.com/files/4apc5o8wzq4.png');
-    }
+:root {
+    --primary-color: #ff0000;
+    --primary-color-dark: #cc0000;
+    --gradient-primary: rgba(255, 0, 0, 0.9);
+    --shadow-color-light: rgba(255, 0, 0, 0.3);
+    --shadow-color-medium: rgba(255, 0, 0, 0.4);
+    /* New background image */
+    --background-image: url('https://cdn.imgchest.com/files/yrgcn9bo2q4.png');
+}
 
     body.theme-blue {
         --primary-color: #0055ff;
@@ -661,13 +662,14 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 10, 10, 0.98);
+    background: #0a0a0a url('https://cdn.imgchest.com/files/yrgcn9bo2q4.png') no-repeat center center;
+    background-size: cover; /* Make sure it covers the area */
     backdrop-filter: blur(5px);
     z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
+    opacity: 0.9;
     visibility: visible;
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
@@ -704,9 +706,6 @@ body {
     gap: 1.5rem;
 }
 
-/* =============================================== */
-/* --- DAMAGE CALCULATOR STYLES --- */
-/* =============================================== */
 #guide-calculator {
     font-family: 'Inter', sans-serif;
 }
@@ -798,14 +797,13 @@ body {
     width: 200px;
     height: 250px;
     border-radius: 15px;
-    overflow: hidden;
     cursor: pointer;
     border: 2px solid var(--shadow-color-light);
     transition: all 0.3s ease;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-end; /* Pushes content to the bottom */
     justify-content: center;
-    padding: 1rem;
+    padding: 1rem 1rem 1.5rem; /* Added extra bottom padding */
 }
 
 .quick-nav-card:hover {
@@ -821,7 +819,7 @@ body {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: top;
     opacity: 0.4;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -1359,7 +1357,262 @@ body.sidebar-open .site-wrapper {
     100%{background-position:0% 50%}
 }
 
+/* START: Rarity Slider Styles */
+.rarity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  transition: background-color 0.2s;
+}
 
+.rarity-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.rarity-slider:hover::-webkit-slider-thumb {
+    background: var(--primary-color-dark);
+}
+/* END: Rarity Slider Styles */
+
+/* START: Rarity Tick Indicator Styles */
+.rarity-ticks {
+    position: absolute;
+    top: 0;
+    left: 10px; /* Half the width of the thumb */
+    right: 10px; /* Half the width of the thumb */
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none; /* Allows clicks to go through to the slider track */
+}
+
+.rarity-tick {
+    pointer-events: auto; /* Makes the ticks themselves clickable */
+    cursor: pointer;
+    font-size: 1.5rem; /* Larger stars */
+    color: #4a5568; /* Default color for inactive stars */
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.rarity-tick:hover {
+    color: var(--primary-color-dark);
+    transform: scale(1.2);
+}
+
+.rarity-tick[data-value="6"] {
+    font-size: 1rem;
+    font-weight: bold;
+}
+.rarity-tick[data-value="6"].active-tick {
+    color: var(--primary-color);
+}
+
+@keyframes tick-pulse {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.3); }
+}
+/* END: Rarity Tick Indicator Styles */
+
+/* START: Element Icon & Filter Styles */
+.persona-card-icon-wrapper {
+    position: relative; /* Container for positioning the element icon */
+    width: 100%;
+    height: 140px;
+    margin-bottom: 0.25rem;
+}
+
+.persona-card-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.persona-element-icon-container {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 40px;
+    height: 40px;
+    z-index: 3;
+}
+
+.persona-element-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: rotate(-15deg); /* Slight tilt */
+}
+
+/* Element Glows */
+.element-physical { filter: drop-shadow(0 0 6px #ffa500); }
+.element-gun { filter: drop-shadow(0 0 6px #ffa500); }
+.element-fire { filter: drop-shadow(0 0 6px #ff0000); }
+.element-ice { filter: drop-shadow(0 0 6px #40e0d0); }
+.element-electric { filter: drop-shadow(0 0 6px #ffff00); }
+.element-wind { filter: drop-shadow(0 0 6px #00ff00); }
+.element-psychokinesis { filter: drop-shadow(0 0 6px #8a2be2); }
+.element-nuclear { filter: drop-shadow(0 0 6px #add8e6); }
+.element-bless { filter: drop-shadow(0 0 6px #ffffe0); }
+.element-curse { filter: drop-shadow(0 0 6px #8b0000); }
+.element-almighty { filter: drop-shadow(0 0 6px #ffffff); }
+
+/* Element Filter Button Styles */
+.element-filter-btn {
+    background-color: rgba(40, 40, 40, 0.7);
+    border: 2px solid #4a5568;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+.element-filter-btn:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-color-dark);
+}
+.element-filter-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+/* START: New Dynamic Filter Styles */
+
+/* --- Rarity Tick Colors --- */
+.rarity-tick.active-tick-2 { color: #48bb78; animation: tick-pulse-green 1.5s infinite; }
+.rarity-tick.active-tick-3 { color: #c0c0c0; animation: tick-pulse-silver 1.5s infinite; }
+.rarity-tick.active-tick-4 { color: #f6e05e; animation: tick-pulse-gold 1.5s infinite; }
+.rarity-tick.active-tick-5 {
+    background: linear-gradient(90deg, #ff4b4b, #ffb44b, #fffb8b, #4bff8d, #4bffff, #4b7aff, #b54bff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-text 3s ease infinite, tick-pulse-rainbow 1.5s infinite;
+}
+.rarity-tick[data-value="6"].active-tick { color: var(--primary-color); transform: scale(1.1); }
+
+/* Keyframes for colored pulses */
+@keyframes tick-pulse-green { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #48bb78); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #48bb78); } }
+@keyframes tick-pulse-silver { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #c0c0c0); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #c0c0c0); } }
+@keyframes tick-pulse-gold { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #f6e05e); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #f6e05e); } }
+@keyframes tick-pulse-rainbow { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #ff4b4b); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #4bffff); } }
+
+/* --- Element Filter Button Colors --- */
+.element-filter-btn.active { transform: scale(1.1); } /* Keep the scale effect for all active buttons */
+
+.element-filter-btn.active.all { border-color: var(--primary-color); box-shadow: 0 0 8px var(--primary-color); }
+.element-filter-btn.active.physical { border-color: #ffa500; box-shadow: 0 0 8px #ffa500; }
+.element-filter-btn.active.gun { border-color: #ffa500; box-shadow: 0 0 8px #ffa500; }
+.element-filter-btn.active.fire { border-color: #ff0000; box-shadow: 0 0 8px #ff0000; }
+.element-filter-btn.active.ice { border-color: #40e0d0; box-shadow: 0 0 8px #40e0d0; }
+.element-filter-btn.active.electric { border-color: #ffff00; box-shadow: 0 0 8px #ffff00; }
+.element-filter-btn.active.wind { border-color: #00ff00; box-shadow: 0 0 8px #00ff00; }
+.element-filter-btn.active.psychokinesis { border-color: #8a2be2; box-shadow: 0 0 8px #8a2be2; }
+.element-filter-btn.active.nuclear { border-color: #add8e6; box-shadow: 0 0 8px #add8e6; }
+.element-filter-btn.active.bless { border-color: #ffffe0; box-shadow: 0 0 8px #ffffe0; }
+.element-filter-btn.active.curse { border-color: #8b0000; box-shadow: 0 0 8px #8b0000; }
+.element-filter-btn.active.almighty { border-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
+/* END: Element Icon & Filter Styles */
+
+/* START: Final P5 Menu Lettering Style */
+.p5-funky-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
+    /* Add some padding to the container to prevent clipping */
+    padding-bottom: 10px; 
+}
+
+.quick-nav-card:hover .p5-funky-text {
+    transform: scale(1.1);
+}
+
+.p5-letter-box {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    font-family: 'Teko', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem; /* Reduced size to prevent overlap */
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0 -0.25em; /* Adjusted overlap */
+    transition: all 0.2s ease-in-out;
+    border: 2px solid black;
+}
+
+/* Middle letters: white box, black text */
+.p5-letter-box {
+    background-color: white;
+    color: black;
+}
+
+/* First letter: black box, red text */
+.p5-letter-box.first-letter {
+    background-color: black;
+    color: var(--primary-color); /* Red */
+    z-index: 10;
+    font-weight: 700; /* Bold */
+}
+
+/* Last letter: no box, white text */
+.p5-letter-box.last-letter {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-weight: 700; /* Bold */
+    text-shadow: 2px 2px 4px #000;
+    margin-right: 0; /* No negative margin on the last letter */
+}
+
+/* Individual letter rotations for that uneven look */
+.p5-funky-text > span:nth-child(1) { transform: rotate(-5deg) translateY(2px); }
+.p5-funky-text > span:nth-child(2) { transform: rotate(3deg) translateY(-3px); }
+.p5-funky-text > span:nth-child(3) { transform: rotate(-2deg) translateY(3px); }
+.p5-funky-text > span:nth-child(4) { transform: rotate(4deg); }
+.p5-funky-text > span:nth-child(5) { transform: rotate(-3deg) translateY(-2px); }
+.p5-funky-text > span:nth-child(6) { transform: rotate(2deg) translateY(2px); }
+.p5-funky-text > span:nth-child(7) { transform: rotate(-4deg) translateY(-1px); }
+.p5-funky-text > span:nth-child(8) { transform: rotate(3deg) translateY(3px); }
+.p5-funky-text > span:nth-child(9) { transform: rotate(-2deg); }
+.p5-funky-text > span:nth-child(10) { transform: rotate(5deg) translateY(-2px); }
+
+
+/* Hover effect */
+.quick-nav-card:hover .p5-letter-box {
+    background-color: var(--primary-color);
+    color: black;
+}
+.quick-nav-card:hover .p5-letter-box.first-letter {
+    background-color: black;
+    color: white;
+}
+.quick-nav-card:hover .p5-letter-box.last-letter {
+    color: var(--primary-color);
+}
+/* END: Final P5 Menu Lettering Style */
 
 </style>
 
@@ -1369,8 +1622,12 @@ body.sidebar-open .site-wrapper {
 <header class="header">
     <!-- The text now comes FIRST -->
     <div class="header-text">
-        <h1>P5X Guides & Terms</h1>
-        <p>A collection of gameplay mechanics and systems.</p>
+        <h1>UnOfficial P5X Wiki</h1>
+        <p>By McBurn</p>
+	<div id="header-info">
+			<img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fmcburnr.github.io%2Fp5xwiki.html&label=Phantom+Thieves&icon=github&color=%23b02a37&message=&style=for-the-badge&tz=UTC">
+        </div>
+
     </div>
     <!-- And then I came SECOND -->
     <button id="menu-toggle" class="menu-toggle">
@@ -1380,40 +1637,65 @@ body.sidebar-open .site-wrapper {
     </button>
 </header>
 
+<!-- START: Corrected Quick Nav Overlay Structure -->
 <div id="quick-nav-overlay">
-<div class="quick-nav-grid">
-    <div class="quick-nav-card" data-target="guide-gameplay" data-preview="Beginner's guide, daily activities, and progression tips.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4gdcx3vrow4.png');"></div>
-        <div class="quick-nav-card-name">Gameplay</div>
-    </div>
-    <div class="quick-nav-card" data-target="guide-arcana" data-preview="Explore all Revelation and Universe Arcana card sets and their effects.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlmd4.png');"></div>
-        <div class="quick-nav-card-name">Arcana</div>
-    </div>
-    <div class="quick-nav-card" data-target="guide-gacha" data-preview="Detailed breakdown of the gacha system, banners, and currencies.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
-        <div class="quick-nav-card-name">Gacha System</div>
-    </div>
-    <div class="quick-nav-card" data-target="guide-confidants" data-preview="View all confidant guides, rank-up choices, and gift preferences.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
-        <div class="quick-nav-card-name">Confidants</div>
-    </div>
-    <div class="quick-nav-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/49zc2bpgvny.png');"></div>
-        <div class="quick-nav-card-name">Personas</div>
-    </div>
-    <div class="quick-nav-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
-        <div class="quick-nav-card-name">Calculator</div>
-    </div>
-    <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units, their skills, and builds.">
-        <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/739cxznmge7.png');"></div>
-        <div class="quick-nav-card-name">Units</div>
-    </a>
-</div>
+    <div class="quick-nav-content">
+        <div class="quick-nav-grid">
+            <!-- Gameplay -->
+            <div class="quick-nav-card" data-target="guide-gameplay" data-preview="Beginner's guide, daily activities, and progression tips.">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4gdcx3vrow4.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">G</span><span class="p5-letter-box">a</span><span class="p5-letter-box">m</span><span class="p5-letter-box">e</span><span class="p5-letter-box">p</span><span class="p5-letter-box">l</span><span class="p5-letter-box">a</span><span class="p5-letter-box last-letter">y</span>
+                </div>
+            </div>
+            <!-- Arcana -->
+            <div class="quick-nav-card" data-target="guide-arcana" data-preview="Revelation and Universe Arcana cards">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlmd4.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">A</span><span class="p5-letter-box">r</span><span class="p5-letter-box">c</span><span class="p5-letter-box">a</span><span class="p5-letter-box">n</span><span class="p5-letter-box last-letter">a</span>
+                </div>
+            </div>
+            <!-- Gacha -->
+            <div class="quick-nav-card" data-target="guide-gacha" data-preview="Breakdown of the gacha system">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">G</span><span class="p5-letter-box">a</span><span class="p5-letter-box">c</span><span class="p5-letter-box">h</span><span class="p5-letter-box last-letter">a</span>
+                </div>
+            </div>
+            <!-- Confidants -->
+            <div class="quick-nav-card" data-target="guide-confidants" data-preview="Confidant guides,choices, and gifts">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">C</span><span class="p5-letter-box">o</span><span class="p5-letter-box">n</span><span class="p5-letter-box">f</span><span class="p5-letter-box">i</span><span class="p5-letter-box">d</span><span class="p5-letter-box">a</span><span class="p5-letter-box">n</span><span class="p5-letter-box">t</span><span class="p5-letter-box last-letter">s</span>
+                </div>
+            </div>
+            <!-- Personas -->
+            <div class="quick-nav-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/49zc2bpgvny.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">P</span><span class="p5-letter-box">e</span><span class="p5-letter-box">r</span><span class="p5-letter-box">s</span><span class="p5-letter-box">o</span><span class="p5-letter-box">n</span><span class="p5-letter-box">a</span><span class="p5-letter-box last-letter">s</span>
+                </div>
+            </div>
+            <!-- Calculator -->
+            <div class="quick-nav-card" data-target="guide-calculator" data-preview="Calculate damage">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">D</span><span class="p5-letter-box">a</span><span class="p5-letter-box">m</span><span class="p5-letter-box">a</span><span class="p5-letter-box">g</span><span class="p5-letter-box last-letter">e</span>
+                </div>
+            </div>
+            <!-- Units -->
+            <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units">
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/739cxznmge7.png');"></div>
+                <div class="p5-funky-text">
+                    <span class="p5-letter-box first-letter">U</span><span class="p5-letter-box">n</span><span class="p5-letter-box">i</span><span class="p5-letter-box">t</span><span class="p5-letter-box last-letter">s</span>
+                </div>
+            </a>
         </div>
     </div>
 </div>
+<!-- END: Corrected Quick Nav Overlay Structure -->
+
+
 
 <nav id="collapsible-sidebar" class="collapsible-sidebar">
 <nav class="sidebar-nav">
@@ -1727,7 +2009,7 @@ body.sidebar-open .site-wrapper {
 
             <section class="guide-content-panel" id="guide-confidants">
         <div class="text-center mb-10">
-            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Damage Calculator</h1>
+            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">Confidants</h1>
             <p id="credits" class="text-gray-500 mt-2">Guide by UnnamedRando on <a href="https://discord.gg/p5xworldwide">P5X Worldwide Discord Server</a></p>
         </div>
                 <div class="confidant-grid-container">
@@ -1825,6 +2107,38 @@ body.sidebar-open .site-wrapper {
         </div>
 <div class="search-container-persona" style="margin-bottom: 1.5rem;">
     <input type="text" id="personaSearchInput" placeholder="Search Personas by name or keyword (e.g., ATK, Burn)..." autocomplete="off" style="width: 100%; padding: 10px 15px; font-size: 1rem; font-family: 'Crimson Text', serif; color: #fff; background-color: rgba(20, 20, 20, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 8px; outline: none; transition: all 0.3s ease;">
+</div>
+<!-- START: New Interactive Rarity Filter Snippet -->
+<div class="persona-filter-container" style="margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0 1rem;">
+    <label for="rarityFilter" class="text-lg font-semibold text-white">Filter by Rarity: <span id="rarityValue" class="font-bold text-red-400">All</span></label>
+    <div class="w-full max-w-md relative" style="padding-top: 20px;">
+        <div class="rarity-ticks">
+            <div class="rarity-tick" data-value="2">★</div>
+            <div class="rarity-tick" data-value="3">★</div>
+            <div class="rarity-tick" data-value="4">★</div>
+            <div class="rarity-tick" data-value="5">★</div>
+            <div class="rarity-tick" data-value="6">All</div>
+        </div>
+        <input type="range" id="rarityFilter" min="2" max="6" value="6" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer rarity-slider">
+    </div>
+</div>
+<!-- START: New Element Filter Snippet -->
+<div class="persona-element-filter-container" style="margin-bottom: 1.5rem; padding: 0 1rem; text-align: center;">
+    <label class="text-lg font-semibold text-white mb-2 block">Filter by Element</label>
+<div id="element-filter-grid" class="flex flex-wrap justify-center gap-2">
+    <button class="element-filter-btn all active" data-element="All">All</button>
+    <button class="element-filter-btn physical" data-element="Physical"><img src="https://cdn.imgchest.com/files/49zc2vk9qdy.png" alt="Physical"></button>
+    <button class="element-filter-btn gun" data-element="Gun"><img src="https://cdn.imgchest.com/files/7kzcax8wja7.png" alt="Gun"></button>
+    <button class="element-filter-btn fire" data-element="Fire"><img src="https://cdn.imgchest.com/files/4apc5vlwkq4.png" alt="Fire"></button>
+    <button class="element-filter-btn ice" data-element="Ice"><img src="https://cdn.imgchest.com/files/y2pck5a5dv7.png" alt="Ice"></button>
+    <button class="element-filter-btn electric" data-element="Electric"><img src="https://cdn.imgchest.com/files/739cxk5kjp7.png" alt="Electric"></button>
+    <button class="element-filter-btn wind" data-element="Wind"><img src="https://cdn.imgchest.com/files/46acqgvgpe7.png" alt="Wind"></button>
+    <button class="element-filter-btn psychokinesis" data-element="Psychokinesis"><img src="https://cdn.imgchest.com/files/yvdcwn9gkjy.png" alt="Psychokinesis"></button>
+    <button class="element-filter-btn nuclear" data-element="Nuclear"><img src="https://cdn.imgchest.com/files/7ogcbxpwrxy.png" alt="Nuclear"></button>
+    <button class="element-filter-btn bless" data-element="Bless"><img src="https://cdn.imgchest.com/files/4apc5vlpbe4.png" alt="Bless"></button>
+    <button class="element-filter-btn curse" data-element="Curse"><img src="https://cdn.imgchest.com/files/4jdcv6zebw4.png" alt="Curse"></button>
+    <button class="element-filter-btn almighty" data-element="Almighty"><img src="https://cdn.imgchest.com/files/yq9c3va2w54.png" alt="Almighty"></button>
+</div>
 </div>
     <div class="persona-grid-container" id="persona-grid-container">
         <!-- Persona cards -->
@@ -3223,6 +3537,7 @@ const personaData = {
     "Janosik": {
     "icon": "https://cdn.imgchest.com/files/7ogcbxl8g3y.png",
 	"rarity": 5,
+	"element": "Gun",
         uniqueSkill: {
             name: "Reaper III",
             description: "Increases ATK by 29.1%. At the start of battle, inflicts 1 foe with [Marked]. When allies attack foes with [Marked], increases ATK by 20%. Additionally decreases DEF by 12% for foes with [Marked]. When you attack foes with [Marked], deal an additional 18% ATK as Gun DMG to them. [Marked]: Reduce enemy defense by 29.6% for 2 turns."
@@ -3248,6 +3563,7 @@ const personaData = {
     "Vishnu": {
 	"icon": "https://cdn.imgchest.com/files/yrgcn98k6j4.png",
 		"rarity": 5,
+		"element": "Wind",
         uniqueSkill: {
             name: "Blessing to All III",
             description: "Increases CRIT Rate by 17.5%. Increases EHR when inflicting Winded by 20% and increase dmg dealt to foes with Winded by 30%. Decreases the foes' DEF by 48% when refreshing or inflicting Winded for 2 turns."
@@ -3275,6 +3591,7 @@ const personaData = {
     "Dionysus": {
 	"icon": "https://cdn.imgchest.com/files/yd5cemkzne4.png",
 		"rarity": 4,
+		"element": "Psychokinesis",
         uniqueSkill: {
             name: "Draken Revelry III",
             description: "Increases CRIT Rate by 14.8%. When using a Persona skill on allies, increases the main target's CRIT DMG by 30% for 2 turns."
@@ -3302,6 +3619,7 @@ const personaData = {
     "Dominion": {
 	"icon": "https://cdn.imgchest.com/files/4gdcxm2vzp4.png",
 		"rarity": 5,
+		"element": "Bless",
         uniqueSkill: {
             name: "Angel's Order III",
             description: "Increases ATK by 29.1%. Gains 2 [Order] when using a skill on allies. When allies deals damage with a skill, consume 1 stack of [Order] to increase their DMG Dealt by 15% and ATK by 6.4% for 1 turn."
@@ -3325,6 +3643,7 @@ const personaData = {
     "Nian": {
 	"icon": "https://cdn.imgchest.com/files/49zc2vag8dy.png",
 		"rarity": 5,
+		"element": "Curse",
         uniqueSkill: {
             name: "Yearly Beast III",
             description: "Increases ATK by 29.1%. After using Persona skill on enemies, inflicts the targets with [Yearly Sacrifice] for 2 turns. Enemies with [Yearly Sacrifice] will gain [Frightened] when taking Fire damage for the first time: Increases dmg taken by 12% for 3 turns. Also has a 75% base chance to inflict Burn for 2 turns."
@@ -3348,6 +3667,7 @@ const personaData = {
     "Surt": {
 	"icon": "https://cdn.imgchest.com/files/yq9c3vzbzm4.png",
 		"rarity": 3,
+		"element": "Fire",
         uniqueSkill: {
             name: "Inferno Monarch I",
             description: "Increases EHR by 20.9%. Increases EHR by 50% when inflicting Burn. Increases the effect by 30% when the foe is above 50% HP."
@@ -3369,6 +3689,7 @@ const personaData = {
     "Koumokuten": {
 	"icon": "https://cdn.imgchest.com/files/4z9cv9aj867.png",
 		"rarity": 4,
+		"element": "Physical",
         uniqueSkill: {
             name: "Heavenly Gaze II",
             description: "Increases EHR by 21.2%. At the start of battle, increases the ATK and CRIT Rate for the ally with the highest ATK by 14% and 6% for 3 turns, prioritizing Single-target/Multi-target Thief."
@@ -3417,6 +3738,7 @@ const personaData = {
     "Succubus": {
 	"icon": "https://cdn.imgchest.com/files/45xcv8zpnv7.png",
 		"rarity": 4,
+		"element": "Curse",
         uniqueSkill: {
             name: "Intoxicating Murmur I",
             description: "Increases ATK by 3.5%. When using a skill on an ally, increases their CRIT Rate by 10.2% for 1 turn."
@@ -3440,6 +3762,7 @@ const personaData = {
     "Narcissus": {
 	"icon": "https://cdn.imgchest.com/files/yxkczqnvaj7.png",
 		"rarity": 5,
+		"element": "Wind",
         uniqueSkill: {
             name: "Lost Fragrance II",
             description: "Increases EHR by 24.9%. After inflicting Winded, increases the main target's dmg taken by 22.4% for 2 turns and increases own EHR by 18% for 2 turns."
@@ -3464,6 +3787,7 @@ const personaData = {
     "Norn": {
 	"icon": "https://cdn.imgchest.com/files/7w6c2qe6o2y.png",
 		"rarity": 5,
+		"element": "Wind",
         uniqueSkill: {
             name: "Wind of Fate III",
             description: "Increases DEF by 17.4%. After inflicting Winded, decreases the DEF of the inflicted enemies by 11.5% and increases own DEF by 30% for 2 turns."
@@ -3489,6 +3813,7 @@ const personaData = {
     "Jikokuten": {
 	"icon": "https://cdn.imgchest.com/files/yrgcn98b6d4.png",
 		"rarity": 4,
+		"element": "Physical",
         uniqueSkill: {
             name: "Wisdom of the East I",
             description: "Increases DEF by 15.9%. When using a skill on allies, increases the main target's ATK by 13.5% for 2 turns, increases this effect by 10% when the target is below 60% HP."
@@ -3508,6 +3833,9 @@ const personaData = {
         note: "Provides consistent ATK buffs to allies, especially effective for low HP allies."
     },
     "Yamata-no-Orochi": {
+	"icon": "https://cdn.imgchest.com/files/7kzcaxeod57.png",
+		"rarity": 5,
+		"element": "Ice",
         uniqueSkill: {
             name: "Screams of Sacrifice III",
             description: "Increases CRIT Rate by 17.5%. At the start of battle, gains 3 stacks of [Screams of Sacrifice]. Gains 1 stack of [Screams of Sacrifice] at the end of your turn. When using the signature skill, if you have 3 stacks of [Screams of Sacrifice], then consumes 3 stacks of [Screams of Sacrifice] to inflict all foes with Freeze for 3 turns, and increases all foes' TECHNICAL dmg taken by 25% for 3 turns."
@@ -3530,6 +3858,9 @@ const personaData = {
         note: null
     },
     "Kohryu": {
+	"icon": "https://cdn.imgchest.com/files/45xcv8kgzj7.png",
+		"rarity": 5,
+		"element": "Psychokinesis",
         uniqueSkill: {
             name: "Lord of Auspiciousness III",
             description: "Increases ATK by 29.1%. Works when not active: Gains 1 stack of [Four Symbols] when allies deal different elemental damage, up to 4 stacks. At the start of your turn, if you have at least 4 stacks of [Four Symbols], then consumes all [Four Symbols] to gain [Four Symbols' Power]: Increases own ATK by 30% and all allies' ATK by 15%, then evolves your signature skill for 2 turns."
@@ -3546,6 +3877,9 @@ const personaData = {
         note: null
     },
     "Sraosha": {
+	"icon": "https://cdn.imgchest.com/files/yq9c3vbnw64.png",
+		"rarity": 5,
+		"element": "Bless",
         uniqueSkill: {
             name: "Listener of Sin III",
             description: "Increases ATK by 29.1%. At the start of battle, gains 3 stacks of [God's Ear] for 3 turns, up to 3 stacks. When allies use [HIGHLIGHT], gains 1 stack of [God's Ear]. additionally gains 1 stack of [God's Ear] when Bless allies use [HIGHLIGHT]. When using the signature skill, consumes all [God's Ear], each stack increases Bless dmg taken by 6% for 2 turns. If [God's Ear] reaches 3 stacks, additionally decreases foes' DEF when taking Bless damage by 25%."
@@ -3571,6 +3905,9 @@ const personaData = {
         note: "Can gain [God's Ear] stacks just by being in the party, not necessarily in the front line."
     },
     "Vasuki": {
+	"icon": "https://cdn.imgchest.com/files/4jdcv629o94.png",
+		"rarity": 5,
+		"element": "Gun",
         uniqueSkill: {
             name: "Serpent of the Sky and Earth III",
             description: "Increase EHR by 34.9%. At the start of battle, gains 5 stacks of [Stare]. When allies add debuff effects with their skills, gains 1 stack of [Stare] for yourself (up to 5 stacks, 1 stack per ally per turn). When using the signature skill, if you have 5 stacks of [Stare], consumes all [Stare] to increase the damage effect taken by the main target of the skill by 15% and gain 1 stack of [Serpent's Bite]."
@@ -3587,6 +3924,9 @@ const personaData = {
         note: null
     },
     "Chernobog": {
+	"icon": "https://cdn.imgchest.com/files/yxkczqvqaa7.png",
+		"rarity": 5,
+		"element": "Physical",
         uniqueSkill: {
             name: "Deadly Silence III",
             description: "Increases EHR by 34.9%. [Nightmare] decreases Effect RES by 15% and DEF by 10% for 2 turns. Under [Nightmare], increases enemies' Phys dmg taken by 8% for 1 turn. Additionally increases Phys dmg taken stacks by 1 after the enemy takes 3 hits of Phys damage, up to 3 stacks, each stack counts down independently."
@@ -3611,6 +3951,9 @@ const personaData = {
         note: null
     },
     "Shiva": {
+	"icon": "https://cdn.imgchest.com/files/4apc5vqv3k4.png",
+		"rarity": 5,
+		"element": "Psychokinesis",
         uniqueSkill: {
             name: "Karma Reversal III",
             description: "Increases ATK by 29.1%. Gains 1 stack of [Wisdom] at the start of turn, up to 3 stacks. Consumes all [Wisdom] when using the signature skill and triggers the following effects based on the amount consumed: 1 Stack: Increases this damage by 33%. 2 stacks: Decreases all foes' DEF by 45% for 1 turn. 3 Stacks: Increases all foes' Psy dmg CRIT Rate taken by 18% for 1 turn."
@@ -3635,6 +3978,9 @@ const personaData = {
         note: null
     },
     "Trumpeter": {
+	"icon": "https://cdn.imgchest.com/files/yrgcn9b9984.png",
+		"rarity": 5,
+		"element": "Almighty",
         uniqueSkill: {
             name: "Trumpet of Destruction III",
             description: "Increases EHR by 34.9%. When using a Persona skill against an enemy, if the number of debuff effects on the target is 15 or more, increases your EHR by 50% for 2 turns and increases the enemy's dmg taken by 6.5% for 2 turns. After adding debuff effects to the enemy, decreases all foes' DEF by 12% for 2 turns."
@@ -3654,6 +4000,9 @@ const personaData = {
         note: null
     },
     "Okuninushi": {
+		"icon": "https://cdn.imgchest.com/files/49zc2vevq3y.png",
+		"rarity": 5,
+		"element": "Psychokinesis",
         uniqueSkill: {
             name: "Regent's Majesty II",
             description: "Increases CRIT Rate by 12.5%. After dealing damage with a Persona skill, increases foes' Psy dmg taken by 8.5% for 3 turns, up to 3 stacks. Increases Psy damage by 10% when attacking foes with this debuff."
@@ -3676,6 +4025,9 @@ const personaData = {
         note: null
     },
 	"Zaou-Gongen": {
+		"icon": "https://cdn.imgchest.com/files/7mmc9nqnpv7.png",
+		"rarity": 5,
+		"element": "Fire",
     uniqueSkill: {
         name: "Three Ages' Salvation III",
         description: "Increases ATK by 29.1%. After dealing damage with a Persona skill, gives self and the highest ATK Single-target/Multi-target ally [Undying Truth] for 3 turns. [Undying Truth]: When dealing 4 hits of damage with skills, increases own ATK by 12% and dmg dealt by 10%."
@@ -3698,6 +4050,9 @@ const personaData = {
     note: null
 },
 "Alice": {
+		"icon": "https://cdn.imgchest.com/files/4apc5vqv884.png",
+		"rarity": 5,
+		"element": "Curse",
     uniqueSkill: {
         name: "Curse of Rebirth III",
         description: "Increases EHR by 34.9%. Increases all foes' Curse dmg taken by 18%. After any ally uses Curse skills, increases Alice's EHR and ATK by 12.0% for 2 turns, up to 3 stacks."
@@ -3718,6 +4073,9 @@ const personaData = {
     note: "Base accuracy 80% + Accuracy Enhancement IV 16.2% + Gloomy Sky 16.9% + Core Passive 34.9% + My Palace 2.3% = 150.3%, which can reach the 'Die For Me!' upper limit of 10%. (Gloomy Sky application unconfirmed)"
 },
 "Bishamonten": {
+		"icon": "https://cdn.imgchest.com/files/4jdcv626q84.png",
+		"rarity": 5,
+		"element": "Nuclear",
     uniqueSkill: {
         name: "Furious Umbrella III",
         description: "Increases CRIT Rate by 17.5%. After using a skill on enemies, increases the main target's Nuke dmg taken by 10% for 1 turn for every Elemental Ailment they have, up to 3 stacks. All other enemies gain 40% of this effect."
@@ -3738,6 +4096,9 @@ const personaData = {
     note: "The core passive effect is applied even when using Rakunda."
 },
 "Thor": {
+		"icon": "https://cdn.imgchest.com/files/7ogcbxrwbry.png",
+		"rarity": 5,
+		"element": "Electric",
     uniqueSkill: {
         name: "Thunder God's Majesty III",
         description: "Increases CRIT DMG by 34.9%. When allies use Elec Persona skill / Follow Up / HIGHLIGHT / Theurgy, gains 1 stack of [Thunder God's Might] for 2 turns, up to 3 stacks. When you deal damage with a Persona skill, if you have 3 stacks of [Thunder God's Might], increases all enemies' Elec dmg taken by 12% and Elec CRIT dmg taken by 20% for 2 turns."
@@ -3761,6 +4122,9 @@ const personaData = {
     note: null
 },
 "Yurlungur": {
+		"icon": "https://cdn.imgchest.com/files/46acqg83qm7.png",
+		"rarity": 5,
+		"element": "Electric",
     uniqueSkill: {
         name: "Holy Pond's Serpent I",
         description: "Increases CRIT DMG by 17.4%. Increases all foes' CRIT DMG taken by 14%, if they are inflicted with Shock, additionally increases the effect by 9%."
@@ -3782,6 +4146,9 @@ const personaData = {
     note: null
 },
 "Throne": {
+		"icon": "https://cdn.imgchest.com/files/4gdcxmwov34.png",
+		"rarity": 5,
+		"element": "Fire",
     uniqueSkill: {
         name: "Otherworldly Saint III",
         description: "Increases ATK by 29.1%. At the start of battle, gains 8 stacks of [Tinder]. Gains 1 stack of [Tinder] when allies inflict Elemental Ailments, gains 1 additional stack of [Tinder] if that Elemental Ailment was Burn for 3 turns, up to 10 stacks, each skill can give up to 2 stacks of [Tinder]. When using a Persona skill on allies, if [Tinder] is at 4 stacks or above, consumes all [Tinder] and increases all allies' dmg dealt by 1% for 2 turns, with a 75% base chance to inflict 1 random enemy with Burn."
@@ -3802,6 +4169,9 @@ const personaData = {
     note: "Adopted in a form used for characters who require burn effects (e.g., Mio)."
 },
 "Lamia": {
+		"icon": "https://cdn.imgchest.com/files/yq9c3vb25l4.png",
+		"rarity": 5,
+		"element": "Fire",
     uniqueSkill: {
         name: "Gorgons Greed I",
         description: "Increases EHR by 13%. Increases EHR by 40% when inflicting Burn. After inflicting Burn, increases all allies' ATK by 12% for 2 turns."
@@ -3823,6 +4193,9 @@ const personaData = {
     note: null
 },
 "Baphomet": {
+		"icon": "https://cdn.imgchest.com/files/yrgcn9babe4.png",
+		"rarity": 5,
+		"element": "Fire",
     uniqueSkill: {
         name: "Demonic Melter III",
         description: "Increases ATK by 24.9%. After dealing Persona skill damage to foes inflicted with Burn, increases all enemies' Fire dmg taken by 29% for 1 turn."
@@ -3845,6 +4218,9 @@ const personaData = {
     note: "Triggers core passive effect on enemies already in Burn state with [Overheat: Fire damage or El Jihad: Shock addition]."
 },
 "Yoshitsune": {
+		"icon": "https://cdn.imgchest.com/files/4nec8lbn2m4.png",
+		"rarity": 5,
+		"element": "Physical",
     uniqueSkill: {
         name: "Destined Streak III",
         description: "Increases CRIT DMG by 34.9%. At the start of battle, gains 4 stacks of [Ambush]. When using the signature skill there is a 60% chance to gain [Ambush], each stack increases own ATK by 9% for 2 turns, up to 8 stacks. Increases the CRIT Rate of the signature skill by 30% when reaching 8 stacks."
@@ -3868,6 +4244,9 @@ const personaData = {
     note: null
 },
 "Neko Shogun": {
+		"icon": "https://cdn.imgchest.com/files/739cxkbg9x7.png",
+		"rarity": 5,
+		"element": "Psychokinesis",
     uniqueSkill: {
         name: "Have a Dried Fish I",
         description: "Increases EHR by 15%. At the start of battle, increases all allies' EHR by 10%, increases the EHR for the ally with the highest EHR by 14% for 2 turns."
@@ -3886,6 +4265,9 @@ const personaData = {
     note: null
 },
 "Mithras": {
+		"icon": "https://cdn.imgchest.com/files/7lxcpxjrnv7.png",
+		"rarity": 3,
+		"element": "Nuclear",
     uniqueSkill: {
         name: "Burning Sun's Blessing II",
         description: "Increases HP by 11.6%. When using a skill on allies, increases their DEF by 14.5% for 2 turns. If they are above 50% HP, increases the effect by 50%."
@@ -3906,6 +4288,9 @@ const personaData = {
     note: null
 },
 "Sandalphon": {
+		"icon": "https://cdn.imgchest.com/files/yvdcwnzgppy.png",
+		"rarity": 5,
+		"element": "Almighty",
     uniqueSkill: {
         name: "Higher Protection III",
         description: "Increases DEF by 43.6%. When Sandalphon is present, increases all shielded allies' DEF by 42%, gains 25% of this effect when not present. Decreases the HP cost to 15% when using the signature skill."
@@ -3926,6 +4311,9 @@ const personaData = {
     note: "Can provide 10.5% defense bonus through backup deployment."
 },
 "Isis": {
+		"icon": "https://cdn.imgchest.com/files/y8xcnqv2884.png",
+		"rarity": 3,
+		"element": "Electric",
     uniqueSkill: {
         name: "Ankh of Abundance I",
         description: "Increases HP by 8.7%. When granting healing effects, the target recovers HP equal to 5% ATK for 2 turns starting next turn."
@@ -3947,6 +4335,9 @@ const personaData = {
     note: "Attack enhancement applies to healing values. (Low priority due to limited impact)"
 },
 "Titania": {
+		"icon": "https://cdn.imgchest.com/files/7mmc9nq35w7.png",
+		"rarity": 5,
+		"element": "Nuclear",
     uniqueSkill: {
         name: "Fairy Queen's Disturbance III",
         description: "Increases Healing Effect by 18%. After healing with a Persona skill, there is a 77.5% base chance to inflict 1 random enemy with a random Elemental Ailment and decreases their DEF by 9% for 2 turns."
@@ -3968,6 +4359,9 @@ const personaData = {
     note: "Attack enhancement applies to healing values. (Low priority due to limited impact)"
 },
 "Parvati": {
+		"icon": "https://cdn.imgchest.com/files/45xcv8pqee7.png",
+		"rarity": 4,
+		"element": "Psychokinesis",
     uniqueSkill: {
         name: "Mother Earth's Protection III",
         description: "Increases HP by 21.2%. After using Healing skill, increases the healed allies' ATK by 16% and DEF by 10.5% for 1 turn."
@@ -3989,6 +4383,9 @@ const personaData = {
     note: "Core passive effect also triggers on healing through highlights. Attack enhancement applies to healing values. (Low priority due to limited impact)"
 },
 "Siegfried": {
+		"icon": "https://cdn.imgchest.com/files/y2pck53d687.png",
+		"rarity": 5,
+		"element": "Physical",
     uniqueSkill: {
         name: "Fearless Hero III",
         description: "Increases ATK by 29.1%. At the start of battle, gains Dragon Blood. When using Phys skills, increases ATK by 10% for 3 turns. When using the main skill, boosts the effect of Dragon Blood, additionally increases damage by 28% and CRIT DMG by 28% when using Phys skills."
@@ -4005,6 +4402,9 @@ const personaData = {
     note: "Gains Dragon Blood at the start of battle just by being in the party."
 },
 "Apsaras": {
+		"icon": "https://cdn.imgchest.com/files/46acqg83bg7.png",
+		"rarity": 2,
+		"element": "Ice",
     uniqueSkill: {
         name: "Gentle Chant I",
         description: "Increases DEF by 8.7%. When using a skill on allies, increases their DEF by 15.4% for 2 turns."
@@ -4025,6 +4425,9 @@ const personaData = {
     note: null
 },
 "King Frost": {
+		"icon": "https://cdn.imgchest.com/files/y8xcnqv2q84.png",
+		"rarity": 5,
+		"element": "Ice",
     uniqueSkill: {
         name: "Frozen Adjudication III",
         description: "Increases DEF by 37.4%. After giving Shield to allies, increases the main target's DEF by 25% and Ice dmg bonus by 15% for 2 turns."
@@ -4045,6 +4448,9 @@ const personaData = {
     note: null
 },
 "Lilith": {
+		"icon": "https://cdn.imgchest.com/files/yd5cem9ggk4.png",
+		"rarity": 5,
+		"element": "Almighty",
     uniqueSkill: {
         name: "Midnight Seduction III",
         description: "Increases ATK by 29.1%. When using Ice, Wind, or Curse skill, increases that Elemental dmg by 30% and dmg resistance by 10% for 2 turns. When Lilith uses Ice, Wind, or Curse skill, evolves the signature skill, makes it deal 1 hit of that element's damage, heavily increases skill damage and gains 15% PEN."
@@ -4064,6 +4470,9 @@ const personaData = {
     note: "Rarely used except for increasing Almighty damage with Wonder weapons like Mechanical Arbiter."
 },
 "Anubis": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/5/55/P5X_Anubis.png/revision/latest?cb=20240502082618",
+		"rarity": 5,
+		"element": "Curse",
     uniqueSkill: {
         name: "Judge of Souls III",
         description: "Increases ATK by 29.1%. When dealing Bless damage, gains 2 stacks of Bless and there is a 50% fixed chance to inflict 1 stack of Curse to the main target. When dealing Curse damage the main target gains 2 stacks of Curse and there is a 50% fixed chance for you to gain 1 stack of Bless. Increases ATK by 27% when attacking enemies with Curse."
@@ -4083,6 +4492,9 @@ const personaData = {
     note: "Curse damage is affected by Almighty damage."
 },
 "Pazuzu": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/1/15/P5X_Pazuzu.png/revision/latest?cb=20240502095938",
+		"rarity": 4,
+		"element": "Curse",
     uniqueSkill: {
         name: "Eternal Curse II",
         description: "Increases ATK by 17.7%. After attacking foes with a Persona skill, there is a 60% fixed chance to inflict 1 stack of Curse on the main target. Immediately triggers all of the main target's Curse stacks."
@@ -4106,6 +4518,9 @@ const personaData = {
     note: "Operated with burn effects through Agidyne + Curse damage settlement through core passive. Curse effect damage is affected by Almighty damage."
 },
 "Belphegor": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/7/70/P5X_Belphegor.png/revision/latest?cb=20240502084718",
+		"rarity": 4,
+		"element": "Ice",
     uniqueSkill: {
         name: "Cold Wave of Sloth II",
         description: "Increases Effect RES by 17%. After using a Persona skill on enemies, increases the main target's Ice dmg taken by 14.4% for 2 turns. If they are under 50% HP, additionally increases effect by 40%."
@@ -4129,6 +4544,9 @@ const personaData = {
     note: null
 },
 "Yatagarasu": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/0/07/P5X_Yatagarasu.png/revision/latest?cb=20240502102142",
+		"rarity": 3,
+		"element": "Fire",
     uniqueSkill: {
         name: "Sun's Wrath III",
         description: "Increases ATK by 17.5%. When you don't have any debuffs, increases ATK by 30% and Fire dmg dealt by 16.5%."
@@ -4151,6 +4569,9 @@ const personaData = {
     note: "Adopted when granting Fire damage through Wonder."
 },
 "Girimehkala": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/9/9d/P5X_Girimekhala.png/revision/latest?cb=20240502091039",
+		"rarity": 3,
+		"element": "Physical",
     uniqueSkill: {
         name: "Elephant's Gaze II",
         description: "Increases Effect Resistance by 17.4%. All allies take 20% less damage from enemies with any debuffs."
@@ -4167,6 +4588,9 @@ const personaData = {
     note: "Adopted when damage reduction effects are needed."
 },
 "Cu Chulainn": {
+		"icon": "https://static.wikia.nocookie.net/megamitensei/images/4/42/P5X_Cu_Chulainn.png/revision/latest?cb=20240502090037",
+		"rarity": 5,
+		"element": "Physical",
     uniqueSkill: {
         name: "Roaring Hound III",
         description: "Increases CRIT Rate by 17.5%. Inflicts [Mortal Barb] when dealing Critical, detonates this the next time you use the signature skill, additionally increases skill damage by 87% ATK. When detonating, there is a low chance of insta-kill."
@@ -4196,6 +4620,21 @@ const personaModal = document.getElementById('personaModal');
 const personaModalTitle = document.getElementById('personaModalTitle');
 const personaModalBody = document.querySelector('.persona-modal-body');
 const closePersonaBtn = document.getElementById('closePersonaBtn');
+
+const elementIcons = {
+    "Physical": "https://cdn.imgchest.com/files/49zc2vk9qdy.png",
+    "Gun": "https://cdn.imgchest.com/files/7kzcax8wja7.png",
+    "Fire": "https://cdn.imgchest.com/files/4apc5vlwkq4.png",
+    "Ice": "https://cdn.imgchest.com/files/y2pck5a5dv7.png",
+    "Electric": "https://cdn.imgchest.com/files/739cxk5kjp7.png",
+    "Wind": "https://cdn.imgchest.com/files/46acqgvgpe7.png",
+    "Psychokinesis": "https://cdn.imgchest.com/files/yvdcwn9gkjy.png",
+    "Nuclear": "https://cdn.imgchest.com/files/7ogcbxpwrxy.png",
+    "Bless": "https://cdn.imgchest.com/files/4apc5vlpbe4.png",
+    "Curse": "https://cdn.imgchest.com/files/4jdcv6zebw4.png",
+    "Almighty": "https://cdn.imgchest.com/files/yq9c3va2w54.png"
+};
+
 
 function openPersonaModal(personaName) {
     const data = personaData[personaName];
@@ -4264,8 +4703,16 @@ Object.keys(personaData).forEach(name => {
 
     const iconUrl = data.icon || 'https://cdn.imgchest.com/files/49zc2bpgvny.png';
 
+    // The check for `data.element && elementIcons[data.element]` ensures this only runs if the data exists.
     card.innerHTML = `
-        <img src="${iconUrl}" alt="${name}" class="persona-card-icon">
+        <div class="persona-card-icon-wrapper">
+            <img src="${iconUrl}" alt="${name}" class="persona-card-icon">
+            ${(data.element && elementIcons[data.element]) ? `
+            <div class="persona-element-icon-container">
+                <img src="${elementIcons[data.element]}" alt="${data.element}" class="persona-element-icon element-${data.element.toLowerCase().replace(/\s+/g, '')}">
+            </div>
+            ` : ''}
+        </div>
         <div class="persona-card-details">
             <div class="persona-rarity">${starsHTML}</div>
             <div class="persona-card-name">${name}</div>
@@ -4283,49 +4730,110 @@ personaModal.addEventListener('click', (e) => {
     }
 });
 
+// START: Final Persona Filtering Logic with Element Filter
 const personaSearchInput = document.getElementById('personaSearchInput');
-if (personaSearchInput) {
-    personaSearchInput.addEventListener('input', () => {
-        const searchTerm = personaSearchInput.value.toLowerCase();
-        const allPersonaCards = document.querySelectorAll('#persona-grid-container .persona-card');
+const rarityFilter = document.getElementById('rarityFilter');
+const rarityValueLabel = document.getElementById('rarityValue');
+const rarityTicksContainer = document.querySelector('.rarity-ticks');
+const elementFilterGrid = document.getElementById('element-filter-grid');
+const allPersonaCards = document.querySelectorAll('#persona-grid-container .persona-card');
 
-        allPersonaCards.forEach(card => {
-            const personaName = card.dataset.name;
-            const data = personaData[personaName];
-            if (!data) {
-                card.style.display = 'none';
-                return;
-            }
+let currentElementFilter = 'All'; // State for the element filter
 
-            // Create a comprehensive string of all persona info to search through
-            let searchableText = personaName.toLowerCase();
-            if (data.uniqueSkill) {
-                searchableText += ` ${data.uniqueSkill.name.toLowerCase()} ${data.uniqueSkill.description.toLowerCase()}`;
-            }
-            if (data.mainSkill) {
-                searchableText += ` ${data.mainSkill.name.toLowerCase()} ${data.mainSkill.description.toLowerCase()}`;
-            }
-            if (data.highlight) {
-                searchableText += ` ${data.highlight.name.toLowerCase()} ${data.highlight.description.toLowerCase()}`;
-            }
-            if (data.recommended) {
-                data.recommended.forEach(skill => {
-                    searchableText += ` ${skill.name.toLowerCase()} ${skill.description.toLowerCase()}`;
-                });
-            }
-            if (data.note) {
-                searchableText += ` ${data.note.toLowerCase()}`;
-            }
+function filterPersonas() {
+    // This query now runs every time, ensuring it always has the latest cards
+    const allPersonaCards = document.querySelectorAll('#persona-grid-container .persona-card');
+    if (!personaSearchInput || !rarityFilter || allPersonaCards.length === 0) return;
 
-            // Show or hide the card based on the search term
-            if (searchableText.includes(searchTerm)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+    const searchTerm = personaSearchInput.value.toLowerCase();
+    const selectedRarity = parseInt(rarityFilter.value);
+
+    allPersonaCards.forEach(card => {
+        const data = personaData[card.dataset.name];
+        // This check prevents errors if data is missing for a card
+        if (!data) { 
+            card.style.display = 'none'; 
+            return; 
+        }
+
+        const rarityMatch = (selectedRarity === 6) || (data.rarity === selectedRarity);
+        // This check safely handles personas without an element property
+        const elementMatch = (currentElementFilter === 'All') || (data.element && data.element === currentElementFilter);
+
+        let searchableText = card.dataset.name.toLowerCase();
+        if(data.element) { searchableText += ` ${data.element.toLowerCase()}`; }
+        if (data.uniqueSkill) { searchableText += ` ${data.uniqueSkill.name.toLowerCase()} ${data.uniqueSkill.description.toLowerCase()}`; }
+        if (data.mainSkill) { searchableText += ` ${data.mainSkill.name.toLowerCase()} ${data.mainSkill.description.toLowerCase()}`; }
+        
+        const searchMatch = searchableText.includes(searchTerm);
+
+        // Use 'grid' or 'block' for display, depending on your container's style
+        card.style.display = (rarityMatch && searchMatch && elementMatch) ? 'block' : 'none';
     });
 }
+
+function updateActiveState() {
+    if (!rarityFilter || !rarityValueLabel || !rarityTicksContainer) return;
+    const value = parseInt(rarityFilter.value);
+    
+    // Update label with multiple stars
+    if (value === 6) {
+        rarityValueLabel.textContent = 'All';
+    } else {
+        rarityValueLabel.innerHTML = `<span class="font-bold text-yellow-400">${'★'.repeat(value)}</span>`;
+    }
+
+    // Update active tick indicator
+    rarityTicksContainer.querySelectorAll('.rarity-tick').forEach(tick => {
+        // Remove all possible active classes first
+        tick.classList.remove('active-tick', 'active-tick-2', 'active-tick-3', 'active-tick-4', 'active-tick-5');
+        
+        const tickValue = parseInt(tick.dataset.value);
+        if (tickValue === value) {
+            // Add the correct specific active class
+            if (value === 6) {
+                tick.classList.add('active-tick'); // Generic active class for 'All'
+            } else {
+                tick.classList.add(`active-tick-${tickValue}`);
+            }
+        }
+    });
+}
+
+// Add event listeners
+if (personaSearchInput) {
+    personaSearchInput.addEventListener('input', filterPersonas);
+}
+if (rarityFilter) {
+    rarityFilter.addEventListener('input', () => {
+        updateActiveState();
+        filterPersonas();
+    });
+}
+if (rarityTicksContainer) {
+    rarityTicksContainer.addEventListener('click', (e) => {
+        const target = e.target.closest('.rarity-tick');
+        if (target && target.dataset.value) {
+            rarityFilter.value = target.dataset.value;
+            rarityFilter.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    });
+}
+if (elementFilterGrid) {
+    elementFilterGrid.addEventListener('click', (e) => {
+        const target = e.target.closest('.element-filter-btn');
+        if (target && target.dataset.element) {
+            elementFilterGrid.querySelectorAll('.element-filter-btn').forEach(btn => btn.classList.remove('active'));
+            target.classList.add('active');
+            currentElementFilter = target.dataset.element;
+            filterPersonas();
+        }
+    });
+}
+
+// Initial setup on page load
+updateActiveState();
+// END: Final Persona Filtering Logic with Element Filter
 
 
             const confidantGridContainer = document.querySelector('#guide-confidants .confidant-grid-container');
