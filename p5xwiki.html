@@ -1614,6 +1614,127 @@ body.sidebar-open .site-wrapper {
 }
 /* END: Final P5 Menu Lettering Style */
 
+/* START: New Filter Layout Styles */
+
+/* Generic button styles for the new controls */
+.p5-button, .p5-button-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+.p5-button-secondary {
+    background: rgba(30,30,30,0.8);
+    color: var(--primary-color);
+    padding: 0.5rem;
+}
+.p5-button:hover, .p5-button-secondary:hover {
+    background: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Base style for the filter wrapper */
+#persona-filters-wrapper {
+    transition: all 0.4s ease-in-out;
+    background: rgba(15, 15, 15, 0.9);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+}
+
+/* --- Styles for TOP Layout --- */
+#guide-personas.layout-top #persona-filters-wrapper {
+    padding: 1.5rem;
+    border: 1px solid var(--shadow-color-light);
+    margin-bottom: 1.5rem;
+}
+#guide-personas.layout-top #persona-filters-wrapper.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    border-width: 0;
+    margin-bottom: 0;
+}
+#guide-personas.layout-top #filter-toggle-indicator {
+    transform: rotate(90deg);
+}
+#guide-personas.layout-top #persona-filters-wrapper.collapsed ~ #persona-filter-controls #filter-toggle-indicator {
+    transform: rotate(0deg);
+}
+
+/* --- Styles for SIDE Layout --- */
+#guide-personas.layout-side #persona-filters-wrapper {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    width: 300px;
+    height: auto;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    z-index: 100;
+    border: 2px solid var(--primary-color);
+    border-right: none;
+    border-radius: 15px 0 0 15px;
+    padding: 1.5rem;
+    transform: translateX(0);
+}
+#guide-personas.layout-side #persona-filters-wrapper.collapsed {
+    transform: translateX(100%);
+    padding: 0;
+    border-width: 0;
+}
+#guide-personas.layout-side #persona-filter-controls {
+    position: fixed;
+    top: 100px;
+    right: 0px;
+    z-index: 101;
+    margin-bottom: 0; /* Override default margin */
+}
+#guide-personas.layout-side #filter-panel-toggle {
+    border-radius: 8px 0 0 8px;
+    border-right: none;
+}
+#guide-personas.layout-side #filter-toggle-indicator {
+    transform: rotate(180deg);
+}
+#guide-personas.layout-side #persona-filters-wrapper.collapsed ~ #persona-filter-controls #filter-toggle-indicator {
+    transform: rotate(0deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    #guide-personas.layout-side #persona-filters-wrapper {
+        position: relative;
+        width: 100%;
+        max-height: none;
+        transform: none !important;
+        border: 1px solid var(--shadow-color-light);
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+    }
+    #guide-personas.layout-side #persona-filters-wrapper.collapsed {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+        border-width: 0;
+        margin-bottom: 0;
+    }
+    #guide-personas.layout-side #persona-filter-controls {
+        position: static;
+    }
+}
+/* END: New Filter Layout Styles */
+
 </style>
 
 </head>
@@ -2100,48 +2221,64 @@ body.sidebar-open .site-wrapper {
 
 <!-- SECTION FOR PERSONAS -->
 <section class="guide-content-panel" id="guide-personas">
-        <div class="text-center mb-10">
-            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Persona's Guide</h1>
-            <p id="credits" class="text-gray-500 mt-2">Data by Iant on P5X Worldwide Discord Server</p>
-            <p id="credits" class="text-gray-500 mt-2">Original Guide by AbsolRoot on <a href="https://lufel.net">Lufel.net</a></p>
-        </div>
-<div class="search-container-persona" style="margin-bottom: 1.5rem;">
-    <input type="text" id="personaSearchInput" placeholder="Search Personas by name or keyword (e.g., ATK, Burn)..." autocomplete="off" style="width: 100%; padding: 10px 15px; font-size: 1rem; font-family: 'Crimson Text', serif; color: #fff; background-color: rgba(20, 20, 20, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 8px; outline: none; transition: all 0.3s ease;">
-</div>
-<!-- START: New Interactive Rarity Filter Snippet -->
-<div class="persona-filter-container" style="margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0 1rem;">
-    <label for="rarityFilter" class="text-lg font-semibold text-white">Filter by Rarity: <span id="rarityValue" class="font-bold text-red-400">All</span></label>
-    <div class="w-full max-w-md relative" style="padding-top: 20px;">
-        <div class="rarity-ticks">
-            <div class="rarity-tick" data-value="2">★</div>
-            <div class="rarity-tick" data-value="3">★</div>
-            <div class="rarity-tick" data-value="4">★</div>
-            <div class="rarity-tick" data-value="5">★</div>
-            <div class="rarity-tick" data-value="6">All</div>
-        </div>
-        <input type="range" id="rarityFilter" min="2" max="6" value="6" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer rarity-slider">
+    <div class="text-center mb-10">
+        <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">P5X Persona's Guide</h1>
+        <p id="credits" class="text-gray-500 mt-2">Data by Iant on P5X Worldwide Discord Server</p>
+        <p id="credits" class="text-gray-500 mt-2">Original Guide by AbsolRoot on <a href="https://lufel.net">Lufel.net</a></p>
     </div>
-</div>
-<!-- START: New Element Filter Snippet -->
-<div class="persona-element-filter-container" style="margin-bottom: 1.5rem; padding: 0 1rem; text-align: center;">
-    <label class="text-lg font-semibold text-white mb-2 block">Filter by Element</label>
-<div id="element-filter-grid" class="flex flex-wrap justify-center gap-2">
-    <button class="element-filter-btn all active" data-element="All">All</button>
-    <button class="element-filter-btn physical" data-element="Physical"><img src="https://cdn.imgchest.com/files/49zc2vk9qdy.png" alt="Physical"></button>
-    <button class="element-filter-btn gun" data-element="Gun"><img src="https://cdn.imgchest.com/files/7kzcax8wja7.png" alt="Gun"></button>
-    <button class="element-filter-btn fire" data-element="Fire"><img src="https://cdn.imgchest.com/files/4apc5vlwkq4.png" alt="Fire"></button>
-    <button class="element-filter-btn ice" data-element="Ice"><img src="https://cdn.imgchest.com/files/y2pck5a5dv7.png" alt="Ice"></button>
-    <button class="element-filter-btn electric" data-element="Electric"><img src="https://cdn.imgchest.com/files/739cxk5kjp7.png" alt="Electric"></button>
-    <button class="element-filter-btn wind" data-element="Wind"><img src="https://cdn.imgchest.com/files/46acqgvgpe7.png" alt="Wind"></button>
-    <button class="element-filter-btn psychokinesis" data-element="Psychokinesis"><img src="https://cdn.imgchest.com/files/yvdcwn9gkjy.png" alt="Psychokinesis"></button>
-    <button class="element-filter-btn nuclear" data-element="Nuclear"><img src="https://cdn.imgchest.com/files/7ogcbxpwrxy.png" alt="Nuclear"></button>
-    <button class="element-filter-btn bless" data-element="Bless"><img src="https://cdn.imgchest.com/files/4apc5vlpbe4.png" alt="Bless"></button>
-    <button class="element-filter-btn curse" data-element="Curse"><img src="https://cdn.imgchest.com/files/4jdcv6zebw4.png" alt="Curse"></button>
-    <button class="element-filter-btn almighty" data-element="Almighty"><img src="https://cdn.imgchest.com/files/yq9c3va2w54.png" alt="Almighty"></button>
-</div>
-</div>
+
+    <!-- START: New Filter Controls -->
+    <div id="persona-filter-controls" class="mb-4 flex justify-center items-center gap-4">
+        <button id="filter-panel-toggle" class="p5-button">
+            <span>Filter Personas</span>
+            <svg id="filter-toggle-indicator" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+        <button id="filter-position-toggle" class="p5-button-secondary" title="Toggle Filter Position">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+        </button>
+    </div>
+    <!-- END: New Filter Controls -->
+
+    <!-- START: New Filter Wrapper -->
+    <div id="persona-filters-wrapper">
+        <div class="search-container-persona" style="margin-bottom: 1.5rem;">
+            <input type="text" id="personaSearchInput" placeholder="Search Personas by name or keyword..." autocomplete="off" style="width: 100%; padding: 10px 15px; font-size: 1rem; font-family: 'Crimson Text', serif; color: #fff; background-color: rgba(20, 20, 20, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 8px; outline: none; transition: all 0.3s ease;">
+        </div>
+        <div class="persona-filter-container" style="margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0 1rem;">
+            <label for="rarityFilter" class="text-lg font-semibold text-white">Filter by Rarity: <span id="rarityValue" class="font-bold text-red-400">All</span></label>
+            <div class="w-full max-w-md relative" style="padding-top: 20px;">
+                <div class="rarity-ticks">
+                    <div class="rarity-tick" data-value="2">★</div>
+                    <div class="rarity-tick" data-value="3">★</div>
+                    <div class="rarity-tick" data-value="4">★</div>
+                    <div class="rarity-tick" data-value="5">★</div>
+                    <div class="rarity-tick" data-value="6">All</div>
+                </div>
+                <input type="range" id="rarityFilter" min="2" max="6" value="6" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer rarity-slider">
+            </div>
+        </div>
+        <div class="persona-element-filter-container" style="margin-bottom: 1.5rem; padding: 0 1rem; text-align: center;">
+            <label class="text-lg font-semibold text-white mb-2 block">Filter by Element</label>
+            <div id="element-filter-grid" class="flex flex-wrap justify-center gap-2">
+                <button class="element-filter-btn all active" data-element="All">All</button>
+                <button class="element-filter-btn physical" data-element="Physical"><img src="https://cdn.imgchest.com/files/49zc2vk9qdy.png" alt="Physical"></button>
+                <button class="element-filter-btn gun" data-element="Gun"><img src="https://cdn.imgchest.com/files/7kzcax8wja7.png" alt="Gun"></button>
+                <button class="element-filter-btn fire" data-element="Fire"><img src="https://cdn.imgchest.com/files/4apc5vlwkq4.png" alt="Fire"></button>
+                <button class="element-filter-btn ice" data-element="Ice"><img src="https://cdn.imgchest.com/files/y2pck5a5dv7.png" alt="Ice"></button>
+                <button class="element-filter-btn electric" data-element="Electric"><img src="https://cdn.imgchest.com/files/739cxk5kjp7.png" alt="Electric"></button>
+                <button class="element-filter-btn wind" data-element="Wind"><img src="https://cdn.imgchest.com/files/46acqgvgpe7.png" alt="Wind"></button>
+                <button class="element-filter-btn psychokinesis" data-element="Psychokinesis"><img src="https://cdn.imgchest.com/files/yvdcwn9gkjy.png" alt="Psychokinesis"></button>
+                <button class="element-filter-btn nuclear" data-element="Nuclear"><img src="https://cdn.imgchest.com/files/7ogcbxpwrxy.png" alt="Nuclear"></button>
+                <button class="element-filter-btn bless" data-element="Bless"><img src="https://cdn.imgchest.com/files/4apc5vlpbe4.png" alt="Bless"></button>
+                <button class="element-filter-btn curse" data-element="Curse"><img src="https://cdn.imgchest.com/files/4jdcv6zebw4.png" alt="Curse"></button>
+                <button class="element-filter-btn almighty" data-element="Almighty"><img src="https://cdn.imgchest.com/files/yq9c3va2w54.png" alt="Almighty"></button>
+            </div>
+        </div>
+    </div>
+    <!-- END: New Filter Wrapper -->
+
     <div class="persona-grid-container" id="persona-grid-container">
-        <!-- Persona cards -->
+        <!-- Persona cards will be generated here by JavaScript -->
     </div>
 </section>
 
@@ -2326,7 +2463,45 @@ function calculateDamage() {
     calculateDamage();
 }
 
+const personaSection = document.getElementById('guide-personas');
+if (personaSection) {
+    const filtersWrapper = document.getElementById('persona-filters-wrapper');
+    const filterPanelToggle = document.getElementById('filter-panel-toggle');
+    const filterPositionToggle = document.getElementById('filter-position-toggle');
 
+    // Function to apply the layout based on the 'position' string ('top' or 'side')
+    const applyFilterLayout = (position) => {
+        if (position === 'side') {
+            personaSection.classList.remove('layout-top');
+            personaSection.classList.add('layout-side');
+        } else { // Default to 'top'
+            personaSection.classList.remove('layout-side');
+            personaSection.classList.add('layout-top');
+        }
+    };
+
+    // --- On Page Load ---
+    // 1. Get saved position from localStorage, defaulting to 'top' if not found.
+    const savedPosition = localStorage.getItem('personaFilterPosition') || 'top';
+    applyFilterLayout(savedPosition);
+
+    // 2. Start with the filter panel collapsed by default.
+    filtersWrapper.classList.add('collapsed');
+
+    // --- Event Listeners ---
+    // 3. Toggle the 'collapsed' class to show/hide the filter panel.
+    filterPanelToggle.addEventListener('click', () => {
+        filtersWrapper.classList.toggle('collapsed');
+    });
+
+    // 4. Toggle the layout class on the section and save the new preference.
+    filterPositionToggle.addEventListener('click', () => {
+        const isCurrentlySide = personaSection.classList.contains('layout-side');
+        const newPosition = isCurrentlySide ? 'top' : 'side';
+        applyFilterLayout(newPosition);
+        localStorage.setItem('personaFilterPosition', newPosition);
+    });
+}
 
 
 const confidantData = {
