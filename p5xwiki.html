@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -669,7 +669,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
+    opacity: 1;
     visibility: visible;
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
@@ -1138,7 +1138,6 @@ body.sidebar-open .site-wrapper {
 .persona-card {
     position: relative;
     border-radius: 15px;
-    /* overflow: hidden; */ /* This line was removed to allow the glow effect to show */
     cursor: pointer;
     transition: all 0.3s ease;
     background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
@@ -1245,7 +1244,6 @@ body.sidebar-open .site-wrapper {
     border-radius: 10px;
 }
 
-/* Container for the stars and name at the bottom of the card */
 .persona-card-details {
     position: absolute;
     bottom: 0;
@@ -1272,7 +1270,6 @@ body.sidebar-open .site-wrapper {
     transition: color 0.3s;
 }
 
-/* NEW: Animation for all filled stars */
 .persona-rarity-star.filled {
     animation: star-pulse 2s infinite ease-in-out;
 }
@@ -1291,7 +1288,7 @@ body.sidebar-open .site-wrapper {
     animation: pulse-gold 2s infinite;
 }
 
-/* Rarity 5: Rainbow (FIXED) */
+/* Rarity 5: Double Rainbow All The Way */
 .rarity-5 .persona-rarity-star.filled {
     background: linear-gradient(90deg, #ff4b4b, #ffb44b, #fffb8b, #4bff8d, #4bffff, #4b7aff, #b54bff);
     background-size: 200% 200%;
@@ -1323,7 +1320,6 @@ body.sidebar-open .site-wrapper {
     animation: pulse-rainbow 2s infinite;
 }
 
-/* Keyframes for animations */
 @keyframes star-pulse {
     0%, 100% { transform: scale(1); opacity: 0.8; }
     50% { transform: scale(1.15); opacity: 1; }
@@ -1357,7 +1353,6 @@ body.sidebar-open .site-wrapper {
     100%{background-position:0% 50%}
 }
 
-/* START: Rarity Slider Styles */
 .rarity-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -1382,9 +1377,7 @@ body.sidebar-open .site-wrapper {
 .rarity-slider:hover::-webkit-slider-thumb {
     background: var(--primary-color-dark);
 }
-/* END: Rarity Slider Styles */
 
-/* START: Rarity Tick Indicator Styles */
 .rarity-ticks {
     position: absolute;
     top: 0;
@@ -1427,9 +1420,7 @@ body.sidebar-open .site-wrapper {
     0%, 100% { transform: scale(1.1); }
     50% { transform: scale(1.3); }
 }
-/* END: Rarity Tick Indicator Styles */
 
-/* START: Element Icon & Filter Styles */
 .persona-card-icon-wrapper {
     position: relative; /* Container for positioning the element icon */
     width: 100%;
@@ -1460,7 +1451,6 @@ body.sidebar-open .site-wrapper {
     transform: rotate(-15deg); /* Slight tilt */
 }
 
-/* Element Glows */
 .element-physical { filter: drop-shadow(0 0 6px #ffa500); }
 .element-gun { filter: drop-shadow(0 0 6px #ffa500); }
 .element-fire { filter: drop-shadow(0 0 6px #ff0000); }
@@ -1473,7 +1463,6 @@ body.sidebar-open .site-wrapper {
 .element-curse { filter: drop-shadow(0 0 6px #8b0000); }
 .element-almighty { filter: drop-shadow(0 0 6px #ffffff); }
 
-/* Element Filter Button Styles */
 .element-filter-btn {
     background-color: rgba(40, 40, 40, 0.7);
     border: 2px solid #4a5568;
@@ -1495,9 +1484,7 @@ body.sidebar-open .site-wrapper {
     height: 100%;
     object-fit: contain;
 }
-/* START: New Dynamic Filter Styles */
 
-/* --- Rarity Tick Colors --- */
 .rarity-tick.active-tick-2 { color: #48bb78; animation: tick-pulse-green 1.5s infinite; }
 .rarity-tick.active-tick-3 { color: #c0c0c0; animation: tick-pulse-silver 1.5s infinite; }
 .rarity-tick.active-tick-4 { color: #f6e05e; animation: tick-pulse-gold 1.5s infinite; }
@@ -1511,14 +1498,12 @@ body.sidebar-open .site-wrapper {
 }
 .rarity-tick[data-value="6"].active-tick { color: var(--primary-color); transform: scale(1.1); }
 
-/* Keyframes for colored pulses */
 @keyframes tick-pulse-green { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #48bb78); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #48bb78); } }
 @keyframes tick-pulse-silver { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #c0c0c0); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #c0c0c0); } }
 @keyframes tick-pulse-gold { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #f6e05e); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #f6e05e); } }
 @keyframes tick-pulse-rainbow { 0%, 100% { transform: scale(1.1); filter: drop-shadow(0 0 3px #ff4b4b); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #4bffff); } }
 
-/* --- Element Filter Button Colors --- */
-.element-filter-btn.active { transform: scale(1.1); } /* Keep the scale effect for all active buttons */
+.element-filter-btn.active { transform: scale(1.1); }
 
 .element-filter-btn.active.all { border-color: var(--primary-color); box-shadow: 0 0 8px var(--primary-color); }
 .element-filter-btn.active.physical { border-color: #ffa500; box-shadow: 0 0 8px #ffa500; }
@@ -1532,9 +1517,7 @@ body.sidebar-open .site-wrapper {
 .element-filter-btn.active.bless { border-color: #ffffe0; box-shadow: 0 0 8px #ffffe0; }
 .element-filter-btn.active.curse { border-color: #8b0000; box-shadow: 0 0 8px #8b0000; }
 .element-filter-btn.active.almighty { border-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
-/* END: Element Icon & Filter Styles */
 
-/* START: Final P5 Menu Lettering Style */
 .p5-funky-text {
     display: flex;
     align-items: center;
@@ -1542,7 +1525,7 @@ body.sidebar-open .site-wrapper {
     transition: transform 0.3s ease;
     position: relative;
     z-index: 2;
-    /* Add some padding to the container to prevent clipping */
+    /* Adedd some padding to the container to prevent clipping */
     padding-bottom: 10px; 
 }
 
@@ -1563,21 +1546,18 @@ body.sidebar-open .site-wrapper {
     border: 2px solid black;
 }
 
-/* Middle letters: white box, black text */
 .p5-letter-box {
     background-color: white;
     color: black;
 }
 
-/* First letter: black box, red text */
 .p5-letter-box.first-letter {
     background-color: black;
-    color: var(--primary-color); /* Red */
+    color: var(--primary-color);
     z-index: 10;
-    font-weight: 700; /* Bold */
+    font-weight: 700;
 }
 
-/* Last letter: no box, white text */
 .p5-letter-box.last-letter {
     background-color: transparent;
     color: white;
@@ -1600,7 +1580,6 @@ body.sidebar-open .site-wrapper {
 .p5-funky-text > span:nth-child(10) { transform: rotate(5deg) translateY(-2px); }
 
 
-/* Hover effect */
 .quick-nav-card:hover .p5-letter-box {
     background-color: var(--primary-color);
     color: black;
@@ -1612,11 +1591,7 @@ body.sidebar-open .site-wrapper {
 .quick-nav-card:hover .p5-letter-box.last-letter {
     color: var(--primary-color);
 }
-/* END: Final P5 Menu Lettering Style */
 
-/* START: New Filter Layout Styles */
-
-/* Generic button styles for the new controls */
 .p5-button, .p5-button-secondary {
     display: inline-flex;
     align-items: center;
@@ -1642,7 +1617,6 @@ body.sidebar-open .site-wrapper {
     transform: translateY(-2px);
 }
 
-/* Base style for the filter wrapper */
 #persona-filters-wrapper {
     transition: all 0.4s ease-in-out;
     background: rgba(15, 15, 15, 0.9);
@@ -1650,7 +1624,6 @@ body.sidebar-open .site-wrapper {
     border-radius: 15px;
 }
 
-/* --- Styles for TOP Layout --- */
 #guide-personas.layout-top #persona-filters-wrapper {
     padding: 1.5rem;
     border: 1px solid var(--shadow-color-light);
@@ -1671,7 +1644,6 @@ body.sidebar-open .site-wrapper {
     transform: rotate(0deg);
 }
 
-/* --- Styles for SIDE Layout --- */
 #guide-personas.layout-side #persona-filters-wrapper {
     position: fixed;
     top: 100px;
@@ -1694,10 +1666,10 @@ body.sidebar-open .site-wrapper {
 }
 #guide-personas.layout-side #persona-filter-controls {
     position: fixed;
-    top: 100px;
+    top: 80px; /* Changed from 100px */
     right: 0px;
     z-index: 101;
-    margin-bottom: 0; /* Override default margin */
+    margin-bottom: 0; 
 }
 #guide-personas.layout-side #filter-panel-toggle {
     border-radius: 8px 0 0 8px;
@@ -1710,7 +1682,6 @@ body.sidebar-open .site-wrapper {
     transform: rotate(0deg);
 }
 
-/* Responsive adjustments */
 @media (max-width: 992px) {
     #guide-personas.layout-side #persona-filters-wrapper {
         position: relative;
@@ -1733,9 +1704,7 @@ body.sidebar-open .site-wrapper {
         position: static;
     }
 }
-/* END: New Filter Layout Styles */
 
-/* START: Copy Guide Button Styles */
 .modal-header-controls {
     display: flex;
     align-items: center;
@@ -1776,8 +1745,119 @@ body.sidebar-open .site-wrapper {
     opacity: 1;
     visibility: visible;
 }
-/* END: Copy Guide Button Styles */
 
+
+.news-accordion-item {
+    border: 1px solid var(--shadow-color-light);
+    border-radius: 10px;
+    background: rgba(20, 20, 20, 0.7);
+    transition: background-color 0.25s ease-in-out;
+}
+
+.news-accordion-item.active {
+    background: rgba(30, 30, 30, 0.9);
+}
+
+.news-accordion-trigger {
+    font-size: 1.2rem;
+    color: #fff;
+    background: transparent;
+    border: none;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.25s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.news-accordion-item.active .news-accordion-trigger,
+.news-accordion-trigger:hover {
+    color: var(--primary-color);
+}
+
+.news-accordion-trigger::after {
+    content: '+';
+    font-size: 2rem;
+    font-weight: bold;
+    transition: transform 0.25s ease-in-out;
+    flex-shrink: 0;
+}
+
+.news-accordion-item.active .news-accordion-trigger::after {
+    transform: rotate(45deg);
+}
+
+.news-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding: 0 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.newsDetailTextBox {
+    color: #ccc;
+}
+.newsDetailTextBox h2, .newsDetailTextBox h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--primary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--shadow-color-medium);
+}
+.newsDetailTextBox p {
+    margin-bottom: 1rem;
+}
+.newsDetailTextBox strong {
+    color: #fff;
+    font-weight: bold;
+}
+.newsDetailTextBox a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.news-accordion-item.active .news-accordion-content {
+    max-height: 5000px; /* Large value to accommodate long articles */
+    padding: 1.5rem;
+}
+
+/* Reusing some old styles for consistency */
+.news-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.news-date, .news-category-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #ccc;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+.news-category-badge {
+    color: var(--primary-color);
+    background-color: rgba(255, 0, 0, 0.1);
+}
+.news-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+.copy-article-btn {
+    margin-bottom: 1.5rem;
+    display: block;
+}
 </style>
 
 </head>
@@ -1821,21 +1901,21 @@ body.sidebar-open .site-wrapper {
             </div>
             <!-- Gacha -->
             <div class="quick-nav-card" data-target="guide-gacha" data-preview="Breakdown of the gacha system">
-                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/7w6c29mo3ey.png');"></div>
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlgd4.png');"></div>
                 <div class="p5-funky-text">
                     <span class="p5-letter-box first-letter">G</span><span class="p5-letter-box">a</span><span class="p5-letter-box">c</span><span class="p5-letter-box">h</span><span class="p5-letter-box last-letter">a</span>
                 </div>
             </div>
-            <!-- Confidants -->
+            <!-- Confidants https://cdn.imgchest.com/files/49zc2bpgvny.png-->
             <div class="quick-nav-card" data-target="guide-confidants" data-preview="Confidant guides,choices, and gifts">
-                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/49zc2bpgvny.png');"></div>
                 <div class="p5-funky-text">
                     <span class="p5-letter-box first-letter">C</span><span class="p5-letter-box">o</span><span class="p5-letter-box">n</span><span class="p5-letter-box">f</span><span class="p5-letter-box">i</span><span class="p5-letter-box">d</span><span class="p5-letter-box">a</span><span class="p5-letter-box">n</span><span class="p5-letter-box">t</span><span class="p5-letter-box last-letter">s</span>
                 </div>
             </div>
-            <!-- Personas -->
+            <!-- Personas https://cdn.imgchest.com/files/ye3c2vp38o4.png -->
             <div class="quick-nav-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
-                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/49zc2bpgvny.png');"></div>
+                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/ye3c2vp38o4.png');"></div>
                 <div class="p5-funky-text">
                     <span class="p5-letter-box first-letter">P</span><span class="p5-letter-box">e</span><span class="p5-letter-box">r</span><span class="p5-letter-box">s</span><span class="p5-letter-box">o</span><span class="p5-letter-box">n</span><span class="p5-letter-box">a</span><span class="p5-letter-box last-letter">s</span>
                 </div>
@@ -1847,6 +1927,13 @@ body.sidebar-open .site-wrapper {
                     <span class="p5-letter-box first-letter">D</span><span class="p5-letter-box">a</span><span class="p5-letter-box">m</span><span class="p5-letter-box">a</span><span class="p5-letter-box">g</span><span class="p5-letter-box last-letter">e</span>
                 </div>
             </div>
+		   <!-- News -->
+			<div class="quick-nav-card" data-target="guide-news" data-preview="View the latest official news and announcements.">
+    <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/4z9cvq8xz87.png');"></div>
+    <div class="p5-funky-text">
+        <span class="p5-letter-box first-letter">N</span><span class="p5-letter-box">E</span><span class="p5-letter-box">W</span><span class="p5-letter-box last-letter">S</span>
+    </div>
+</div>
             <!-- Units -->
             <a href="https://mcburnr.github.io/p5xunits.html" class="quick-nav-card" data-preview="Browse all playable units">
                 <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/739cxznmge7.png');"></div>
@@ -1872,15 +1959,15 @@ body.sidebar-open .site-wrapper {
         <div class="guide-card-name">Arcana</div>
     </div>
     <div class="guide-card" data-target="guide-gacha" data-preview="Detailed breakdown of the gacha system, banners, and currencies.">
-        <img src="https://cdn.imgchest.com/files/7w6c29mo3ey.png" alt="Gacha System Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/yd5ce5zlgd4.png" alt="Gacha System Icon" class="guide-card-icon">
         <div class="guide-card-name">Gacha System</div>
     </div>
      <div class="guide-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
-        <img src="https://cdn.imgchest.com/files/49zc2bpgvny.png" alt="Personas Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Personas Icon" class="guide-card-icon">
         <div class="guide-card-name">Personas</div>
     </div>
     <div class="guide-card" data-target="guide-confidants" data-preview="View all confidant guides, rank-up choices, and gift preferences.">
-        <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Confidants Guide Icon" class="guide-card-icon">
+        <img src="https://cdn.imgchest.com/files/49zc2bpgvny.png" alt="Confidants Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Confidants</div>
     </div>
     <div class="guide-card" data-target="guide-calculator" data-preview="Calculate potential damage output.">
@@ -1891,6 +1978,10 @@ body.sidebar-open .site-wrapper {
         <img src="https://cdn.imgchest.com/files/739cxznmge7.png" alt="Units Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Units</div>
     </a>
+	    <div class="guide-card" data-target="guide-news" data-preview="View the latest official news and announcements.">
+        <img src="https://cdn.imgchest.com/files/4z9cvq8xz87.png" alt="News Icon" class="guide-card-icon">
+        <div class="guide-card-name">News</div>
+    </div>
 </nav>
 </nav>
 
@@ -2270,7 +2361,6 @@ body.sidebar-open .site-wrapper {
         <p id="credits" class="text-gray-500 mt-2">Original Guide by AbsolRoot on <a href="https://lufel.net">Lufel.net</a></p>
     </div>
 
-    <!-- START: New Filter Controls -->
     <div id="persona-filter-controls" class="mb-4 flex justify-center items-center gap-4">
         <button id="filter-panel-toggle" class="p5-button">
             <span>Filter Personas</span>
@@ -2280,9 +2370,7 @@ body.sidebar-open .site-wrapper {
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
         </button>
     </div>
-    <!-- END: New Filter Controls -->
 
-    <!-- START: New Filter Wrapper -->
     <div id="persona-filters-wrapper">
         <div class="search-container-persona" style="margin-bottom: 1.5rem;">
             <input type="text" id="personaSearchInput" placeholder="Search Personas by name or keyword..." autocomplete="off" style="width: 100%; padding: 10px 15px; font-size: 1rem; font-family: 'Crimson Text', serif; color: #fff; background-color: rgba(20, 20, 20, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 8px; outline: none; transition: all 0.3s ease;">
@@ -2321,9 +2409,19 @@ body.sidebar-open .site-wrapper {
     <!-- END: New Filter Wrapper -->
 
     <div class="persona-grid-container" id="persona-grid-container">
-        <!-- Persona cards will be generated here by JavaScript -->
+        <!-- Persona cards -->
     </div>
 </section>
+
+<section class="guide-content-panel" id="guide-news">
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-bold text-white uppercase">Latest News</h1>
+            <p id="credits" class="text-gray-500 mt-2">Latest announcements from the official P5X website.</p>
+        </div>
+        <div id="news-articles-container" class="space-y-4">
+            <p class="text-center text-xl">Loading latest news...</p>
+        </div>
+    </section>
 
 <!-- MODAL FOR PERSONA DETAILS -->
 <div class="modal" id="personaModal">
@@ -2335,6 +2433,7 @@ body.sidebar-open .site-wrapper {
             Copy Guide
             <span class="copy-notification">Copied!</span>
         </button>
+        <button class="copy-guide-btn" id="copyPersonaImageBtn">Copy Image</button>
         <button class="close-btn" id="closePersonaBtn">&times;</button>
     </div>
 </div>
@@ -2357,6 +2456,7 @@ body.sidebar-open .site-wrapper {
             Copy Guide
             <span class="copy-notification">Copied!</span>
         </button>
+        <button class="copy-guide-btn" id="copyConfidantImageBtn">Copy Image</button>
         <button class="close-btn" id="closeConfidantBtn">&times;</button>
     </div>
 </div>
@@ -4658,8 +4758,6 @@ const personaData = {
 };
 
 	
-	
-	// START: Deep Link & Meta Tag Generation
 function handleDeepLink() {
     try {
         const params = new URLSearchParams(window.location.search);
@@ -4688,7 +4786,6 @@ function handleDeepLink() {
                           (data.guide.skills || []).map(s => `• Rank ${s[0]}: ${s[1]}`).slice(0, 5).join('\n');
         }
 
-        // Create and append meta tags to the <head>
         const head = document.head;
         const metaTags = [
             { property: 'og:title', content: title },
@@ -4710,9 +4807,7 @@ function handleDeepLink() {
         console.error("Error handling deep link:", e);
     }
 }
-// Run this as soon as the script starts
 handleDeepLink();
-// END: Deep Link & Meta Tag Generation
         document.addEventListener('DOMContentLoaded', () => {
             const guideCards = document.querySelectorAll('.guide-card');
             const contentPanels = document.querySelectorAll('.guide-content-panel');
@@ -4721,10 +4816,76 @@ const sidebar = document.getElementById('collapsible-sidebar');
 const overlay = document.getElementById('main-overlay');
 const quickNavOverlay = document.getElementById('quick-nav-overlay');
 const quickNavCards = document.querySelectorAll('.quick-nav-card');
+const wasDeepLinkHandled = processDeepLink();
 
-// Add this inside your document.addEventListener('DOMContentLoaded', () => { ... });
 
-// START: Copy Button Logic
+
+function processDeepLink() {
+    const params = new URLSearchParams(window.location.search);
+    const guideType = params.get('guide');
+    const guideName = params.get('name');
+    const quickNavOverlay = document.getElementById('quick-nav-overlay');
+
+    // If no guide parameters, return false to signal nothing was handled.
+    if (!guideType || !guideName) {
+        return false;
+    }
+
+    // 1. Hide the Quick Navigation Overlay
+    if (quickNavOverlay) {
+        quickNavOverlay.classList.add('hidden');
+    }
+
+    // 2. Activate the correct guide section panel
+    const targetGuideId = `guide-${guideType}`;
+    // Use a more specific selector to target only the sidebar cards
+    const targetSidebarCard = document.querySelector(`.sidebar-nav .guide-card[data-target="${targetGuideId}"]`);
+    
+    if (targetSidebarCard) {
+        targetSidebarCard.click();
+    } else {
+        // If the guide doesn't exist, we didn't handle the link.
+        return false; 
+    }
+
+    // 3. Open the specific modal for the item
+    setTimeout(() => {
+        if (guideType === 'personas' && typeof openPersonaModal === 'function') {
+            openPersonaModal(guideName);
+        } else if (guideType === 'confidants' && typeof openConfidantModal === 'function') {
+            openConfidantModal(guideName);
+        }
+    }, 100);
+
+    // Return true to signal the deep link was successfully handled.
+    return true;
+}
+
+		    const sidebarGuideCards = document.querySelectorAll('.sidebar-nav .guide-card');
+    sidebarGuideCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const targetId = card.dataset.target;
+
+            // Deactivate all sidebar cards and content panels
+            sidebarGuideCards.forEach(c => c.classList.remove('active'));
+            contentPanels.forEach(p => p.classList.remove('active'));
+
+            // Activate the clicked card and its corresponding panel
+            card.classList.add('active');
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        });
+    });
+
+    if (!wasDeepLinkHandled && sidebarGuideCards.length > 0) {
+        sidebarGuideCards[0].click();
+    }
+
+        processDeepLink();
+		
+
 function showCopyNotification(button) {
     if (button.classList.contains('copied')) return; // Prevent re-triggering
     button.classList.add('copied');
@@ -4737,10 +4898,11 @@ function setupCopyButton(buttonId, guideType) {
     const copyBtn = document.getElementById(buttonId);
     if (copyBtn) {
         copyBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent modal from closing if button is inside
+            e.stopPropagation();
             const guideName = this.dataset.name;
             if (!guideName) return;
 
+            // The 'guideType' parameter here now directly matches the panel ID structure
             const baseUrl = window.location.origin + window.location.pathname;
             const shareUrl = `${baseUrl}?guide=${guideType}&name=${encodeURIComponent(guideName)}`;
 
@@ -4762,9 +4924,9 @@ function setupCopyButton(buttonId, guideType) {
     }
 }
 
-setupCopyButton('copyPersonaGuideBtn', 'persona');
-setupCopyButton('copyConfidantGuideBtn', 'confidant');
-
+// Updated the calls to use the plural form matching the section IDs
+setupCopyButton('copyPersonaGuideBtn', 'personas');
+setupCopyButton('copyConfidantGuideBtn', 'confidants');
 
 function selectInitialGuide(targetId) {
     if (!targetId) return;
@@ -4784,6 +4946,230 @@ quickNavCards.forEach(card => {
     });
 });
 
+
+async function generateAndCopyImage(type, name, button) {
+    const originalButtonText = button.textContent;
+    button.textContent = 'Generating...';
+    button.disabled = true;
+
+    // Created a temporary, off-screen container for our card
+    const cardContainer = document.createElement('div');
+    cardContainer.id = 'temp-image-card-container';
+    cardContainer.style.position = 'absolute';
+    cardContainer.style.left = '-9999px';
+    cardContainer.style.top = '0';
+    document.body.appendChild(cardContainer);
+
+    let elementToCapture;
+
+    if (type === 'persona') {
+        elementToCapture = buildPersonaCard(name);
+    } else if (type === 'confidant') {
+        const activeTab = document.querySelector('#confidantTabsContainer .tab.active');
+        const tabType = activeTab ? activeTab.dataset.tab : 'guide';
+        elementToCapture = buildConfidantCard(name, tabType);
+    }
+    
+    if (!elementToCapture) {
+        console.error("Could not build the image card. Data might be missing.");
+        document.body.removeChild(cardContainer);
+        button.textContent = 'Error!';
+        setTimeout(() => {
+            button.textContent = originalButtonText;
+            button.disabled = false;
+        }, 2000);
+        return;
+    }
+    
+    cardContainer.appendChild(elementToCapture);
+    
+    try {
+        const canvas = await html2canvas(elementToCapture, {
+            backgroundColor: null,
+            useCORS: true,
+            scale: 1.5,
+        });
+
+        canvas.toBlob(async (blob) => {
+            if (blob) {
+                try {
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    showCopyNotification(button); // Reuse your existing notification
+                    button.textContent = 'Copied!';
+                } catch (err) {
+                    console.error('Failed to copy image to clipboard:', err);
+                    button.textContent = 'Error!';
+                }
+            }
+        }, 'image/png');
+
+    } catch (error) {
+        console.error('Image generation failed:', error);
+        button.textContent = 'Error!';
+    } finally {
+        document.body.removeChild(cardContainer);
+        setTimeout(() => {
+            button.textContent = originalButtonText;
+            button.disabled = false;
+        }, 2000);
+    }
+}
+
+function buildPersonaCard(personaName) {
+    const data = personaData[personaName];
+    if (!data) return null;
+
+    const card = document.createElement('div');
+    card.style.cssText = `
+        background: linear-gradient(145deg, #1e1e1e, #101010);
+        width: 850px;
+        padding: 20px;
+        color: #fff;
+        font-family: 'Crimson Text', serif;
+        border: 2px solid var(--primary-color, #ff0000);
+        border-radius: 15px;
+        box-sizing: border-box;
+    `;
+
+    const stars = '★'.repeat(data.rarity || 0).padEnd(5, '☆');
+
+    card.innerHTML = `
+        <div style="display: flex; align-items: center; border-bottom: 2px solid var(--primary-color, #ff0000); padding-bottom: 15px; margin-bottom: 20px;">
+            <img src="${data.icon}" style="width: 100px; height: 100px; object-fit: contain; margin-right: 20px; filter: drop-shadow(0 0 5px var(--primary-color, #ff0000));">
+            <div style="flex-grow: 1;">
+                <h2 style="font-family: 'Cinzel', serif; font-size: 2.5rem; margin: 0; color: var(--primary-color, #ff0000);">${personaName}</h2>
+                <p style="font-size: 1.5rem; color: #f6e05e; margin: 0;">${stars}</p>
+            </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <div>
+                <h4 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--primary-color, #ff0000); border-bottom: 1px solid var(--primary-color-dark, #cc0000); padding-bottom: 5px; margin-bottom: 10px;">UNIQUE SKILL: ${data.uniqueSkill.name}</h4>
+                <p style="font-size: 0.9rem; line-height: 1.6;">${data.uniqueSkill.description}</p>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                        <strong style="display: block; margin-bottom: 5px;">${data.mainSkill.name}</strong>
+                        <p style="font-size: 0.9rem; margin:0;">${data.mainSkill.description}</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                        <strong style="display: block; margin-bottom: 5px;">${data.highlight.name}</strong>
+                        <p style="font-size: 0.9rem; margin:0;">${data.highlight.description}</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--primary-color, #ff0000); border-bottom: 1px solid var(--primary-color-dark, #cc0000); padding-bottom: 5px; margin-bottom: 10px;">RECOMMENDED SKILLS</h4>
+                ${data.recommended.map(skill => `
+                    <div style="margin-bottom: 10px;">
+                        <strong style="display: block;">${skill.name}</strong>
+                        <p style="font-size: 0.9rem; color: #ccc; margin:0;">${skill.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+        <div style="text-align: right; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.4); font-family: 'Inter', sans-serif;">
+            mcburnr.github.io/p5xwiki.html
+        </div>
+    `;
+    return card;
+}
+
+function buildConfidantCard(confidantName, tabType) {
+    const data = confidantData[confidantName];
+    if (!data) return null;
+
+    const card = document.createElement('div');
+    card.style.cssText = `
+        background: linear-gradient(145deg, #1e1e1e, #101010);
+        width: 1000px;
+        padding: 20px;
+        color: #fff;
+        font-family: 'Crimson Text', serif;
+        border: 2px solid var(--primary-color, #ff0000);
+        border-radius: 15px;
+        box-sizing: border-box;
+    `;
+    
+    let contentHTML = '';
+    if (tabType === 'guide' && data.guide) {
+        // Multi-column layout for the 'guide' tab
+        contentHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                <div>
+                    ${(data.guide.skills && data.guide.skills.length > 0) ? `
+                        <h4 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--primary-color, #ff0000); margin-bottom: 10px;">Confidant Skills</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            ${data.guide.skills.map(row => `<tr style="border-bottom: 1px solid #444;"><td style="padding: 6px; vertical-align: top;"><b>Rank ${row[0]}</b></td><td style="padding: 6px;">${row[1]}</td></tr>`).join('')}
+                        </table>` : ''
+                    }
+                     ${(data.guide.rankUpChoices && data.guide.rankUpChoices.length > 0) ? `
+                        <h4 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--primary-color, #ff0000); margin-top: 20px; margin-bottom: 10px;">Rank Up Choices</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                             ${data.guide.rankUpChoices.map(row => `<tr style="border-bottom: 1px solid #444;"><td style="padding: 6px; vertical-align: top;"><b>${row[0]}</b></td><td style="padding: 6px;">${row[1]}</td></tr>`).join('')}
+                        </table>` : ''
+                    }
+                </div>
+                <div>
+                    ${(data.guide.hangouts && data.guide.hangouts.length > 0) ? `
+                        <h4 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--primary-color, #ff0000); margin-bottom: 10px;">Hangout Choices</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                             ${data.guide.hangouts.map(row => `<tr style="border-bottom: 1px solid #444;"><td style="padding: 6px; vertical-align: top;"><b>${row[0]}</b></td><td style="padding: 6px;">${row[1]}</td></tr>`).join('')}
+                        </table>` : ''
+                    }
+                    ${(data.guide.gifts && data.guide.gifts.length > 0) ? `
+                        <h4 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--primary-color, #ff0000); margin-top: 20px; margin-bottom: 10px;">Gifts</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead><tr style="text-align: left; color: var(--primary-color, #ff0000);"><th style="padding: 6px;">Gift</th><th style="padding: 6px;">Points</th></tr></thead>
+                            <tbody>${data.guide.gifts.map(row => `<tr style="border-bottom: 1px solid #444;"><td style="padding: 6px;">${row[0]}</td><td style="padding: 6px;">${row[1]}</td></tr>`).join('')}</tbody>
+                        </table>` : ''
+                    }
+                </div>
+            </div>`;
+    } 
+    else if (tabType === 'levels' && data.levels) {
+        // Single-column layout for the 'levels' tab
+        contentHTML = `
+            <h4 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--primary-color, #ff0000); margin-bottom: 10px;">Levels & Unlocks</h4>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                 <thead><tr style="text-align: left; color: var(--primary-color, #ff0000);"><th style="padding: 8px;">Rank</th><th style="padding: 8px;">Unlock</th><th style="padding: 8px;">Effect</th></tr></thead>
+                 <tbody>
+                    ${data.levels.map(row => `<tr style="border-bottom: 1px solid #444;"><td style="padding: 8px; vertical-align: top;"><b>${row[0]}</b></td><td style="padding: 8px;">${row[1]}</td><td style="padding: 8px;">${row[2] || ''}</td></tr>`).join('')}
+                 </tbody>
+            </table>`;
+    }
+
+    card.innerHTML = `
+        <div style="display: flex; align-items: center; border-bottom: 2px solid var(--primary-color, #ff0000); padding-bottom: 15px; margin-bottom: 20px;">
+            <img src="${data.icon}" style="width: 100px; height: 100px; object-fit: cover; object-position: top; border-radius: 50%; margin-right: 20px; border: 3px solid var(--primary-color, #ff0000);">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 2.5rem; margin: 0; color: var(--primary-color, #ff0000);">${confidantName}</h2>
+        </div>
+        ${contentHTML}
+        <div style="text-align: right; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.4); font-family: 'Inter', sans-serif;">
+            mcburnr.github.io/p5xwiki.html
+        </div>
+    `;
+    return card;
+}
+
+
+const copyPersonaImageBtn = document.getElementById('copyPersonaImageBtn');
+if (copyPersonaImageBtn) {
+    copyPersonaImageBtn.addEventListener('click', function() {
+        const personaName = document.getElementById('copyPersonaGuideBtn').dataset.name;
+        if (personaName) {
+            generateAndCopyImage('persona', personaName, this);
+        }
+    });
+}
+
+const copyConfidantImageBtn = document.getElementById('copyConfidantImageBtn');
+if (copyConfidantImageBtn) {
+    copyConfidantImageBtn.addEventListener('click', function() {
+        const confidantName = document.getElementById('copyConfidantGuideBtn').dataset.name;
+        if (confidantName) {
+            generateAndCopyImage('confidant', confidantName, this);
+        }
+    });
+}
 
 function toggleSidebar() {
     menuToggle.classList.toggle('open');
@@ -5128,6 +5514,113 @@ function updateActiveState() {
     });
 }
 
+        async function loadNewsArticles() {
+            const NEWS_DATA_URL = 'https://api.allorigins.win/raw?url=https%3A%2F%2Fpersona5x.com%2Fnews%2Fdata%2Fnews.txt';
+            const NEWS_BASE_URL = "https://persona5x.com/news/details/";
+            const container = document.getElementById('news-articles-container');
+            if (!container) return;
+            try {
+                const response = await fetch(NEWS_DATA_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const rawText = await response.text();
+                const cleanText = rawText.replace(/,\s*([}\]])/g, "$1");
+                const newsData = JSON.parse(cleanText);
+                const articles = newsData.news;
+                if (!articles || articles.length === 0) {
+                    container.innerHTML = '<p class="text-center text-xl">No news articles found.</p>';
+                    return;
+                }
+                const articlesHTML = articles.map(article => {
+                    const articleUrl = `${NEWS_BASE_URL}${article.link}`;
+                    const articleDate = `${article.year}.${article.month}.${article.day}`;
+                    const category = article.category.charAt(0).toUpperCase() + article.category.slice(1);
+                    return `
+                        <div class="news-accordion-item">
+                            <button class="news-accordion-trigger" data-url="${articleUrl}">
+                                <span class="news-title">${article.text}</span>
+                                <div class="news-meta">
+                                   <span class="news-category-badge">${category}</span>
+                                   <span class="news-date">${articleDate}</span>
+                                </div>
+                            </button>
+                            <div class="news-accordion-content"></div>
+                        </div>
+                    `;
+                }).join('');
+                container.innerHTML = articlesHTML;
+                addNewsAccordionListeners();
+            } catch (error) {
+                console.error("Failed to fetch or display news list:", error);
+                container.innerHTML = '<p class="text-center text-xl text-red-500">Failed to load news. Please try again later.</p>';
+            }
+        }
+
+function addNewsAccordionListeners() {
+    document.querySelectorAll('.news-accordion-trigger').forEach(trigger => {
+        trigger.addEventListener('click', async () => {
+            const item = trigger.parentElement;
+            const contentArea = item.querySelector('.news-accordion-content');
+
+            // If content is already loaded, just toggle the accordion
+            if (item.classList.contains('loaded')) {
+                item.classList.toggle('active');
+                return;
+            }
+
+            // --- Fetch content on the first click ---
+            const articleUrl = trigger.dataset.url;
+            contentArea.innerHTML = '<p class="p-4 text-center">Loading article...</p>';
+            item.classList.add('active'); // Show loading message while fetching
+
+            try {
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`;
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const htmlText = await response.text();
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+                
+                const articleContent = doc.querySelector('.newsDetailTextBox');
+
+                if (articleContent) {
+                    // Get the clean text content *before* adding the button
+                    const textToCopy = articleContent.textContent.trim();
+                    
+                    // Set the article's HTML content
+                    contentArea.innerHTML = articleContent.innerHTML;
+
+                    // --- Create and add the new "Copy Article" button ---
+                    const copyBtn = document.createElement('button');
+                    copyBtn.textContent = 'Copy Article';
+                    // Reuse existing button styles and add our new margin style
+                    copyBtn.className = 'copy-guide-btn copy-article-btn'; 
+
+                    copyBtn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent the accordion from closing
+                        navigator.clipboard.writeText(textToCopy);
+                        showCopyNotification(copyBtn); // Reuse your existing notification function
+                    });
+
+                    // Add the copy button to the top of the content area
+                    contentArea.prepend(copyBtn);
+
+                } else {
+                    contentArea.innerHTML = '<p class="p-4 text-center text-red-500">Could not find article content.</p>';
+                }
+                
+                item.classList.add('loaded'); // Mark as loaded so we don't fetch it again
+
+            } catch (error) {
+                console.error('Failed to fetch article content:', error);
+                contentArea.innerHTML = '<p class="p-4 text-center text-red-500">Failed to load article content.</p>';
+            }
+        });
+    });
+}
+loadNewsArticles(); 
+
 // Add event listeners
 if (personaSearchInput) {
     personaSearchInput.addEventListener('input', filterPersonas);
@@ -5159,9 +5652,7 @@ if (elementFilterGrid) {
     });
 }
 
-// Initial setup on page load
 updateActiveState();
-// END: Final Persona Filtering Logic with Element Filter
 
 
             const confidantGridContainer = document.querySelector('#guide-confidants .confidant-grid-container');
@@ -5315,8 +5806,6 @@ function openConfidantModal(confidantName) {
                     closeConfidantModal();
                 }
             });
-        });
-		
 // --- ARCANA CARD TABS ---
             const arcanaTabs = document.querySelectorAll('#guide-arcana .arcana-tab');
             const arcanaContents = document.querySelectorAll('#guide-arcana .arcana-tab-content');
@@ -5355,7 +5844,7 @@ function openConfidantModal(confidantName) {
                     });
                 });
             }
-
+});
     </script>
 </body>
 </html>
