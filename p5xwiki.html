@@ -2172,6 +2172,38 @@ body.sidebar-open .site-wrapper {
     margin-bottom: 0.5rem;
 }
 
+/* === DYNAMIC FORUM STYLES V3 - Sidebar Toggle === */
+#guide-forum-container {
+    display: grid;
+    grid-template-columns: 256px 1fr; /* 256px is lg:w-64 */
+    transition: grid-template-columns 0.4s ease-in-out;
+}
+
+#guide-forum-container.sidebar-hidden {
+    grid-template-columns: 0px 1fr;
+}
+
+#guide-forum-sidebar {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+#guide-forum-container.sidebar-hidden #guide-forum-sidebar {
+    opacity: 0;
+    visibility: hidden;
+    padding-right: 0;
+}
+
+@media (max-width: 1024px) { /* Corresponds to lg: breakpoint */
+    #guide-forum-container, #guide-forum-container.sidebar-hidden {
+        display: flex;
+        flex-direction: column;
+    }
+    #guide-forum-container.sidebar-hidden #guide-forum-sidebar {
+        display: none;
+    }
+}
 </style>
 
 </head>
@@ -2320,24 +2352,35 @@ body.sidebar-open .site-wrapper {
         </main>
     </div>
 
-    <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
-	<div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
+<div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
     <h4 class="font-bold mb-2">Sort By</h4>
-    <div class="space-y-1 mb-4" id="sort-options">
+    <div class="space-y-1" id="sort-options">
         <label class="flex items-center"><input type="radio" name="sort" value="date-desc" class="custom-radio"> <span class="ml-2">Date Posted (Newest)</span></label>
         <label class="flex items-center"><input type="radio" name="sort" value="date-asc" class="custom-radio"> <span class="ml-2">Date Posted (Oldest)</span></label>
     </div>
-    <hr class="border-gray-700 my-3">
+    <hr class="border-gray-600 my-3">
     <h4 class="font-bold mb-2">View As</h4>
-    <div class="space-y-1 mb-4" id="view-options">
+    <div class="space-y-1" id="view-options">
         <label class="flex items-center"><input type="radio" name="view" value="gallery" class="custom-radio"> <span class="ml-2">Gallery</span></label>
         <label class="flex items-center"><input type="radio" name="view" value="list" class="custom-radio"> <span class="ml-2">List</span></label>
     </div>
-    <hr class="border-gray-700 my-3">
+    <hr class="border-gray-600 my-3">
     <h4 class="font-bold mb-2">Guide View</h4>
     <div class="space-y-1" id="loading-options">
         <label class="flex items-center"><input type="radio" name="loading" value="side" class="custom-radio"> <span class="ml-2">Side-Load</span></label>
         <label class="flex items-center"><input type="radio" name="loading" value="full" class="custom-radio"> <span class="ml-2">Full View</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Categories Default</h4>
+    <div class="space-y-1" id="collapse-options">
+        <label class="flex items-center"><input type="radio" name="collapse" value="expanded" class="custom-radio"> <span class="ml-2">Expanded</span></label>
+        <label class="flex items-center"><input type="radio" name="collapse" value="collapsed" class="custom-radio"> <span class="ml-2">Collapsed</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Sidebar View</h4>
+    <div class="space-y-1" id="sidebar-options">
+        <label class="flex items-center"><input type="radio" name="sidebar" value="show" class="custom-radio"> <span class="ml-2">Show</span></label>
+        <label class="flex items-center"><input type="radio" name="sidebar" value="hide" class="custom-radio"> <span class="ml-2">Hide</span></label>
     </div>
 </div>
         </div>
@@ -6004,7 +6047,7 @@ function openConfidantModal(confidantName) {
             }
 });
 
-// === DYNAMIC FORUM SCRIPT V2 (Complete) ===
+// === DYNAMIC FORUM SCRIPT V3 (Final) ===
 document.addEventListener('DOMContentLoaded', () => {
     const forumContainer = document.getElementById('guide-forum-container');
     if (!forumContainer) return;
@@ -6022,13 +6065,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickNavModal = document.getElementById('quick-nav-modal');
 
     let allGuides = [];
-    let activeFilters = {
+    let userPreferences = {
         forum: '',
         search: '',
         tags: new Set(),
         sort: 'date-desc',
         view: 'gallery',
-        loading: 'side'
+        loading: 'side',
+        collapse: 'expanded',
+        sidebar: 'show'
     };
 
     const placeholderIcon = "https://cdn.imgchest.com/files/yq9c3k5n2q4.png";
@@ -6050,9 +6095,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstForumLink = sidebar.querySelector('.sidebar-forum-link');
             if (firstForumLink) {
                 firstForumLink.click();
-                // Start with the first category expanded
-                const parentCategory = firstForumLink.closest('.sidebar-category');
-                if(parentCategory) parentCategory.classList.remove('collapsed');
+                if (userPreferences.collapse === 'expanded') {
+                   const parentCategory = firstForumLink.closest('.sidebar-category');
+                   if(parentCategory) parentCategory.classList.remove('collapsed');
+                }
             }
         } catch (error) {
             console.error('Failed to load guides:', error);
@@ -6061,67 +6107,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Data Parsing & Preference Handling ---
-function parseGuideText(text) {
-    const guides = [];
-    const guideEntries = text.split('[GUIDE]').slice(1);
-    guideEntries.forEach(entry => {
-        const guideData = {};
-        const parts = entry.split('[END_GUIDE]')[0].trim();
-        const contentSplit = parts.split('---');
-        const mainContent = contentSplit[0];
-        guideData.credits = contentSplit.length > 1 ? contentSplit[1].replace('CREDITS:', '').trim() : '';
-        const lines = mainContent.split('\n');
-        let contentBuffer = '';
-        let isContent = false;
+    function parseGuideText(text) {
+        const guides = [];
+        const guideEntries = text.split('[GUIDE]').slice(1);
+        guideEntries.forEach(entry => {
+            const guideData = {};
+            const parts = entry.split('[END_GUIDE]')[0].trim();
+            const contentSplit = parts.split('---');
+            const mainContent = contentSplit[0];
+            guideData.credits = contentSplit.length > 1 ? contentSplit[1].replace('CREDITS:', '').trim() : '';
+            const lines = mainContent.split('\n');
+            let contentBuffer = '';
+            let isContent = false;
 
-        lines.forEach(line => {
-            const keyMatch = line.match(/^([A-Z_]+):\s*(.*)/);
-            if (keyMatch) {
-                isContent = false;
-                const key = keyMatch[1];
-                const value = keyMatch[2].trim();
-                switch (key) {
-                    case 'TITLE': guideData.title = value; break;
-                    case 'FORUM': guideData.forum = value; break;
-                    case 'CATEGORY': guideData.category = value; break;
-                    case 'AUTHOR': guideData.author = value; break;
-                    case 'AUTHOR_IMAGE': guideData.author_image = value; break;
-                    case 'DATE': guideData.date = value; break;
-                    case 'MAIN_IMAGE': guideData.main_image = value; break;
-                    case 'TAGS': guideData.tags = value.split(',').map(t => t.trim()); break;
-                    case 'CONTENT':
-                        isContent = true;
-                        contentBuffer += value + '\n';
-                        break;
+            lines.forEach(line => {
+                const keyMatch = line.match(/^([A-Z_]+):\s*(.*)/);
+                if (keyMatch) {
+                    isContent = false;
+                    const key = keyMatch[1];
+                    const value = keyMatch[2].trim();
+                    switch (key) {
+                        case 'TITLE': guideData.title = value; break;
+                        case 'FORUM': guideData.forum = value; break;
+                        case 'CATEGORY': guideData.category = value; break;
+                        case 'AUTHOR': guideData.author = value; break;
+                        case 'AUTHOR_IMAGE': guideData.author_image = value; break;
+                        case 'DATE': guideData.date = value; break;
+                        case 'MAIN_IMAGE': guideData.main_image = value; break;
+                        case 'TAGS': guideData.tags = value.split(',').map(t => t.trim()); break;
+                        case 'CONTENT':
+                            isContent = true;
+                            contentBuffer += value + '\n';
+                            break;
+                    }
+                } else if (isContent) {
+                    contentBuffer += line + '\n';
                 }
-            } else if (isContent) {
-                contentBuffer += line + '\n';
-            }
+            });
+            guideData.content = contentBuffer.trim();
+            if (guideData.title) guides.push(guideData);
         });
-        guideData.content = contentBuffer.trim();
-        if (guideData.title) guides.push(guideData);
-    });
-    return guides;
-}
+        return guides;
+    }
 
     function loadPreferences() {
         const prefs = JSON.parse(localStorage.getItem('guideForumPrefs'));
         if (prefs) {
-            activeFilters = { ...activeFilters, ...prefs, tags: new Set() }; // Reset tags on load
+            userPreferences = { ...userPreferences, ...prefs, tags: new Set() };
         }
-        updateSortViewModal();
+        applyPreferences();
     }
 
     function savePreference(key, value) {
-        activeFilters[key] = value;
-        const prefsToSave = { sort: activeFilters.sort, view: activeFilters.view, loading: activeFilters.loading };
-        localStorage.setItem('guideForumPrefs', JSON.stringify(prefsToSave));
+        userPreferences[key] = value;
+        localStorage.setItem('guideForumPrefs', JSON.stringify({
+            sort: userPreferences.sort,
+            view: userPreferences.view,
+            loading: userPreferences.loading,
+            collapse: userPreferences.collapse,
+            sidebar: userPreferences.sidebar
+        }));
+    }
+
+    function applyPreferences() {
+        forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
+        postListContainer.className = `w-full transition-all duration-300 ease-in-out view-${userPreferences.view}`;
+        updateSortViewModal();
     }
 
     // --- UI Rendering ---
     function renderSidebar() {
         sidebar.innerHTML = forumStructure.map(category => `
-            <div class="sidebar-category collapsed">
+            <div class="sidebar-category ${userPreferences.collapse === 'collapsed' ? 'collapsed' : ''}">
                 <button class="sidebar-category-header">
                     <img src="${category.icon}" class="sidebar-category-icon" alt="${category.name} icon">
                     <span>${category.name}</span>
@@ -6140,40 +6197,40 @@ function parseGuideText(text) {
     }
 
     function renderActiveForum() {
-        const guidesInForum = allGuides.filter(g => g.forum === activeFilters.forum);
-        forumTitle.textContent = activeFilters.forum;
+        const guidesInForum = allGuides.filter(g => g.forum === userPreferences.forum);
+        forumTitle.textContent = userPreferences.forum;
         const uniqueTags = [...new Set(guidesInForum.flatMap(g => g.tags || []))];
         tagFiltersContainer.innerHTML = uniqueTags.map(tag =>
-            `<button class="guide-tag-btn" data-tag="${tag}">${tag}</button>`
+            `<button class="guide-tag-btn ${userPreferences.tags.has(tag) ? 'active' : ''}" data-tag="${tag}">${tag}</button>`
         ).join('');
         applyFiltersAndRenderPosts();
     }
 
     function applyFiltersAndRenderPosts() {
-        let guidesToRender = allGuides.filter(g => g.forum === activeFilters.forum);
-        const searchTerm = activeFilters.search;
+        let guidesToRender = allGuides.filter(g => g.forum === userPreferences.forum);
+        const searchTerm = userPreferences.search;
         if (searchTerm) {
             guidesToRender = guidesToRender.filter(g =>
                 g.title.toLowerCase().includes(searchTerm) ||
-                g.content.toLowerCase().includes(searchTerm)
+                (g.content && g.content.toLowerCase().includes(searchTerm))
             );
         }
-        if (activeFilters.tags.size > 0) {
+        if (userPreferences.tags.size > 0) {
             guidesToRender = guidesToRender.filter(g =>
-                g.tags && Array.from(activeFilters.tags).every(t => g.tags.includes(t))
+                g.tags && Array.from(userPreferences.tags).every(t => g.tags.includes(t))
             );
         }
         guidesToRender.sort((a, b) => {
             const dateA = new Date(a.date);
             const dateB = new Date(b.date);
-            if (activeFilters.sort === 'date-asc') return dateA - dateB;
+            if (userPreferences.sort === 'date-asc') return dateA - dateB;
             return dateB - dateA;
         });
         renderPosts(guidesToRender);
     }
 
     function renderPosts(guides) {
-        postListContainer.className = `w-full transition-all duration-300 ease-in-out view-${activeFilters.view}`;
+        postListContainer.className = `w-full transition-all duration-300 ease-in-out view-${userPreferences.view}`;
         if (guides.length === 0) {
             postListContainer.innerHTML = '<p class="text-gray-500 p-4">No posts match the current filters.</p>';
             return;
@@ -6183,7 +6240,7 @@ function parseGuideText(text) {
                 <img src="${guide.main_image || ''}" class="guide-post-image">
                 <div class="guide-post-content">
                     <h3 class="guide-post-title">${guide.title}</h3>
-                    <p class="guide-post-meta">By ${guide.author} on ${guide.date}</p>
+                    <p class="guide-post-meta">By ${guide.author || 'Unknown'} on ${guide.date || 'N/A'}</p>
                     <div class="guide-post-tags">
                         ${(guide.tags || []).map(tag => `<span class="guide-post-tag">${tag}</span>`).join('')}
                     </div>
@@ -6197,14 +6254,14 @@ function parseGuideText(text) {
         const closeBtnHTML = `<button id="close-guide-btn" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white">&times;</button>`;
         postViewerContainer.innerHTML = `
             <div class="relative h-full overflow-y-auto">
-                ${activeFilters.loading === 'side' ? closeBtnHTML : ''}
+                ${userPreferences.loading === 'side' ? closeBtnHTML : ''}
                 <h3>${guide.title}</h3>
-                <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author} - ${guide.date}</p>
+                <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author || 'Unknown'} - ${guide.date || 'N/A'}</p>
                 <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
                 ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
             </div>
         `;
-        if (activeFilters.loading === 'side') {
+        if (userPreferences.loading === 'side') {
             contentSplit.classList.add('side-loading');
         } else {
             postListContainer.classList.add('hidden');
@@ -6222,9 +6279,12 @@ function parseGuideText(text) {
     }
     
     function updateSortViewModal() {
-        sortViewModal.querySelector(`input[name="sort"][value="${activeFilters.sort}"]`).checked = true;
-        sortViewModal.querySelector(`input[name="view"][value="${activeFilters.view}"]`).checked = true;
-        sortViewModal.querySelector(`input[name="loading"][value="${activeFilters.loading}"]`).checked = true;
+        if (!sortViewModal) return;
+        sortViewModal.querySelector(`input[name="sort"][value="${userPreferences.sort}"]`).checked = true;
+        sortViewModal.querySelector(`input[name="view"][value="${userPreferences.view}"]`).checked = true;
+        sortViewModal.querySelector(`input[name="loading"][value="${userPreferences.loading}"]`).checked = true;
+        sortViewModal.querySelector(`input[name="collapse"][value="${userPreferences.collapse}"]`).checked = true;
+        sortViewModal.querySelector(`input[name="sidebar"][value="${userPreferences.sidebar}"]`).checked = true;
     }
 
     function openQuickNav() {
@@ -6247,8 +6307,8 @@ function parseGuideText(text) {
         sidebar.addEventListener('click', e => {
             const link = e.target.closest('.sidebar-forum-link');
             if (link) {
-                activeFilters.forum = link.dataset.forum;
-                activeFilters.tags.clear();
+                userPreferences.forum = link.dataset.forum;
+                userPreferences.tags.clear();
                 sidebar.querySelectorAll('.sidebar-forum-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 closeGuide();
@@ -6261,7 +6321,7 @@ function parseGuideText(text) {
         });
 
         searchInput.addEventListener('input', () => {
-            activeFilters.search = searchInput.value.toLowerCase();
+            userPreferences.search = searchInput.value.toLowerCase();
             applyFiltersAndRenderPosts();
         });
 
@@ -6270,10 +6330,10 @@ function parseGuideText(text) {
             if (!tagBtn) return;
             const tag = tagBtn.dataset.tag;
             tagBtn.classList.toggle('active');
-            if (activeFilters.tags.has(tag)) {
-                activeFilters.tags.delete(tag);
+            if (userPreferences.tags.has(tag)) {
+                userPreferences.tags.delete(tag);
             } else {
-                activeFilters.tags.add(tag);
+                userPreferences.tags.add(tag);
             }
             applyFiltersAndRenderPosts();
         });
@@ -6303,7 +6363,8 @@ function parseGuideText(text) {
         sortViewModal.addEventListener('change', e => {
             if (e.target.type === 'radio') {
                 savePreference(e.target.name, e.target.value);
-                if (e.target.name === 'view' || e.target.name === 'sort') {
+                applyPreferences();
+                if (['view', 'sort'].includes(e.target.name)) {
                     applyFiltersAndRenderPosts();
                 }
             }
