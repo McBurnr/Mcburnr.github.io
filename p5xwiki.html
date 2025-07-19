@@ -1878,68 +1878,66 @@ body.sidebar-open .site-wrapper {
     display: block;
 }
 
-/* === DYNAMIC GUIDE LOADER STYLES V2 === */
-.guide-view-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: bold;
-}
-.guide-view-btn.active, .guide-view-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-#guide-categories-view {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-}
-
-.guide-category-card {
+/* === DYNAMIC GUIDE LOADER STYLES V3 === */
+.guide-category-nav-item {
     position: relative;
-    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
     border-radius: 8px;
-    overflow: hidden;
     cursor: pointer;
-    border: 2px solid var(--shadow-color-light);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
 }
-.guide-category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px var(--shadow-color-medium);
-}
-
-.guide-category-card-bg {
+.guide-category-nav-item::before {
+    content: '';
     position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: transform 0.4s ease;
+    background-image: var(--bg-image);
+    opacity: 0.2;
+    transition: opacity 0.3s ease, transform 0.4s ease;
+    z-index: 1;
 }
-.guide-category-card:hover .guide-category-card-bg {
+.guide-category-nav-item:hover, .guide-category-nav-item.active {
+    border-color: var(--primary-color);
+    background-color: rgba(255, 0, 0, 0.1);
+}
+.guide-category-nav-item:hover::before {
+    opacity: 0.4;
     transform: scale(1.1);
 }
-
-.guide-category-card-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent);
-    display: flex;
-    align-items: flex-end;
-    padding: 1rem;
+.guide-category-nav-item.active::before {
+    opacity: 0.5;
 }
 
-.guide-category-card-title {
+.guide-category-nav-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.25rem;
-    font-weight: bold;
+    font-weight: 600;
     color: white;
-    text-shadow: 2px 2px 4px black;
+    z-index: 2;
+}
+
+#guide-filters input, #guide-filters select {
+    background-color: rgba(10, 10, 10, 0.7);
+    border: 1px solid var(--shadow-color-light);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    color: white;
+    transition: all 0.2s ease;
+}
+#guide-filters select {
+    min-width: 160px; /* Ensures text doesn't get cut off */
+}
+#guide-filters input:focus, #guide-filters select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--shadow-color-medium);
+    outline: none;
 }
 
 .guide-list-item {
@@ -2093,38 +2091,25 @@ body.sidebar-open .site-wrapper {
                     <p><em>Items marked with a * are not yet available in EN/JP/SEA.</em></p>
 					<p><em><Click or Tap to view the original guide</em></p>
                 </div>
-<div id="guide-loader-container" class="mb-8 border border-gray-700 rounded-xl bg-gray-900/50 backdrop-blur-sm p-4">
-    <div class="flex items-center justify-between pb-4 border-b border-gray-700">
-        <h2 class="text-2xl font-bold text-red-500 font-['Cinzel',_serif]">Guides</h2>
-        <div id="guide-view-toggles" class="flex items-center gap-2">
-            <button class="guide-view-btn active" data-view="categories">Categories</button>
-            <button class="guide-view-btn" data-view="latest">Latest Articles</button>
-        </div>
+<div id="guide-loader-container" class="mb-8">
+    <div class="flex items-center pb-4 border-b-2 border-red-500/50">
+        <h2 class="text-3xl font-bold text-red-500 font-['Cinzel',_serif] tracking-wider">GUIDES</h2>
     </div>
 
-    <div id="guide-filters" class="py-4 space-y-3 md:space-y-0 md:flex md:items-center md:gap-4">
-        <input type="text" id="guide-search-input" placeholder="Search guides..." class="w-full md:flex-grow bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white placeholder-gray-400 focus:ring-red-500 focus:border-red-500">
-        <div class="flex items-center gap-4">
-            <select id="guide-author-filter" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
-                <option value="all">All Authors</option>
-            </select>
-            <select id="guide-category-filter" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
-                <option value="all">All Categories</option>
-            </select>
-        </div>
-    </div>
-
-    <div id="guide-content-area" class="mt-4">
-        <div id="guide-categories-view">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
+        <div id="guide-categories-nav" class="lg:col-span-1 space-y-2">
             </div>
 
-        <div id="guide-list-view" class="hidden">
+        <div class="lg:col-span-3 min-w-0">
+            <div id="guide-filters" class="flex flex-col md:flex-row items-center gap-3 mb-4">
+                <input type="text" id="guide-search-input" placeholder="Search guides..." class="w-full flex-grow">
+                <select id="guide-author-filter" class="w-full md:w-auto"></select>
+                <select id="guide-category-filter" class="w-full md:w-auto"></select>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div id="guide-list-container" class="md:col-span-1 h-96 overflow-y-auto pr-2">
-                    </div>
-                <div id="guide-viewer" class="md:col-span-2">
-                    <p class="text-gray-400">Select a guide from the list to view its content.</p>
-                </div>
+                <div id="guide-list-container" class="md:col-span-1 h-96 overflow-y-auto pr-2"></div>
+                <div id="guide-viewer" class="md:col-span-2"></div>
             </div>
         </div>
     </div>
@@ -5929,20 +5914,18 @@ function openConfidantModal(confidantName) {
             }
 });
 
-// === DYNAMIC GUIDE LOADER SCRIPT V2 ===
+// === DYNAMIC GUIDE LOADER SCRIPT V3 ===
 const guideContainer = document.getElementById('guide-loader-container');
 if (guideContainer) {
     // --- Element Selectors ---
-    const viewToggles = document.getElementById('guide-view-toggles');
-    const categoriesView = document.getElementById('guide-categories-view');
-    const listView = document.getElementById('guide-list-view');
+    const categoriesNav = document.getElementById('guide-categories-nav');
     const searchInput = document.getElementById('guide-search-input');
     const authorFilter = document.getElementById('guide-author-filter');
     const categoryFilter = document.getElementById('guide-category-filter');
     const guideListContainer = document.getElementById('guide-list-container');
     const guideViewer = document.getElementById('guide-viewer');
 
-    let allGuides = []; // To store the parsed guides
+    let allGuides = []; // Store the parsed guides
 
     // --- Predefined Categories ---
     const categories = [
@@ -5967,19 +5950,21 @@ if (guideContainer) {
             allGuides = parseGuideText(text).sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (allGuides.length > 0) {
+                renderCategoriesNav();
                 populateFilters(allGuides);
-                renderCategories();
+                // Automatically select the first category on load
+                document.querySelector('.guide-category-nav-item')?.click();
             } else {
-                categoriesView.innerHTML = '<p>No guides found.</p>';
+                categoriesNav.innerHTML = '<p>No guides found.</p>';
             }
         } catch (error) {
             console.error('Failed to load guides:', error);
-            categoriesView.innerHTML = `<p class="text-red-500">Error: Could not load guides.txt. Ensure it's in the same folder and you are running on a local server.</p>`;
+            categoriesNav.innerHTML = `<p class="text-red-500">Error: Could not load guides.txt.</p>`;
         }
     }
 
     function parseGuideText(text) {
-        // This parser remains the same, but now looks for the DATE field
+        // Parser remains the same
         const guides = [];
         const guideEntries = text.split('[GUIDE]').slice(1);
         guideEntries.forEach(entry => {
@@ -6011,33 +5996,37 @@ if (guideContainer) {
     }
 
     // --- Populate UI Elements ---
+    function renderCategoriesNav() {
+        // Add an "All Guides" option to the top
+        const allGuidesCat = { name: "All Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" };
+        const displayCategories = [allGuidesCat, ...categories];
+        
+        categoriesNav.innerHTML = displayCategories.map(cat => `
+            <div class="guide-category-nav-item" data-category="${cat.name}" style="--bg-image: url('${cat.image}')">
+                <span class="guide-category-nav-title">${cat.name}</span>
+            </div>
+        `).join('');
+
+        // Add click listeners to the new category nav items
+        document.querySelectorAll('.guide-category-nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.guide-category-nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Set the dropdown filter to match the clicked category
+                const category = item.dataset.category;
+                categoryFilter.value = (category === "All Guides") ? "all" : category;
+                applyFilters();
+            });
+        });
+    }
+
     function populateFilters(guides) {
         const authors = [...new Set(guides.map(g => g.author))];
         const categoriesFromGuides = [...new Set(guides.map(g => g.category))];
         
-        authorFilter.innerHTML += authors.map(author => `<option value="${author}">${author}</option>`).join('');
-        categoryFilter.innerHTML += categoriesFromGuides.map(cat => `<option value="${cat}">${cat}</option>`).join('');
-    }
-    
-    function renderCategories() {
-        categoriesView.innerHTML = categories.map(cat => `
-            <div class="guide-category-card" data-category="${cat.name}">
-                <div class="guide-category-card-bg" style="background-image: url('${cat.image}')"></div>
-                <div class="guide-category-card-overlay">
-                    <h3 class="guide-category-card-title">${cat.name}</h3>
-                </div>
-            </div>
-        `).join('');
-        
-        // Add event listeners to new category cards
-        document.querySelectorAll('.guide-category-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const category = card.dataset.category;
-                switchToView('latest');
-                categoryFilter.value = category;
-                applyFilters();
-            });
-        });
+        authorFilter.innerHTML = `<option value="all">All Authors</option>` + authors.map(author => `<option value="${author}">${author}</option>`).join('');
+        categoryFilter.innerHTML = `<option value="all">All Categories</option>` + categoriesFromGuides.map(cat => `<option value="${cat}">${cat}</option>`).join('');
     }
 
     // --- Filtering and Rendering Logic ---
@@ -6045,13 +6034,17 @@ if (guideContainer) {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedAuthor = authorFilter.value;
         const selectedCategory = categoryFilter.value;
+        
+        // Update the active category in the left nav based on the dropdown
+        document.querySelectorAll('.guide-category-nav-item').forEach(item => {
+            const itemCategory = item.dataset.category === 'All Guides' ? 'all' : item.dataset.category;
+            item.classList.toggle('active', itemCategory === selectedCategory);
+        });
 
         const filteredGuides = allGuides.filter(guide => {
             const authorMatch = selectedAuthor === 'all' || guide.author === selectedAuthor;
             const categoryMatch = selectedCategory === 'all' || guide.category === selectedCategory;
-            const searchMatch = !searchTerm ||
-                                guide.title.toLowerCase().includes(searchTerm) ||
-                                guide.content.toLowerCase().includes(searchTerm);
+            const searchMatch = !searchTerm || guide.title.toLowerCase().includes(searchTerm) || guide.content.toLowerCase().includes(searchTerm);
             return authorMatch && categoryMatch && searchMatch;
         });
         
@@ -6075,7 +6068,6 @@ if (guideContainer) {
             </div>
         `).join('');
 
-        // Add event listeners and display the first guide
         guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 const title = e.currentTarget.dataset.title;
@@ -6092,7 +6084,10 @@ if (guideContainer) {
     }
 
     function renderGuideContent(guide) {
-        if (!guide) return;
+        if (!guide) {
+            guideViewer.innerHTML = '<p class="text-gray-400">Select a guide from the list to view its content.</p>';
+            return;
+        };
         guideViewer.innerHTML = `
             <div class="flex items-center gap-4 mb-4">
                  <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-500">
@@ -6106,27 +6101,7 @@ if (guideContainer) {
         `;
     }
 
-    // --- View Switching ---
-    function switchToView(viewName) {
-        document.querySelectorAll('.guide-view-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.view === viewName);
-        });
-        
-        categoriesView.classList.toggle('hidden', viewName !== 'categories');
-        listView.classList.toggle('hidden', viewName !== 'latest');
-
-        if (viewName === 'latest') {
-            applyFilters();
-        }
-    }
-
     // --- Event Listeners ---
-    viewToggles.addEventListener('click', (e) => {
-        if (e.target.matches('.guide-view-btn')) {
-            switchToView(e.target.dataset.view);
-        }
-    });
-    
     searchInput.addEventListener('input', applyFilters);
     authorFilter.addEventListener('change', applyFilters);
     categoryFilter.addEventListener('change', applyFilters);
