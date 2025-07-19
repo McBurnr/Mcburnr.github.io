@@ -1,0 +1,29 @@
+[GUIDE]
+TITLE: Understanding the Battle System
+CATEGORY: Gameplay
+AUTHOR: McBurn
+AUTHOR_IMAGE: https://cdn.imgchest.com/files/4gdcx3vrow4.png
+CONTENT:
+<p>The battle system in P5X revolves around exploiting enemy weaknesses to gain "1 More" action. This is the core loop of combat.</p>
+<ul>
+    <li><b>Physical & Gun:</b> Standard damage types.</li>
+    <li><b>Elemental Skills:</b> Fire, Ice, Electric, Wind, Psy, Nuke, Bless, and Curse.</li>
+</ul>
+<p>For more details, check the <a href="#" class="text-red-500 underline">official documentation</a>.</p>
+---
+CREDITS:
+Special thanks to Tenacity for data on enemy resistances.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: Gacha Banners Explained
+CATEGORY: Gacha
+AUTHOR: Tenacity
+AUTHOR_IMAGE: https://cdn.imgchest.com/files/yd5ce5zlmd4.png
+CONTENT:
+<p>The gacha system has two primary banner types for characters: <b>Fated Bond</b> and <b>Exclusive Bond</b>.</p>
+<p><b>Fated Bond:</b> This is an 80-pity banner with a 50/50 chance to get the featured character. If you lose the 50/50, your next 5-star is guaranteed to be the featured one.</p>
+---
+CREDITS:
+Data sourced from the P5X Worldwide Discord Server.
+[END_GUIDE]

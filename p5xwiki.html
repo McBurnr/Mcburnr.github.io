@@ -60,7 +60,7 @@ body {
     color: #fff;
     overflow-x: hidden;
     min-height: 100vh;
-    padding-top: 80px; 
+    padding-top: 90px; 
 }
     .background {
         position: fixed;
@@ -94,13 +94,21 @@ body {
     align-items: center;
 }
 
+.header-text {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    align-items: center;
+    gap: 1rem; /* Adds space between the title, author, and badge */
+}
+
 .header-text h1 {
-    font-size: 1.6rem; /* Smaller title */
-    margin-bottom: 0;
+    font-size: 1.3rem;
+    margin-bottom: 0; /* Removed margin to help with alignment */
 }
 
 .header-text p {
-    font-size: 0.8rem; /* Smaller PIPIS */
+    font-size: 0.8rem;
+    margin-bottom: 0; /* Removed margin */
 }
     
     .header h1 {
@@ -118,9 +126,12 @@ body {
         font-weight: 600;
     }
 	
+	#header-info img {
+    height: 24px;
+}
 .site-wrapper {
-    max-width: 1300px;
-    padding: 1rem 1.5rem 1.5rem;
+    width: 100%; /* THIS BROKE THE ENTIRE WEBSITE WTF */
+    padding: 0; /* THIS TOO */
     transition: margin-left 0.3s ease-in-out;
 }
 
@@ -137,7 +148,7 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.25rem;
     position: sticky;
-    top: 96px;
+    top: 81px;
     align-self: start;
 }
 .main-content-area {
@@ -663,14 +674,12 @@ body {
     width: 100%;
     height: 100%;
     background: #0a0a0a url('https://cdn.imgchest.com/files/yrgcn9bo2q4.png') no-repeat center center;
-    background-size: cover; /* Make sure it covers the area */
+    background-size: cover;
     backdrop-filter: blur(5px);
     z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
-    visibility: visible;
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
 
@@ -682,7 +691,10 @@ body {
 .quick-nav-content {
     text-align: center;
     animation: fadeIn 0.8s ease-out;
+    width: 90vw;
+    max-width: 1200px;
 }
+
 
 .quick-nav-header {
     margin-bottom: 3rem;
@@ -702,10 +714,43 @@ body {
 
 .quick-nav-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* Default to a responsive column layout for mobile and medium screens */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1.5rem;
 }
 
+.quick-nav-card {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid var(--shadow-color-light);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: flex-end; /* Pushes content to the bottom */
+    justify-content: center;
+    padding: 1rem 1rem 1.5rem; /* Added extra bottom padding */
+}
+
+.quick-nav-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: top;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Adds a nice hover effect */
+.quick-nav-card:hover .quick-nav-card-bg {
+    transform: scale(1.1);
+    filter: brightness(0.7);
+}
 #guide-calculator {
     font-family: 'Inter', sans-serif;
 }
@@ -790,26 +835,70 @@ body {
     .quick-nav-grid {
         grid-template-columns: repeat(4, 1fr);
     }
+
+    /* Set a consistent max-width for modals on large screens */
+    .modal-content {
+        max-width: 90vw; /* Use viewport width for better scaling */
+    }
+
+    /* Custom scrollbar styling for modal content areas */
+    .modal-body, .tab-content-container {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) #1a1a1a;
+    }
+    .modal-body::-webkit-scrollbar, .tab-content-container::-webkit-scrollbar {
+        width: 8px;
+    }
+    .modal-body::-webkit-scrollbar-track, .tab-content-container::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    .modal-body::-webkit-scrollbar-thumb, .tab-content-container::-webkit-scrollbar-thumb {
+        background-color: var(--primary-color);
+        border-radius: 4px;
+    }
+    .modal-body::-webkit-scrollbar-thumb:hover, .tab-content-container::-webkit-scrollbar-thumb:hover {
+        background-color: var(--primary-color-dark);
+    }
 }
 
+
+ @media (max-width: 768px) {
+    /* General Mobile Body & Header Styles */
+    body { padding-top: 60px; }
+    body.sidebar-open { overflow: hidden; }
+    body.sidebar-open .site-wrapper { margin-left: 0; }
+    
+    .header { padding: 0.4rem 1.5rem; }
+    .header-text { gap: 0.5rem; }
+    .header-text h1, .header h1 { font-size: 1.2rem; }
+    .header-text p, .header p { font-size: 0.7rem; }
+
+    /* General Layout & Font Adjustments */
+    .main-content { padding: 1rem; }
+    .guide-content-panel { padding: 1rem; }
+    .guide-content-panel h1 { font-size: 1.8rem; }
+    .guide-content-panel h2 { font-size: 1.5rem; }
+    .guide-content-panel h3 { font-size: 1.1rem; }
+    p, li, .confidant-notes { font-size: 0.9rem; }
+
+    /* Responsive Grids */
+    .quick-nav-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+    }
 .quick-nav-card {
-    position: relative;
-    width: 200px;
-    height: 250px;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 2px solid var(--shadow-color-light);
-    transition: all 0.3s ease;
+    position: relative; /* Needed for child positioning */
     display: flex;
-    align-items: flex-end; /* Pushes content to the bottom */
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 1rem 1rem 1.5rem; /* Added extra bottom padding */
-}
-
-.quick-nav-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px var(--shadow-color-medium);
-    border-color: var(--primary-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(30, 30, 30, 0.5);
+    border: 2px solid var(--shadow-color-light);
+    overflow: hidden; /* Keeps the background contained */
+    aspect-ratio: 4 / 5; /* A more appropriate ratio for the cards */
 }
 
 .quick-nav-card-bg {
@@ -818,131 +907,58 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: top;
-    opacity: 0.4;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    background-size: contain; /* This is the correct value */
+    background-position: center;
+    background-repeat: no-repeat; /* Also ensure this is present */
+    z-index: 1; 
+    transition: transform 0.4s ease, filter 0.4s ease;
 }
 
+/* Adds a nice hover effect */
 .quick-nav-card:hover .quick-nav-card-bg {
-    opacity: 0.7;
     transform: scale(1.1);
+    filter: brightness(0.7);
 }
-
-.quick-nav-card-name {
-    position: relative;
-    z-index: 2;
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #fff;
-    text-shadow: 2px 2px 5px #000;
-}
-
-
-    @media (max-width: 768px) {
-        body { 
-            padding-top: 70px; 
-        }
-        
-        .header { 
-            padding: 0.5rem 1rem; 
-        }
-        .header-text h1, .header h1 { 
-            font-size: 1.2rem; 
-        }
-        .header-text p, .header p { 
-            font-size: 0.7rem; 
-        }
-
-.site-wrapper {
-    max-width: 1300px;
-    padding: 1rem 1.5rem 1.5rem;
-    transition: margin-left 0.3s ease-in-out;
-}
-
-        .side-nav {
-            position: static;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-            align-self: initial;
-        }
-        
-        .guide-card {
-            width: auto;
-            padding: 0.5rem;
-        }
-
-        .guide-card-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 0.25rem;
-        }
-
-        .guide-card-name {
-            font-size: 0.75rem;
-        }
-
-        .guide-content-panel { 
-            padding: 1rem; 
-        }
-
-        .guide-content-panel h1 { font-size: 1.6rem; }
-        .guide-content-panel h2 { font-size: 1.3rem; }
-        .guide-content-panel h3 { font-size: 1.1rem; }
-        p, li, .confidant-notes { font-size: 0.9rem; }
-
-        .arcana-grid { 
-            grid-template-columns: 1fr; 
-            gap: 1rem; 
-        }
-
-        .arcana-tabs { 
-            flex-wrap: wrap; 
-            justify-content: center; 
-        }
-        .arcana-tab { 
-            font-size: 1rem; 
-            padding: 0.8rem; 
-        }
-
-        .confidant-grid-container { 
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 0.75rem; 
-        }
-        .confidant-grid-name { 
-            font-size: 0.9rem; 
-        }
-       .feature-grid {
-            grid-template-columns: 1fr;
-        }
-		
-        .modal-content { 
-            width: 95vw; 
-            max-height: 85vh; 
-        }
-        .modal-header { 
-            padding: 0.75rem 1rem; 
-        }
-        .modal-title { 
-            font-size: 1.1rem; 
-        }
-        .tabs { 
-            justify-content: center; 
-        }
-        .tab { 
-            padding: 0.75rem; 
-            font-size: 0.8rem; 
-        }
-        .tab-content-container { 
-            padding: 1rem; 
-        }
-        .confidant-table th, .confidant-table td { 
-            padding: 0.5rem; 
-            font-size: 0.85rem; 
-            word-break: break-word;
-        }
+    .p5-letter-box { font-size: 1.2rem; margin: 0 -0.15em; padding: 0.1em 0.3em; }
+    .persona-grid-container, .confidant-grid-container { 
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.75rem; 
     }
+    .arcana-grid, .feature-grid { grid-template-columns: 1fr; }
+    .arcana-tabs { flex-wrap: wrap; justify-content: center; }
+    .arcana-tab { font-size: 1rem; padding: 0.8rem; }
+    .confidant-grid-name { font-size: 0.9rem; }
+
+    /* --- Modal Optimizations --- */
+    .modal-content {
+        width: 95vw;
+        max-height: 85vh;
+        max-width: 600px;
+    }
+    .modal-header { padding: 0.75rem 1rem; }
+    .modal-title { font-size: 1.1rem; }
+    .tabs { justify-content: center; }
+    .tab { padding: 0.75rem; font-size: 0.8rem; }
+    .close-btn {
+        width: 40px; /* Larger touch target */
+        height: 40px;
+        font-size: 1.8rem;
+    }
+
+    /* Persona Modal Specifics */
+    .persona-modal-body h4 { font-size: 1.1rem; } /* Compact headings */
+    
+    /* Confidant Modal Specifics */
+    .tab-content-container { 
+        padding: 1rem; 
+        overflow-x: auto; /* Allows wide tables to be scrolled horizontally */
+    }
+    .confidant-table th, .confidant-table td { 
+        padding: 0.5rem; 
+        font-size: 0.85rem; 
+        white-space: nowrap; /* Prevents text from wrapping awkwardly in tables */
+    }
+}
 
 .header {
     position: fixed;
@@ -1037,6 +1053,8 @@ body {
     flex-direction: column;
     padding: 1rem;
     gap: 0.5rem;
+    flex-grow: 1; /* GROW MY CHILD */
+    overflow-y: auto; /* Y U NO VERTICAL SCROLL */
 }
 
 .sidebar-nav .guide-card {
@@ -1538,7 +1556,8 @@ body.sidebar-open .site-wrapper {
     padding: 0.1em 0.4em;
     font-family: 'Teko', sans-serif;
     font-weight: 700;
-    font-size: 1.8rem; /* Reduced size to prevent overlap */
+    /* This new line makes the font size responsive */
+    font-size: clamp(1.1rem, 4vw, 1.8rem); 
     text-transform: uppercase;
     line-height: 1;
     margin: 0 -0.25em; /* Adjusted overlap */
@@ -1858,6 +1877,66 @@ body.sidebar-open .site-wrapper {
     margin-bottom: 1.5rem;
     display: block;
 }
+
+/* === DYNAMIC GUIDE LOADER STYLES === */
+#guide-loader-content {
+    max-height: 1000px; /* Adjust as needed */
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+#guide-loader-container.collapsed #guide-loader-content {
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+}
+
+#guide-loader-container.collapsed #guide-loader-indicator {
+    transform: rotate(-180deg);
+}
+
+.guide-category-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.guide-category-btn.active, .guide-category-btn:hover {
+    background-color: rgba(255, 0, 0, 0.2);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.guide-list-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+.guide-list-item:hover, .guide-list-item.active {
+    background-color: rgba(255, 0, 0, 0.15);
+}
+
+#guide-viewer h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+#guide-list-container::-webkit-scrollbar { width: 6px; }
+#guide-list-container::-webkit-scrollbar-track { background: #1f2937; }
+#guide-list-container::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 3px; }
+
+/* Marquee Animation */
+.marquee-wrapper { -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+#guide-marquee { animation: marquee 15s linear infinite; cursor: pointer; }
+@keyframes marquee {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
 </style>
 
 </head>
@@ -1897,13 +1976,6 @@ body.sidebar-open .site-wrapper {
                 <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlmd4.png');"></div>
                 <div class="p5-funky-text">
                     <span class="p5-letter-box first-letter">A</span><span class="p5-letter-box">r</span><span class="p5-letter-box">c</span><span class="p5-letter-box">a</span><span class="p5-letter-box">n</span><span class="p5-letter-box last-letter">a</span>
-                </div>
-            </div>
-            <!-- Gacha -->
-            <div class="quick-nav-card" data-target="guide-gacha" data-preview="Breakdown of the gacha system">
-                <div class="quick-nav-card-bg" style="background-image: url('https://cdn.imgchest.com/files/yd5ce5zlgd4.png');"></div>
-                <div class="p5-funky-text">
-                    <span class="p5-letter-box first-letter">G</span><span class="p5-letter-box">a</span><span class="p5-letter-box">c</span><span class="p5-letter-box">h</span><span class="p5-letter-box last-letter">a</span>
                 </div>
             </div>
             <!-- Confidants https://cdn.imgchest.com/files/49zc2bpgvny.png-->
@@ -1958,10 +2030,6 @@ body.sidebar-open .site-wrapper {
         <img src="https://cdn.imgchest.com/files/yd5ce5zlmd4.png" alt="Arcana Guide Icon" class="guide-card-icon">
         <div class="guide-card-name">Arcana</div>
     </div>
-    <div class="guide-card" data-target="guide-gacha" data-preview="Detailed breakdown of the gacha system, banners, and currencies.">
-        <img src="https://cdn.imgchest.com/files/yd5ce5zlgd4.png" alt="Gacha System Icon" class="guide-card-icon">
-        <div class="guide-card-name">Gacha System</div>
-    </div>
      <div class="guide-card" data-target="guide-personas" data-preview="Browse all Personas and their skills.">
         <img src="https://cdn.imgchest.com/files/ye3c2vp38o4.png" alt="Personas Icon" class="guide-card-icon">
         <div class="guide-card-name">Personas</div>
@@ -1993,14 +2061,40 @@ body.sidebar-open .site-wrapper {
             
             
  <section class="guide-content-panel" id="guide-gameplay">
-                <h1>Persona 5: The Phantom X Beginner’s Guide</h1>
+                <h1>P5X Guides and Tips</h1>
                 <div class="guide-credits">
                     <p>Written by <strong>Tenacity</strong></p>
                     <p>Contributors: Chozo, RedHarv, UnnamedRando, l0kii_</p>
                     <p><em>Items marked with a * are not yet available in EN/JP/SEA.</em></p>
 					<p><em><Click or Tap to view the original guide</em></p>
                 </div>
+				<div id="guide-loader-container" class="mb-8 border border-gray-700 rounded-xl bg-gray-900/50 backdrop-blur-sm">
+    <div id="guide-loader-header" class="p-4 flex items-center justify-between cursor-pointer border-b border-gray-700">
+        <h2 class="text-2xl font-bold text-red-500 font-['Cinzel',_serif]">Guides</h2>
+        <div class="flex items-center gap-4">
+            <div class="marquee-wrapper relative w-48 sm:w-64 h-6 overflow-hidden">
+                <div id="guide-marquee" class="absolute whitespace-nowrap">Click to view the latest guide!</div>
+            </div>
+            <button id="guide-loader-toggle" class="p-2">
+                <svg id="guide-loader-indicator" class="w-6 h-6 text-white transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+        </div>
+    </div>
 
+    <div id="guide-loader-content" class="p-4">
+        <div id="guide-categories" class="flex flex-wrap gap-2 mb-4 border-b border-gray-700 pb-4">
+            </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="guide-list-container" class="md:col-span-1 h-96 overflow-y-auto pr-2">
+                </div>
+
+            <div id="guide-viewer" class="md:col-span-2">
+                <p class="text-gray-400">Select a guide from the list to view its content.</p>
+            </div>
+        </div>
+    </div>
+</div>
                 <div class="accordion-container">
                     <!-- FAQ -->
                     <div class="accordion-item">
@@ -2215,52 +2309,7 @@ body.sidebar-open .site-wrapper {
                 </div>
             </section>
 
-
-
-
-
-
-
-            
-            <section class="guide-content-panel" id="guide-gacha">
-                <!-- Gacha System -->
-                <h2>Gacha System</h2>
-                <p class="guide-credits">Guide by: Tenacity & UnnamedRando on <a href="https://discord.gg/p5xworldwide">P5X Worldwide Discord Server</a></p>
-                
-                <h3>Overview on the System</h3>
-                <p>This game runs on a gacha system, which is similar to gachapon machines or crane games where you put in coins in hope for a toy. This “machine” is called a banner. Different banners may have different pools of prizes (Weapons, characters, Personas) and slightly different mechanics. Every time you pull on a banner, there is a low chance that you will get a 5-star. This is the main method to obtain characters and high-tier weapons.</p>
-
-                <h4>Rarity</h4>
-                <p>Rarity is indicated by the number of stars a character/Persona/weapon has. A character is always either 4 or 5 stars. 4-stars are associated with the color yellow, while 5-stars are associated with purple. Weapons and Personas can range from 2–5 stars.</p>
-
-                <h4>Metaverse Ambers and Pulling Currency</h4>
-                <p>To pull on banners, you need Ambers. Ambers are used to buy gold and purple tickets (for character-related banners) and weapon coins (for weapon banners). A gold and purple ticket both cost 150 Ambers each, while a weapon coin costs 100 Ambers. It is strongly advised against spending Ambers on gold tickets, as you get many for free and the banners are permanent. Spending Ambers on purple tickets and weapon coins is better, as they are used on Limited Banners.</p>
-
-                <h4>Pity</h4>
-                <p>The number of times you pull on a banner is tracked, this is called pity. When reaching a certain number (hard pity), you are guaranteed a 5-star. There is a range before hard pity with increased rates, known as soft pity. When a Limited Banner ends, your pity is retained and transferred to the next Limited Banner. For every 10 pulls, you are guaranteed at least one 4-star.</p>
-                
-                <h4>50/50 and the Standard Pool</h4>
-                <p>On some banners, there is a 50/50 system. When you get a 5-star, the game flips a coin to decide if you get the featured limited 5-star or a 5-star from the standard pool. The standard pool includes all released 4-star weapons, characters, their 5-star weapons, and 2-star Personas, plus a specific group of 5-star characters and their weapons. If you lose the 50/50, your next 5-star is guaranteed to be the featured character/weapon.</p>
-
-                <h4>Fated Bond & Exclusive Bond</h4>
-                <p>On limited character banners, you can choose between Exclusive Bond (guaranteed featured character at a higher pity) and Fated Bond (50/50 chance at a lower pity). These do not share a pity count. Choose carefully based on your risk tolerance.</p>
-                
-                <h4>Duplicates</h4>
-                <p>If you get a character/weapon you already own, you can use these duplicates to strengthen them. For characters, this increases their Awareness level, granting new buffs and stats. For weapons, it increases their Reform level, upgrading existing effects.</p>
-
-                <h4>Cognitive Currencies</h4>
-                <p>Pulling also grants Cognitive Afterimages, Sections, and Shards. These can be exchanged for various items in the Cognition Shop.</p>
-
-                <h3>Types of Banners</h3>
-                <ul>
-                    <li><strong>Phantom Thieves of Hearts/Beginner Banner:</strong> Uses gold tickets. Discounted 10-pulls. Get a choice of a 5-star character (Skull, Mona, or Panther) at 50 pulls.</li>
-                    <li><strong>Kadola Starlight Show:</strong> Uses purple tickets. A "Super Rerun" banner available for new players, letting you pick 3 characters from a large pool to pull for.</li>
-                    <li><strong>Kaidol Draft/Standard Banner:</strong> Uses gold tickets. Pull from the standard pool of characters and personas. At 300 pulls, you can choose one of five specific 5-star characters.</li>
-                    <li><strong>Weapon Banner/Silent Tension:</strong> Uses weapon coins. Hard pity at 70. Features a 50/50 system where you can select two standard weapons to potentially get if you lose the 50/50.</li>
-                    <li><strong>Limited Banner:</strong> Uses purple tickets. Features a limited 5-star character who won't be available again until a rerun.</li>
-                    <li><strong>YOU ARE MY DESTINY Banner:</strong> Uses purple tickets. Similar to the Starlight Show banner, but the pool of characters may differ. Grants Cognitive Afterimages with each pull.</li>
-                </ul>
-            </section>
+ 
 
             <section class="guide-content-panel" id="guide-confidants">
         <div class="text-center mb-10">
@@ -5845,6 +5894,189 @@ function openConfidantModal(confidantName) {
                 });
             }
 });
+
+// === DYNAMIC GUIDE LOADER SCRIPT ===
+const guideContainer = document.getElementById('guide-loader-container');
+const guideContent = document.getElementById('guide-loader-content');
+const guideHeader = document.getElementById('guide-loader-header');
+const guideToggle = document.getElementById('guide-loader-toggle');
+const categoriesContainer = document.getElementById('guide-categories');
+const guideListContainer = document.getElementById('guide-list-container');
+const guideViewer = document.getElementById('guide-viewer');
+const guideMarquee = document.getElementById('guide-marquee');
+
+let allGuides = []; // To store the parsed guides
+
+// --- 1. Fetch and Parse Guides ---
+async function loadGuides() {
+    try {
+        const response = await fetch('guides.txt');
+        if (!response.ok) throw new Error('Network response was not ok.');
+        const text = await response.text();
+        
+        allGuides = parseGuideText(text);
+
+        if (allGuides.length > 0) {
+            populateCategories(allGuides);
+            displayGuides(allGuides); // Display all guides initially
+            setupMarquee(allGuides[0]); // Setup marquee with the latest guide
+        } else {
+            guideViewer.innerHTML = '<p>No guides found in the file.</p>';
+        }
+    } catch (error) {
+        console.error('Failed to load guides:', error);
+        guideViewer.innerHTML = '<p class="text-red-500">Error: Could not load guides.txt.</p>';
+    }
+}
+
+function parseGuideText(text) {
+    const guides = [];
+    const guideEntries = text.split('[GUIDE]').slice(1);
+
+    guideEntries.forEach(entry => {
+        const guideData = {};
+        const parts = entry.split('[END_GUIDE]')[0].trim();
+        const contentSplit = parts.split('---');
+        const mainContent = contentSplit[0];
+        const creditsContent = contentSplit.length > 1 ? contentSplit[1] : '';
+
+        const lines = mainContent.split('\n');
+        let currentContent = '';
+        let isContentSection = false;
+
+        lines.forEach(line => {
+            if (line.startsWith('TITLE:')) {
+                guideData.title = line.substring(6).trim();
+            } else if (line.startsWith('CATEGORY:')) {
+                guideData.category = line.substring(9).trim();
+            } else if (line.startsWith('AUTHOR:')) {
+                guideData.author = line.substring(7).trim();
+            } else if (line.startsWith('AUTHOR_IMAGE:')) {
+                guideData.authorImage = line.substring(13).trim();
+            } else if (line.startsWith('CONTENT:')) {
+                isContentSection = true;
+                currentContent += line.substring(8).trim() + '\n';
+            } else if (isContentSection) {
+                currentContent += line + '\n';
+            }
+        });
+        
+        guideData.content = currentContent.trim();
+
+        if (creditsContent.includes('CREDITS:')) {
+             guideData.credits = creditsContent.split('CREDITS:')[1].trim();
+        }
+
+        if (guideData.title) {
+            guides.push(guideData);
+        }
+    });
+
+    return guides;
+}
+
+// --- 2. Display Logic ---
+function populateCategories(guides) {
+    const categories = ['All', ...new Set(guides.map(g => g.category))];
+    categoriesContainer.innerHTML = categories.map(cat => 
+        `<button class="guide-category-btn px-3 py-1 rounded text-sm ${cat === 'All' ? 'active' : ''}" data-category="${cat}">${cat}</button>`
+    ).join('');
+
+    // Add event listeners to category buttons
+    categoriesContainer.querySelectorAll('.guide-category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoriesContainer.querySelectorAll('.guide-category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const category = btn.dataset.category;
+            const filteredGuides = category === 'All' ? allGuides : allGuides.filter(g => g.category === category);
+            displayGuides(filteredGuides);
+        });
+    });
+}
+
+function displayGuides(guides) {
+    if (guides.length === 0) {
+        guideListContainer.innerHTML = '<p class="text-gray-500 p-4">No guides in this category.</p>';
+        return;
+    }
+    
+    guideListContainer.innerHTML = guides.map((guide, index) => `
+        <div class="guide-list-item p-3 mb-2 rounded-lg cursor-pointer flex items-center gap-4" data-index="${allGuides.indexOf(guide)}">
+            <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-600">
+            <div>
+                <h4 class="font-bold text-white">${guide.title}</h4>
+                <p class="text-xs text-gray-400">By ${guide.author || 'Unknown'}</p>
+            </div>
+        </div>
+    `).join('');
+
+    // Add event listeners to the new list items
+    guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
+        item.addEventListener('click', () => {
+            guideListContainer.querySelectorAll('.guide-list-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            const guideIndex = parseInt(item.dataset.index);
+            displayGuideContent(allGuides[guideIndex]);
+        });
+    });
+    
+    // Automatically display the first guide in the filtered list
+    displayGuideContent(guides[0]);
+    // Also set the first item in the list as active
+    guideListContainer.querySelector('.guide-list-item').classList.add('active');
+}
+
+function displayGuideContent(guide) {
+    if (!guide) {
+        guideViewer.innerHTML = '<p class="text-gray-400">Select a guide from the list to view its content.</p>';
+        return;
+    };
+    
+    guideViewer.innerHTML = `
+        <div class="flex items-center gap-4 mb-4">
+             <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-500">
+             <div>
+                <h3>${guide.title}</h3>
+                <p class="text-sm text-gray-400 -mt-2">By ${guide.author || 'Unknown'}</p>
+             </div>
+        </div>
+        <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
+        ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
+    `;
+}
+
+function setupMarquee(latestGuide) {
+    if (!latestGuide) return;
+    guideMarquee.textContent = `Latest Guide: ${latestGuide.title}`;
+    guideMarquee.addEventListener('click', () => {
+        // Find and click the 'All' category button to reset the view
+        const allCategoryBtn = categoriesContainer.querySelector('.guide-category-btn[data-category="All"]');
+        if (allCategoryBtn) allCategoryBtn.click();
+        
+        displayGuideContent(latestGuide);
+        
+        // Find the list item corresponding to the latest guide and mark it active
+        const latestGuideIndex = allGuides.indexOf(latestGuide);
+        guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
+            item.classList.remove('active');
+            if(parseInt(item.dataset.index) === latestGuideIndex) {
+                item.classList.add('active');
+            }
+        });
+    });
+}
+
+// --- 3. Initializer and Event Listeners ---
+if (guideContainer) {
+    guideHeader.addEventListener('click', (e) => {
+        // Only toggle if the click is on the header itself or the toggle, not the marquee
+        if (e.target.closest('#guide-marquee')) return;
+        guideContainer.classList.toggle('collapsed');
+    });
+
+    // Load guides when the page is ready
+    loadGuides();
+}
     </script>
 </body>
 </html>
