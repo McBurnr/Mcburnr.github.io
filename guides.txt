@@ -1,51 +1,32 @@
 [GUIDE]
-TITLE: Understanding the Battle System
-CATEGORY: Beginner Guides
-AUTHOR: McBurn
-AUTHOR_IMAGE: https://cdn.imgchest.com/files/4gdcx3vrow4.png
-DATE: 2025-07-18
+TITLE: Kotone Montagne (Mont) Full Infographic
+FORUM: Global Builds
+CATEGORY: Builds
+AUTHOR: Najox2314
+AUTHOR_IMAGE: https://i.imgur.com/LdaC1fb.png
+DATE: 2025-06-26
+MAIN_IMAGE: https://i.imgur.com/LdaC1fb.png
+TAGS: 4 Star, ST DPS, Ice, Infographic, Kotone Montagne
 CONTENT:
-<p>The battle system in P5X revolves around exploiting enemy weaknesses to gain "1 More" action. This is the core loop of combat.</p>
+<p>This is the full guide content for Kotone Montagne. It includes her skills, build recommendations, and team compositions.</p>
+<p>You can use <b>any HTML</b> you need right here to format the guide.</p>
 ---
 CREDITS:
-Special thanks to Tenacity.
+Guide created by Najox2314 | Persona5x.info 2025
 [END_GUIDE]
 
 [GUIDE]
-TITLE: Understanding the Battle System
-CATEGORY: Massage Guides
-AUTHOR: McBurn
-AUTHOR_IMAGE: https://cdn.imgchest.com/files/4gdcx3vrow4.png
-DATE: 2025-07-18
+TITLE: Leo Kamiyama (Leon) Full Infographic
+FORUM: Global Builds
+CATEGORY: Builds
+AUTHOR: Najox2314
+AUTHOR_IMAGE: https://i.imgur.com/LdaC1fb.png
+DATE: 2025-06-25
+MAIN_IMAGE: https://i.imgur.com/pYV0N2N.png
+TAGS: 4 Star, Buffer, Nuclear, Infographic, Leo Kamiyama
 CONTENT:
-<p>The battle system in P5X revolves around exploiting enemy weaknesses to gain "1 More" action. This is the core loop of combat.</p>
+<p>This is the full guide content for Leo Kamiyama. It includes his skills, build recommendations, and team compositions.</p>
 ---
 CREDITS:
-Special thanks to Tenacity.
-[END_GUIDE]
-
-[GUIDE]
-TITLE: Understanding the Battle System
-CATEGORY: Blade's Rizz Guides
-AUTHOR: McBurn
-AUTHOR_IMAGE: https://cdn.imgchest.com/files/4gdcx3vrow4.png
-DATE: 2025-07-18
-CONTENT:
-<p>The battle system in P5X revolves around exploiting enemy weaknesses to gain "1 More" action. This is the core loop of combat.</p>
----
-CREDITS:
-Special thanks to Tenacity.
-[END_GUIDE]
-
-[GUIDE]
-TITLE: Understanding the Battle System
-CATEGORY: Florida Man Streaking Guides
-AUTHOR: McBurn
-AUTHOR_IMAGE: https://cdn.imgchest.com/files/4gdcx3vrow4.png
-DATE: 2025-07-18
-CONTENT:
-<p>The battle system in P5X revolves around exploiting enemy weaknesses to gain "1 More" action. This is the core loop of combat.</p>
----
-CREDITS:
-Special thanks to Tenacity.
+Guide created by Najox2314 | Persona5x.info 2025
 [END_GUIDE]
