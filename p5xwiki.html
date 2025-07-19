@@ -1878,35 +1878,68 @@ body.sidebar-open .site-wrapper {
     display: block;
 }
 
-/* === DYNAMIC GUIDE LOADER STYLES === */
-#guide-loader-content {
-    max-height: 1000px; /* Adjust as needed */
-    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease-in-out;
-    opacity: 1;
-}
-
-#guide-loader-container.collapsed #guide-loader-content {
-    max-height: 0;
-    overflow: hidden;
-    padding-top: 0;
-    padding-bottom: 0;
-    opacity: 0;
-}
-
-#guide-loader-container.collapsed #guide-loader-indicator {
-    transform: rotate(-180deg);
-}
-
-.guide-category-btn {
+/* === DYNAMIC GUIDE LOADER STYLES V2 === */
+.guide-view-btn {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid transparent;
     transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.guide-view-btn.active, .guide-view-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.guide-category-btn.active, .guide-category-btn:hover {
-    background-color: rgba(255, 0, 0, 0.2);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+#guide-categories-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.guide-category-card {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--shadow-color-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.guide-category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-color-medium);
+}
+
+.guide-category-card-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease;
+}
+.guide-category-card:hover .guide-category-card-bg {
+    transform: scale(1.1);
+}
+
+.guide-category-card-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+}
+
+.guide-category-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px black;
 }
 
 .guide-list-item {
@@ -1928,14 +1961,6 @@ body.sidebar-open .site-wrapper {
 #guide-list-container::-webkit-scrollbar { width: 6px; }
 #guide-list-container::-webkit-scrollbar-track { background: #1f2937; }
 #guide-list-container::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 3px; }
-
-/* Marquee Animation */
-.marquee-wrapper { -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
-#guide-marquee { animation: marquee 15s linear infinite; cursor: pointer; }
-@keyframes marquee {
-    0%   { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
 
 </style>
 
@@ -2068,29 +2093,38 @@ body.sidebar-open .site-wrapper {
                     <p><em>Items marked with a * are not yet available in EN/JP/SEA.</em></p>
 					<p><em><Click or Tap to view the original guide</em></p>
                 </div>
-				<div id="guide-loader-container" class="mb-8 border border-gray-700 rounded-xl bg-gray-900/50 backdrop-blur-sm">
-    <div id="guide-loader-header" class="p-4 flex items-center justify-between cursor-pointer border-b border-gray-700">
+<div id="guide-loader-container" class="mb-8 border border-gray-700 rounded-xl bg-gray-900/50 backdrop-blur-sm p-4">
+    <div class="flex items-center justify-between pb-4 border-b border-gray-700">
         <h2 class="text-2xl font-bold text-red-500 font-['Cinzel',_serif]">Guides</h2>
-        <div class="flex items-center gap-4">
-            <div class="marquee-wrapper relative w-48 sm:w-64 h-6 overflow-hidden">
-                <div id="guide-marquee" class="absolute whitespace-nowrap">Click to view the latest guide!</div>
-            </div>
-            <button id="guide-loader-toggle" class="p-2">
-                <svg id="guide-loader-indicator" class="w-6 h-6 text-white transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-            </button>
+        <div id="guide-view-toggles" class="flex items-center gap-2">
+            <button class="guide-view-btn active" data-view="categories">Categories</button>
+            <button class="guide-view-btn" data-view="latest">Latest Articles</button>
         </div>
     </div>
 
-    <div id="guide-loader-content" class="p-4">
-        <div id="guide-categories" class="flex flex-wrap gap-2 mb-4 border-b border-gray-700 pb-4">
+    <div id="guide-filters" class="py-4 space-y-3 md:space-y-0 md:flex md:items-center md:gap-4">
+        <input type="text" id="guide-search-input" placeholder="Search guides..." class="w-full md:flex-grow bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white placeholder-gray-400 focus:ring-red-500 focus:border-red-500">
+        <div class="flex items-center gap-4">
+            <select id="guide-author-filter" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
+                <option value="all">All Authors</option>
+            </select>
+            <select id="guide-category-filter" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
+                <option value="all">All Categories</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="guide-content-area" class="mt-4">
+        <div id="guide-categories-view">
             </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div id="guide-list-container" class="md:col-span-1 h-96 overflow-y-auto pr-2">
+        <div id="guide-list-view" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div id="guide-list-container" class="md:col-span-1 h-96 overflow-y-auto pr-2">
+                    </div>
+                <div id="guide-viewer" class="md:col-span-2">
+                    <p class="text-gray-400">Select a guide from the list to view its content.</p>
                 </div>
-
-            <div id="guide-viewer" class="md:col-span-2">
-                <p class="text-gray-400">Select a guide from the list to view its content.</p>
             </div>
         </div>
     </div>
@@ -5895,187 +5929,210 @@ function openConfidantModal(confidantName) {
             }
 });
 
-// === DYNAMIC GUIDE LOADER SCRIPT ===
+// === DYNAMIC GUIDE LOADER SCRIPT V2 ===
 const guideContainer = document.getElementById('guide-loader-container');
-const guideContent = document.getElementById('guide-loader-content');
-const guideHeader = document.getElementById('guide-loader-header');
-const guideToggle = document.getElementById('guide-loader-toggle');
-const categoriesContainer = document.getElementById('guide-categories');
-const guideListContainer = document.getElementById('guide-list-container');
-const guideViewer = document.getElementById('guide-viewer');
-const guideMarquee = document.getElementById('guide-marquee');
-
-let allGuides = []; // To store the parsed guides
-
-// --- 1. Fetch and Parse Guides ---
-async function loadGuides() {
-    try {
-        const response = await fetch('guides.txt');
-        if (!response.ok) throw new Error('Network response was not ok.');
-        const text = await response.text();
-        
-        allGuides = parseGuideText(text);
-
-        if (allGuides.length > 0) {
-            populateCategories(allGuides);
-            displayGuides(allGuides); // Display all guides initially
-            setupMarquee(allGuides[0]); // Setup marquee with the latest guide
-        } else {
-            guideViewer.innerHTML = '<p>No guides found in the file.</p>';
-        }
-    } catch (error) {
-        console.error('Failed to load guides:', error);
-        guideViewer.innerHTML = '<p class="text-red-500">Error: Could not load guides.txt.</p>';
-    }
-}
-
-function parseGuideText(text) {
-    const guides = [];
-    const guideEntries = text.split('[GUIDE]').slice(1);
-
-    guideEntries.forEach(entry => {
-        const guideData = {};
-        const parts = entry.split('[END_GUIDE]')[0].trim();
-        const contentSplit = parts.split('---');
-        const mainContent = contentSplit[0];
-        const creditsContent = contentSplit.length > 1 ? contentSplit[1] : '';
-
-        const lines = mainContent.split('\n');
-        let currentContent = '';
-        let isContentSection = false;
-
-        lines.forEach(line => {
-            if (line.startsWith('TITLE:')) {
-                guideData.title = line.substring(6).trim();
-            } else if (line.startsWith('CATEGORY:')) {
-                guideData.category = line.substring(9).trim();
-            } else if (line.startsWith('AUTHOR:')) {
-                guideData.author = line.substring(7).trim();
-            } else if (line.startsWith('AUTHOR_IMAGE:')) {
-                guideData.authorImage = line.substring(13).trim();
-            } else if (line.startsWith('CONTENT:')) {
-                isContentSection = true;
-                currentContent += line.substring(8).trim() + '\n';
-            } else if (isContentSection) {
-                currentContent += line + '\n';
-            }
-        });
-        
-        guideData.content = currentContent.trim();
-
-        if (creditsContent.includes('CREDITS:')) {
-             guideData.credits = creditsContent.split('CREDITS:')[1].trim();
-        }
-
-        if (guideData.title) {
-            guides.push(guideData);
-        }
-    });
-
-    return guides;
-}
-
-// --- 2. Display Logic ---
-function populateCategories(guides) {
-    const categories = ['All', ...new Set(guides.map(g => g.category))];
-    categoriesContainer.innerHTML = categories.map(cat => 
-        `<button class="guide-category-btn px-3 py-1 rounded text-sm ${cat === 'All' ? 'active' : ''}" data-category="${cat}">${cat}</button>`
-    ).join('');
-
-    // Add event listeners to category buttons
-    categoriesContainer.querySelectorAll('.guide-category-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            categoriesContainer.querySelectorAll('.guide-category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const category = btn.dataset.category;
-            const filteredGuides = category === 'All' ? allGuides : allGuides.filter(g => g.category === category);
-            displayGuides(filteredGuides);
-        });
-    });
-}
-
-function displayGuides(guides) {
-    if (guides.length === 0) {
-        guideListContainer.innerHTML = '<p class="text-gray-500 p-4">No guides in this category.</p>';
-        return;
-    }
-    
-    guideListContainer.innerHTML = guides.map((guide, index) => `
-        <div class="guide-list-item p-3 mb-2 rounded-lg cursor-pointer flex items-center gap-4" data-index="${allGuides.indexOf(guide)}">
-            <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-600">
-            <div>
-                <h4 class="font-bold text-white">${guide.title}</h4>
-                <p class="text-xs text-gray-400">By ${guide.author || 'Unknown'}</p>
-            </div>
-        </div>
-    `).join('');
-
-    // Add event listeners to the new list items
-    guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
-        item.addEventListener('click', () => {
-            guideListContainer.querySelectorAll('.guide-list-item').forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            const guideIndex = parseInt(item.dataset.index);
-            displayGuideContent(allGuides[guideIndex]);
-        });
-    });
-    
-    // Automatically display the first guide in the filtered list
-    displayGuideContent(guides[0]);
-    // Also set the first item in the list as active
-    guideListContainer.querySelector('.guide-list-item').classList.add('active');
-}
-
-function displayGuideContent(guide) {
-    if (!guide) {
-        guideViewer.innerHTML = '<p class="text-gray-400">Select a guide from the list to view its content.</p>';
-        return;
-    };
-    
-    guideViewer.innerHTML = `
-        <div class="flex items-center gap-4 mb-4">
-             <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-500">
-             <div>
-                <h3>${guide.title}</h3>
-                <p class="text-sm text-gray-400 -mt-2">By ${guide.author || 'Unknown'}</p>
-             </div>
-        </div>
-        <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
-        ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
-    `;
-}
-
-function setupMarquee(latestGuide) {
-    if (!latestGuide) return;
-    guideMarquee.textContent = `Latest Guide: ${latestGuide.title}`;
-    guideMarquee.addEventListener('click', () => {
-        // Find and click the 'All' category button to reset the view
-        const allCategoryBtn = categoriesContainer.querySelector('.guide-category-btn[data-category="All"]');
-        if (allCategoryBtn) allCategoryBtn.click();
-        
-        displayGuideContent(latestGuide);
-        
-        // Find the list item corresponding to the latest guide and mark it active
-        const latestGuideIndex = allGuides.indexOf(latestGuide);
-        guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
-            item.classList.remove('active');
-            if(parseInt(item.dataset.index) === latestGuideIndex) {
-                item.classList.add('active');
-            }
-        });
-    });
-}
-
-// --- 3. Initializer and Event Listeners ---
 if (guideContainer) {
-    guideHeader.addEventListener('click', (e) => {
-        // Only toggle if the click is on the header itself or the toggle, not the marquee
-        if (e.target.closest('#guide-marquee')) return;
-        guideContainer.classList.toggle('collapsed');
-    });
+    // --- Element Selectors ---
+    const viewToggles = document.getElementById('guide-view-toggles');
+    const categoriesView = document.getElementById('guide-categories-view');
+    const listView = document.getElementById('guide-list-view');
+    const searchInput = document.getElementById('guide-search-input');
+    const authorFilter = document.getElementById('guide-author-filter');
+    const categoryFilter = document.getElementById('guide-category-filter');
+    const guideListContainer = document.getElementById('guide-list-container');
+    const guideViewer = document.getElementById('guide-viewer');
 
-    // Load guides when the page is ready
-    loadGuides();
+    let allGuides = []; // To store the parsed guides
+
+    // --- Predefined Categories ---
+    const categories = [
+        { name: "Beginner Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Global Builds", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Asia Builds", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Boss Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Guild Boss Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "SOS-Astrolabe Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Exploration Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Event Guides", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" },
+        { name: "Resources", image: "https://cdn.imgchest.com/files/49zc2bpgvny.png" }
+    ];
+
+    // --- Main Fetch and Parse Function ---
+    async function initializeGuides() {
+        try {
+            const response = await fetch('guides.txt');
+            if (!response.ok) throw new Error('Network response was not ok.');
+            const text = await response.text();
+            
+            allGuides = parseGuideText(text).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (allGuides.length > 0) {
+                populateFilters(allGuides);
+                renderCategories();
+            } else {
+                categoriesView.innerHTML = '<p>No guides found.</p>';
+            }
+        } catch (error) {
+            console.error('Failed to load guides:', error);
+            categoriesView.innerHTML = `<p class="text-red-500">Error: Could not load guides.txt. Ensure it's in the same folder and you are running on a local server.</p>`;
+        }
+    }
+
+    function parseGuideText(text) {
+        // This parser remains the same, but now looks for the DATE field
+        const guides = [];
+        const guideEntries = text.split('[GUIDE]').slice(1);
+        guideEntries.forEach(entry => {
+            const guideData = {};
+            const parts = entry.split('[END_GUIDE]')[0].trim();
+            const contentSplit = parts.split('---');
+            const mainContent = contentSplit[0];
+            guideData.credits = contentSplit.length > 1 ? contentSplit[1].replace('CREDITS:', '').trim() : '';
+            const lines = mainContent.split('\n');
+            let contentBuffer = '';
+            let isContent = false;
+            lines.forEach(line => {
+                if (line.startsWith('TITLE:')) guideData.title = line.substring(6).trim();
+                else if (line.startsWith('CATEGORY:')) guideData.category = line.substring(9).trim();
+                else if (line.startsWith('AUTHOR:')) guideData.author = line.substring(7).trim();
+                else if (line.startsWith('AUTHOR_IMAGE:')) guideData.authorImage = line.substring(13).trim();
+                else if (line.startsWith('DATE:')) guideData.date = line.substring(5).trim();
+                else if (line.startsWith('CONTENT:')) {
+                    isContent = true;
+                    contentBuffer += line.substring(8).trim() + '\n';
+                } else if (isContent) {
+                    contentBuffer += line + '\n';
+                }
+            });
+            guideData.content = contentBuffer.trim();
+            if (guideData.title) guides.push(guideData);
+        });
+        return guides;
+    }
+
+    // --- Populate UI Elements ---
+    function populateFilters(guides) {
+        const authors = [...new Set(guides.map(g => g.author))];
+        const categoriesFromGuides = [...new Set(guides.map(g => g.category))];
+        
+        authorFilter.innerHTML += authors.map(author => `<option value="${author}">${author}</option>`).join('');
+        categoryFilter.innerHTML += categoriesFromGuides.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    }
+    
+    function renderCategories() {
+        categoriesView.innerHTML = categories.map(cat => `
+            <div class="guide-category-card" data-category="${cat.name}">
+                <div class="guide-category-card-bg" style="background-image: url('${cat.image}')"></div>
+                <div class="guide-category-card-overlay">
+                    <h3 class="guide-category-card-title">${cat.name}</h3>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners to new category cards
+        document.querySelectorAll('.guide-category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                switchToView('latest');
+                categoryFilter.value = category;
+                applyFilters();
+            });
+        });
+    }
+
+    // --- Filtering and Rendering Logic ---
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedAuthor = authorFilter.value;
+        const selectedCategory = categoryFilter.value;
+
+        const filteredGuides = allGuides.filter(guide => {
+            const authorMatch = selectedAuthor === 'all' || guide.author === selectedAuthor;
+            const categoryMatch = selectedCategory === 'all' || guide.category === selectedCategory;
+            const searchMatch = !searchTerm ||
+                                guide.title.toLowerCase().includes(searchTerm) ||
+                                guide.content.toLowerCase().includes(searchTerm);
+            return authorMatch && categoryMatch && searchMatch;
+        });
+        
+        renderGuideList(filteredGuides);
+    }
+
+    function renderGuideList(guides) {
+        if (guides.length === 0) {
+            guideListContainer.innerHTML = '<p class="text-gray-500 p-4">No guides match your criteria.</p>';
+            guideViewer.innerHTML = '';
+            return;
+        }
+
+        guideListContainer.innerHTML = guides.map(guide => `
+            <div class="guide-list-item p-3 mb-2 rounded-lg cursor-pointer flex items-center gap-4" data-title="${guide.title}">
+                <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-600">
+                <div>
+                    <h4 class="font-bold text-white">${guide.title}</h4>
+                    <p class="text-xs text-gray-400">By ${guide.author || 'Unknown'}</p>
+                </div>
+            </div>
+        `).join('');
+
+        // Add event listeners and display the first guide
+        guideListContainer.querySelectorAll('.guide-list-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const title = e.currentTarget.dataset.title;
+                const selectedGuide = allGuides.find(g => g.title === title);
+                renderGuideContent(selectedGuide);
+                
+                guideListContainer.querySelectorAll('.guide-list-item').forEach(i => i.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+        });
+
+        renderGuideContent(guides[0]);
+        guideListContainer.querySelector('.guide-list-item').classList.add('active');
+    }
+
+    function renderGuideContent(guide) {
+        if (!guide) return;
+        guideViewer.innerHTML = `
+            <div class="flex items-center gap-4 mb-4">
+                 <img src="${guide.authorImage || ''}" alt="${guide.author || ''}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-500">
+                 <div>
+                    <h3>${guide.title}</h3>
+                    <p class="text-sm text-gray-400 -mt-2">By ${guide.author || 'Unknown'} - ${guide.date}</p>
+                 </div>
+            </div>
+            <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
+            ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
+        `;
+    }
+
+    // --- View Switching ---
+    function switchToView(viewName) {
+        document.querySelectorAll('.guide-view-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.view === viewName);
+        });
+        
+        categoriesView.classList.toggle('hidden', viewName !== 'categories');
+        listView.classList.toggle('hidden', viewName !== 'latest');
+
+        if (viewName === 'latest') {
+            applyFilters();
+        }
+    }
+
+    // --- Event Listeners ---
+    viewToggles.addEventListener('click', (e) => {
+        if (e.target.matches('.guide-view-btn')) {
+            switchToView(e.target.dataset.view);
+        }
+    });
+    
+    searchInput.addEventListener('input', applyFilters);
+    authorFilter.addEventListener('change', applyFilters);
+    categoryFilter.addEventListener('change', applyFilters);
+
+    // --- Initialize ---
+    initializeGuides();
 }
     </script>
 </body>
