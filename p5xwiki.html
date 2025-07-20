@@ -2043,21 +2043,22 @@ body.sidebar-open .site-wrapper {
     z-index: 10; /* Lower z-index than the controls wrapper */
 }
 
-/* --- Filter Menu Redesign --- */
-
-/* Base style for the modal */
+/* --- Redesigned Filter Menu --- */
 #sort-view-modal {
-    right: 0; /* Positions the menu on the right */
-    left: auto; /* Ensures it doesn't try to stretch from the left */
+    position: fixed; /* Use fixed positioning for reliability */
+    width: 22rem; /* Wider to accommodate two columns */
+    font-size: 0.9rem; /* Smaller base font size */
     transform-origin: top right; /* Animation originates from the top-right corner */
     transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Faster animation */
+    z-index: 100; /* Ensure it's on top */
 }
 
 /* Hidden state for the modal */
 #sort-view-modal.hidden {
     transform: scale(0.95);
     opacity: 0;
-    visibility: hidden; /* Use visibility to prevent interaction when hidden */
+    visibility: hidden;
+    pointer-events: none; /* Prevents interaction when hidden */
 }
 
 /* Visible state for the modal */
@@ -2065,16 +2066,26 @@ body.sidebar-open .site-wrapper {
     transform: scale(1);
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
-/* This creates the two-column layout for the radio button options */
+/* Smaller headings */
+#sort-view-modal h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* This creates the two-column layout for the settings */
 #sort-view-modal .space-y-1 {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
-    gap: 0.5rem; /* Space between the options */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 1rem; /* Row and column gap */
 }
 
-/* --- Button and Layout Fixes --- */
+/* Smaller label text */
+#sort-view-modal label {
+    font-size: 0.85rem;
+}
 
 /* Styles the new cog button to be square and compact */
 #sort-view-btn {
@@ -6091,6 +6102,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     async function initializeForum() {
+const sortViewModal = document.getElementById('sort-view-modal');
+if (sortViewModal) {
+    document.body.appendChild(sortViewModal);
+}
         loadPreferences();
         renderSidebar(); // Step 1: Build the categories in their dedicated container.
 
@@ -6407,20 +6422,24 @@ function openGuide(guide) {
             openGuide(guide);
         });
 
-        document.addEventListener('click', e => {
-            if (e.target.id === 'close-guide-btn' || e.target.closest('#close-guide-btn')) {
-                closeGuide();
-            }
-            if (e.target.closest('#sort-view-btn')) {
-                sortViewModal.classList.toggle('hidden');
-                const rect = sortViewBtn.getBoundingClientRect();
-                sortViewModal.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-                sortViewModal.style.right = (document.body.clientWidth - (rect.right + window.scrollX)) + 'px';
-                sortViewModal.style.left = 'auto';
-            } else if (!e.target.closest('#sort-view-modal')) {
-                sortViewModal.classList.add('hidden');
-            }
-        });
+document.addEventListener('click', e => {
+    if (e.target.id === 'close-guide-btn' || e.target.closest('#close-guide-btn')) {
+        closeGuide();
+    }
+    
+    const sortButton = e.target.closest('#sort-view-btn');
+    if (sortButton) {
+        sortViewModal.classList.toggle('hidden');
+        const rect = sortButton.getBoundingClientRect();
+        
+        // Position relative to the button using fixed coordinates
+        sortViewModal.style.top = `${rect.bottom + 8}px`;
+        sortViewModal.style.right = `${window.innerWidth - rect.right}px`;
+        sortViewModal.style.left = 'auto'; // Ensure left is not set
+    } else if (!e.target.closest('#sort-view-modal')) {
+        sortViewModal.classList.add('hidden');
+    }
+});
 
         sortViewModal.addEventListener('change', e => {
             if (e.target.matches('input[type="radio"]')) {
