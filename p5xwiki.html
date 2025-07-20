@@ -6130,29 +6130,35 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    function openGuide(guide) {
-        if (!guide) return;
+function openGuide(guide) {
+    if (!guide) return;
+
+    // Set the guide content first
+    const closeBtnHTML = `<button id="close-guide-btn" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white">&times;</button>`;
+    postViewerContainer.innerHTML = `
+        <div class="relative h-full overflow-y-auto">
+            ${userPreferences.loading === 'side' ? closeBtnHTML : ''}
+            <h3>${guide.title}</h3>
+            <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author || 'Unknown'} - ${guide.date || 'N/A'}</p>
+            <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
+            ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
+        </div>
+    `;
+
+    // **This is the corrected logic block**
+    if (userPreferences.loading === 'side') {
+        // Only disable floating for side-load view to prevent overlap
         controlsWrapper.classList.remove('is-floating');
-        const closeBtnHTML = `<button id="close-guide-btn" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white">&times;</button>`;
-        postViewerContainer.innerHTML = `
-            <div class="relative h-full overflow-y-auto">
-                ${userPreferences.loading === 'side' ? closeBtnHTML : ''}
-                <h3>${guide.title}</h3>
-                <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author || 'Unknown'} - ${guide.date || 'N/A'}</p>
-                <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
-                ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
-            </div>
-        `;
-        if (userPreferences.loading === 'side') {
-            contentSplit.classList.add('side-loading');
-        } else {
-            contentSplit.classList.add('full-view-active');
-            postListContainer.classList.add('hidden');
-            paginationControls.classList.add('hidden');
-            postViewerContainer.classList.remove('w-0', 'opacity-0');
-            postViewerContainer.innerHTML = `<button id="close-guide-btn" class="p5-button mb-4">&larr; Back to List</button>` + postViewerContainer.innerHTML;
-        }
+        contentSplit.classList.add('side-loading');
+    } else {
+        // For 'full' view, do not disable floating
+        contentSplit.classList.add('full-view-active');
+        postListContainer.classList.add('hidden');
+        paginationControls.classList.add('hidden');
+        postViewerContainer.classList.remove('w-0', 'opacity-0');
+        postViewerContainer.innerHTML = `<button id="close-guide-btn" class="p5-button mb-4">&larr; Back to List</button>` + postViewerContainer.innerHTML;
     }
+}
 
     function closeGuide() {
         handleScroll();
