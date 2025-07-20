@@ -1874,12 +1874,24 @@ body.sidebar-open .site-wrapper {
 
 /* === DYNAMIC FORUM STYLES V7 - Final Layout === */
 
-/* Main Grid Layout */
 #guide-main-grid {
     display: grid;
-    grid-template-columns: 320px 1fr; /* Default static layout */
+    /* Default state: Controls on left, content on right */
+    grid-template-columns: 320px 1fr; 
     gap: 1.5rem;
     align-items: start;
+}
+
+/* When floating LEFT, make the first column an empty spacer and the second column the content */
+#guide-main-grid.offset-for-left-float {
+    grid-template-columns: 320px 1fr;
+    margin-left: 0; /* Remove the old margin-based fix */
+}
+
+/* When floating RIGHT (default), make the first column the content and the second an empty spacer */
+#guide-main-grid:not(.offset-for-left-float) #guide-controls-wrapper.is-floating + #guide-content-area {
+    /* This makes the content area span the full grid when controls float on the right */
+    grid-column: 1 / -1;
 }
 
 /* Static Controls (Default) */
@@ -1930,10 +1942,10 @@ body.sidebar-open .site-wrapper {
 
 /* Corrects the layout for the side-loaded guide viewer */
 #guide-content-split.side-loading #guide-post-viewer {
-    flex: 1 1 60%;
-    /* width: 60%; */ /* This line should be removed */
+    flex: 1 1 55%; 
     opacity: 1;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
+	max-height: calc(100vh - 120px); /* This line enables scrolling */
 }
 
 #guide-forum-container.sidebar-hidden #guide-forum-sidebar {
