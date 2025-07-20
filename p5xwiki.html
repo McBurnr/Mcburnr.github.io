@@ -1695,35 +1695,6 @@ body.sidebar-open .site-wrapper {
     transform: rotate(0deg);
 }
 
-/* --- Layout & Scaling Fixes --- */
-
-/* This rule ensures the entire sidebar disappears, allowing the main content to expand fully */
-#guide-forum-container.sidebar-hidden #guide-forum-sidebar {
-    display: none;
-}
-
-/* Reduces the main gap for a tighter layout */
-#guide-forum-container {
-    gap: 1rem; /* Was gap-6 (1.5rem) */
-}
-
-/* --- Button Redesign & Clipping Fix --- */
-
-/* Styles the new cog button to be square */
-#sort-view-btn {
-    padding: 0.5rem;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Prevents the quick category switcher title from pushing the button off-screen */
-#guide-controls-content h2#forum-title {
-    min-width: 0; /* Allows the title to shrink and truncate if needed */
-}
-
 @media (max-width: 992px) {
     #guide-personas.layout-side #persona-filters-wrapper {
         position: relative;
