@@ -1985,13 +1985,18 @@ body.sidebar-open .site-wrapper {
     gap: 1rem;
 }
 
-/* --- Side-Load Scrolling Fix --- */
 #guide-content-split.side-loading #guide-post-viewer {
-    /* By removing the max-height and overflow properties, this panel will now
-       expand to its full natural height and scroll along with the main page,
-       rather than being a fixed-height panel with its own internal scrollbar. */
-    max-height: none;
-    overflow-y: visible;
+    flex: 1 1 55%;
+    opacity: 1;
+    padding-left: 1.5rem;
+    
+    /* Make the panel 'stick' to the top during scroll */
+    position: sticky;
+    top: 120px; /* Controls the distance from the top of the screen */
+
+    /* Add a max-height so the panel can scroll internally for very long guides */
+    max-height: calc(100vh - 140px); /* (top value) + (bottom padding) */
+    overflow-y: auto;
 }
 
 #guide-content-split.side-loading #guide-post-viewer::-webkit-scrollbar {
