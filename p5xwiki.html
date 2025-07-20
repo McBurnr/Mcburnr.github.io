@@ -2043,6 +2043,54 @@ body.sidebar-open .site-wrapper {
     z-index: 10; /* Lower z-index than the controls wrapper */
 }
 
+/* --- Filter Menu Redesign --- */
+
+/* Base style for the modal */
+#sort-view-modal {
+    right: 0; /* Positions the menu on the right */
+    left: auto; /* Ensures it doesn't try to stretch from the left */
+    transform-origin: top right; /* Animation originates from the top-right corner */
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Faster animation */
+}
+
+/* Hidden state for the modal */
+#sort-view-modal.hidden {
+    transform: scale(0.95);
+    opacity: 0;
+    visibility: hidden; /* Use visibility to prevent interaction when hidden */
+}
+
+/* Visible state for the modal */
+#sort-view-modal:not(.hidden) {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* This creates the two-column layout for the radio button options */
+#sort-view-modal .space-y-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 0.5rem; /* Space between the options */
+}
+
+/* --- Button and Layout Fixes --- */
+
+/* Styles the new cog button to be square and compact */
+#sort-view-btn {
+    padding: 0.5rem;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Prevents the quick category switcher title from pushing the button off-screen */
+#guide-controls-content h2#forum-title {
+    min-width: 0; /* Allows the title to shrink and truncate if needed */
+}
+
 /* --- Compact Filter Panel Styles --- */
 #guide-controls-content h2#forum-title {
     font-size: 1.3rem; /* Downsizes the forum title text */
@@ -6132,20 +6180,22 @@ function applyPreferences() {
     const topControlsContainer = document.getElementById('top-controls-container');
     const sidebar = document.getElementById('guide-forum-sidebar');
     const controlsWrapper = document.getElementById('guide-controls-wrapper');
+    const mainContent = document.getElementById('guide-forum-main');
 
-    // This logic now moves the panel instead of hiding it
     if (userPreferences.sidebar === 'hide') {
-        // Move controls to the top container
+        // Move controls to the top and hide the sidebar container
         if (topControlsContainer && controlsWrapper) {
             topControlsContainer.appendChild(controlsWrapper);
         }
-        forumContainer.classList.add('sidebar-hidden');
+        sidebar.style.display = 'none';
+        mainContent.style.width = '100%'; // Allow content to fill the space
     } else {
-        // Move controls back to the sidebar
+        // Move controls back to the sidebar and show it
         if (sidebar && controlsWrapper) {
             sidebar.appendChild(controlsWrapper);
         }
-        forumContainer.classList.remove('sidebar-hidden');
+        sidebar.style.display = 'block';
+        mainContent.style.width = ''; // Reset width
     }
     updateSortViewModal();
 }
