@@ -2113,7 +2113,6 @@ body.sidebar-open .site-wrapper {
             </nav>
 
 <main id="guide-forum-main" class="flex-grow min-w-0">
-<main id="guide-forum-main" class="flex-grow min-w-0">
     <!-- This is the new top-level grid for the main content -->
     <div id="guide-main-grid">
         <!-- Column 1: The Controls Panel -->
@@ -2150,7 +2149,6 @@ body.sidebar-open .site-wrapper {
             </div>
         </div>
     </div>
-</main>
 </main>
     </div>
 
@@ -6230,13 +6228,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 sortViewModal.classList.toggle('hidden');
                 const rect = sortViewBtn.getBoundingClientRect();
                 sortViewModal.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-                if ((rect.right - sortViewModal.offsetWidth) < 0) {
-                    sortViewModal.style.left = (rect.left + window.scrollX) + 'px';
-                    sortViewModal.style.right = 'auto';
-                } else {
-                    sortViewModal.style.right = (document.body.clientWidth - (rect.right + window.scrollX)) + 'px';
-                    sortViewModal.style.left = 'auto';
-                }
+                sortViewModal.style.right = (document.body.clientWidth - (rect.right + window.scrollX)) + 'px';
+                sortViewModal.style.left = 'auto';
             } else if (!e.target.closest('#sort-view-modal')) {
                 sortViewModal.classList.add('hidden');
             }
@@ -6275,6 +6268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initializeForum();
 });
+
 
 
 
