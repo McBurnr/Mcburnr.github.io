@@ -1878,88 +1878,97 @@ body.sidebar-open .site-wrapper {
     display: block;
 }
 
-/* === DYNAMIC FORUM STYLES V2 === */
-#guide-forum-sidebar {
-    max-height: calc(100vh - 120px); /* Adjust 120px to account for your header height */
-    overflow-y: auto;
-    padding-right: 0.5rem; /* Space for scrollbar */
+/* === DYNAMIC FORUM STYLES V7 - Final Layout === */
+
+/* Main Grid Layout */
+#guide-main-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr; /* Default static layout */
+    gap: 1.5rem;
+    align-items: start;
 }
+
+/* Static Controls (Default) */
+#guide-controls-wrapper {
+    position: sticky;
+    top: 100px; /* Sticks to the top when scrolling */
+    z-index: 20;
+}
+
+/* Floating Controls State */
+#guide-controls-wrapper.is-floating {
+    position: fixed;
+    top: 100px;
+    width: 300px; /* Slightly narrower when floating */
+    background: rgba(15, 15, 15, 0.9);
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 1rem;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Compact Floating Controls Layout */
+#guide-controls-wrapper.is-floating #guide-controls-content {
+    padding-right: 0.5rem;
+}
+#guide-controls-wrapper.is-floating #forum-title {
+    font-size: 1.25rem; /* Smaller title */
+}
+#guide-controls-wrapper.is-floating #sort-view-btn {
+    padding: 0.5rem; /* Smaller button */
+    font-size: 0.8rem;
+}
+
+/* Floating Panel Positioning */
+#guide-controls-wrapper.is-floating.float-right { right: 1.5rem; left: auto; }
+#guide-controls-wrapper.is-floating.float-left { left: 1.5rem; right: auto; }
+
+/* When a guide is side-loaded, force the controls to be static to prevent overlap */
+#guide-content-split.side-loading + #guide-controls-wrapper,
+#guide-content-split.side-loading ~ #guide-controls-wrapper {
+    position: sticky !important;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1280px) {
+    #guide-main-grid {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+    #guide-controls-wrapper, #guide-controls-wrapper.is-floating {
+        position: relative;
+        top: auto;
+        width: 100%;
+        background: none;
+        backdrop-filter: none;
+        border: none;
+        padding: 0;
+        max-height: none;
+        overflow-y: visible;
+    }
+}
+
+/* --- Other styles from previous versions (unchanged) --- */
+/* (Includes styles for sidebar, posts, modals, etc.) */
+#guide-forum-sidebar { max-height: calc(100vh - 120px); overflow-y: auto; padding-right: 0.5rem; }
 #guide-forum-sidebar::-webkit-scrollbar { width: 6px; }
 #guide-forum-sidebar::-webkit-scrollbar-track { background: transparent; }
 #guide-forum-sidebar::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 3px; }
-
-/* Sidebar Navigation */
-.sidebar-category-header {
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #a0aec0;
-    padding: 1.5rem 0.5rem 0.5rem 0.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-    background: none;
-    border: none;
-    text-align: left;
-}
+.sidebar-category-header { font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: #a0aec0; padding: 1.5rem 0.5rem 0.5rem 0.5rem; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; width: 100%; background: none; border: none; text-align: left; }
 .sidebar-category-header:first-child { padding-top: 0; }
 .sidebar-category-icon { width: 20px; height: 20px; }
-.sidebar-category-chevron {
-    margin-left: auto;
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s ease;
-}
-.sidebar-category.collapsed .sidebar-category-chevron {
-    transform: rotate(-90deg);
-}
-
-.sidebar-forum-list {
-    max-height: 1000px;
-    transition: max-height 0.4s ease-in-out;
-    overflow: hidden;
-    padding-left: 0.5rem;
-}
-.sidebar-category.collapsed .sidebar-forum-list {
-    max-height: 0;
-}
-
-.sidebar-forum-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #d1d5db;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border-left: 3px solid transparent;
-}
+.sidebar-category-chevron { margin-left: auto; width: 16px; height: 16px; transition: transform 0.3s ease; }
+.sidebar-category.collapsed .sidebar-category-chevron { transform: rotate(-90deg); }
+.sidebar-forum-list { max-height: 1000px; transition: max-height 0.4s ease-in-out; overflow: hidden; padding-left: 0.5rem; }
+.sidebar-category.collapsed .sidebar-forum-list { max-height: 0; }
+.sidebar-forum-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 6px; cursor: pointer; font-weight: 500; color: #d1d5db; transition: background-color 0.2s ease, color 0.2s ease; border-left: 3px solid transparent; }
 .sidebar-forum-link:hover { background-color: rgba(255, 255, 255, 0.1); }
-.sidebar-forum-link.active {
-    background-color: rgba(255, 0, 0, 0.15);
-    color: white;
-    border-left-color: var(--primary-color);
-}
+.sidebar-forum-link.active { background-color: rgba(255, 0, 0, 0.15); color: white; border-left-color: var(--primary-color); }
 .sidebar-forum-icon { width: 20px; height: 20px; }
-
-/* Quick Navigate Modal */
-.quick-nav-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
+.quick-nav-link { display: flex; align-items: center; gap: 1rem; background-color: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; transition: background-color 0.2s ease; }
 .quick-nav-link:hover { background-color: rgba(255, 0, 0, 0.15); }
-
-/* Other Styles (from previous version, no changes needed) */
 #guide-forum-main input, #guide-forum-main select { background-color: rgba(10, 10, 10, 0.7); border: 1px solid var(--shadow-color-light); border-radius: 6px; padding: 0.6rem 1rem; color: white; transition: all 0.2s ease; }
 #guide-forum-main input:focus, #guide-forum-main select:focus { border-color: var(--primary-color); box-shadow: 0 0 10px var(--shadow-color-medium); outline: none; }
 .guide-tag-btn { background-color: rgba(74, 85, 104, 0.5); border: 1px solid #4A5568; color: #E2E8F0; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
@@ -1983,344 +1992,11 @@ body.sidebar-open .site-wrapper {
 #guide-content-split.side-loading #guide-post-list { flex: 0 0 40%; padding-right: 1rem; border-right: 1px solid var(--shadow-color-light); }
 #guide-content-split.side-loading #guide-post-viewer { flex: 1 1 60%; width: 60%; opacity: 1; padding-left: 1rem; }
 #guide-post-viewer h3 { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
-
-/* === DYNAMIC FORUM STYLES V1 === */
-#guide-forum-container {
-    min-height: 80vh;
-}
-
-/* Sidebar Navigation */
-.sidebar-category-header {
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #a0aec0;
-    padding: 1.5rem 0 0.5rem 0.5rem;
-}
-.sidebar-category-header:first-child {
-    padding-top: 0;
-}
-.sidebar-forum-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #d1d5db;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border-left: 3px solid transparent;
-}
-.sidebar-forum-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.sidebar-forum-link.active {
-    background-color: rgba(255, 0, 0, 0.15);
-    color: white;
-    border-left-color: var(--primary-color);
-}
-.sidebar-forum-icon {
-    width: 20px;
-    height: 20px;
-}
-
-/* Main Content Header & Filters */
-#guide-forum-main input, #guide-forum-main select {
-    background-color: rgba(10, 10, 10, 0.7);
-    border: 1px solid var(--shadow-color-light);
-    border-radius: 6px;
-    padding: 0.6rem 1rem;
-    color: white;
-    transition: all 0.2s ease;
-}
-#guide-forum-main input:focus, #guide-forum-main select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 10px var(--shadow-color-medium);
-    outline: none;
-}
-.guide-tag-btn {
-    background-color: rgba(74, 85, 104, 0.5);
-    border: 1px solid #4A5568;
-    color: #E2E8F0;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.guide-tag-btn:hover {
-    background-color: #4A5568;
-}
-.guide-tag-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color-dark);
-}
-
-/* Sort & View Modal */
-.custom-radio {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #4A5568;
-    border-radius: 50%;
-    transition: all 0.2s;
-    cursor: pointer;
-    position: relative;
-}
-.custom-radio:checked {
-    border-color: var(--primary-color);
-}
-.custom-radio:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    background: var(--primary-color);
-    border-radius: 50%;
-}
-
-/* Guide Post List */
-#guide-post-list.view-gallery .guide-post {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-}
-#guide-post-list.view-list .guide-post {
-    display: flex;
-    padding: 0.75rem 1rem;
-}
-.guide-post {
-    background: rgba(30, 30, 30, 0.5);
-    border: 1px solid var(--shadow-color-light);
-    border-radius: 8px;
-    margin-bottom: 0.75rem;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-.guide-post:hover {
-    border-color: var(--primary-color);
-}
-.guide-post.active {
-    background-color: rgba(255, 0, 0, 0.1);
-    border-color: var(--primary-color);
-}
-
-.guide-post-image {
-    width: 128px;
-    height: 72px;
-    object-fit: cover;
-    border-radius: 6px;
-    flex-shrink: 0;
-}
-.guide-post-content {
-    min-width: 0;
-}
-.guide-post-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: white;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.guide-post-meta {
-    font-size: 0.8rem;
-    color: #a0aec0;
-}
-.guide-post-tags {
-    margin-top: 0.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-}
-.guide-post-tag {
-    background: #4A5568;
-    color: #E2E8F0;
-    padding: 0.15rem 0.5rem;
-    border-radius: 0.75rem;
-    font-size: 0.7rem;
-}
-#guide-post-list.view-list .guide-post-image, 
-#guide-post-list.view-list .guide-post-tags {
-    display: none;
-}
-
-/* Guide Viewer (Side-Loaded) */
-#guide-content-split.side-loading #guide-post-list {
-    flex: 0 0 40%;
-    padding-right: 1rem;
-    border-right: 1px solid var(--shadow-color-light);
-}
-#guide-content-split.side-loading #guide-post-viewer {
-    flex: 1 1 60%;
-    width: 60%;
-    opacity: 1;
-    padding-left: 1rem;
-}
-#guide-post-viewer h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-/* === DYNAMIC FORUM STYLES V3 - Sidebar Toggle === */
-#guide-forum-container {
-    display: grid;
-    grid-template-columns: 256px 1fr; /* 256px is lg:w-64 */
-    transition: grid-template-columns 0.4s ease-in-out;
-}
-
-#guide-forum-container.sidebar-hidden {
-    grid-template-columns: 0px 1fr;
-}
-
-#guide-forum-sidebar {
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    opacity: 1;
-    visibility: visible;
-}
-
-#guide-forum-container.sidebar-hidden #guide-forum-sidebar {
-    opacity: 0;
-    visibility: hidden;
-    padding-right: 0;
-}
-
-/* Fix for Full-View Guide not expanding and staying halved for some reason... */
-#guide-content-split.full-view-active #guide-post-viewer {
-    width: 100%;
-    opacity: 1;
-}
-
-@media (max-width: 1024px) { /* Corresponds to lg: breakpoint */
-    #guide-forum-container, #guide-forum-container.sidebar-hidden {
-        display: flex;
-        flex-direction: column;
-    }
-    #guide-forum-container.sidebar-hidden #guide-forum-sidebar {
-        display: none;
-    }
-}
-
-/* === DYNAMIC FORUM STYLES V3 - Pagination === */
-.page-btn {
-    background-color: rgba(74, 85, 104, 0.5); /* #4A5568 with opacity */
-    border: 1px solid #4A5568;
-    color: #E2E8F0;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 6px;
-    min-width: 36px;
-    height: 36px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-.page-btn:hover {
-    background-color: #4A5568;
-    border-color: #718096;
-}
-.page-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color-dark);
-}
-.page-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* === DYNAMIC FORUM STYLES V4 - Floating Controls === */
-#guide-controls-wrapper {
-    position: relative;
-    z-index: 20;
-    transition: all 0.4s ease-in-out;
-}
-
-/* Floating State */
-#guide-controls-wrapper.is-floating {
-    position: fixed;
-    top: 100px; /* Adjust based on your header height */
-    right: 1.5rem; /* Corresponds to main-content padding */
-    width: 300px;
-    background: rgba(15, 15, 15, 0.9);
-    backdrop-filter: blur(8px);
-    border: 2px solid var(--primary-color);
-    border-radius: 15px;
-    padding: 1rem;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
-}
-#guide-controls-wrapper.is-floating #guide-controls-content {
-    padding-right: 0.5rem; /* Space for scrollbar */
-}
-
-/* Scrollbar for floating panel */
-#guide-controls-wrapper.is-floating::-webkit-scrollbar { width: 6px; }
-#guide-controls-wrapper.is-floating::-webkit-scrollbar-track { background: transparent; }
-#guide-controls-wrapper.is-floating::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 3px; }
-
-/* Adjust main content margin when controls are floating */
-#guide-forum-main.controls-are-floating #guide-content-split {
-    margin-right: 324px; /* Width of floating panel + gap */
-}
-
-/* Media query for smaller screens where floating is not ideal */
-@media (max-width: 1280px) {
-    #guide-controls-wrapper.is-floating {
-        position: relative; /* Revert to static position */
-        top: auto;
-        right: auto;
-        width: 100%;
-        background: none;
-        backdrop-filter: none;
-        border: none;
-        padding: 0;
-        max-height: none;
-        overflow-y: visible;
-    }
-    #guide-forum-main.controls-are-floating #guide-content-split {
-        margin-right: 0;
-    }
-}
-
-/* === DYNAMIC FORUM STYLES V5 - Floating Panel Position === */
-#guide-controls-wrapper.is-floating.float-right {
-    right: 1.5rem;
-    left: auto;
-}
-
-#guide-controls-wrapper.is-floating.float-left {
-    left: 1.5rem;
-    right: auto;
-}
-
-/* Adjust main content margin based on float side */
-#guide-forum-main.controls-floating-right #guide-content-split {
-    margin-right: 324px; /* Width of floating panel + gap */
-}
-#guide-forum-main.controls-floating-left #guide-content-split {
-    margin-left: 324px;
-}
-
-/* Media query adjustments for the new positioning */
-@media (max-width: 1280px) {
-    #guide-forum-main.controls-floating-right #guide-content-split,
-    #guide-forum-main.controls-floating-left #guide-content-split {
-        margin-right: 0;
-        margin-left: 0;
-    }
-}
+#guide-content-split.full-view-active #guide-post-viewer { width: 100%; opacity: 1; }
+.page-btn { background-color: rgba(74, 85, 104, 0.5); border: 1px solid #4A5568; color: #E2E8F0; font-weight: bold; cursor: pointer; transition: all 0.2s ease; border-radius: 6px; min-width: 36px; height: 36px; display: inline-flex; justify-content: center; align-items: center; }
+.page-btn:hover { background-color: #4A5568; border-color: #718096; }
+.page-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color-dark); }
+.page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 </style>
 
@@ -2451,42 +2127,53 @@ body.sidebar-open .site-wrapper {
         <nav id="guide-forum-sidebar" class="w-full lg:w-64 flex-shrink-0">
             </nav>
 
-<main id="guide-forum-main" class="flex-grow min-w-0 relative">
-    <!-- This new wrapper will contain ALL controls and become the floating panel -->
-    <div id="guide-controls-wrapper">
-        <div id="guide-controls-content">
-            <!-- Header with Title (Quick Nav) & Sort Button -->
-            <div class="flex items-center justify-between mb-4">
-                <h2 id="forum-title" class="text-2xl font-bold font-['Cinzel',_serif] text-white cursor-pointer flex items-center gap-3" title="Open Quick Navigate">
-                    <!-- Title and icon generated by JS -->
-                </h2>
-                <button id="sort-view-btn" class="p5-button flex-shrink-0">Sort & View</button>
-            </div>
+<main id="guide-forum-main" class="flex-grow min-w-0">
+    <!-- This is the new top-level grid for the main content -->
+    <div id="guide-main-grid" class="relative">
+        <!-- Column 1: The Controls Panel -->
+        <div id="guide-controls-wrapper">
+            <div id="guide-controls-content">
+                <!-- Header with Title (Quick Nav) & Sort Button -->
+                <div class="flex items-center justify-between mb-4">
+                    <h2 id="forum-title" class="text-2xl font-bold font-['Cinzel',_serif] text-white cursor-pointer flex items-center gap-3" title="Open Quick Navigate">
+                        <!-- Title and icon generated by JS -->
+                    </h2>
+                    <button id="sort-view-btn" class="p5-button flex-shrink-0">Sort & View</button>
+                </div>
 
-            <!-- Search Input -->
-            <div class="relative w-full mb-4">
-                <input type="text" id="guide-search-input" placeholder="Search current forum...">
-            </div>
+                <!-- Search Input -->
+                <div class="relative w-full mb-4">
+                    <input type="text" id="guide-search-input" placeholder="Search current forum...">
+                </div>
 
-            <!-- Pagination Controls (Moved to the top) -->
-            <div id="guide-pagination-controls" class="flex items-center justify-center gap-2 mb-4"></div>
+                <!-- Pagination Controls -->
+                <div id="guide-pagination-controls" class="flex items-center justify-center gap-2 mb-4"></div>
 
-            <!-- Dynamic Tag Filters -->
-            <div id="guide-tag-filters" class="flex flex-wrap items-center gap-2 pb-4 border-b-2 border-gray-700">
-                <!-- Tag buttons generated by JS -->
+                <!-- Dynamic Tag Filters -->
+                <div id="guide-tag-filters" class="flex flex-wrap items-center gap-2 pb-4 border-b-2 border-gray-700">
+                    <!-- Tag buttons generated by JS -->
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Content Split View (List + Viewer) -->
-    <div id="guide-content-split" class="flex mt-4">
-        <div id="guide-post-list" class="w-full transition-all duration-300 ease-in-out"></div>
-        <div id="guide-post-viewer" class="w-0 opacity-0 transition-all duration-300 ease-in-out"></div>
+        <!-- Column 2: The Guide List and Viewer -->
+        <div id="guide-content-area">
+            <div id="guide-content-split" class="flex">
+                <div id="guide-post-list" class="w-full transition-all duration-300 ease-in-out"></div>
+                <div id="guide-post-viewer" class="w-0 opacity-0 transition-all duration-300 ease-in-out"></div>
+            </div>
+        </div>
     </div>
 </main>
     </div>
 
 <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
+<hr class="border-gray-600 my-3">
+<h4 class="font-bold mb-2">Float Position</h4>
+<div class="space-y-1" id="float-position-options">
+    <label class="flex items-center"><input type="radio" name="floatPosition" value="right" class="custom-radio"> <span class="ml-2">Right Side</span></label>
+    <label class="flex items-center"><input type="radio" name="floatPosition" value="left" class="custom-radio"> <span class="ml-2">Left Side</span></label>
+</div>
 <hr class="border-gray-600 my-3">
 <h4 class="font-bold mb-2">Controls Panel</h4>
 <div class="space-y-1" id="float-options">
@@ -6564,8 +6251,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sortViewModal.classList.toggle('hidden');
                 const rect = sortViewBtn.getBoundingClientRect();
                 sortViewModal.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-                sortViewModal.style.left = (rect.right + window.scrollX - sortViewModal.offsetWidth) + 'px';
-
+                sortViewModal.style.right = (document.body.clientWidth - rect.right) + 'px';
             } else if (!e.target.closest('#sort-view-modal')) {
                 sortViewModal.classList.add('hidden');
             }
@@ -6604,6 +6290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initializeForum();
 });
+
 
 
     </script>
