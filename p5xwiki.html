@@ -1874,44 +1874,11 @@ body.sidebar-open .site-wrapper {
 
 /* === DYNAMIC FORUM STYLES V7 - Final Layout === */
 
-#guide-main-grid {
-    display: grid;
-    grid-template-columns: 320px 1fr; /* Default: Controls on left, content on right */
-    gap: 1.5rem;
-    align-items: start;
-}
-
-#guide-main-grid.offset-for-left-float {
-    grid-template-columns: 320px 1fr;
-    margin-left: 0; /* Remove the old margin-based fix */
-}
-
-#guide-main-grid.float-position-left {
-    grid-template-columns: 1fr 320px; /* Content on left, controls on right */
-}
-
-/* When floating RIGHT (default), make the first column the content and the second an empty spacer */
-#guide-main-grid:not(.offset-for-left-float) #guide-controls-wrapper.is-floating + #guide-content-area {
-    /* This makes the content area span the full grid when controls float on the right */
-    grid-column: 1 / -1;
-}
-
 /* Static Controls (Default) */
 #guide-controls-wrapper {
     position: sticky;
     top: 100px;
     z-index: 20; /* Ensures it's above the content area */
-}
-
-/* This rule moves the controls to the second column when the grid is swapped */
-#guide-main-grid.float-position-left > #guide-controls-wrapper {
-    grid-column: 2;
-}
-
-/* This rule ensures the content is in the first column when the grid is swapped */
-#guide-main-grid.float-position-left > #guide-content-area {
-    grid-column: 1;
-    grid-row: 1; /* Explicitly keep it in the first row */
 }
 
 /* Floating Controls State */
@@ -1945,22 +1912,56 @@ body.sidebar-open .site-wrapper {
 #guide-content-area {
     min-width: 0;
 }
+/* --- START: New Static Filter Panel CSS --- */
+
+/* 1. Simplify the main grid to a single content column */
+#guide-main-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Only the content area remains */
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* 2. Style the controls wrapper inside the sidebar */
+#guide-controls-wrapper {
+    /* The parent sidebar is already sticky, so this will scroll with it */
+    width: 100%;
+    margin-top: 1.5rem; /* Adds space above the filters */
+    border-top: 2px solid var(--primary-color);
+    padding-top: 1.5rem;
+}
+
+/* 3. Redesign the tag filters to have two columns */
+#guide-tag-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two filters per line */
+    gap: 0.5rem; /* Space between filters */
+}
+
+/* --- END: New Static Filter Panel CSS --- */
 
 /* Corrects the layout for the side-loaded guide viewer */
 #guide-content-split.side-loading #guide-post-viewer {
-    flex: 1 1 55%; 
+    flex: 1 1 55%;
     opacity: 1;
     padding-left: 1.5rem;
-	max-height: calc(100vh - 120px); /* This line enables scrolling */
-    overflow: hidden
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+#guide-content-split.side-loading #guide-post-viewer::-webkit-scrollbar {
+    width: 8px;
+}
+#guide-content-split.side-loading #guide-post-viewer::-webkit-scrollbar-track {
+    background: transparent;
+}
+#guide-content-split.side-loading #guide-post-viewer::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
 }
 
 #guide-forum-container.sidebar-hidden #guide-forum-sidebar {
     display: none;
-}
-
-#guide-main-grid.offset-for-left-float {
-    margin-left: 330px; /* Width of the panel (300px) + a gap */
 }
 
 #guide-forum-sidebar {
@@ -1971,9 +1972,6 @@ body.sidebar-open .site-wrapper {
 
 /* Media query for smaller screens */
 @media (max-width: 1280px) {
-    #guide-main-grid {
-        grid-template-columns: 1fr; /* Stack on smaller screens */
-    }
     #guide-controls-wrapper, #guide-controls-wrapper.is-floating {
         position: relative; top: auto; width: 100%;
         background: none; backdrop-filter: none; border: none;
@@ -2209,66 +2207,44 @@ body.sidebar-open .site-wrapper {
     </div>
 
 <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
-<!-- Sort By -->
-<!-- Sort By -->
-<h4 class="font-bold mb-2">Sort By</h4>
-<div class="space-y-1" id="sort-options">
-    <label class="flex items-center"><input type="radio" name="sort" value="date-desc" class="custom-radio"> <span class="ml-2">Date Posted (Newest)</span></label>
-    <label class="flex items-center"><input type="radio" name="sort" value="date-asc" class="custom-radio"> <span class="ml-2">Date Posted (Oldest)</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- View As -->
-<h4 class="font-bold mb-2">View As</h4>
-<div class="space-y-1" id="view-options">
-    <label class="flex items-center"><input type="radio" name="view" value="gallery" class="custom-radio"> <span class="ml-2">Gallery</span></label>
-    <label class="flex items-center"><input type="radio" name="view" value="list" class="custom-radio"> <span class="ml-2">List</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Guides Per Page -->
-<h4 class="font-bold mb-2">Guides Per Page</h4>
-<div class="space-y-1 mb-4" id="pagination-options">
-    <select id="guides-per-page-select" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-    </select>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Guide View -->
-<h4 class="font-bold mb-2">Guide View</h4>
-<div class="space-y-1" id="loading-options">
-    <label class="flex items-center"><input type="radio" name="loading" value="side" class="custom-radio"> <span class="ml-2">Side-Load</span></label>
-    <label class="flex items-center"><input type="radio" name="loading" value="full" class="custom-radio"> <span class="ml-2">Full View</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Categories Default -->
-<h4 class="font-bold mb-2">Categories Default</h4>
-<div class="space-y-1" id="collapse-options">
-    <label class="flex items-center"><input type="radio" name="collapse" value="expanded" class="custom-radio"> <span class="ml-2">Expanded</span></label>
-    <label class="flex items-center"><input type="radio" name="collapse" value="collapsed" class="custom-radio"> <span class="ml-2">Collapsed</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Sidebar View -->
-<h4 class="font-bold mb-2">Sidebar View</h4>
-<div class="space-y-1" id="sidebar-options">
-    <label class="flex items-center"><input type="radio" name="sidebar" value="show" class="custom-radio"> <span class="ml-2">Show</span></label>
-    <label class="flex items-center"><input type="radio" name="sidebar" value="hide" class="custom-radio"> <span class="ml-2">Hide</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Controls Panel -->
-<h4 class="font-bold mb-2">Controls Panel</h4>
-<div class="space-y-1" id="float-options">
-    <label class="flex items-center"><input type="radio" name="floatControls" value="scroll" class="custom-radio"> <span class="ml-2">Float on Scroll</span></label>
-    <label class="flex items-center"><input type="radio" name="floatControls" value="default" class="custom-radio"> <span class="ml-2">Float by Default</span></label>
-    <label class="flex items-center"><input type="radio" name="floatControls" value="static" class="custom-radio"> <span class="ml-2">Never Float</span></label>
-</div>
-<hr class="border-gray-600 my-3">
-<!-- Float Position -->
-<h4 class="font-bold mb-2">Float Position</h4>
-<div class="space-y-1" id="float-position-options">
-    <label class="flex items-center"><input type="radio" name="floatPosition" value="right" class="custom-radio"> <span class="ml-2">Right Side</span></label>
-    <label class="flex items-center"><input type="radio" name="floatPosition" value="left" class="custom-radio"> <span class="ml-2">Left Side</span></label>
-</div>
+    <h4 class="font-bold mb-2">Sort By</h4>
+    <div class="space-y-1" id="sort-options">
+        <label class="flex items-center"><input type="radio" name="sort" value="date-desc" class="custom-radio"> <span class="ml-2">Date Posted (Newest)</span></label>
+        <label class="flex items-center"><input type="radio" name="sort" value="date-asc" class="custom-radio"> <span class="ml-2">Date Posted (Oldest)</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">View As</h4>
+    <div class="space-y-1" id="view-options">
+        <label class="flex items-center"><input type="radio" name="view" value="gallery" class="custom-radio"> <span class="ml-2">Gallery</span></label>
+        <label class="flex items-center"><input type="radio" name="view" value="list" class="custom-radio"> <span class="ml-2">List</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Guides Per Page</h4>
+    <div class="space-y-1 mb-4" id="pagination-options">
+        <select id="guides-per-page-select" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Guide View</h4>
+    <div class="space-y-1" id="loading-options">
+        <label class="flex items-center"><input type="radio" name="loading" value="side" class="custom-radio"> <span class="ml-2">Side-Load</span></label>
+        <label class="flex items-center"><input type="radio" name="loading" value="full" class="custom-radio"> <span class="ml-2">Full View</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Categories Default</h4>
+    <div class="space-y-1" id="collapse-options">
+        <label class="flex items-center"><input type="radio" name="collapse" value="expanded" class="custom-radio"> <span class="ml-2">Expanded</span></label>
+        <label class="flex items-center"><input type="radio" name="collapse" value="collapsed" class="custom-radio"> <span class="ml-2">Collapsed</span></label>
+    </div>
+    <hr class="border-gray-600 my-3">
+    <h4 class="font-bold mb-2">Sidebar View</h4>
+    <div class="space-y-1" id="sidebar-options">
+        <label class="flex items-center"><input type="radio" name="sidebar" value="show" class="custom-radio"> <span class="ml-2">Show</span></label>
+        <label class="flex items-center"><input type="radio" name="sidebar" value="hide" class="custom-radio"> <span class="ml-2">Hide</span></label>
+    </div>
 </div>
         </div>
 
@@ -5934,15 +5910,21 @@ function openConfidantModal(confidantName) {
             }
 });
 
-// === DYNAMIC FORUM SCRIPT V7 (Layout & Float Fixes) ===
+// === DYNAMIC FORUM SCRIPT V8 (Consolidated & Final) ===
 document.addEventListener('DOMContentLoaded', () => {
+    // [FIX #1] Move the controls panel immediately when the script runs.
+    // This ensures all subsequent code finds the elements in their correct new location.
+    const controlsWrapper = document.getElementById('guide-controls-wrapper');
+    const sidebar = document.getElementById('guide-forum-sidebar');
+    const mainGrid = document.getElementById('guide-main-grid');
+    if (controlsWrapper && sidebar) {
+        sidebar.appendChild(controlsWrapper);
+    }
+
     const forumContainer = document.getElementById('guide-forum-container');
     if (!forumContainer) return;
 
-    // --- Element Selectors ---
-    const sidebar = document.getElementById('guide-forum-sidebar');
-    const mainGrid = document.getElementById('guide-main-grid');
-    const controlsWrapper = document.getElementById('guide-controls-wrapper');
+    // --- Element Selectors (these now correctly find the moved elements) ---
     const forumTitle = document.getElementById('forum-title');
     const searchInput = document.getElementById('guide-search-input');
     const sortViewBtn = document.getElementById('sort-view-btn');
@@ -5960,9 +5942,7 @@ document.addEventListener('DOMContentLoaded', () => {
         forum: '', search: '', tags: new Set(),
         sort: 'date-desc', view: 'gallery', loading: 'side',
         collapse: 'expanded', sidebar: 'show', guidesPerPage: 10,
-        floatControls: 'scroll', floatPosition: 'right'
     };
-    let controlsWrapperOriginalTop = 0;
 
     const placeholderIcon = "https://cdn.imgchest.com/files/yq9c3k5n2q4.png";
     const forumStructure = [
@@ -6037,61 +6017,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadPreferences() {
         const prefs = JSON.parse(localStorage.getItem('guideForumPrefs'));
         if (prefs) {
-            userPreferences = { ...userPreferences, ...prefs, tags: new Set() };
+            // Only load non-floating preferences
+            const { floatControls, floatPosition, ...safePrefs } = prefs;
+            userPreferences = { ...userPreferences, ...safePrefs, tags: new Set() };
         }
         applyPreferences();
     }
 
     function savePreference(key, value) {
         userPreferences[key] = (key === 'guidesPerPage') ? parseInt(value, 10) : value;
-        localStorage.setItem('guideForumPrefs', JSON.stringify({
-            sort: userPreferences.sort, view: userPreferences.view, loading: userPreferences.loading,
-            collapse: userPreferences.collapse, sidebar: userPreferences.sidebar, guidesPerPage: userPreferences.guidesPerPage,
-            floatControls: userPreferences.floatControls, floatPosition: userPreferences.floatPosition
-        }));
+        // Exclude floating preferences from being saved
+        const { floatControls, floatPosition, ...prefsToSave } = userPreferences;
+        localStorage.setItem('guideForumPrefs', JSON.stringify(prefsToSave));
     }
-
+    
+    // [FIX #2] Simplified this function to remove all obsolete floating logic.
     function applyPreferences() {
         forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
-        const shouldFloatByDefault = userPreferences.floatControls === 'default';
-        controlsWrapper.classList.toggle('is-floating', shouldFloatByDefault);
-        controlsWrapper.classList.toggle('float-right', userPreferences.floatPosition === 'right');
-        controlsWrapper.classList.toggle('float-left', userPreferences.floatPosition === 'left');
         updateSortViewModal();
     }
-
-function handleScroll() {
-    if (!controlsWrapper) return;
-
-    if (controlsWrapperOriginalTop === 0 && controlsWrapper.offsetParent) {
-        controlsWrapperOriginalTop = controlsWrapper.getBoundingClientRect().top + window.scrollY;
-    }
-
-    const isSideLoading = contentSplit.classList.contains('side-loading');
-    let shouldBeFloating = false;
-
-    if (!isSideLoading) {
-        const floatPref = userPreferences.floatControls;
-        if (floatPref === 'default') {
-            shouldBeFloating = true;
-        } else if (floatPref === 'scroll') {
-            // Only float when scrolled past its starting position
-            shouldBeFloating = window.scrollY > (controlsWrapperOriginalTop - 100); 
-        }
-    }
-    
-    // This now only toggles the visual style, not the positioning
-    controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
-}
-
-function applyPreferences() {
-    forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
-    mainGrid.classList.toggle('float-position-left', userPreferences.floatPosition === 'left');
-    
-    // This will correctly set the initial float state
-    handleScroll(); 
-    updateSortViewModal();
-}
 
     function renderSidebar() {
         sidebar.innerHTML = forumStructure.map(category => `
@@ -6188,42 +6132,31 @@ function applyPreferences() {
         `).join('');
     }
 
-function openGuide(guide) {
-    if (!guide) return;
+    function openGuide(guide) {
+        if (!guide) return;
+        const closeBtnHTML = `<button id="close-guide-btn" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white">&times;</button>`;
+        postViewerContainer.innerHTML = `
+            <div class="relative h-full overflow-y-auto">
+                ${userPreferences.loading === 'side' ? closeBtnHTML : ''}
+                <h3>${guide.title}</h3>
+                <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author || 'Unknown'} - ${guide.date || 'N/A'}</p>
+                <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
+                ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
+            </div>`;
 
-    // Set the guide content first
-    const closeBtnHTML = `<button id="close-guide-btn" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white">&times;</button>`;
-    postViewerContainer.innerHTML = `
-        <div class="relative h-full overflow-y-auto">
-            ${userPreferences.loading === 'side' ? closeBtnHTML : ''}
-            <h3>${guide.title}</h3>
-            <p class="text-sm text-gray-400 -mt-2 mb-4">By ${guide.author || 'Unknown'} - ${guide.date || 'N/A'}</p>
-            <div class="prose prose-invert max-w-none text-gray-300">${guide.content}</div>
-            ${guide.credits ? `<div class="mt-6 pt-4 border-t border-gray-700 text-sm text-gray-500 italic">${guide.credits}</div>` : ''}
-        </div>
-    `;
-
-    // Handle the two different view modes
-    if (userPreferences.loading === 'side') {
-        contentSplit.classList.add('side-loading');
-    } else {
-        // For 'full' view, hide the list and expand the viewer
-        contentSplit.classList.add('full-view-active');
-        postListContainer.classList.add('hidden');
-        paginationControls.classList.add('hidden');
-        postViewerContainer.classList.remove('w-0', 'opacity-0');
-        postViewerContainer.innerHTML = `<button id="close-guide-btn" class="p5-button mb-4">&larr; Back to List</button>` + postViewerContainer.innerHTML;
+        if (userPreferences.loading === 'side') {
+            contentSplit.classList.add('side-loading');
+        } else {
+            contentSplit.classList.add('full-view-active');
+            postListContainer.classList.add('hidden');
+            paginationControls.classList.add('hidden');
+            postViewerContainer.classList.remove('w-0', 'opacity-0');
+            postViewerContainer.innerHTML = `<button id="close-guide-btn" class="p5-button mb-4">&larr; Back to List</button>` + postViewerContainer.innerHTML;
+        }
     }
 
-    // After setting the view, re-evaluate the float state.
-    // This ensures the controls float correctly in "Full View" but not in "Side-Load".
-    handleScroll();
-}
-
     function closeGuide() {
-        handleScroll();
-        contentSplit.classList.remove('side-loading');
-        contentSplit.classList.remove('full-view-active');
+        contentSplit.classList.remove('side-loading', 'full-view-active');
         postListContainer.classList.remove('hidden');
         paginationControls.classList.remove('hidden');
         postViewerContainer.innerHTML = '';
@@ -6238,8 +6171,6 @@ function openGuide(guide) {
         sortViewModal.querySelector(`input[name="loading"][value="${userPreferences.loading}"]`).checked = true;
         sortViewModal.querySelector(`input[name="collapse"][value="${userPreferences.collapse}"]`).checked = true;
         sortViewModal.querySelector(`input[name="sidebar"][value="${userPreferences.sidebar}"]`).checked = true;
-        sortViewModal.querySelector(`input[name="floatControls"][value="${userPreferences.floatControls}"]`).checked = true;
-        sortViewModal.querySelector(`input[name="floatPosition"][value="${userPreferences.floatPosition}"]`).checked = true;
         const perPageSelect = document.getElementById('guides-per-page-select');
         if (perPageSelect) perPageSelect.value = userPreferences.guidesPerPage;
     }
@@ -6260,7 +6191,7 @@ function openGuide(guide) {
     }
 
     function addEventListeners() {
-        window.addEventListener('scroll', handleScroll);
+        // Event listeners remain largely the same, but now they are guaranteed to work.
         sidebar.addEventListener('click', e => {
             const link = e.target.closest('.sidebar-forum-link');
             if (link) {
@@ -6352,9 +6283,22 @@ function openGuide(guide) {
             }
         });
     }
+
     initializeForum();
 });
 
     </script>
+	
+	<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const controlsWrapper = document.getElementById('guide-controls-wrapper');
+        const sidebar = document.getElementById('guide-forum-sidebar');
+        if (controlsWrapper && sidebar) {
+            // Move the entire controls panel into the sidebar
+            sidebar.appendChild(controlsWrapper);
+        }
+    });
+</script>
+	
 </body>
 </html>
