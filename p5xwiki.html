@@ -1924,6 +1924,25 @@ body.sidebar-open .site-wrapper {
     position: sticky !important;
 }
 
+/* Constrains the forum's width and centers it on the page */
+#guide-forum-container {
+    max-width: 80rem; /* 1280px */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Corrects the layout for the side-loaded guide viewer */
+#guide-content-split.side-loading #guide-post-viewer {
+    flex: 1 1 60%;
+    /* width: 60%; */ /* This line should be removed */
+    opacity: 1;
+    padding-left: 1rem;
+}
+
+#guide-forum-container.sidebar-hidden #guide-forum-sidebar {
+    display: none;
+}
+
 /* Media query for smaller screens */
 @media (max-width: 1280px) {
     #guide-main-grid {
