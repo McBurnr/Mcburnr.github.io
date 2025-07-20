@@ -2044,16 +2044,22 @@ body.sidebar-open .site-wrapper {
 }
 
 #sort-view-modal {
-    position: fixed; /* Use fixed positioning for reliability */
-    width: 22rem; /* Wider to accommodate two columns */
-    font-size: 0.9rem; /* Smaller base font size */
-    /* Centering styles */
-    top: 50%;
+    position: fixed;
+    width: 40rem; /* Increased width for two columns */
+    font-size: 0.9rem;
+    /* Move it up by changing the 'top' value */
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transform-origin: center center; /* Animate from center */
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Faster animation */
-    z-index: 100; /* Ensure it's on top of other content */
+    transform-origin: center center;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    z-index: 100;
+}
+
+#modal-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 1.5rem; /* 0 vertical gap, 1.5rem horizontal */
 }
 
 /* Hidden state for the modal */
@@ -2366,43 +2372,58 @@ body.sidebar-open .site-wrapper {
 
 <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
     <button id="close-sort-modal-btn" class="absolute top-2 right-3 text-2xl text-gray-400 hover:text-white">&times;</button>
-    <h4 class="font-bold mb-2">Sort By</h4>
-    <div class="space-y-1" id="sort-options">
-        <label class="flex items-center"><input type="radio" name="sort" value="date-desc" class="custom-radio"> <span class="ml-2">Date Posted (Newest)</span></label>
-        <label class="flex items-center"><input type="radio" name="sort" value="date-asc" class="custom-radio"> <span class="ml-2">Date Posted (Oldest)</span></label>
-    </div>
-    <hr class="border-gray-600 my-3">
-    <h4 class="font-bold mb-2">View As</h4>
-    <div class="space-y-1" id="view-options">
-        <label class="flex items-center"><input type="radio" name="view" value="gallery" class="custom-radio"> <span class="ml-2">Gallery</span></label>
-        <label class="flex items-center"><input type="radio" name="view" value="list" class="custom-radio"> <span class="ml-2">List</span></label>
-    </div>
-    <hr class="border-gray-600 my-3">
-    <h4 class="font-bold mb-2">Guides Per Page</h4>
-    <div class="space-y-1 mb-4" id="pagination-options">
-        <select id="guides-per-page-select" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-        </select>
-    </div>
-    <hr class="border-gray-600 my-3">
-    <h4 class="font-bold mb-2">Guide View</h4>
-    <div class="space-y-1" id="loading-options">
-        <label class="flex items-center"><input type="radio" name="loading" value="side" class="custom-radio"> <span class="ml-2">Side-Load</span></label>
-        <label class="flex items-center"><input type="radio" name="loading" value="full" class="custom-radio"> <span class="ml-2">Full View</span></label>
-    </div>
-    <hr class="border-gray-600 my-3">
-    <h4 class="font-bold mb-2">Categories Default</h4>
-    <div class="space-y-1" id="collapse-options">
-        <label class="flex items-center"><input type="radio" name="collapse" value="expanded" class="custom-radio"> <span class="ml-2">Expanded</span></label>
-        <label class="flex items-center"><input type="radio" name="collapse" value="collapsed" class="custom-radio"> <span class="ml-2">Collapsed</span></label>
-    </div>
-    <hr class="border-gray-600 my-3">
-    <h4 class="font-bold mb-2">Sidebar View</h4>
-    <div class="space-y-1" id="sidebar-options">
-        <label class="flex items-center"><input type="radio" name="sidebar" value="show" class="custom-radio"> <span class="ml-2">Show</span></label>
-        <label class="flex items-center"><input type="radio" name="sidebar" value="hide" class="custom-radio"> <span class="ml-2">Hide</span></label>
+    
+    <div id="modal-grid-container">
+        <div>
+            <h4 class="font-bold mb-2">Sort By</h4>
+            <div class="space-y-1" id="sort-options">
+                <label class="flex items-center"><input type="radio" name="sort" value="date-desc" class="custom-radio"> <span class="ml-2">Date Posted (Newest)</span></label>
+                <label class="flex items-center"><input type="radio" name="sort" value="date-asc" class="custom-radio"> <span class="ml-2">Date Posted (Oldest)</span></label>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="font-bold mb-2">View As</h4>
+            <div class="space-y-1" id="view-options">
+                <label class="flex items-center"><input type="radio" name="view" value="gallery" class="custom-radio"> <span class="ml-2">Gallery</span></label>
+                <label class="flex items-center"><input type="radio" name="view" value="list" class="custom-radio"> <span class="ml-2">List</span></label>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="font-bold mb-2">Guides Per Page</h4>
+            <div class="space-y-1 mb-4" id="pagination-options">
+                <select id="guides-per-page-select" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:ring-red-500 focus:border-red-500">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+        
+        <div>
+            <h4 class="font-bold mb-2">Guide View</h4>
+            <div class="space-y-1" id="loading-options">
+                <label class="flex items-center"><input type="radio" name="loading" value="side" class="custom-radio"> <span class="ml-2">Side-Load</span></label>
+                <label class="flex items-center"><input type="radio" name="loading" value="full" class="custom-radio"> <span class="ml-2">Full View</span></label>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="font-bold mb-2">Categories Default</h4>
+            <div class="space-y-1" id="collapse-options">
+                <label class="flex items-center"><input type="radio" name="collapse" value="expanded" class="custom-radio"> <span class="ml-2">Expanded</span></label>
+                <label class="flex items-center"><input type="radio" name="collapse" value="collapsed" class="custom-radio"> <span class="ml-2">Collapsed</span></label>
+            </div>
+        </div>
+        
+        <div>
+            <h4 class="font-bold mb-2">Sidebar View</h4>
+            <div class="space-y-1" id="sidebar-options">
+                <label class="flex items-center"><input type="radio" name="sidebar" value="show" class="custom-radio"> <span class="ml-2">Show</span></label>
+                <label class="flex items-center"><input type="radio" name="sidebar" value="hide" class="custom-radio"> <span class="ml-2">Hide</span></label>
+            </div>
+        </div>
     </div>
 </div>
 
