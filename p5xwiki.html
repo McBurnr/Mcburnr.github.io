@@ -1938,7 +1938,23 @@ body.sidebar-open .site-wrapper {
     gap: 0.5rem; /* Space between filters */
 }
 
-/* --- END: New Static Filter Panel CSS --- */
+/* --- Styles for Top-Positioned Filter Panel --- */
+#top-controls-container #guide-controls-wrapper {
+    display: block; /* Make it visible */
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(30, 30, 30, 0.5);
+    border: 1px solid var(--shadow-color-light);
+    border-radius: 8px;
+}
+
+#top-controls-container #guide-controls-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
 
 /* Corrects the layout for the side-loaded guide viewer */
 #guide-content-split.side-loading #guide-post-viewer {
@@ -1996,6 +2012,26 @@ body.sidebar-open .site-wrapper {
     position: sticky;
     top: 100px;
     z-index: 10; /* Lower z-index than the controls wrapper */
+}
+
+/* --- Compact Filter Panel Styles --- */
+#guide-controls-content h2#forum-title {
+    font-size: 1.3rem; /* Downsizes the forum title text */
+}
+
+#guide-controls-content #sort-view-btn {
+    padding: 0.4rem 0.8rem; /* Reduces button size */
+    font-size: 0.9rem;
+}
+
+#guide-controls-content .guide-tag-btn {
+    padding: 0.2rem 0.6rem; /* Makes tag buttons smaller */
+    font-size: 0.75rem;
+}
+
+/* --- Compact Guide Title Style --- */
+.guide-post-title {
+    font-size: 1.1rem; /* Reduces the title size in the guide list */
 }
 
 /* Media query for smaller screens */
@@ -2198,34 +2234,38 @@ body.sidebar-open .site-wrapper {
             <!-- The controls wrapper will be appended here by JS -->
         </nav>
 
-        <main id="guide-forum-main" class="flex-grow min-w-0">
-            <div id="guide-main-grid" class="grid grid-cols-1 gap-6">
-                <!-- The controls wrapper starts here in the HTML but gets moved by JS -->
-                <div id="guide-controls-wrapper" class="hidden"> <!-- Start hidden to prevent flash of unstyled content -->
-                    <div id="guide-controls-content">
-                        <div class="flex items-center justify-between gap-2 mb-4">
-                            <h2 id="forum-title" class="text-2xl font-bold font-['Cinzel',_serif] text-white cursor-pointer flex items-center gap-3" title="Open Quick Navigate">
-                                <!-- Title will be generated here -->
-                            </h2>
-                            <button id="sort-view-btn" class="p5-button flex-shrink-0">Sort & View</button>
-                        </div>
-                        <div class="relative w-full mb-4">
-                            <input type="text" id="guide-search-input" placeholder="Search current forum...">
-                        </div>
-                        <div id="guide-pagination-controls" class="flex items-center justify-center gap-2 mb-4"></div>
-                        <div id="guide-tag-filters" class="flex flex-wrap items-center gap-2 pb-4 border-b-2 border-gray-700"></div>
-                    </div>
-                </div>
+<main id="guide-forum-main" class="flex-grow min-w-0">
+    <!-- This new container is the destination for the filter panel when the sidebar is hidden -->
+    <div id="top-controls-container"></div>
 
-                <!-- The content area is now the only direct child of the grid -->
-                <div id="guide-content-area" class="min-w-0">
-                    <div id="guide-content-split" class="flex">
-                        <div id="guide-post-list" class="w-full transition-all duration-300 ease-in-out"></div>
-                        <div id="guide-post-viewer" class="w-0 opacity-0 transition-all duration-300 ease-in-out"></div>
-                    </div>
+    <div id="guide-main-grid" class="grid grid-cols-1 gap-6">
+        <!-- The controls wrapper starts here in the HTML but gets moved by JS -->
+        <div id="guide-controls-wrapper" class="hidden"> 
+            <div id="guide-controls-content">
+                <div class="flex items-center justify-between gap-2 mb-4">
+                    <h2 id="forum-title" class="text-2xl font-bold font-['Cinzel',_serif] text-white cursor-pointer flex items-center gap-3" title="Open Quick Navigate">
+                        <!-- Title will be generated here -->
+                    </h2>
+                    <button id="sort-view-btn" class="p5-button flex-shrink-0">Sort & View</button>
                 </div>
+                <div class="relative w-full mb-4">
+                    <input type="text" id="guide-search-input" placeholder="Search current forum...">
+                </div>
+                <div id="guide-pagination-controls" class="flex items-center justify-center gap-2 mb-4"></div>
+                <div id="guide-tag-filters" class="flex flex-wrap items-center gap-2 pb-4 border-b-2 border-gray-700"></div>
             </div>
-        </main>
+        </div>
+
+        <!-- The content area is now the only direct child of the grid -->
+        <div id="guide-content-area" class="min-w-0">
+            <div id="guide-content-split" class="flex">
+                <div id="guide-post-list" class="w-full transition-all duration-300 ease-in-out"></div>
+                <div id="guide-post-viewer" class="w-0 opacity-0 transition-all duration-300 ease-in-out"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
     </div>
 
     <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
@@ -6054,10 +6094,27 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('guideForumPrefs', JSON.stringify(prefsToSave));
     }
     
-    function applyPreferences() {
-        forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
-        updateSortViewModal();
+function applyPreferences() {
+    const topControlsContainer = document.getElementById('top-controls-container');
+    const sidebar = document.getElementById('guide-forum-sidebar');
+    const controlsWrapper = document.getElementById('guide-controls-wrapper');
+
+    // This logic now moves the panel instead of hiding it
+    if (userPreferences.sidebar === 'hide') {
+        // Move controls to the top container
+        if (topControlsContainer && controlsWrapper) {
+            topControlsContainer.appendChild(controlsWrapper);
+        }
+        forumContainer.classList.add('sidebar-hidden');
+    } else {
+        // Move controls back to the sidebar
+        if (sidebar && controlsWrapper) {
+            sidebar.appendChild(controlsWrapper);
+        }
+        forumContainer.classList.remove('sidebar-hidden');
     }
+    updateSortViewModal();
+}
 
     function renderSidebar() {
         if (!categoriesContainer) return;
