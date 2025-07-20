@@ -2050,7 +2050,7 @@ body.sidebar-open .site-wrapper {
     font-size: 0.9rem; /* Smaller base font size */
     transform-origin: top right; /* Animation originates from the top-right corner */
     transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Faster animation */
-    z-index: 100; /* Ensure it's on top */
+    z-index: 100; /* Ensure it's on top of other content */
 }
 
 /* Hidden state for the modal */
@@ -2069,7 +2069,7 @@ body.sidebar-open .site-wrapper {
     pointer-events: auto;
 }
 
-/* Smaller headings */
+/* Smaller headings inside the modal */
 #sort-view-modal h4 {
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
@@ -2079,7 +2079,7 @@ body.sidebar-open .site-wrapper {
 #sort-view-modal .space-y-1 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem 1rem; /* Row and column gap */
+    gap: 0.5rem 1rem; /* Vertical and horizontal gap */
 }
 
 /* Smaller label text */
@@ -6102,6 +6102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     async function initializeForum() {
+// Add this at the beginning of the initializeForum function
 const sortViewModal = document.getElementById('sort-view-modal');
 if (sortViewModal) {
     document.body.appendChild(sortViewModal);
@@ -6422,6 +6423,7 @@ function openGuide(guide) {
             openGuide(guide);
         });
 
+// Replace the existing document click listener with this one
 document.addEventListener('click', e => {
     if (e.target.id === 'close-guide-btn' || e.target.closest('#close-guide-btn')) {
         closeGuide();
