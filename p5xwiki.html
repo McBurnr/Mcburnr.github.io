@@ -6023,17 +6023,44 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSortViewModal();
     }
 
-    function handleScroll() {
-        if (userPreferences.floatControls !== 'scroll' || !controlsWrapper) return;
-        if (controlsWrapperOriginalTop === 0) {
-            controlsWrapperOriginalTop = controlsWrapper.getBoundingClientRect().top + window.scrollY;
+function handleScroll() {
+    // This function is now the single source of truth for floating.
+    if (!controlsWrapper) return;
+
+    // Calculate original top position once if it hasn't been set
+    if (controlsWrapperOriginalTop === 0 && controlsWrapper.offsetParent) {
+        controlsWrapperOriginalTop = controlsWrapper.getBoundingClientRect().top + window.scrollY;
+    }
+
+    // Determine if the controls should be floating based on preferences and view state
+    const isSideLoading = contentSplit.classList.contains('side-loading');
+    let shouldBeFloating = false;
+
+    // Rule #1: Never float when a guide is side-loading.
+    if (!isSideLoading) {
+        const floatPref = userPreferences.floatControls;
+        
+        if (floatPref === 'default') {
+            // Rule #2: Always float if preference is "Float by Default".
+            shouldBeFloating = true;
+        } else if (floatPref === 'scroll') {
+            // Rule #3: Only float if scrolled past the panel's original position.
+            shouldBeFloating = window.scrollY > controlsWrapperOriginalTop;
         }
-        const isSideLoading = contentSplit.classList.contains('side-loading');
-        const shouldBeFloating = window.scrollY > controlsWrapperOriginalTop && !isSideLoading;
-        controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
+        // If the preference is "static", shouldBeFloating remains false.
+    }
+    
+    // Apply the final state to the controls wrapper
+    controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
+
+    // Apply positioning classes ONLY when floating
+    if (shouldBeFloating) {
         controlsWrapper.classList.toggle('float-right', userPreferences.floatPosition === 'right');
         controlsWrapper.classList.toggle('float-left', userPreferences.floatPosition === 'left');
+    } else {
+        controlsWrapper.classList.remove('float-right', 'float-left');
     }
+}
 
     function renderSidebar() {
         sidebar.innerHTML = forumStructure.map(category => `
@@ -6145,19 +6172,21 @@ function openGuide(guide) {
         </div>
     `;
 
-    // **This is the corrected logic block**
+    // Handle the two different view modes
     if (userPreferences.loading === 'side') {
-        // Only disable floating for side-load view to prevent overlap
-        controlsWrapper.classList.remove('is-floating');
         contentSplit.classList.add('side-loading');
     } else {
-        // For 'full' view, do not disable floating
+        // For 'full' view, hide the list and expand the viewer
         contentSplit.classList.add('full-view-active');
         postListContainer.classList.add('hidden');
         paginationControls.classList.add('hidden');
         postViewerContainer.classList.remove('w-0', 'opacity-0');
         postViewerContainer.innerHTML = `<button id="close-guide-btn" class="p5-button mb-4">&larr; Back to List</button>` + postViewerContainer.innerHTML;
     }
+
+    // After setting the view, re-evaluate the float state.
+    // This ensures the controls float correctly in "Full View" but not in "Side-Load".
+    handleScroll();
 }
 
     function closeGuide() {
