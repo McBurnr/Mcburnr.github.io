@@ -1940,6 +1940,15 @@ body.sidebar-open .site-wrapper {
     display: none;
 }
 
+#guide-main-grid.offset-for-left-float {
+    margin-left: 330px; /* Width of the panel (300px) + a gap */
+}
+
+#guide-forum-sidebar {
+    position: sticky;
+    top: 100px; /* Aligns with the top of the filter panel */
+}
+
 /* Media query for smaller screens */
 @media (max-width: 1280px) {
     #guide-main-grid {
@@ -2000,7 +2009,8 @@ body.sidebar-open .site-wrapper {
     flex: 1 1 55%; /* Let this column grow and shrink */
     opacity: 1;
     padding-left: 1.5rem;
-    /* REMOVED the problematic 'width: 60%' property */
+	max-height: calc(100vh - 120px); 
+	
 }
 #guide-post-viewer h3 { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
 #guide-content-split.full-view-active #guide-post-viewer { width: 100%; opacity: 1; }
@@ -6050,20 +6060,20 @@ function handleScroll() {
     }
 
     controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
+    
+    // **NEW LINE:** Add/remove a class on the parent grid for positioning
+    mainGrid.classList.toggle('offset-for-left-float', shouldBeFloating && userPreferences.floatPosition === 'left');
 
-    // NEW LOGIC for positioning
     if (shouldBeFloating) {
         const mainContentRect = document.getElementById('guide-forum-main').getBoundingClientRect();
         
         if (userPreferences.floatPosition === 'left') {
-            // Position left of the main content area
-            const leftPosition = mainContentRect.left - controlsWrapper.offsetWidth - 30; // 30px gap
-            controlsWrapper.style.setProperty('--float-left', `${Math.max(24, leftPosition)}px`); // Ensure it doesn't go off-screen
+            const leftPosition = mainContentRect.left - controlsWrapper.offsetWidth - 30;
+            controlsWrapper.style.setProperty('--float-left', `${Math.max(24, leftPosition)}px`);
             controlsWrapper.style.setProperty('--float-right', 'auto');
         } else {
-            // Position right of the main content area (Default)
-            const rightPosition = window.innerWidth - mainContentRect.right - controlsWrapper.offsetWidth - 30; // 30px gap
-            controlsWrapper.style.setProperty('--float-right', `${Math.max(24, rightPosition)}px`); // Ensure it doesn't go off-screen
+            const rightPosition = window.innerWidth - mainContentRect.right - controlsWrapper.offsetWidth - 30;
+            controlsWrapper.style.setProperty('--float-right', `${Math.max(24, rightPosition)}px`);
             controlsWrapper.style.setProperty('--float-left', 'auto');
         }
     }
