@@ -2294,6 +2294,34 @@ body.sidebar-open .site-wrapper {
     }
 }
 
+/* === DYNAMIC FORUM STYLES V5 - Floating Panel Position === */
+#guide-controls-wrapper.is-floating.float-right {
+    right: 1.5rem;
+    left: auto;
+}
+
+#guide-controls-wrapper.is-floating.float-left {
+    left: 1.5rem;
+    right: auto;
+}
+
+/* Adjust main content margin based on float side */
+#guide-forum-main.controls-floating-right #guide-content-split {
+    margin-right: 324px; /* Width of floating panel + gap */
+}
+#guide-forum-main.controls-floating-left #guide-content-split {
+    margin-left: 324px;
+}
+
+/* Media query adjustments for the new positioning */
+@media (max-width: 1280px) {
+    #guide-forum-main.controls-floating-right #guide-content-split,
+    #guide-forum-main.controls-floating-left #guide-content-split {
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
 </style>
 
 </head>
@@ -2459,13 +2487,18 @@ body.sidebar-open .site-wrapper {
     </div>
 
 <div id="sort-view-modal" class="hidden absolute z-50 right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-lg shadow-lg p-4">
-<!-- Add this inside your #sort-view-modal div -->
 <hr class="border-gray-600 my-3">
 <h4 class="font-bold mb-2">Controls Panel</h4>
 <div class="space-y-1" id="float-options">
     <label class="flex items-center"><input type="radio" name="floatControls" value="scroll" class="custom-radio"> <span class="ml-2">Float on Scroll</span></label>
     <label class="flex items-center"><input type="radio" name="floatControls" value="default" class="custom-radio"> <span class="ml-2">Float by Default</span></label>
     <label class="flex items-center"><input type="radio" name="floatControls" value="static" class="custom-radio"> <span class="ml-2">Never Float</span></label>
+</div>
+<hr class="border-gray-600 my-3">
+<h4 class="font-bold mb-2">Float Position</h4>
+<div class="space-y-1" id="float-position-options">
+    <label class="flex items-center"><input type="radio" name="floatPosition" value="right" class="custom-radio"> <span class="ml-2">Right Side</span></label>
+    <label class="flex items-center"><input type="radio" name="floatPosition" value="left" class="custom-radio"> <span class="ml-2">Left Side</span></label>
 </div>
     <h4 class="font-bold mb-2">Sort By</h4>
     <div class="space-y-1" id="sort-options">
@@ -6170,7 +6203,7 @@ function openConfidantModal(confidantName) {
             }
 });
 
-// === DYNAMIC FORUM SCRIPT V5 (Floating Controls Update) ===
+// === DYNAMIC FORUM SCRIPT V6 (Floating Controls Fix & Position) ===
 document.addEventListener('DOMContentLoaded', () => {
     const forumContainer = document.getElementById('guide-forum-container');
     if (!forumContainer) return;
@@ -6196,7 +6229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         forum: '', search: '', tags: new Set(),
         sort: 'date-desc', view: 'gallery', loading: 'side',
         collapse: 'expanded', sidebar: 'show', guidesPerPage: 10,
-        floatControls: 'scroll' // New preference
+        floatControls: 'scroll', floatPosition: 'right' // Added floatPosition
     };
     let controlsWrapperOriginalTop = 0;
 
@@ -6211,16 +6244,18 @@ document.addEventListener('DOMContentLoaded', () => {
         loadPreferences();
         renderSidebar();
         addEventListeners();
-        // Set the initial top position of the controls wrapper for the scroll listener
-        setTimeout(() => {
-            if (controlsWrapper) {
-                controlsWrapperOriginalTop = controlsWrapper.offsetTop;
-            }
-        }, 200); // Small delay to ensure layout is stable
         try {
             const response = await fetch('guides.txt');
             if (!response.ok) throw new Error('Network response not ok.');
             allGuides = parseGuideText(await response.text());
+            
+            // Set the initial top position after guides are loaded and rendered
+            setTimeout(() => {
+                if (controlsWrapper) {
+                    controlsWrapperOriginalTop = controlsWrapper.getBoundingClientRect().top + window.scrollY;
+                }
+            }, 300); 
+
             const firstForumLink = sidebar.querySelector('.sidebar-forum-link');
             if (firstForumLink) {
                 firstForumLink.click();
@@ -6288,16 +6323,22 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('guideForumPrefs', JSON.stringify({
             sort: userPreferences.sort, view: userPreferences.view, loading: userPreferences.loading,
             collapse: userPreferences.collapse, sidebar: userPreferences.sidebar, guidesPerPage: userPreferences.guidesPerPage,
-            floatControls: userPreferences.floatControls
+            floatControls: userPreferences.floatControls, floatPosition: userPreferences.floatPosition
         }));
     }
 
     function applyPreferences() {
         forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
         postListContainer.className = `w-full transition-all duration-300 ease-in-out view-${userPreferences.view}`;
+        
         const shouldFloatByDefault = userPreferences.floatControls === 'default';
         controlsWrapper.classList.toggle('is-floating', shouldFloatByDefault);
-        mainContent.classList.toggle('controls-are-floating', shouldFloatByDefault);
+        controlsWrapper.classList.toggle('float-right', userPreferences.floatPosition === 'right');
+        controlsWrapper.classList.toggle('float-left', userPreferences.floatPosition === 'left');
+        
+        mainContent.classList.toggle('controls-floating-right', shouldFloatByDefault && userPreferences.floatPosition === 'right');
+        mainContent.classList.toggle('controls-floating-left', shouldFloatByDefault && userPreferences.floatPosition === 'left');
+        
         updateSortViewModal();
     }
 
@@ -6305,7 +6346,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userPreferences.floatControls !== 'scroll' || !controlsWrapper || controlsWrapperOriginalTop === 0) return;
         const shouldBeFloating = window.scrollY > controlsWrapperOriginalTop;
         controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
-        mainContent.classList.toggle('controls-are-floating', shouldBeFloating);
+        controlsWrapper.classList.toggle('float-right', userPreferences.floatPosition === 'right');
+        controlsWrapper.classList.toggle('float-left', userPreferences.floatPosition === 'left');
+
+        mainContent.classList.toggle('controls-floating-right', shouldBeFloating && userPreferences.floatPosition === 'right');
+        mainContent.classList.toggle('controls-floating-left', shouldBeFloating && userPreferences.floatPosition === 'left');
     }
 
     function renderSidebar() {
@@ -6333,7 +6378,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const forumInfo = forumStructure.flatMap(c => c.forums).find(f => f.name === userPreferences.forum);
         forumTitle.innerHTML = `
             ${forumInfo ? `<img src="${forumInfo.icon}" class="sidebar-forum-icon" alt="${forumInfo.name} icon">` : ''}
-            <span>${userPreferences.forum}</span>
+            <span class="truncate">${userPreferences.forum}</span>
         `;
         const uniqueTags = [...new Set(guidesInForum.flatMap(g => g.tags || []))];
         tagFiltersContainer.innerHTML = uniqueTags.map(tag =>
@@ -6444,6 +6489,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sortViewModal.querySelector(`input[name="collapse"][value="${userPreferences.collapse}"]`).checked = true;
         sortViewModal.querySelector(`input[name="sidebar"][value="${userPreferences.sidebar}"]`).checked = true;
         sortViewModal.querySelector(`input[name="floatControls"][value="${userPreferences.floatControls}"]`).checked = true;
+        sortViewModal.querySelector(`input[name="floatPosition"][value="${userPreferences.floatPosition}"]`).checked = true;
         const perPageSelect = document.getElementById('guides-per-page-select');
         if (perPageSelect) perPageSelect.value = userPreferences.guidesPerPage;
     }
@@ -6516,8 +6562,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (e.target.closest('#sort-view-btn')) {
                 sortViewModal.classList.toggle('hidden');
-                sortViewModal.style.top = sortViewBtn.offsetTop + sortViewBtn.offsetHeight + 8 + 'px';
-                sortViewModal.style.right = (document.body.clientWidth - sortViewBtn.offsetLeft - sortViewBtn.offsetWidth) + 'px';
+                const rect = sortViewBtn.getBoundingClientRect();
+                sortViewModal.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+                sortViewModal.style.left = (rect.right + window.scrollX - sortViewModal.offsetWidth) + 'px';
+
             } else if (!e.target.closest('#sort-view-modal')) {
                 sortViewModal.classList.add('hidden');
             }
@@ -6556,6 +6604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initializeForum();
 });
+
 
     </script>
 </body>
