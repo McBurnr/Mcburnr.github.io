@@ -2048,7 +2048,7 @@ body.sidebar-open .site-wrapper {
     position: fixed; /* Use fixed positioning for reliability */
     width: 22rem; /* Wider to accommodate two columns */
     font-size: 0.9rem; /* Smaller base font size */
-    transform-origin: top right; /* Animation originates from the top-right corner */
+    transform-origin: top left; /* Animation originates from the top-left corner */
     transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Faster animation */
     z-index: 100; /* Ensure it's on top of other content */
 }
@@ -6423,7 +6423,6 @@ function openGuide(guide) {
             openGuide(guide);
         });
 
-// Replace the existing document click listener with this one
 document.addEventListener('click', e => {
     if (e.target.id === 'close-guide-btn' || e.target.closest('#close-guide-btn')) {
         closeGuide();
@@ -6436,8 +6435,9 @@ document.addEventListener('click', e => {
         
         // Position relative to the button using fixed coordinates
         sortViewModal.style.top = `${rect.bottom + 8}px`;
-        sortViewModal.style.right = `${window.innerWidth - rect.right}px`;
-        sortViewModal.style.left = 'auto'; // Ensure left is not set
+        // Align the modal's left edge with the button's left edge
+        sortViewModal.style.left = `${rect.left}px`;
+        sortViewModal.style.right = 'auto';
     } else if (!e.target.closest('#sort-view-modal')) {
         sortViewModal.classList.add('hidden');
     }
