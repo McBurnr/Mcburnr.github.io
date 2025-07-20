@@ -71,14 +71,8 @@ body {
         background-image: var(--background-image);
         background-repeat: repeat-x;
         background-size: auto 100%;
-        animation: scrollBackground 30s linear infinite;
         z-index: -1;
         opacity: 0.3;
-    }
-
-    @keyframes scrollBackground {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
     }
 
 .header {
@@ -1899,7 +1893,10 @@ body.sidebar-open .site-wrapper {
 #guide-controls-wrapper.is-floating {
     position: fixed;
     top: 100px;
-    width: 300px; /* Slightly narrower when floating */
+    /* We will set 'left' and 'right' with JS */
+    left: var(--float-left, auto);
+    right: var(--float-right, auto);
+    width: 300px;
     background: rgba(15, 15, 15, 0.9);
     backdrop-filter: blur(8px);
     border: 2px solid var(--primary-color);
@@ -1915,10 +1912,6 @@ body.sidebar-open .site-wrapper {
 #guide-controls-wrapper.is-floating #forum-title { font-size: 1.25rem; }
 #guide-controls-wrapper.is-floating #sort-view-btn { padding: 0.5rem; font-size: 0.8rem; }
 
-/* Floating Panel Positioning */
-#guide-controls-wrapper.is-floating.float-right { right: 1.5rem; left: auto; }
-#guide-controls-wrapper.is-floating.float-left { left: 1.5rem; right: auto; }
-
 /* When a guide is side-loaded, force the controls to be static to prevent overlap */
 #guide-content-split.side-loading ~ #guide-controls-wrapper {
     position: sticky !important;
@@ -1929,6 +1922,10 @@ body.sidebar-open .site-wrapper {
     max-width: 80rem; /* 1280px */
     margin-left: auto;
     margin-right: auto;
+}
+
+#guide-content-area {
+    min-width: 0;
 }
 
 /* Corrects the layout for the side-loaded guide viewer */
@@ -1993,8 +1990,18 @@ body.sidebar-open .site-wrapper {
 .guide-post-tags { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .guide-post-tag { background: #4A5568; color: #E2E8F0; padding: 0.15rem 0.5rem; border-radius: 0.75rem; font-size: 0.7rem; }
 #guide-post-list.view-list .guide-post-image, #guide-post-list.view-list .guide-post-tags { display: none; }
-#guide-content-split.side-loading #guide-post-list { flex: 0 0 40%; padding-right: 1rem; border-right: 1px solid var(--shadow-color-light); }
-#guide-content-split.side-loading #guide-post-viewer { flex: 1 1 60%; width: 60%; opacity: 1; padding-left: 1rem; }
+#guide-content-split.side-loading #guide-post-list {
+    flex: 0 0 45%; /* Adjusted flex-basis slightly */
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--shadow-color-light);
+    min-width: 0; /* CRITICAL FIX: Allows this column to shrink */
+}
+#guide-content-split.side-loading #guide-post-viewer {
+    flex: 1 1 55%; /* Let this column grow and shrink */
+    opacity: 1;
+    padding-left: 1.5rem;
+    /* REMOVED the problematic 'width: 60%' property */
+}
 #guide-post-viewer h3 { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
 #guide-content-split.full-view-active #guide-post-viewer { width: 100%; opacity: 1; }
 .page-btn { background-color: rgba(74, 85, 104, 0.5); border: 1px solid #4A5568; color: #E2E8F0; font-weight: bold; cursor: pointer; transition: all 0.2s ease; border-radius: 6px; min-width: 36px; height: 36px; display: inline-flex; justify-content: center; align-items: center; }
@@ -6024,42 +6031,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 function handleScroll() {
-    // This function is now the single source of truth for floating.
     if (!controlsWrapper) return;
 
-    // Calculate original top position once if it hasn't been set
     if (controlsWrapperOriginalTop === 0 && controlsWrapper.offsetParent) {
         controlsWrapperOriginalTop = controlsWrapper.getBoundingClientRect().top + window.scrollY;
     }
 
-    // Determine if the controls should be floating based on preferences and view state
     const isSideLoading = contentSplit.classList.contains('side-loading');
     let shouldBeFloating = false;
 
-    // Rule #1: Never float when a guide is side-loading.
     if (!isSideLoading) {
         const floatPref = userPreferences.floatControls;
-        
         if (floatPref === 'default') {
-            // Rule #2: Always float if preference is "Float by Default".
             shouldBeFloating = true;
         } else if (floatPref === 'scroll') {
-            // Rule #3: Only float if scrolled past the panel's original position.
             shouldBeFloating = window.scrollY > controlsWrapperOriginalTop;
         }
-        // If the preference is "static", shouldBeFloating remains false.
     }
-    
-    // Apply the final state to the controls wrapper
+
     controlsWrapper.classList.toggle('is-floating', shouldBeFloating);
 
-    // Apply positioning classes ONLY when floating
+    // NEW LOGIC for positioning
     if (shouldBeFloating) {
-        controlsWrapper.classList.toggle('float-right', userPreferences.floatPosition === 'right');
-        controlsWrapper.classList.toggle('float-left', userPreferences.floatPosition === 'left');
-    } else {
-        controlsWrapper.classList.remove('float-right', 'float-left');
+        const mainContentRect = document.getElementById('guide-forum-main').getBoundingClientRect();
+        
+        if (userPreferences.floatPosition === 'left') {
+            // Position left of the main content area
+            const leftPosition = mainContentRect.left - controlsWrapper.offsetWidth - 30; // 30px gap
+            controlsWrapper.style.setProperty('--float-left', `${Math.max(24, leftPosition)}px`); // Ensure it doesn't go off-screen
+            controlsWrapper.style.setProperty('--float-right', 'auto');
+        } else {
+            // Position right of the main content area (Default)
+            const rightPosition = window.innerWidth - mainContentRect.right - controlsWrapper.offsetWidth - 30; // 30px gap
+            controlsWrapper.style.setProperty('--float-right', `${Math.max(24, rightPosition)}px`); // Ensure it doesn't go off-screen
+            controlsWrapper.style.setProperty('--float-left', 'auto');
+        }
     }
+}
+
+function applyPreferences() {
+    forumContainer.classList.toggle('sidebar-hidden', userPreferences.sidebar === 'hide');
+    // This function will now correctly set the float state and position
+    handleScroll(); 
+    updateSortViewModal();
 }
 
     function renderSidebar() {
