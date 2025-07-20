@@ -1,32 +1,288 @@
 [GUIDE]
-TITLE: Kotone Montagne (Mont) Full Infographic
-FORUM: Global Builds
-CATEGORY: Builds
-AUTHOR: Najox2314
-AUTHOR_IMAGE: https://i.imgur.com/LdaC1fb.png
-DATE: 2025-06-26
-MAIN_IMAGE: https://i.imgur.com/LdaC1fb.png
-TAGS: 4 Star, ST DPS, Ice, Infographic, Kotone Montagne
+TITLE: (Devouring Nightmare 🟪) Queen Guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2024-12-09
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
 CONTENT:
-<p>This is the full guide content for Kotone Montagne. It includes her skills, build recommendations, and team compositions.</p>
-<p>You can use <b>any HTML</b> you need right here to format the guide.</p>
+<p>```Speed:Vino/Wonder/Leon (Must use the set below)/Queen/Futaba</p><p>Persona: Bishamonten (learn single target defence decrease)/Janosik (learn rebellion)/dionysus (learn single target EHR increase)</p><p></p><p>1st round:</p><p>Vino shield/Wonder dionysus EHR increase on Vino/Leon shield/Queen 1st skill</p><p></p><p>2nd round:</p><p>Futaba 1st skill/Vino 3rd skill/Wonder Bishamonten single target defence decrease/Vino HL/Leon 1st skill/Queen 2nd skill on teammate who’s on lowest HP</p><p>!!!! If Queen gotten hit by frozen effect need to restart !!!!</p><p></p><p>3rd round:</p><p>Futaba 3rd skill on Queen/Vino 2nd skill/Wonder dionysus 1st skill on Queen/Leon 3rd skill on Queen/Leon HL on Queen/Queen 1st skill</p><p></p><p>Weak:</p><p>Weak 1st round:</p><p>Futaba 1st skill/Vino 1st skill/Wonder Janosik rebellion on Queen/Leon 2nd skill on Queen/Queen transform into breserker form/Queen 3rd skill</p><p></p><p>Weak 2nd round:</p><p>Futaba 3rd skill on Queen/Vino 3rd skill/Wonder Bishamonten 1st skill/Leon 3rd skill/Queen HL/Queen 3rd skill```</p>
 ---
 CREDITS:
-Guide created by Najox2314 | Persona5x.info 2025
+Scraped from Discord.
 [END_GUIDE]
 
 [GUIDE]
-TITLE: Leo Kamiyama (Leon) Full Infographic
-FORUM: Global Builds
-CATEGORY: Builds
-AUTHOR: Najox2314
-AUTHOR_IMAGE: https://i.imgur.com/LdaC1fb.png
-DATE: 2025-06-25
-MAIN_IMAGE: https://i.imgur.com/pYV0N2N.png
-TAGS: 4 Star, Buffer, Nuclear, Infographic, Leo Kamiyama
+TITLE: (Multi-Layer Dream 🟨) Haru guild boss
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2024-12-14
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
 CONTENT:
-<p>This is the full guide content for Leo Kamiyama. It includes his skills, build recommendations, and team compositions.</p>
+<p>```Speed: Smoko(Marian)/Wonder/Chord/Haru/Futaba</p><p>Personas: Neko Shogun/Shiva/Jikokuten (learn rebellion/single target EHR buff)</p><p><b>If your Haru reaches 140 EHR without S moko, learn rebellion</b></p><p><b>If your Haru doesn’t reaches 140 EHR without S moko, learn singe target EHR buff</b></p><p></p><p>1st round: S moko 2nd skill on Haru (Marian 3rd skill)/Chord HL/Jikokuten rebellion(or EHR) buff Haru/Chord 2nd skill on Haru/Haru 1st skill</p><p></p><p>2nd round: Futaba 1st skill/S moko 3rd skill (Marian 2nd skill)/Haru HL/Jikokuten single attack up buff on Haru/Chord 1st skill/Haru 3rd skill</p><p></p><p>3rd round: Futaba 3rd skill on Haru/S moko 2nd skill on Haru (Marian 3rd skill)/Shiva 1st skill/Wonder Shiva HL/Chord 3rd skill on Haru/Haru GUN</p><p></p><p>4th round: S moko 3rd skill (Marian 2nd skill)/Jikokuten rebellion(or EHR) buff Haru/Chord 2nd skill on Haru/Haru 1st skill</p><p></p><p>5th round: Futaba 1st skill/Wonder Jikokuten HL/S moko 2nd skill on Haru (Marian 3rd skill)/Wonder Neko Shogun 1st skill on Haru/Chord 1st skill/Haru 3rd skill</p><p></p><p>6th round: Futaba 3rd skill on Haru/S moko 3rd skill (Marian 2nd skill)/Wonder Shiva 1st skill/Chord 3rd skill on Haru/Haru HL/Haru GUN```</p>
 ---
 CREDITS:
-Guide created by Najox2314 | Persona5x.info 2025
+Scraped from Discord.
 [END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare 🟪 )Nidhoggur guild boss
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2024-12-26
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
+CONTENT:
+<p>```Persona: dominion > dionysus (learn rebellion) > surt </p><p></p><p>Team: nurse/chord/S closer/Wind</p><p></p><p>Speed: nurse > wonder > chord > S closer</p><p></p><p>Round one:</p><p>Nurse: 1st skill boss</p><p>Wonder: decreases defence with surt</p><p>Chord: 2nd skill on S closer</p><p>Wonder HL</p><p>S closer: 3rd skill</p><p></p><p>Round two:</p><p>Wind:1st skill</p><p>Nurse: 2nd skill on S closer</p><p>Wonder: dionysus rebellion on S closer</p><p>Chord: 2nd skill</p><p>S closer: 2nd skill on worms (use gun if you can kill with gun)</p><p></p><p>Weak round one:</p><p>Wind:3rd skill</p><p>Chord HL (just open before chord’s turn)</p><p>Nurse: 3rd skill</p><p>Wonder: Dionysus 1st skill</p><p>Chord: third skill on S closer</p><p>S closer: 3rd skill</p><p></p><p>Weak 2nd round:</p><p>Nurse: 3rd skill</p><p>Wonder: dominion 1st skill</p><p>Wind: 3rd skill on S closer</p><p>Chord: 2nd skill</p><p>S closer HL</p><p>S closer: 1st skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare 🟪) “Kasumi” guild boss
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2024-12-26
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
+CONTENT:
+<p>```Speed: Wonder/Vino/Chord/“Kasumi”/Futaba</p><p>Persona: Sraosha/Janosik(learn single target attack increases buff)/dionysus(learn single target defence decreases and rebellion)</p><p>Wonder’s Weapon: photo below</p><p></p><p>!!!! VINO’S CARD SET MUST BE SAME AS BELOW!!!!</p><p>(Chord’s card set is optional but I would recommend using them)</p><p></p><p>1st round: Wonder dioysus 1st skill(don’t give it to “Kasumi”/Vino 1st skill/Chord 2nd skill on Wonder/“Kasumi” 1st skill</p><p></p><p>2nd round: Wonder dioysus defence decreases/Vino 3rd skill/Chord 3rd skill on Wonder/“Kasumi” 2nd skill on Wonder</p><p></p><p>3rd round: Futaba 2nd skill/Wonder change to Sraosha HL/Wonder Janosik attack increase buff on “Kasumi”/Vino 1st skill/Chord 2nd skill on “Kasumi”/“Kasumi”  1st skill</p><p></p><p>Weak 1st round: Futaba 1st skill/Wonder dioysus rebellion on “Kasumi”/Vino 3rd skill/Chord 1st skill/“Kasumi” 3rd skill</p><p></p><p>Weak 2nd round: Futaba 3rd skill on “Kasumi”/Chord HL/Wonder Sraosha 1st skill/Vino 1st skill/Chord 3rd skill on “Kasumi”/“Kasumi” HL/“Kasumi” HL (if A6)/“Kasumi” 3rd skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) Wind Mont boss with SP Riko
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-01-19
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Howler/Wonder/SP Riko/Mont/Phoebe</p><p></p><p>Persona: Norn/Vishnu/Parvati</p><p></p><p>Wonder uses weapon as below:</p><p></p><p>1st round: Howler 2nd skill/ Wonder Norn single target wind attack/ SP Riko 3rd skill on Mont/ Mont 3rd skill</p><p></p><p>2nd round: Phoebe 2nd skill on Mont/ Howler 3rd skill/ Wonder HL/ Wonder Vishnu 1st skill/ SP Riko 1st skill/ Mont 1st skill</p><p></p><p>3rd round: Phoebe 3rd skill on Mont/ Howler 2nd skill/ Wonder Norn 1st skill/ SP Riko 3rd skill on Mont/ Mont 3rd skill</p><p></p><p>4th round: Howler 3rd skill/ Wonder switch to Parvati HL/ Wonder Vishnu 1st skill/ SP Riko 1st skill/ Mont 1st skill</p><p></p><p>5th round: Phoebe 1st skill/ Howler 2nd skill/ Wonder Norn Single target Wind attack/ SP Riko 3rd skill on Mont/ Mont 3rd skill</p><p></p><p>6th round: Howler 3rd skill/ Wonder Vishnu 1st skill/ Phoebe 3rd skill on Mont/ SP Riko 1st skill/ Mont HL/ Mont 1st skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) Baal guild boss fight
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-01-26
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: S moko/Wonder/Chord/Messa/Futaba</p><p>Persona: Jikokuten (learn single target attack increase buff and single target defence decrease)/Janosik (learn single target defence decrease)/dominion (learn single attack increase buff)</p><p></p><p>1st round:S moko 2nd skill on Messa/Wonder Jikokuten single target defence decrease/Chord 2nd skill on Messa/Messa 2nd skill (don’t open 3rd skill)</p><p></p><p>2nd round: Futaba 1st skill/S moko 3rd skill/Wonder Jikokuten single attack increase buff on Messa/Messa HL/chord 1st skill/Messa 3rd skill then 1st skill</p><p></p><p>3rd round:Futaba 3rd skill on Messa/S moko 2nd skill on Messa/Wonder dominion 1st skill on Messa/Chord 3rd skill on Messa/Messa 3rd skill then 1st skill</p><p></p><p>4th round:S moko 3rd skill/Wonder dominion single attack increase buff on Messa/Wonder HL/Chord 2nd skill Messa/Messa 3rd skill then 1st skill</p><p></p><p>5th round:Futaba 1st skill/S moko 2nd skill Messa/Wonder Janosik single target defence decrease/Chord 1st skill/Messa 3rd skill then 1st skill</p><p></p><p>6th round:Futaba 3rd skill on Messa/S moko 3rd skill/Wonder dominion 1st skill on Messa/Chord 3rd skill on Messa/Messa HL/Messa 3rd skill then 2nd skill ```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: （Multi-Layer Dream 🟨) CNY Rin guild boss (MUST NEED A1
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-02-02
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Howler/Marian/Wonder/Rin/Futaba</p><p>Persona: Surt/Vishnu/Baphomet</p><p></p><p>(Bring purple knife)</p><p></p><p>1st round: Howler 1st skill/ Marian 2nd skill on Rin/ Wonder Surt defence decreases/ Rin change form/ Rin 1st skill</p><p></p><p>2nd round: Futaba 1st skill/Howler 3rd skill/ Rin HL/ Marian 2nd skill on Rin/ Wonder Vishnu aoe winded/ Rin attack</p><p></p><p>3rd round: Futaba 3rd skill on Rin/ Howler 1st skill/ Marian 3rd skill on Rin/ Baphomet 1st skill/ Howler HL/ Rin attack</p><p></p><p>4th round: Howler 3rd skill/ Marian 2nd skill on Rin/ Wonder Surt defence decrease/ Rin 1st skill</p><p></p><p>5th round: Futaba 1st skill/ Wonder HL/ Howler 1st skill/ Marian 2nd skill on Rin/ Wonder Vishnu aoe winded/ Rin change form/ Rin attack</p><p></p><p>6th round: Futaba 3rd skill on Rin/ Howler 3rd skill/ Marian 3rd skill on Rin/ Wonder Baphomet 1st skill/ Rin HL/ Rin attack```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Connection Nightmare 🟥) Dominion guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-03-22
+MAIN_IMAGE: 
+TAGS: Connection Nightmare
+CONTENT:
+<p>```Speed: Wonder/Chord/Joker/Crow/Phoebe</p><p></p><p>Persona: Dominion (learn single target attack buff)/ Ame-no-Uzume (learn AOE electric attack)/ Succubus (learn AOE attack buff)</p><p></p><p>1st round: Wonder Ame-no-Uzume AOE electric attack/ Chord 2nd skill on Joker/ Joker 1st skill/ Crow HL/ joker 3rd skill/ Phoebe 3rd skill on Joker/ Crow 2nd skill</p><p></p><p>2nd round: Wonder Succubus AOE attack buff/ Chord 3rd skill on Joker/ Joker 3rd skill/ Joker 3rd skill/ Chord HL/ Crow 3rd skill </p><p></p><p>3rd round: Wonder Ame-no-Uzume AOE electric attack/ Phoebe 1st skill/ Chord 1st skill/ Joker 3rd skill/ Joker HL/ Joker 3rd skill/ Crow 2nd skill</p><p></p><p>4th round: Wonder dominion single target attack buff on Joker/ Phoebe 3rd skill on Joker/ Chord 2nd skill on Joker/ Joker 1st skill/ Joker 3rd skill/ Crow 3rd skill</p><p></p><p>5th round: Wonder Ame-no-Uzume AOE electric attack/ Crow HL/ Chord item AOE heal/ Joker 1st skill/ Joker 3rd skill/ Phoebe 2nd skill on Joker/ Crow 2nd skill</p><p></p><p>6th round: Wonder Succubus AOE attack buff/ Chord 3rd skill on Joker/ Joker 3rd skill/ Phoebe 3rd skill on Joker/ Joker HL/ Joker 3rd skill/ Crow 3rd skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare 🟪) Wind Mont guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-03-22
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
+CONTENT:
+<p>```MUST NEED FUTABA!!!</p><p>Speed: Neon(or Soy)/Wonder/Chord/Mont/Futaba</p><p>Persona: Narcissus(learn single target defence decreases)/Vishnu/dominion</p><p></p><p>Neon:</p><p>1st round: </p><p>Neon normal attack/Wonder dominion rebellion on Mont /Chord 1st skill/Mont 2nd skill</p><p>2nd round: </p><p>(DONT USE FUTABA ANY SKILL!!)</p><p>Neon 1st skill/Wonder single target defence decrease/Chord 3rd skill on Wonder/Mont 2nd skill</p><p>3rd round: </p><p>Futaba 2nd skill/Neon HL/Neon 1st skill/Wonder Narcissus 1st skill/Chord 2nd skill on Mont/Mont 1st skill</p><p></p><p>Weak 1st round:</p><p>(FOLLOW EVERY STEP!!)</p><p>Neon 3rd skill on Mont/Futaba 1st skill/Wonder Vishnu 1st skill/Chord 1st skill/Mont 3rd skill</p><p>Weak 2nd round:</p><p>Neon 2nd skill on Mont/Futaba 3rd skill on Mont/Wonder dominion 1st skill/Chord 3rd skill on Mont/Mont HL/Mont 1st skill</p><p></p><p>——————————————————————</p><p></p><p>Soy:</p><p>1st round: </p><p>Soy 3rd skill/Wonder dominion rebellion on Mont /Chord 1st skill/Mont 2nd skill</p><p>2nd round: </p><p>(DONT USE FUTABA ANY SKILL!!)</p><p>Soy gun until defence decreases/Wonder single target defence decrease/Chord 3rd skill on Wonder/Mont 2nd skill</p><p>3rd round: </p><p>Futaba 2nd skill/Soy 2nd skill/Wonder dominion HL/Wonder Narcissus 1st skill/Chord 2nd skill on Mont/Mont 1st skill</p><p></p><p>Weak 1st round:</p><p>(FOLLOW EVERY STEP!!)</p><p>Soy 1st skill/Futaba 1st skill/Wonder Vishnu 1st skill/Chord 1st skill/Mont 3rd skill</p><p>Weak 2nd round:</p><p>Soy 1st skill/Futaba 3rd skill on Mont/Wonder dominion 1st skill/Chord 3rd skill on Mont/Mont HL/Mont 1st skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: （Connection Nightmare 🟥） Chinese Rin guild boss (MUST NEED A1)
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-03-30
+MAIN_IMAGE: 
+TAGS: Connection Nightmare
+CONTENT:
+<p>```Speed: Howler/Wonder/Ann/Rin/Futaba</p><p>Persona: Surt/Vishnu/Baphomet</p><p></p><p>(Bring purple knife)</p><p></p><p>1st round: Howler 1st skill/Wonder Surt defence decreases/ Ann 3rd skill/ Rin change form/ Rin 1st skill</p><p></p><p>2nd round: Futaba 1st skill/Howler 3rd skill/ Wonder Vishnu aoe winded/ Rin HL/ Ann 1st skill/ Rin attack</p><p></p><p>3rd round: Futaba 3rd skill/ Howler 1st skill/ Baphomet 1st skill/ Ann 3rd skill/ Howler HL/ Rin attack</p><p></p><p>4th round: Howler 3rd skill/ Wonder Surt defence decrease/ Ann 1st skill/ Rin 1st skill</p><p></p><p>5th round: Futaba 1st skill/ Wonder HL/ Howler 1st skill/ Wonder Vishnu aoe winded/ Ann 3rd skill/ Rin change form/ Rin attack</p><p></p><p>6th round: Futaba 3rd skill/ Howler 3rd skill/ Wonder Baphomet 1st skill/ Ann 3rd skill/ Rin HL/ Rin attack ```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) Wind Mont boss with SP Riko
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-04-12
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Wonder (use ancient dagger)/SP Riko/Chord/Mont/Futaba</p><p></p><p>Persona: Koumokuten (learn ST defence decrease)/ Vishnu/ Norn</p><p></p><p>!!! NEED TO BUT HEALING ITEM FOR ALL ALLIES (buy like 5-10)!!!</p><p></p><p>1st round: Wonder Koumokuten ST defence decrease/ SP Riko 3rd skill Mont/ Chord 2nd skill Mont/ Mont 3rd skill</p><p></p><p>2nd round: Futaba 1st skill/ Wonder Koumokuten HL/ Wonder Vishnu 1st skill/ SP Riko 1st skill/ Chord Item AOE heal/ Mont 1st skill</p><p></p><p>3rd round: Futaba 3rd skill Mont/ Wonder Norn ST wind attack/ SP Riko 3rd skill Mont/ Chord 3rd skill Mont/ Chord HL/ Mont 3rd skill</p><p></p><p>4th round: Wonder Koumokuten ST defence decrease/ SP Riko 1st skill/ Chord 2nd skill Mont/ Mont 1st skill</p><p></p><p>5th round: Futaba 1st skill/ SP Riko HL/ Wonder Vishnu 1st skill/ SP Riko 3rd skill/ Chord Item AOE heal/ Mont 3rd skill</p><p></p><p>6th round: Futaba 3rd skill Mont/ Wonder Norn ST wind attack/ SP Riko 1st skill/ Chord 3rd skill Mont/ Mont HL/ Mont 1st skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare 🟪)  Haru guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-04-18
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
+CONTENT:
+<p>```Speed: Wonder/Matoi/S moko/Haru/Ange</p><p></p><p>Persona: Shiva/Throne/Dionysus (learn rebellion and ST attack buff)</p><p></p><p>Bring purple dagger</p><p>(You can replace Matoi with Howler)</p><p></p><p>S moko need to use the card set below:</p><p></p><p>1st round: Wonder shield/ Matoi or Howler shield/ S moko shield/ Haru shield</p><p>2nd round: Ange skill 2 on Haru/ Wonder Throne 1st skill on Matoi or Howler/ Haru HL/ Matoi or Howler shield/ S moko shield/ Haru shield</p><p>3rd round: Wonder Dionysus 1st skill Haru/ Matoi or Howler 1st skill/ S moko 2nd skill on Haru/ Haru shield</p><p>4th round: Ange 1st skill on Haru/ Wonder Shiva HL/ Wonder Dionysus rebellion on Haru/ Matoi or Howler 3rd skill/ S moko 3rd skill/ Haru 1st skill</p><p></p><p>Weak 1st round: Ange 3rd skill on Haru/ Wonder Dionysus ST attack buff/ Matoi or Howler 1st skill/ Matoi or Howler HL/ S moko 2nd skill on Haru/ Haru 3rd skill</p><p>Weak 2nd round: Ange 1st skill on Haru/ Ange extra round on Haru/ Ange extra round on Haru (if A6 Ange)/ Wonder Shiva 1st skill/ Matoi or Howler 3rd skill/ S moko 3rd skill/ Haru GUN/ Ange 3rd skill/ Haru HL/ Haru GUN```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) Akihiko Guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-06-20
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Turbo/ Wonder/ Yukari/ Akihiko/ Ange</p><p>Persona: Thor/ Surt/ Dionysus (learn rebellion)</p><p></p><p>(Use the electric dagger for Wonder)</p><p>(If your Ange is A0, Ignore the 3rd skill at 1st round)</p><p></p><p>1st round: Ange 3rd skill on Akihiko/ Turbo 2nd skill on Akihiko/ Wonder Surt 1st skill/ Yukari 1st skill on tank/ Akihiko 1st skill</p><p></p><p>2nd round: Ange 1st skill on Akihiko/ Turbo active extra round mask/ Turbo 1st skill/ Turbo 3rd skill on Akihiko/ Wonder Thor HL/ Wonder Dionysus rebellion on Akihiko/ Yukari Theurgy on tank/ Yukari 2nd skill on Akihiko/ Akihiko 2nd skill</p><p></p><p>3rd round: Ange 3rd skill on Akihiko/ Turbo 2nd skill on Akihiko/ Wonder Thor 1st skill/ Yukari 3rd skill on Akihiko/ Turbo HL/ Akihiko Punch/ Akihiko Theurgy/ Akihiko 3rd skill</p><p></p><p>4th round: Ange 1st skill on Akihiko/ Turbo 1st skill/ Wonder Surt 1st skill/ Yukari Theurgy on tank/ Yukari 2nd skill on Akihiko/ Akihiko 1st skill</p><p></p><p>5th round: Ange 3rd skill on Akihiko/ Turbo active extra round mask/ Turbo 2nd skill on Akihiko/ Turbo 3rd skill on Akihiko/ Wonder Dionysus HL/ Wonder Dionysus rebellion on Akihiko/ Yukari 3rd skill on Akihiko/ Akihiko 2nd skill</p><p></p><p>6th round: Ange 1st skill on Akihiko/ Turbo 1st skill/ Wonder Thor 1st skill/ Yukari Theurgy on tank/ Yukari 2nd skill on Akihiko/ Turbo HL on Akihiko/ Akihiko assist himself/ Akihiko Punch/ Akihiko Theurgy/ Ange put extra round on Akihiko/ Akihiko 3rd skill/ Akihiko 3rd skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) “Kasumi” Guild boss
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-06-22
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Wonder/ Marian/ Chord/ “Kasumi”/ Futaba</p><p>Persona: Sraosha (learn Rakunda)/ Vishnu/ Jikokuten</p><p></p><p>1st round: Wonder Sraosha Rakunda/ Marian 1st skill/ Chord 2nd skill on “Kasumi” (A1+ Chord use 1st skill)/ “Kasumi” 2nd skill on Wonder</p><p></p><p>2nd round: Futaba 1st skill/ Chord HL/ Wonder Vishnu 1st skill/ Marian 1st skill/ Chord 1st skill/ “Kasumi” 1st skill</p><p></p><p>3rd round: Futaba 3rd skill on “Kasumi”/ “Kasumi” change form/ Wonder Sraosha 1st skill/ Wonder Sraosha HL/ Marian 3rd skill on “Kasumi”/ Chord 3rd skill on “Kasumi”/ “Kasumi” HL/ “Kasumi” 3rd skill</p><p></p><p>4th round: Wonder Sraosha Rakunda/ Marian 1st skill/ Chord 2nd skill on “Kasumi”/ “Kasumi” 2nd skill on Wonder</p><p></p><p>5th round: Futaba 1st skill/ Wonder Jikokuten HL/ Wonder Vishnu 1st skill/ Marian 1st skill/ Chord 1st skill/ “Kasumi” 1st skill</p><p></p><p>6th round: Futaba 3rd skill on “Kasumi”/ “Kasumi” change form/ Wonder Sraosha 1st skill/ Marian 3rd skill/ Chord HL/ Chord 3rd skill on “Kasumi”/ “Kasumi” HL/ “Kasumi” 3rd skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare🟪) Dominion Guild Boss (GLB)
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-07-06
+MAIN_IMAGE: https://img.youtube.com/vi/tINBVmkHUI4/hqdefault.jpg
+TAGS: Devouring Nightmare
+CONTENT:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tINBVmkHUI4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Multi-Layer Dream 🟨) Yui guild boss (GLB)
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-07-11
+MAIN_IMAGE: 
+TAGS: Multi-layer Dream
+CONTENT:
+<p>```Speed: Closer/Wonder/Soy/Yui/Okyann</p><p>Wonder persona: Jikokuten (learn Rakunda)/ Janosik (learn Rakunda)/ Yurlungur</p><p></p><p>1st round: Closer 1st skill/ Wonder Jikokuten Rakunda/ Soy 3rd skill/ Yui 3rd skill on Closer</p><p></p><p>2nd round: Okyann 3rd skill/ Closer 2nd skill/ Jikokuten Tarukaja on Yui/ Closer HL on Rakshasa/ Soy 2nd skill on boss/ Yui 1st skill on Rakshasa</p><p></p><p>3rd round: Closer 2nd skill/ Janosik Rakunda on boss/ Soy 3rd skill/ Yui 1st skill on Rakshasa</p><p></p><p>4th round: Okyann 1st skill/ Yui HL/ Closer 1st skill on boss/ Wonder Yurlungur Ziodyne/ Soy 2nd skill/ Yui 1st skill</p><p></p><p>5th round: Okyann 3rd skill/ Closer 2nd skill/ Wonder Jikokuten HL/ Wonder Yurlungur Ziodyne/ Soy 2nd skill/ Yui 3rd skill on Closer</p><p></p><p>6th round: Closer 2nd skill/ Wonder Yurlungur Ziodyne/ Soy 2nd skill/ Closer HL/ Yui 1st skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare:purple_square:) Berry guild boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-07-16
+MAIN_IMAGE: 
+TAGS: Devouring Nightmare
+CONTENT:
+<p>```Speed: Wind SP/Wonder/Chord/Berry/Ange</p><p>Wonder Persona: Vasuki (learn Rakunda)/ Dionysus (learn rebellion)/ Janosik (learn Rakunda)</p><p></p><p>1st round: Wind SP Shield/ Wonder Shield/ Chord Shield/ Berry HL on boss/ Berry 2nd skill on boss</p><p></p><p>2nd round: Ange 1st skill on Berry (if A1+ then use 3rd skill)/ Wind SP Shield/ Wonder Vasuki Rakunda on boss/ Chord 3rd skill on Berry/ Berry Shield</p><p></p><p>3rd round: Ange 3rd skill on Berry (if A1+ then use 1st skill)/ Wind SP 3rd skill on Berry/ Wonder Vasuki 1st skill on boss/ Chord 2nd skill on Berry/ Berry 1st skill on side shadows</p><p></p><p>Weak 1st round:  Ange 1st skill on Berry (if A1+ then use 3rd skill)/ Wind SP HL on Berry/ Wind SP 2nd skill on Berry (if A1+ use 1st skill on boss)/ Wonder Dionysus rebellion on Berry/ Chord 1st skill/ Berry 3rd skill</p><p></p><p>Weak 2nd round: Ange 3rd skill on Berry (if A1+ then use 1st skill)/ Ange extra round on Berry/ Wind SP 3rd skill ok Berry/ Wonder Janosik Rakunda on boss/ Chord 3rd skill on Berry/ Berry 3rd skill/ Berry HL/ Berry 3rd skill```</p>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
+[GUIDE]
+TITLE: (Devouring Nightmare🟪) Yui Guild Boss:
+FORUM: Guild Bosses
+CATEGORY: Gameplay
+AUTHOR: earphoneidot
+AUTHOR_IMAGE: https://cdn.discordapp.com/avatars/768348679462846464/2fd09707888510d6f15346f7a191f21c.png?size=1024
+DATE: 2025-07-19
+MAIN_IMAGE: https://img.youtube.com/vi/VsIMhk53qTw/hqdefault.jpg
+TAGS: Devouring Nightmare
+CONTENT:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VsIMhk53qTw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+---
+CREDITS:
+Scraped from Discord.
+[END_GUIDE]
+
