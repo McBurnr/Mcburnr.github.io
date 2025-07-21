@@ -2216,11 +2216,12 @@ body.sidebar-open .site-wrapper {
     #guide-forum-container {
         flex-direction: column;
     }
-    #guide-forum-main {
-        /* Add padding to prevent content from hiding under the new fixed headers/footers */
-        padding-top: 115px; 
-        padding-bottom: 60px;
-    }
+#guide-forum-main {
+    /* Increased top padding to push content below the fixed header */
+    padding-top: 125px; 
+    padding-bottom: 70px; /* Added a bit more space for the pagination bar */
+}
+
     
     /* Force single-column, full-view for guides */
     #guide-content-split,
@@ -6320,6 +6321,13 @@ async function initializeForum() {
         document.body.appendChild(sortViewModal);
     }
 
+    // Move pagination controls to the main content area to make them visible on mobile
+    const paginationControls = document.getElementById('guide-pagination-controls');
+    const mainForumContainer = document.getElementById('guide-forum-main');
+    if (paginationControls && mainForumContainer && !mainForumContainer.contains(paginationControls)) {
+        mainForumContainer.appendChild(paginationControls);
+    }
+
     loadPreferences();
     renderSidebar();
     addEventListeners();
@@ -6342,6 +6350,7 @@ async function initializeForum() {
         postListContainer.innerHTML = `<p class="text-red-500">Error: Could not load guides.txt.</p>`;
     }
 }
+
 
 
     function parseGuideText(text) {
