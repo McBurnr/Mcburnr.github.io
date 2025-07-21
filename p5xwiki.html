@@ -2203,6 +2203,275 @@ body.sidebar-open .site-wrapper {
 .page-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color-dark); }
 .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* === MOBILE FORUM OVERHAUL (max-width: 768px) === */
+@media (max-width: 768px) {
+
+    /* --- 1. General Layout & Hiding Desktop Elements --- */
+
+    /* Hide the desktop sidebar and quick category switcher */
+    #guide-forum-sidebar,
+    #guide-controls-content h2#forum-title {
+        display: none;
+    }
+
+    /* Force a single-column layout */
+    #guide-forum-container {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #guide-forum-main {
+        width: 100%;
+    }
+
+    /* Remove side-loading view on mobile; force full view */
+    #guide-content-split,
+    #guide-content-split.side-loading {
+        display: block;
+        border-right: none;
+        padding-right: 0;
+    }
+
+    #guide-content-split.side-loading #guide-post-list,
+    #guide-content-split.side-loading #guide-post-viewer {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 0;
+        position: static; /* Reset sticky positioning */
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    /* Ensure the main content area has padding to not touch the fixed pagination */
+    #guide-content-area {
+        padding-bottom: 80px;
+    }
+
+
+    /* --- 2. New Mobile Header & Controls --- */
+
+    /* Repurpose the top container for the new header */
+    #top-controls-container {
+        position: sticky;
+        top: 60px; /* Stick below the main site header */
+        background: #0a0a0a;
+        z-index: 30;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid var(--shadow-color-light);
+    }
+    
+    #guide-controls-wrapper {
+        padding: 0;
+        background: none;
+        border: none;
+    }
+
+    /* This will hold the new top bar with category switcher and search */
+    .mobile-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Style the repurposed forum title as the category switcher */
+    .mobile-category-switcher {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .mobile-category-switcher::after {
+        content: '>';
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    /* Style the search container and icon */
+    .mobile-search-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    #guide-search-input {
+        transition: width 0.3s ease-in-out;
+        width: 0;
+        padding: 0.5rem 0;
+        border: none;
+        background: transparent;
+    }
+    #guide-search-input:focus {
+        width: calc(100vw - 100px); /* Expand to fill space */
+        background: #222;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Search icon styling */
+    #guide-controls-wrapper .relative.w-full.mb-4::before {
+        font-size: 1.5rem;
+        right: 0.5rem;
+        left: auto;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    
+    /* Hide category switcher when search is active */
+    .mobile-header-bar:focus-within .mobile-category-switcher {
+        display: none;
+    }
+
+
+    /* --- 3. Filter & Tags Dropdowns --- */
+    
+    /* Container for "Sort & View" and "Tags" buttons */
+    .mobile-filter-bar {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    /* Style the main filter button */
+    #sort-view-btn {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: transparent;
+        border: none;
+        color: #ccc;
+        padding: 0;
+        width: auto;
+        height: auto;
+    }
+    #sort-view-btn::before {
+        content: '⇅ Sort & View';
+    }
+    #sort-view-btn svg { display: none; } /* Hide original icon */
+
+    /* Reposition and restyle the filter modal as a dropdown */
+    #sort-view-modal {
+        top: 170px; /* Position below the new header */
+        left: 0.5rem;
+        right: auto;
+        width: calc(100vw - 1rem);
+        transform: none;
+        border-radius: 8px;
+        max-width: 350px;
+    }
+
+    /* Hide desktop-only options in the modal */
+    #sort-view-modal #loading-options,
+    #sort-view-modal #sidebar-options,
+    #sort-view-modal #collapse-options {
+        display: none;
+    }
+    #sort-view-modal #modal-grid-container {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+
+    /* Tags dropdown styling */
+    #guide-tag-filters {
+        position: relative;
+        padding: 0;
+        border: none;
+    }
+    
+    /* Create a "Tags" button lookalike */
+    #guide-tag-filters::before {
+        content: 'Tags ▾';
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #ccc;
+    }
+
+    /* Hide tags by default */
+    .guide-tag-btn {
+        display: none;
+    }
+
+    /* Show tags when the container is "focused" */
+    #guide-tag-filters:focus-within .guide-tag-btn {
+        display: inline-flex;
+    }
+    #guide-tag-filters:focus-within {
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background: #1a1a1a;
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid var(--shadow-color-light);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    #guide-tag-filters:focus-within::before {
+        content: 'Filter by Tag';
+        color: var(--primary-color);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+
+    /* --- 4. Guide List Styling --- */
+
+    /* Force list view and remove gallery styles */
+    #guide-post-list,
+    #guide-post-list.view-gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+    }
+
+    #guide-post-list .guide-post {
+        flex-direction: column;
+        border-radius: 8px;
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    /* Reorder and style post content with Flexbox */
+    .guide-post-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .guide-post-tags { order: 1; margin-bottom: 0.5rem; }
+    .guide-post-title { order: 2; font-size: 1.1rem; }
+    .guide-post-meta { order: 3; }
+
+    /* Show tags in the list view */
+    #guide-post-list.view-list .guide-post-tags {
+        display: flex;
+    }
+    /* Hide the thumbnail image */
+    .guide-post-image {
+        display: none;
+    }
+
+
+    /* --- 5. Pagination Styling --- */
+
+    #guide-pagination-controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.9);
+        backdrop-filter: blur(5px);
+        padding: 0.75rem;
+        border-top: 1px solid var(--shadow-color-light);
+        z-index: 25;
+    }
+}
+
+
 </style>
 
 </head>
