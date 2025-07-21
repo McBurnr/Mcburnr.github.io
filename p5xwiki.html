@@ -2351,6 +2351,71 @@ body.sidebar-open .site-wrapper {
     }
 }
 
+#fake-ad-container {
+    position: fixed;
+    bottom: 20px;
+    /* Use 'right' for positioning and animation to avoid conflicts */
+    right: -400px; /* Start completely off-screen */
+    z-index: 9999;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--primary-color, #ff0000);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+    /* Transition the 'right' property for a slow slide */
+    transition: right 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#fake-ad-container.show {
+    right: 20px; /* Final on-screen position */
+    /* The shake animation now safely controls transform */
+    animation: shake 0.5s infinite alternate;
+}
+
+/* The .dismissing class is no longer needed for positioning */
+
+#fake-ad-container a {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+#fake-ad-container img {
+    display: block;
+    max-width: 300px;
+    height: auto;
+}
+
+#fake-ad-container p {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 3px black;
+    animation: text-glow 1.5s infinite alternate;
+}
+
+/* Keyframe Animations */
+@keyframes shake {
+    /* This animation now ONLY uses transform, which is safe */
+    from { transform: rotate(-1deg); }
+    to { transform: rotate(1deg); }
+}
+
+@keyframes text-glow {
+    0% { color: #ffffff; text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de; }
+    50% { color: #f0ff00; text-shadow: 0 0 5px #00ffc8, 0 0 10px #00ffc8; }
+    100% { color: #ffffff; text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de; }
+}
+
+
 
 </style>
 
@@ -6763,12 +6828,90 @@ window.addEventListener('resize', handleResponsiveLayout);
     });
 }
 
+// --- Fake Ad Logic ---
+const fakeAdContainer = document.getElementById('fake-ad-container');
+const siteTitle = document.querySelector('.header-text h1');
+let titleClickCount = 0;
+let adIsActive = false; // Prevents re-triggering while visible/dismissing
+
+function showFakeAd() {
+    if (fakeAdContainer && !adIsActive) {
+        adIsActive = true;
+        fakeAdContainer.classList.add('show');
+    }
+}
+
+function dismissFakeAd(event) {
+    // Let the <a> tag open the link in a new tab normally.
+    const adLink = fakeAdContainer.querySelector('a');
+    if (!adLink || !fakeAdContainer.classList.contains('show') || adIsActive === 'dismissing') {
+        // Stop if already dismissing
+        event.preventDefault(); // Prevent link if already in dismissal process
+        return;
+    }
+    
+    adIsActive = 'dismissing'; // Set a specific state to prevent re-clicks
+
+    // 1. Immediately change the content and disable further clicks.
+    const adImage = fakeAdContainer.querySelector('img');
+    const adText = fakeAdContainer.querySelector('p');
+    if (adImage) adImage.src = 'https://i.pinimg.com/originals/f5/f0/21/f5f021ba3ca67f021b1e7f55b1.gif';
+    if (adText) adText.textContent = 'You Wish. Cya!';
+    adLink.style.pointerEvents = 'none';
+
+    // 2. Use a short timeout to ensure the browser renders the image/text change.
+    setTimeout(() => {
+        // 3. Simply remove the 'show' class to trigger the CSS slide-out transition.
+        fakeAdContainer.classList.remove('show');
+    }, 100);
+
+    // 4. Reset the ad's state after the animation finishes.
+    setTimeout(() => {
+        adIsActive = false;
+        // Restore original content for the next time it appears
+        if (adImage) adImage.src = 'https://cdn.imgchest.com/files/45xcvek5zz7.gif';
+        if (adText) adText.textContent = 'Single NEETS in your area';
+        adLink.style.pointerEvents = 'auto'; // Re-enable clicks
+    }, 1700); // Match the 1.5s CSS transition + a buffer
+}
+
+
+// Trigger with a 0.1% chance on page load
+if (Math.random() < 0.001) {
+    setTimeout(showFakeAd, 2000);
+}
+
+// Trigger by clicking the title 10 times
+if (siteTitle) {
+    siteTitle.addEventListener('click', () => {
+        titleClickCount++;
+        if (titleClickCount >= 10) {
+            showFakeAd();
+            titleClickCount = 0; // Reset counter
+        }
+    });
+}
+
+// Add click listener to the ad itself for dismissal
+const adLink = fakeAdContainer ? fakeAdContainer.querySelector('a') : null;
+if (adLink) {
+    adLink.addEventListener('click', dismissFakeAd);
+}
+
+
+
 
     initializeForum();
 });
 
 
 </script>
-	
+	<div id="fake-ad-container">
+    <a href="https://cdn.imgchest.com/files/7lxcp2olqp7.png" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.imgchest.com/files/45xcvek5zz7.gif" alt="Fake Ad">
+        <p>Single NEETS in your area</p>
+    </a>
+</div>
+
 </body>
 </html>
