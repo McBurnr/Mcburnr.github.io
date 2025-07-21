@@ -6282,26 +6282,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function handleResponsiveLayout() {
     const paginationControls = document.getElementById('guide-pagination-controls');
-    const desktopParent = document.getElementById('guide-controls-content');
+    const desktopParent = document.getElementById('guide-content-area'); // New permanent desktop home
     const mobileParent = document.getElementById('guide-forum-main');
     
-    // Find the search bar container to insert pagination after it on desktop
-    const searchInputContainer = desktopParent ? desktopParent.querySelector('.relative.w-full.mb-4') : null;
-
-    if (!paginationControls || !desktopParent || !mobileParent || !searchInputContainer) return;
+    if (!paginationControls || !desktopParent || !mobileParent) return;
 
     if (window.innerWidth <= 768) {
-        // MOBILE VIEW: Move pagination to the main container to be styled at the bottom
+        // On MOBILE, move pagination to the main forum container to become a fixed footer.
         if (paginationControls.parentElement !== mobileParent) {
             mobileParent.appendChild(paginationControls);
         }
     } else {
-        // DESKTOP VIEW: Move pagination back to its original spot in the filter controls
+        // On DESKTOP, move pagination to the main content area, below the guide list.
         if (paginationControls.parentElement !== desktopParent) {
-            searchInputContainer.insertAdjacentElement('afterend', paginationControls);
+            desktopParent.appendChild(paginationControls);
         }
     }
 }
+
 
 
 async function initializeForum() {
@@ -6431,28 +6429,21 @@ async function initializeForum() {
     }
     
 function applyPreferences() {
-    const topControlsContainer = document.getElementById('top-controls-container');
-    const sidebar = document.getElementById('guide-forum-sidebar');
-    const controlsWrapper = document.getElementById('guide-controls-wrapper');
-    const mainContent = document.getElementById('guide-forum-main');
+    const forumContainer = document.getElementById('guide-forum-container');
+    if (!forumContainer) return;
 
+    // This now simply toggles a class to hide/show the categories via CSS.
+    // It no longer moves the entire control panel.
     if (userPreferences.sidebar === 'hide') {
-        // Move controls to the top and hide the sidebar container
-        if (topControlsContainer && controlsWrapper) {
-            topControlsContainer.appendChild(controlsWrapper);
-        }
-        sidebar.style.display = 'none';
-        mainContent.style.width = '100%'; // Allow content to fill the space
+        forumContainer.classList.add('sidebar-hidden');
     } else {
-        // Move controls back to the sidebar and show it
-        if (sidebar && controlsWrapper) {
-            sidebar.appendChild(controlsWrapper);
-        }
-        sidebar.style.display = 'block';
-        mainContent.style.width = ''; // Reset width
+        forumContainer.classList.remove('sidebar-hidden');
     }
+    
+    // Update the selections in the settings modal to reflect the current state.
     updateSortViewModal();
 }
+
 
     function renderSidebar() {
         if (!categoriesContainer) return;
