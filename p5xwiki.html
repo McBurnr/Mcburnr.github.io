@@ -6280,6 +6280,30 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Other", icon: placeholderIcon, forums: [{ name: "Resources", icon: placeholderIcon }, { name: "Datamines", icon: placeholderIcon }] }
     ];
 
+function handleResponsiveLayout() {
+    const paginationControls = document.getElementById('guide-pagination-controls');
+    const desktopParent = document.getElementById('guide-controls-content');
+    const mobileParent = document.getElementById('guide-forum-main');
+    
+    // Find the search bar container to insert pagination after it on desktop
+    const searchInputContainer = desktopParent ? desktopParent.querySelector('.relative.w-full.mb-4') : null;
+
+    if (!paginationControls || !desktopParent || !mobileParent || !searchInputContainer) return;
+
+    if (window.innerWidth <= 768) {
+        // MOBILE VIEW: Move pagination to the main container to be styled at the bottom
+        if (paginationControls.parentElement !== mobileParent) {
+            mobileParent.appendChild(paginationControls);
+        }
+    } else {
+        // DESKTOP VIEW: Move pagination back to its original spot in the filter controls
+        if (paginationControls.parentElement !== desktopParent) {
+            searchInputContainer.insertAdjacentElement('afterend', paginationControls);
+        }
+    }
+}
+
+
 async function initializeForum() {
     // Add the mobile header HTML dynamically if it doesn't exist
     if (!document.getElementById('mobile-forum-header')) {
@@ -6321,16 +6345,12 @@ async function initializeForum() {
         document.body.appendChild(sortViewModal);
     }
 
-    // Move pagination controls to the main content area to make them visible on mobile
-    const paginationControls = document.getElementById('guide-pagination-controls');
-    const mainForumContainer = document.getElementById('guide-forum-main');
-    if (paginationControls && mainForumContainer && !mainForumContainer.contains(paginationControls)) {
-        mainForumContainer.appendChild(paginationControls);
-    }
-
     loadPreferences();
     renderSidebar();
     addEventListeners();
+
+    // Call the new layout handler on initial load to position pagination correctly
+    handleResponsiveLayout();
 
     try {
         const response = await fetch('guides.txt');
@@ -6347,9 +6367,11 @@ async function initializeForum() {
         }
     } catch (error) {
         console.error('Failed to load guides:', error);
-        postListContainer.innerHTML = `<p class="text-red-500">Error: Could not load guides.txt.</p>`;
+        postListContainer.innerHTML = `<p class="text-red-500">You may be wondering: Why doesn't the forum work? Well, here's the thing.<img src="https://preview.redd.it/ok-seriously-i-really-love-marvel-but-heres-the-thing-v0-57kwdotd4yde1.jpeg?auto=webp&s=1b87b7a2d203bfe20b5a9a3766a0881538756570"/></p>`;
     }
 }
+
+
 
 
 
@@ -6603,6 +6625,7 @@ function closeGuide() {
     }
 
 function addEventListeners() {
+window.addEventListener('resize', handleResponsiveLayout);
     // Keep references to all elements, desktop and mobile
     const sidebar = document.getElementById('guide-forum-sidebar');
     const searchInput = document.getElementById('guide-search-input');
