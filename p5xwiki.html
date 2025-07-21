@@ -97,7 +97,9 @@ body {
 
 .header-text h1 {
     font-size: 1.3rem;
-    margin-bottom: 0; /* Removed margin to help with alignment */
+    margin-bottom: 0;
+    position: relative; /* Allows z-index to work */
+    cursor: pointer;    /* Shows users it's clickable */
 }
 
 .header-text p {
@@ -2353,25 +2355,23 @@ body.sidebar-open .site-wrapper {
 
 #fake-ad-container {
     position: fixed;
-    bottom: 20px;
-    /* Use 'right' for positioning and animation to avoid conflicts */
-    right: -400px; /* Start completely off-screen */
+    /* Keep it positioned to the right */
+    right: 20px; 
+    /* Start it off-screen at the bottom */
+    bottom: -350px; 
     z-index: 9999;
     border-radius: 8px;
     overflow: hidden;
     border: 2px solid var(--primary-color, #ff0000);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
-    /* Transition the 'right' property for a slow slide */
-    transition: right 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Make the transition apply to the 'bottom' property */
+    transition: bottom 1.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #fake-ad-container.show {
-    right: 20px; /* Final on-screen position */
-    /* The shake animation now safely controls transform */
+    bottom: 20px; /* <-- This was "right: 20px;", now it's correct. */
     animation: shake 0.5s infinite alternate;
 }
-
-/* The .dismissing class is no longer needed for positioning */
 
 #fake-ad-container a {
     display: block;
@@ -2402,6 +2402,21 @@ body.sidebar-open .site-wrapper {
     animation: text-glow 1.5s infinite alternate;
 }
 
+@keyframes title-shake-animation {
+    10%, 90% { transform: translate3d(calc(var(--shake-intensity, 1px) * -1), 0, 0); }
+    20%, 80% { transform: translate3d(var(--shake-intensity, 1px), 0, 0); }
+    30%, 50%, 70% { transform: translate3d(calc(var(--shake-intensity, 1px) * -1), 0, 0); }
+    40%, 60% { transform: translate3d(var(--shake-intensity, 1px), 0, 0); }
+}
+
+.header h1.is-shaking {
+    animation: title-shake-animation 0.3s ease-in-out;
+}
+
+.header-text h1.is-shaking {
+    animation: title-shake-animation 0.3s ease-in-out;
+}
+
 /* Keyframe Animations */
 @keyframes shake {
     /* This animation now ONLY uses transform, which is safe */
@@ -2415,7 +2430,16 @@ body.sidebar-open .site-wrapper {
     100% { color: #ffffff; text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de; }
 }
 
+@keyframes title-shake-animation {
+    10%, 90% { transform: translate3d(calc(var(--shake-intensity, 1px) * -1), 0, 0); }
+    20%, 80% { transform: translate3d(var(--shake-intensity, 1px), 0, 0); }
+    30%, 50%, 70% { transform: translate3d(calc(var(--shake-intensity, 1px) * -1), 0, 0); }
+    40%, 60% { transform: translate3d(var(--shake-intensity, 1px), 0, 0); }
+}
 
+.header h1.is-shaking {
+    animation: title-shake-animation 0.3s ease-in-out;
+}
 
 </style>
 
@@ -6828,7 +6852,6 @@ window.addEventListener('resize', handleResponsiveLayout);
     });
 }
 
-// --- Fake Ad Logic ---
 const fakeAdContainer = document.getElementById('fake-ad-container');
 const siteTitle = document.querySelector('.header-text h1');
 let titleClickCount = 0;
@@ -6842,37 +6865,36 @@ function showFakeAd() {
 }
 
 function dismissFakeAd(event) {
-    // Let the <a> tag open the link in a new tab normally.
-    const adLink = fakeAdContainer.querySelector('a');
+    // 1. Prevent default behavior
+    event.preventDefault();
+    const fakeAdContainer = document.getElementById('fake-ad-container');
+    const adLink = fakeAdContainer ? fakeAdContainer.querySelector('a') : null;
+
     if (!adLink || !fakeAdContainer.classList.contains('show') || adIsActive === 'dismissing') {
-        // Stop if already dismissing
-        event.preventDefault(); // Prevent link if already in dismissal process
         return;
     }
-    
-    adIsActive = 'dismissing'; // Set a specific state to prevent re-clicks
 
-    // 1. Immediately change the content and disable further clicks.
+    window.open(adLink.href, '_blank');
+    
+    adIsActive = 'dismissing';
+
     const adImage = fakeAdContainer.querySelector('img');
     const adText = fakeAdContainer.querySelector('p');
-    if (adImage) adImage.src = 'https://i.pinimg.com/originals/f5/f0/21/f5f021ba3ca67f021b1e7f55b1.gif';
+    if (adImage) adImage.src = 'https://i.pinimg.com/originals/f5/f0/21/f5f021ba3ca67f0a51e5d3314e7f55b1.gif';
     if (adText) adText.textContent = 'You Wish. Cya!';
     adLink.style.pointerEvents = 'none';
 
-    // 2. Use a short timeout to ensure the browser renders the image/text change.
+    // This provides a long, persistent view of the changed ad.
     setTimeout(() => {
-        // 3. Simply remove the 'show' class to trigger the CSS slide-out transition.
         fakeAdContainer.classList.remove('show');
-    }, 100);
+    }, 2000);
 
-    // 4. Reset the ad's state after the animation finishes.
     setTimeout(() => {
         adIsActive = false;
-        // Restore original content for the next time it appears
         if (adImage) adImage.src = 'https://cdn.imgchest.com/files/45xcvek5zz7.gif';
         if (adText) adText.textContent = 'Single NEETS in your area';
-        adLink.style.pointerEvents = 'auto'; // Re-enable clicks
-    }, 1700); // Match the 1.5s CSS transition + a buffer
+        adLink.style.pointerEvents = 'auto';
+    }, 4000); // Increased to account for the new 2-second delay + 1.5s animation
 }
 
 
@@ -6881,7 +6903,6 @@ if (Math.random() < 0.001) {
     setTimeout(showFakeAd, 2000);
 }
 
-// Trigger by clicking the title 10 times
 if (siteTitle) {
     siteTitle.addEventListener('click', () => {
         titleClickCount++;
@@ -6892,11 +6913,11 @@ if (siteTitle) {
     });
 }
 
-// Add click listener to the ad itself for dismissal
 const adLink = fakeAdContainer ? fakeAdContainer.querySelector('a') : null;
 if (adLink) {
     adLink.addEventListener('click', dismissFakeAd);
 }
+
 
 
 
