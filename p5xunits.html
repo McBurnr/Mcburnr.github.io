@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks for all the fish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Crimson Text', serif;
+            background-color: #ffffff;
+            color: #1a202c;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Teko', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .quote-block {
+            background-color: #f7fafc;
+            border-left: 4px solid #e53e3e;
+            padding: 2rem;
+            white-space: pre-wrap;
+            line-height: 2;
+            font-style: italic;
+        }
+
+        .portrait-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .portrait-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .header-title-container {
+            position: relative;
+            display: inline-block;
+        }
+        .wave-container {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ef4444" fill-opacity="0.4" d="M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,170.7C672,149,768,139,864,154.7C960,171,1056,213,1152,218.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            animation: wave-animation 10s linear infinite;
+        }
+        .wave.delay-1 { animation-delay: -2s; opacity: 0.7; }
+        .wave.delay-2 { animation-delay: -4s; opacity: 0.5; }
+
+        @keyframes wave-animation {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            background-color: #e5e7eb;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .tab-btn.active {
+            background-color: #ef4444;
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        .resource-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            border: 2px solid #ddd;
+        }
+
+        /* --- I don't feel so good Mr Stark --- */
+        #final-text-1 span {
+            display: inline-block;
+        }
+
+        @keyframes sand-fade {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x-end), var(--y-end)) rotate(var(--rotate-end)) scale(0.5);
+            }
+        }
+		
+        @keyframes fade-in-simple {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fade-in-simple 2s ease-in forwards;
+        }
+
+        .final-message { 
+            opacity: 0; 
+        }
+        .final-image { 
+            opacity: 0; 
+            max-width: 300px; 
+            margin-top: 1rem; 
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <audio id="background-music" src="http://mcburnr.github.io/Disc1.mp3" loop></audio>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center border-b-2 border-red-600 pb-8 mb-8">
+            <div class="header-title-container">
+                <h1 class="text-5xl md:text-7xl font-semibold text-red-700">Thanks for all the fish</h1>
+                <div class="wave-container">
+                    <div class="wave"></div>
+                    <div class="wave delay-1"></div>
+                    <div class="wave delay-2"></div>
+                </div>
+            </div>
+             <img src="https://cdn.imgchest.com/files/7bwckejlrk7.gif" alt="Animated Character" class="mx-auto mt-2 h-24">
+            <h2 class="text-3xl md:text-4xl mt-2">Music by The Expedition 33 Sound Team</h2>
+            <p class="mt-4 text-lg">Song: Gustatv's Theme</p>
+        </header>
+
+        <main>
+            <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-4xl text-center mb-4 text-gray-800">The Journey Continues</h3>
+                    <p class="text-center text-lg mb-6">
+                        AbsolRoot is working tirelessly on the Lufel wiki site for P5X, why not give it a visit?
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="https://lufel.net" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 text-white font-bold text-xl py-3 px-8 rounded-lg shadow-lg hover:bg-red-700 transition-transform transform hover:scale-105">
+                            Visit Lufel.net
+                        </a>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-4xl text-center mb-4 text-gray-800">Najox's Wiki</h3>
+                    <p class="text-center text-lg mb-6 text-gray-500">
+                        Coming Soon!
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="https://trello.com/b/CkI00C0e/p5xinfo" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-bold text-xl py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
+                            Follow The Wiki Progress!
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-4xl text-center mb-6">Project Archives</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                    <a href="https://github.com/McBurnr/Mcburnr.github.io/blob/main/p5xunits.html" target="_blank" rel="noopener noreferrer" class="block p-6 bg-gray-800 text-white rounded-lg shadow-lg hover:bg-gray-900 transition-colors">
+                        <h4 class="text-2xl font-semibold">P5X Units Page Source</h4>
+                    </a>
+                    <a href="https://github.com/McBurnr/Mcburnr.github.io/blob/main/p5xwiki.html" target="_blank" rel="noopener noreferrer" class="block p-6 bg-gray-800 text-white rounded-lg shadow-lg hover:bg-gray-900 transition-colors">
+                        <h4 class="text-2xl font-semibold">P5X Wiki Page Source</h4>
+                    </a>
+                </div>
+            </section>
+
+            <section class="mb-12 resource-directory">
+                <h3 class="text-4xl text-center mb-6">Resource & Asset Directory</h3>
+                <div id="resource-tabs" class="flex flex-wrap justify-center gap-2 mb-4">
+                    <button class="tab-btn active" data-tab="scripts">Scripts & Libraries</button>
+                    <button class="tab-btn" data-tab="styles">Stylesheets & Fonts</button>
+                    <button class="tab-btn" data-tab="images">Image Assets</button>
+                    <button class="tab-btn" data-tab="apis">APIs & Services</button>
+                </div>
+
+                <div id="tab-content-scripts" class="tab-content active p-4 bg-gray-50 rounded-lg">
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>html2canvas.js:</strong> <a href="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" class="text-blue-600 hover:underline">cdnjs.cloudflare.com/.../html2canvas.min.js</a> (Used for generating images from HTML content on the wiki page).</li>
+                        <li><strong>Tailwind CSS:</strong> <a href="https://cdn.tailwindcss.com" class="text-blue-600 hover:underline">cdn.tailwindcss.com</a> (A utility-first CSS framework used for styling both pages).</li>
+                    </ul>
+                </div>
+                <div id="tab-content-styles" class="tab-content p-4 bg-gray-50 rounded-lg">
+                     <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Cinzel & Crimson Text Fonts:</strong> <a href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" class="text-blue-600 hover:underline">fonts.googleapis.com/.../Cinzel+Crimson</a></li>
+                        <li><strong>Teko & Inter Fonts:</strong> <a href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;500;700&display=swap" class="text-blue-600 hover:underline">fonts.googleapis.com/.../Teko+Inter</a></li>
+                    </ul>
+                </div>
+                <div id="tab-content-images" class="tab-content p-4 bg-gray-50 rounded-lg">
+                    <div id="image-tabs" class="flex flex-wrap justify-center gap-2 mb-4 border-b pb-2">
+                        <button class="tab-btn active" data-tab="ui">UI & Icons</button>
+                        <button class="tab-btn" data-tab="units">Unit Portraits</button>
+                        <button class="tab-btn" data-tab="confidants">Confidants</button>
+                        <button class="tab-btn" data-tab="personas">Personas</button>
+                        <button class="tab-btn" data-tab="arcana">Arcana</button>
+                    </div>
+                    <div id="image-tab-content-ui" class="tab-content active resource-grid"></div>
+                    <div id="image-tab-content-units" class="tab-content resource-grid"></div>
+                    <div id="image-tab-content-confidants" class="tab-content resource-grid"></div>
+                    <div id="image-tab-content-personas" class="tab-content resource-grid"></div>
+                    <div id="image-tab-content-arcana" class="tab-content resource-grid"></div>
+                </div>
+                <div id="tab-content-apis" class="tab-content p-4 bg-gray-50 rounded-lg">
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Hits Counter:</strong> <a href="https://hitscounter.dev/" class="text-blue-600 hover:underline">hitscounter.dev</a> (Used for the visitor counter badge).</li>
+                        <li><strong>AllOrigins Proxy:</strong> <a href="https://api.allorigins.win/" class="text-blue-600 hover:underline">api.allorigins.win</a> (Used to proxy the official news feed for the wiki page).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-4xl text-center mb-6">A Final Message</h3>
+                <div class="quote-block text-center text-lg md:text-xl">
+                    It was really fun working on these websites!
+					What started as a small website, became a passion project.
+					However, there's better websites, and I couldn't keep up with maintaining the website.
+					The host broke the images, and I'm not the best at website creation.
+					But I think I did pretty alright. What do you think?
+					The websites will remain up, just under different names.
+					If you want to see the units, then visit: https://mcburnr.github.io/p5xunitsarchive.html
+					If you want to see the main page, then visit: https://mcburnr.github.io/p5xwikiarchive.html
+					If you want up to date guides and an active community, why not join the P5X Worldwide Discord?: https://discord.gg/P5XWorldWide
+					Or if you want to join the server I'm usually on, we're over at: https://discord.gg/Ch2rTqmta8
+					
+					
+					
+					
+									During times the website wasn't being worked on, well....I was working on this.
+									It's unfortunate, but I don't have a lot of time for it anymore.
+									Thankfully, there's others who are way more passionate and working hard on their own websites.
+														
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-4xl text-center mb-4">With Gratitude</h3>
+                <p class="text-center text-lg mb-8">It was fun making this as a free resource for people, and I would like to thank the following people:</p>
+                <div id="credits-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center h-64 flex flex-col items-center justify-center mt-16">
+            <div id="animation-container" class="relative w-full h-32">
+                 <p id="final-text-1" class="absolute inset-0 text-6xl font-bold text-gray-700 flex items-center justify-center opacity-0"></p>
+                 <div id="final-text-2-container" class="absolute inset-0 flex flex-col items-center justify-center final-message">
+                    <p id="final-text-2" class="text-6xl font-bold text-gray-700"></p>
+                    <img id="final-image" src="https://cdn.imgchest.com/files/7kzcaw8zob7.png" alt="Thank You" class="final-image">
+                 </div>
+            </div>
+        </footer>
+    </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const music = document.getElementById('background-music');
+            document.body.addEventListener('click', () => {
+                if (music.paused) {
+                    music.volume = 0.1;
+                    music.currentTime = 10; // If you have time to read this, you have time to play Expedition 33
+                    music.play().catch(e => console.error("Audio playback failed:", e));
+                }
+            }, { once: true });
+
+            const creditedPeople = [
+                'Najox', 'RedHarv', 'Taicon', 'pseidn', 'UnnamedRando', 
+                'Altergeist', 'TooCynical', 'Ilulu', 'Tenacity', 'shmucky', 
+                'klaus', 'NPC', 'Mio', 'iant', 'Vesk', 'Najox2314', 
+                'AbsolRoot', 'Mathieu/mathieubdg'
+            ];
+            const creditsGrid = document.getElementById('credits-grid');
+            creditedPeople.forEach(name => {
+                const card = document.createElement('div');
+                card.className = 'portrait-card text-center';
+                card.innerHTML = `
+                    <img src="https://pbs.twimg.com/profile_images/1937652764932284416/tOv8oRbX_400x400.jpg" alt="Portrait of ${name}" class="w-full h-auto rounded-lg shadow-lg mb-2">
+                    <p class="font-semibold text-lg">${name}</p>
+                `;
+                creditsGrid.appendChild(card);
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.portrait-card').forEach(card => {
+                observer.observe(card);
+            });
+            
+            const finaltext1 = document.getElementById('final-text-1');
+            const finaltext2Container = document.getElementById('final-text-2-container');
+            const finaltext2 = document.getElementById('final-text-2');
+            const finalImage = document.getElementById('final-image');
+            const footer = document.querySelector('footer');
+
+            function triggerThanosSnap(element) {
+                element.textContent = "We Continue";
+                const letters = element.textContent.split('');
+                element.innerHTML = '';
+
+                letters.forEach(letter => {
+                    const span = document.createElement('span');
+                    span.textContent = letter;
+                    if (letter.trim() === '') span.innerHTML = '&nbsp;';
+                    element.appendChild(span);
+
+                    span.style.setProperty('--x-end', `${(Math.random() * 200) - 100}px`);
+                    span.style.setProperty('--y-end', `${(Math.random() * 200) - 100}px`);
+                    span.style.setProperty('--rotate-end', `${(Math.random() * 360) - 180}deg`);
+                    span.style.animation = `sand-fade 2s ease-in-out forwards`;
+                    span.style.animationDelay = `${Math.random() * 1}s`;
+                });
+            }
+
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        finaltext1.classList.remove('opacity-0');
+                        triggerThanosSnap(finaltext1);
+
+                        setTimeout(() => {
+                            finaltext2Container.classList.add('fade-in');
+                            finaltext2.textContent = "Thank You.";
+                            finalImage.classList.add('fade-in');
+                        }, 3000); 
+                        
+                        observer.unobserve(footer);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            if (footer) {
+                animationObserver.observe(footer);
+            }
+
+            function setupTabs(tabContainerId, contentContainerPrefix) {
+                const tabs = document.querySelectorAll(`#${tabContainerId} .tab-btn`);
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        document.querySelectorAll(`.${contentContainerPrefix}`).forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        document.getElementById(`${contentContainerPrefix}-${tab.dataset.tab}`).classList.add('active');
+                    });
+                });
+            }
+            setupTabs('resource-tabs', 'tab-content');
+            setupTabs('image-tabs', 'image-tab-content');
+            
+            const images = {
+                ui: ['https://cdn.imgchest.com/files/p7bwcnq5gq7.png', 'https://cdn.imgchest.com/files/yrgcn9bo2q4.png', 'https://cdn.imgchest.com/files/4jdcv9p3ko4.png', 'https://cdn.imgchest.com/files/yq9c3k5n2q4.png'],
+                units: ['https://cdn.imgchest.com/files/7kzcape3wz7.png','https://cdn.imgchest.com/files/7ogcba8nwmy.png','https://cdn.imgchest.com/files/7pjcqnxod27.png','https://cdn.imgchest.com/files/7bwck6goee7.png','https://cdn.imgchest.com/files/4nec8zwvnl4.png','https://cdn.imgchest.com/files/7kzcag39eg7.png','https://cdn.imgchest.com/files/49zc2ngo9by.png','https://cdn.imgchest.com/files/yxkczpjok27.png','https://cdn.imgchest.com/files/yvdcwxbogoy.png','https://cdn.imgchest.com/files/46acqlae3w7.png','https://cdn.imgchest.com/files/4apc59dowg4.png','https://cdn.imgchest.com/files/45xcvakwqn7.png','https://cdn.imgchest.com/files/y8xcnal82w4.png','https://cdn.imgchest.com/files/4gdcx3vrow4.png','https://cdn.imgchest.com/files/4z9cvq8xk87.png','https://cdn.imgchest.com/files/ye3c2vp38o4.png','https://cdn.imgchest.com/files/7w6c29mozey.png','https://cdn.imgchest.com/files/739cxznmge7.png','https://cdn.imgchest.com/files/yrgcnxkoax4.png','https://cdn.imgchest.com/files/yd5ce5zlmd4.png','https://cdn.imgchest.com/files/yq9c3k5nvq4.png','https://cdn.imgchest.com/files/4gdcx3vrjw4.png','https://cdn.imgchest.com/files/4z9cvq8xz87.png','https://cdn.imgchest.com/files/ye3c2vp3qo4.png','https://cdn.imgchest.com/files/7w6c29mo3ey.png','https://cdn.imgchest.com/files/739cxznmje7.png','https://cdn.imgchest.com/files/7mmc9aw8697.png','https://cdn.imgchest.com/files/yrgcnxkojx4.png','https://cdn.imgchest.com/files/yd5ce5zlgd4.png','https://cdn.imgchest.com/files/yq9c3k5n2q4.png','https://cdn.imgchest.com/files/yq9c3k95oo4.png','https://cdn.imgchest.com/files/7bwckao9xe7.png','https://cdn.imgchest.com/files/ye3c2jodrn4.png','https://cdn.imgchest.com/files/7w6c2gnvb8y.png','https://cdn.imgchest.com/files/739cxo56ev7.png','https://cdn.imgchest.com/files/y2pckxao2o7.png','https://cdn.imgchest.com/files/45xcvgm9667.png','https://cdn.imgchest.com/files/y8xcnwgken4.png','https://cdn.imgchest.com/files/yvdcw8ozwmy.png','https://cdn.imgchest.com/files/4gdcx8rwlq4.png','https://cdn.imgchest.com/files/7lxcpz2jnr7.png','https://cdn.imgchest.com/files/49zc2z2gn8y.png','https://cdn.imgchest.com/files/y8xcnplrmv4.gif','https://cdn.imgchest.com/files/y8xcnwgk254.png'],
+                confidants: ['https://cdn.imgchest.com/files/49zc2bpgvny.png','https://cdn.imgchest.com/files/yq9c3ep5eg4.png','https://cdn.imgchest.com/files/4jdcvjrwjm4.png','https://cdn.imgchest.com/files/7lxcpdwgdw7.png','https://cdn.imgchest.com/files/y2pckox9o37.png','https://cdn.imgchest.com/files/7kzcaboebe7.png','https://cdn.imgchest.com/files/7ogcbkq8kpy.png','https://cdn.imgchest.com/files/7pjcqw8xwa7.png','https://cdn.imgchest.com/files/7bwckdvgda7.png','https://cdn.imgchest.com/files/4nec8mjwm84.png','https://cdn.imgchest.com/files/49zc2bpgbny.png','https://cdn.imgchest.com/files/4apc53kd3a4.png','https://cdn.imgchest.com/files/45xcv9gk9b7.png','https://cdn.imgchest.com/files/y8xcnkwlkb4.png','https://cdn.imgchest.com/files/4gdcxplvp64.png','https://cdn.imgchest.com/files/4z9cvwn8wz7.png','https://cdn.imgchest.com/files/ye3c2djpd84.png','https://cdn.imgchest.com/files/7w6c2vgmvqy.png','https://cdn.imgchest.com/files/739cx6on667.png'],
+                personas: ['https://cdn.imgchest.com/files/7ogcbxl8g3y.png','https://cdn.imgchest.com/files/yrgcn98k6j4.png','https://cdn.imgchest.com/files/yd5cemkzne4.png','https://cdn.imgchest.com/files/4gdcxm2vzp4.png','https://cdn.imgchest.com/files/49zc2vag8dy.png','https://cdn.imgchest.com/files/yq9c3vzbzm4.png','https://cdn.imgchest.com/files/4z9cv9aj867.png','https://cdn.imgchest.com/files/4gdcxm2wwa4.png','https://cdn.imgchest.com/files/45xcv8zpnv7.png','https://cdn.imgchest.com/files/yxkczqnvaj7.png','https://cdn.imgchest.com/files/7w6c2qe6o2y.png','https://cdn.imgchest.com/files/yrgcn98b6d4.png','https://cdn.imgchest.com/files/7kzcaxeod57.png','https://cdn.imgchest.com/files/45xcv8kgzj7.png','https://cdn.imgchest.com/files/yq9c3vbnw64.png','https://cdn.imgchest.com/files/4jdcv629o94.png','https://cdn.imgchest.com/files/yxkczqvqaa7.png','https://cdn.imgchest.com/files/4apc5vqv3k4.png','https://cdn.imgchest.com/files/yrgcn9b9984.png','https://cdn.imgchest.com/files/49zc2vevq3y.png','https://cdn.imgchest.com/files/7mmc9nqnpv7.png','https://cdn.imgchest.com/files/4apc5vqv884.png','https://cdn.imgchest.com/files/4jdcv626q84.png','https://cdn.imgchest.com/files/7ogcbxrwbry.png','https://cdn.imgchest.com/files/46acqg83qm7.png','https://cdn.imgchest.com/files/4gdcxmwov34.png','https://cdn.imgchest.com/files/yq9c3vb25l4.png','https://cdn.imgchest.com/files/yrgcn9babe4.png','https://cdn.imgchest.com/files/4nec8lbn2m4.png','https://cdn.imgchest.com/files/739cxkbg9x7.png','https://cdn.imgchest.com/files/7lxcpxjrnv7.png','https://cdn.imgchest.com/files/yvdcwnzgppy.png','https://cdn.imgchest.com/files/y8xcnqv2884.png','https://cdn.imgchest.com/files/7mmc9nq35w7.png','https://cdn.imgchest.com/files/45xcv8pqee7.png','https://cdn.imgchest.com/files/y2pck53d687.png','https://cdn.imgchest.com/files/46acqg83bg7.png','https://cdn.imgchest.com/files/y8xcnqv2q84.png','https://cdn.imgchest.com/files/yd5cem9ggk4.png','https://cdn.imgchest.com/files/yq9c3vblje4.png','https://cdn.imgchest.com/files/4jdcv62eab4.png','https://cdn.imgchest.com/files/7lxcpxj5v27.png','https://cdn.imgchest.com/files/y2pck53eml7.png','https://cdn.imgchest.com/files/7kzcax9k657.png'],
+                arcana: ['https://cdn.imgchest.com/files/7ogcbkr86oy.png','https://cdn.imgchest.com/files/y2pcko39eb7.png','https://cdn.imgchest.com/files/7lxcpdjg5o7.png','https://cdn.imgchest.com/files/yq9c3eb5w34.png','https://cdn.imgchest.com/files/yrgcnzbkp84.png','https://cdn.imgchest.com/files/7mmc9rqwdg7.png','https://cdn.imgchest.com/files/739cx6bn2n7.png','https://cdn.imgchest.com/files/7w6c2v6ma6y.png','https://cdn.imgchest.com/files/ye3c2dwp9j4.png','https://cdn.imgchest.com/files/4z9cvwj86m7.png','https://cdn.imgchest.com/files/4gdcxpwv654.png','https://cdn.imgchest.com/files/y8xcnkvljm4.png','https://cdn.imgchest.com/files/45xcv9pkrw7.png','https://cdn.imgchest.com/files/4apc53qdeb4.png','https://cdn.imgchest.com/files/46acqb8a2b7.png','https://cdn.imgchest.com/files/yvdcwdzb5ny.png','https://cdn.imgchest.com/files/yxkczgvj6k7.png','https://cdn.imgchest.com/files/49zc2begq3y.png','https://cdn.imgchest.com/files/4nec8mbwpp4.png','https://cdn.imgchest.com/files/7bwckd3gzl7.png','https://cdn.imgchest.com/files/7kzcab9ejr7.png','https://cdn.imgchest.com/files/y2pcko39gb7.png','https://cdn.imgchest.com/files/7lxcpdjgqo7.png','https://cdn.imgchest.com/files/4jdcvj2wox4.png','https://cdn.imgchest.com/files/7pjcqwbbdg7.png','https://cdn.imgchest.com/files/7bwckd33em7.png','https://cdn.imgchest.com/files/7kzcab99wl7.png','https://cdn.imgchest.com/files/7ogcbkrrw9y.png','https://cdn.imgchest.com/files/4nec8mbbnx4.png','https://cdn.imgchest.com/files/49zc2bee9qy.png','https://cdn.imgchest.com/files/yxkczgvvkw7.png','https://cdn.imgchest.com/files/yvdcwdzzggy.png','https://cdn.imgchest.com/files/46acqb883g7.png','https://cdn.imgchest.com/files/4apc53qqw34.png','https://cdn.imgchest.com/files/45xcv9ppqe7.png','https://cdn.imgchest.com/files/4gdcxpwwoe4.png','https://cdn.imgchest.com/files/ye3c2dww8l4.png','https://cdn.imgchest.com/files/739cx6bbgb7.png','https://cdn.imgchest.com/files/7mmc9rq35w7.png'],
+            };
+            for (const category in images) {
+                const container = document.getElementById(`image-tab-content-${category}`);
+                images[category].forEach(src => {
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.target = '_blank';
+                    link.innerHTML = `<img src="${src}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f87171/ffffff?text=Error'">`;
+                    container.appendChild(link);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
