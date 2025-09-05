@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia Show Creator</title>
+    <title>Hideout Trivia Maker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px #a78bfa, 0 0 10px #a78bfa, 0 0 15px #a78bfa; }
+            50% { text-shadow: 0 0 10px #c4b5fd, 0 0 20px #c4b5fd, 0 0 30px #c4b5fd; }
+        }
+        @keyframes alarm-shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .banner-bounce {
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+        .title-animated {
+            animation: glow 3s ease-in-out infinite;
+        }
+        .alarm-flash {
+            color: #ef4444; /* red-500 */
+            animation: glow 0.5s ease-in-out infinite, alarm-shake 0.3s linear infinite;
+        }
         body { font-family: 'Inter', sans-serif; }
-        .card {
-            border: 1px solid #4f545c;
-            transition: all 0.2s ease-in-out;
-        }
-        .question-card {
-            border-left: 3px solid #7289da;
-        }
+        .card { border: 1px solid #4f545c; }
+        .question-card { border-left: 3px solid #7289da; }
         input, textarea {
             background-color: #383c42;
             border: 1px solid #4f545c;
@@ -25,26 +44,11 @@
             border-color: #7289da;
             box-shadow: 0 0 0 2px rgba(114, 137, 218, 0.5);
         }
-        .btn {
-            transition: background-color 0.2s;
-        }
-        .collapsible-content {
-            max-height: 2000px; /* High value to allow content to show */
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-        .collapsible-content.hidden {
-            max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-top: 0;
-        }
-        .chevron {
-            transition: transform 0.3s ease-in-out;
-        }
-        .collapsed .chevron {
-            transform: rotate(-90deg);
-        }
+        .btn { transition: background-color 0.2s; }
+        .collapsible-content { max-height: 2000px; overflow: hidden; transition: all 0.5s ease-in-out; }
+        .collapsible-content.hidden { max-height: 0; padding: 0; margin: 0; opacity: 0; }
+        .chevron { transition: transform 0.3s ease-in-out; }
+        .collapsed .chevron { transform: rotate(-90deg); }
     </style>
      <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,10 +56,24 @@
 </head>
 <body class="bg-gray-800 text-gray-200">
 
+    <div id="restore-banner" class="hidden fixed top-0 left-0 right-0 bg-yellow-500 text-black p-3 text-center z-50 shadow-lg banner-bounce">
+        <span class="font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block -mt-1" viewBox="0 0 24 24" fill="currentColor"><path d="M22,18a1,1,0,0,1-1,1H17.84A6,6,0,0,1,6.16,19H3a1,1,0,0,1,0-2H6.16a6,6,0,0,1,11.68,0H21a1,1,0,0,1,1,1ZM12,16a4,4,0,0,0-3.87,3H15.87A4,4,0,0,0,12,16Zm8-6.68V9a1,1,0,0,0-1-1H17.1a5,5,0,0,0-8.21,0H5A1,1,0,0,0,4,9v.32a3,3,0,0,0,0,5.36V15a1,1,0,0,0,1,1h3.76a1,1,0,0,0,.95-.68,3,3,0,0,0,4.58,0,1,1,0,0,0,.95.68H19a1,1,0,0,0,1-1V14.68a3,3,0,0,0,0-5.36ZM18,13H15.24a1,1,0,0,0-.95.68,3,3,0,0,0-4.58,0,1,1,0,0,0-.95-.68H6V10H8.89a1,1,0,0,0,.95-.68,3,3,0,0,0,4.32,0,1,1,0,0,0,.95.68H18Z"/></svg>
+            Looks like you saved earlier, you silly goose! Load it now?
+        </span>
+        <button id="restore-btn" class="font-bold underline ml-4 px-2 py-1 rounded hover:bg-yellow-600">Restore</button>
+        <button id="dismiss-restore-btn" class="absolute top-2 right-4 font-bold text-xl hover:text-gray-700">&times;</button>
+    </div>
+    
+    <div id="save-popup" class="fixed bottom-5 right-5 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-500 z-50">
+        Progress Saved!
+    </div>
+
+
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white">Wtf is this</h1>
-            <p class="text-lg text-gray-400">Hideout Trivia Creator. Made with love. Probably.</p>
+            <h1 class="title-animated text-5xl font-bold text-violet-300">Hideout Trivia Maker</h1>
+            <p id="subtitle" class="text-lg text-gray-400 mt-2"></p>
         </header>
 
         <div class="card bg-gray-900 rounded-lg p-6 mb-8 shadow-lg">
@@ -72,9 +90,7 @@
             </div>
         </div>
 
-        <div id="categoriesContainer" class="space-y-6">
-            <!-- Categories will be injected here -->
-        </div>
+        <div id="categoriesContainer" class="space-y-6"></div>
 
         <div class="flex justify-center mt-8">
             <button id="addCategoryBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md btn">
@@ -100,6 +116,7 @@
             <div class="flex justify-center space-x-4">
                 <button id="importBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md btn">Import JSON</button>
                 <input type="file" id="importFile" class="hidden" accept=".json">
+                <button id="saveProgressBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md btn">Save Progress</button>
                 <button id="exportBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md btn">Export JSON</button>
             </div>
         </footer>
@@ -107,13 +124,35 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const subtitle = document.getElementById('subtitle');
+            const subtitles = [
+                "Made with love. Probably. Idk?",
+                "Who are you?! Where are you?! What am I?!?!",
+                "You really love reloading the page, don't you?",
+                "RELOAD NOW OR ELSE! DO IT! OH NO!"
+            ];
+            const randomSubtitle = subtitles[Math.floor(Math.random() * subtitles.length)];
+            subtitle.textContent = randomSubtitle;
+            if (randomSubtitle === subtitles[3]) {
+                const alarmIcon = document.createElement('span');
+                alarmIcon.textContent = ' 🚨';
+                subtitle.appendChild(alarmIcon);
+                subtitle.classList.add('alarm-flash');
+                setTimeout(() => {
+                    subtitle.classList.remove('alarm-flash');
+                    subtitle.textContent = "Just Kidding.";
+                    subtitle.style.color = '#dcddde';
+                }, 4000);
+            }
+
             const categoriesContainer = document.getElementById('categoriesContainer');
             const addCategoryBtn = document.getElementById('addCategoryBtn');
             const exportBtn = document.getElementById('exportBtn');
             const importBtn = document.getElementById('importBtn');
             const importFile = document.getElementById('importFile');
+            const saveProgressBtn = document.getElementById('saveProgressBtn');
             
-            function createCategoryElement(name = '') {
+            const createCategoryElement = (name = '') => {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'card bg-gray-700/50 rounded-lg shadow-md';
                 categoryDiv.innerHTML = `
@@ -131,9 +170,9 @@
                 `;
                 categoriesContainer.appendChild(categoryDiv);
                 return categoryDiv;
-            }
+            };
 
-            function createQuestionElement(question = {}) {
+            const createQuestionElement = (question = {}) => {
                 const { value = '', question: qText = '', answer = '', team_battle = false, question_image_url = '', answer_image_url = '', question_audio_file = '' } = question;
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card bg-gray-800 rounded-md shadow';
@@ -161,43 +200,22 @@
                     </div>
                 `;
                  questionDiv.querySelector('.question-value').addEventListener('input', e => {
-                    const header = e.target.closest('.question-card').querySelector('.collapsible-header span');
-                    header.textContent = `Value: ${e.target.value || '...'}`;
+                    e.target.closest('.question-card').querySelector('.collapsible-header span').textContent = `Value: ${e.target.value || '...'}`;
                 });
                 return questionDiv;
-            }
-            
-            addCategoryBtn.addEventListener('click', () => createCategoryElement());
+            };
 
-            document.body.addEventListener('click', e => {
-                const header = e.target.closest('.collapsible-header');
-                if (header && !e.target.matches('input, button')) {
-                    header.parentElement.classList.toggle('collapsed');
-                    header.nextElementSibling.classList.toggle('hidden');
-                }
-                if (e.target.classList.contains('add-question-btn')) {
-                    e.target.previousElementSibling.appendChild(createQuestionElement());
-                }
-                if (e.target.classList.contains('remove-category-btn')) {
-                    e.target.closest('.card').remove();
-                }
-                if (e.target.classList.contains('remove-question-btn')) {
-                    e.target.closest('.question-card').remove();
-                }
-            });
-
-            exportBtn.addEventListener('click', () => {
+            const getCurrentState = () => {
                 const showData = {
                     show_name: document.getElementById('showName').value,
                     break_image_url: document.getElementById('breakImageUrl').value,
                     categories: [],
                     final_jeopardy: null
                 };
-
                 document.querySelectorAll('#categoriesContainer .card').forEach(catDiv => {
                     const category = { name: catDiv.querySelector('.category-name').value, questions: [] };
                     catDiv.querySelectorAll('.question-card').forEach(qDiv => {
-                        const question = {
+                        category.questions.push({
                             value: parseInt(qDiv.querySelector('.question-value').value) || 0,
                             question: qDiv.querySelector('.question-text').value,
                             answer: qDiv.querySelector('.question-answer').value,
@@ -205,12 +223,10 @@
                             question_image_url: qDiv.querySelector('.question-image-url').value,
                             answer_image_url: qDiv.querySelector('.answer-image-url').value,
                             question_audio_file: qDiv.querySelector('.question-audio-file').value,
-                        };
-                        category.questions.push(question);
+                        });
                     });
                     showData.categories.push(category);
                 });
-                
                 const fjCategory = document.getElementById('fjCategory').value;
                 if(fjCategory) {
                     showData.final_jeopardy = {
@@ -221,7 +237,65 @@
                         question_audio_file: document.getElementById('fjQuestionAudioFile').value
                     };
                 }
+                return showData;
+            };
 
+            const saveState = () => localStorage.setItem('triviaCreatorState', JSON.stringify(getCurrentState()));
+            const loadState = () => JSON.parse(localStorage.getItem('triviaCreatorState'));
+
+            const renderImportedData = (data) => {
+                document.getElementById('showName').value = data.show_name || '';
+                document.getElementById('breakImageUrl').value = data.break_image_url || '';
+                categoriesContainer.innerHTML = '';
+                (data.categories || []).forEach(cat => {
+                    const categoryEl = createCategoryElement(cat.name);
+                    const questionsContainer = categoryEl.querySelector('.questions-container');
+                    (cat.questions || []).forEach(q => questionsContainer.appendChild(createQuestionElement(q)));
+                });
+                const fj = data.final_jeopardy;
+                document.getElementById('fjCategory').value = fj?.category || '';
+                document.getElementById('fjQuestion').value = fj?.question || '';
+                document.getElementById('fjAnswer').value = fj?.answer || '';
+                document.getElementById('fjQuestionImageUrl').value = fj?.question_image_url || '';
+                document.getElementById('fjQuestionAudioFile').value = fj?.question_audio_file || '';
+                saveState();
+            };
+            
+            const showSavePopup = () => {
+                const popup = document.getElementById('save-popup');
+                popup.classList.remove('opacity-0');
+                setTimeout(() => popup.classList.add('opacity-0'), 2000);
+            };
+
+            addCategoryBtn.addEventListener('click', () => {
+                createCategoryElement();
+                saveState();
+            });
+
+            document.body.addEventListener('click', e => {
+                const header = e.target.closest('.collapsible-header');
+                if (header && !e.target.matches('input, button, svg, path')) {
+                    header.parentElement.classList.toggle('collapsed');
+                    header.nextElementSibling.classList.toggle('hidden');
+                }
+                if (e.target.classList.contains('add-question-btn')) {
+                    e.target.previousElementSibling.appendChild(createQuestionElement());
+                    saveState();
+                }
+                if (e.target.classList.contains('remove-category-btn')) {
+                    e.target.closest('.card').remove();
+                    saveState();
+                }
+                if (e.target.classList.contains('remove-question-btn')) {
+                    e.target.closest('.question-card').remove();
+                    saveState();
+                }
+            });
+            
+            document.body.addEventListener('input', saveState);
+
+            exportBtn.addEventListener('click', () => {
+                const showData = getCurrentState();
                 const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(showData, null, 2));
                 const downloadAnchorNode = document.createElement('a');
                 downloadAnchorNode.setAttribute("href", dataStr);
@@ -229,42 +303,46 @@
                 document.body.appendChild(downloadAnchorNode);
                 downloadAnchorNode.click();
                 downloadAnchorNode.remove();
+                localStorage.removeItem('triviaCreatorState');
+                document.getElementById('restore-banner').classList.add('hidden');
             });
-
+            
             importBtn.addEventListener('click', () => importFile.click());
             importFile.addEventListener('change', e => {
                 const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        try { renderImportedData(JSON.parse(e.target.result)); } 
-                        catch (error) { alert('Error parsing JSON file.'); }
-                    };
-                    reader.readAsText(file);
-                }
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    try { renderImportedData(JSON.parse(e.target.result)); } 
+                    catch (error) { alert('Error parsing JSON file.'); }
+                };
+                reader.readAsText(file);
                 importFile.value = '';
             });
+
+            saveProgressBtn.addEventListener('click', () => {
+                saveState();
+                showSavePopup();
+            });
             
-            function renderImportedData(data) {
-                document.getElementById('showName').value = data.show_name || '';
-                document.getElementById('breakImageUrl').value = data.break_image_url || '';
-                categoriesContainer.innerHTML = '';
-                
-                (data.categories || []).forEach(cat => {
-                    const categoryEl = createCategoryElement(cat.name);
-                    const questionsContainer = categoryEl.querySelector('.questions-container');
-                    (cat.questions || []).forEach(q => questionsContainer.appendChild(createQuestionElement(q)));
-                });
-                
-                const fj = data.final_jeopardy;
-                document.getElementById('fjCategory').value = fj?.category || '';
-                document.getElementById('fjQuestion').value = fj?.question || '';
-                document.getElementById('fjAnswer').value = fj?.answer || '';
-                document.getElementById('fjQuestionImageUrl').value = fj?.question_image_url || '';
-                document.getElementById('fjQuestionAudioFile').value = fj?.question_audio_file || '';
+            const restoreBanner = document.getElementById('restore-banner');
+            document.getElementById('restore-btn').addEventListener('click', () => {
+                const savedState = loadState();
+                if (savedState) renderImportedData(savedState);
+                restoreBanner.classList.add('hidden');
+            });
+            document.getElementById('dismiss-restore-btn').addEventListener('click', () => {
+                localStorage.removeItem('triviaCreatorState');
+                restoreBanner.classList.add('hidden');
+            });
+            
+            const savedState = loadState();
+            if (savedState) {
+                restoreBanner.classList.remove('hidden');
+            } else {
+                createCategoryElement("Sample Category");
+                saveState();
             }
-            
-            createCategoryElement("Sample Category");
         });
     </script>
 </body>
