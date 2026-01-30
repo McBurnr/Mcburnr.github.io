@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraria 1.4.5 Patch Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <style>
+        :root {
+            --terraria-bg: #1e1e2e;
+            --terraria-panel: #2a2a3e;
+            --terraria-accent: #6c5ce7;
+            --terraria-text: #dfe6e9;
+            --rarity-cyan: #00cec9;
+            --rarity-green: #2ecc71;
+            --rarity-yellow: #f1c40f;
+            --rarity-red: #e74c3c;
+        }
+
+        body {
+            background-color: #121217;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232a2a3e' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--terraria-text);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .panel-border {
+            border: 2px solid #4b4b65;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            border-color: var(--terraria-accent);
+        }
+
+        .category-btn.active {
+            background-color: var(--terraria-accent);
+            color: white;
+            border-color: white;
+        }
+
+        .item-tag {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #a0aec0;
+            border: 1px solid #4a5568;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121217;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b4b65;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--terraria-accent);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-4xl mx-auto mb-12 text-center">
+        <div class="inline-block p-2 mb-4 rounded bg-green-900/50 border border-green-500 text-green-300 text-xs font-bold tracking-widest uppercase pixel-font">
+            Status: Coming Soon
+        </div>
+        <h1 class="text-3xl md:text-5xl text-white mb-4 pixel-font leading-tight text-shadow-md">
+            Terraria <span class="text-yellow-400">1.4.5</span>
+        </h1>
+        <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+            Comprehensive changelog featuring Dead Cells content, new whips, seeds, and QoL.
+        </p>
+    </header>
+
+    <!-- Controls -->
+    <div class="max-w-5xl mx-auto mb-8 sticky top-4 z-50">
+        <div class="bg-[#2a2a3e] p-4 rounded-lg panel-border flex flex-col lg:flex-row gap-4 justify-between items-center shadow-lg">
+            
+            <!-- Search -->
+            <div class="relative w-full lg:w-64">
+                <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"></i>
+                <input type="text" id="searchInput" placeholder="Search (e.g., 'whip', 'seed')..." 
+                    class="w-full bg-[#1e1e2e] border border-gray-600 rounded px-10 py-2 text-sm focus:outline-none focus:border-yellow-400 transition-colors placeholder-gray-500">
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-2" id="filterContainer">
+                <button class="category-btn active px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-gray-700" data-filter="all">All</button>
+                <button class="category-btn px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-purple-900 text-purple-300" data-filter="crossover">Crossover</button>
+                <button class="category-btn px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-blue-900 text-blue-300" data-filter="weapons">Weapons</button>
+                <button class="category-btn px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-orange-900 text-orange-300" data-filter="building">Building</button>
+                <button class="category-btn px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-green-900 text-green-300" data-filter="world">World</button>
+                <button class="category-btn px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border border-gray-600 transition-all hover:bg-red-900 text-red-300" data-filter="mechanics">Mechanics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Grid -->
+    <main class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="changelogGrid">
+        
+        <!-- Crossover Content -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all group" data-category="crossover">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-purple-400 flex items-center gap-2">
+                    <i data-lucide="swords" class="w-5 h-5"></i> Dead Cells & Others
+                </h2>
+                <span class="bg-purple-900/50 text-purple-200 text-xs px-2 py-1 rounded border border-purple-500/30">New</span>
+            </div>
+            <ul class="space-y-3">
+                <li><strong class="text-white">The Beheaded:</strong> Vanity outfit of the protagonist.</li>
+                <li><strong class="text-white">Weapons:</strong> 
+                    <div class="ml-4 mt-1 text-sm text-gray-400">
+                        • <span class="text-purple-300">The Flint</span> (Melee)<br>
+                        • <span class="text-purple-300">The Killing Deck</span> (Magic/Ranged)<br>
+                        • <span class="text-purple-300">Mushroom Staff</span> (Summons Mushroom Boi)
+                    </div>
+                </li>
+                <li><strong class="text-white">Furniture/Items:</strong> Hanging Flasks, Barnacle Sentry, The Swarm, Ram Rune, Wings of the Crow, Health Fountain.</li>
+                <li><strong class="text-white">Palworld:</strong> Summonable "Digtoise" minion/pet that mines blocks.</li>
+            </ul>
+        </article>
+
+        <!-- New Weapons -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="weapons">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-blue-400 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5"></i> Whips & Summoner
+                </h2>
+                <span class="bg-blue-900/50 text-blue-200 text-xs px-2 py-1 rounded border border-blue-500/30">Expansion</span>
+            </div>
+            <div class="text-sm text-gray-400 mb-2">Massive expansion to Summoner progression:</div>
+            <ul class="grid grid-cols-2 gap-2 text-sm">
+                <li class="item-tag">Moon Lord Whip</li>
+                <li class="item-tag">Stardust Whip</li>
+                <li class="item-tag">Soulscourge (Corruption)</li>
+                <li class="item-tag">Vasculash (Crimson)</li>
+                <li class="item-tag">Duke Fishron Whip</li>
+                <li class="item-tag">Plantera Whip</li>
+                <li class="item-tag">White Whip</li>
+                <li class="item-tag">Slime Whip (Early game)</li>
+            </ul>
+            <div class="mt-3 text-sm border-t border-gray-700 pt-2">
+                <strong class="text-white">New Modifiers:</strong> Eager, Focused, Loyal, Worthy, Rabid, Ballistic, Fabled for summon weapons.
+            </div>
+        </article>
+
+        <!-- General Arsenal -->
+         <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="weapons">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-yellow-400 flex items-center gap-2">
+                    <i data-lucide="hammer" class="w-5 h-5"></i> Arsenal Additions
+                </h2>
+            </div>
+            <ul class="space-y-3 text-sm">
+                <li><strong class="text-white">Axerang:</strong> Axe + Boomerang hybrid. Chops trees when thrown.</li>
+                <li><strong class="text-white">Slime Spear:</strong> Early game gel weapon.</li>
+                <li><strong class="text-white">Explosives:</strong> 
+                    <span class="text-gray-400">Freeze Bomb (creates ice), Hardmode Ore Bomb.</span>
+                </li>
+                <li><strong class="text-white">Mud Balls:</strong> Throwable, places mud blocks.</li>
+                <li><strong class="text-white">Acorn Slingshot:</strong> Shoots acorns that plant saplings on impact.</li>
+                <li><strong class="text-white">Magic String:</strong> Accessory that detaches Yoyos to deal damage freely.</li>
+            </ul>
+        </article>
+
+        <!-- Building & Furniture -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="building">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-orange-400 flex items-center gap-2">
+                    <i data-lucide="box" class="w-5 h-5"></i> Building & Decor
+                </h2>
+                <span class="bg-orange-900/50 text-orange-200 text-xs px-2 py-1 rounded border border-orange-500/30">Creative</span>
+            </div>
+            <div class="mb-2 text-sm font-bold text-white">New Furniture Sets:</div>
+            <p class="text-xs text-gray-400 leading-relaxed mb-3">
+                Hallow, Aetherium, Fallen Star, Feywood, Corruption, Crimson, Gothic, Stone, and Modern.
+            </p>
+            <ul class="space-y-2 text-sm">
+                <li><strong class="text-white">Functional:</strong> Hoppers (store dropped items), Music Blocks (play notes), CRT Television (visual filters), "Mitey-Titey" (places stalactites).</li>
+                <li><strong class="text-white">Placeable Objects:</strong> Demon Altars, Fallen Logs, Life Fruit, Shadow Orbs, Cannonballs.</li>
+                <li><strong class="text-white">Blocks:</strong> Fallen Star Bricks/Walls, Cloud Platforms, Unsafe Living Wood Walls.</li>
+            </ul>
+        </article>
+
+        <!-- Boulders & Traps -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="mechanics">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-red-400 flex items-center gap-2">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i> Boulders & Traps
+                </h2>
+            </div>
+            <ul class="space-y-2 text-sm">
+                <li class="flex items-center gap-2"><i data-lucide="arrow-up" class="w-4 h-4 text-red-400"></i> Reverse Gravity Boulders (fall up).</li>
+                <li class="flex items-center gap-2"><i data-lucide="cloud-rain" class="w-4 h-4 text-blue-400"></i> <strong>Boulder Rain:</strong> New weather event.</li>
+                <li class="flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-yellow-400"></i> <strong>Rainbow Boulder:</strong> Bounces between ores/chests.</li>
+                <li class="flex items-center gap-2"><i data-lucide="skull" class="w-4 h-4 text-gray-400"></i> Poo Boulder & Moon Lord Boulders.</li>
+            </ul>
+        </article>
+
+        <!-- World Gen -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="world">
+             <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-green-400 flex items-center gap-2">
+                    <i data-lucide="globe-2" class="w-5 h-5"></i> World Generation
+                </h2>
+            </div>
+            <ul class="space-y-3 text-sm">
+                <li><strong class="text-white">Seed Mixing:</strong> New menu allows combining secret seeds (e.g., GetFixedBoi + Celebrationmk10).</li>
+                <li><strong class="text-white">Skyblock Seed:</strong> Spawns player on a floating island with limited resources.</li>
+                <li><strong class="text-white">Vampire Features:</strong> "Vampire Seed" mechanics where player burns in sun.</li>
+                <li><strong class="text-white">Meteor Showers:</strong> New event causing meteorite to fall.</li>
+                <li><strong class="text-white">Dungeon:</strong> Two new entrance structure variations.</li>
+            </ul>
+        </article>
+
+        <!-- Mechanics -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="mechanics">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-teal-400 flex items-center gap-2">
+                    <i data-lucide="wrench" class="w-5 h-5"></i> QoL & Systems
+                </h2>
+                <span class="bg-teal-900/50 text-teal-200 text-xs px-2 py-1 rounded border border-teal-500/30">Major</span>
+            </div>
+            <ul class="space-y-2 text-sm">
+                <li>• <strong>Shimmer Water Gun:</strong> Ranged NPC transmutation.</li>
+                <li>• <strong>Smart Cursor:</strong> Improved logic for platform placement.</li>
+                <li>• <strong>Stacking:</strong> Weapons/Tools/Voodoo Dolls now stack (cannot reforge stack).</li>
+                <li>• <strong>Banners:</strong> No longer drop; claimed via menu.</li>
+                <li>• <strong>NPCs:</strong> Housing hints added. Houses no longer strictly require a solid block to stand on.</li>
+                <li>• <strong>Loadouts:</strong> Copy/Paste enabled.</li>
+                <li>• <strong>Mobile:</strong> Advanced touch control editor with multi-touch toggle.</li>
+            </ul>
+        </article>
+        
+        <!-- Mounts & Pets -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="crossover">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-pink-400 flex items-center gap-2">
+                    <i data-lucide="paw-print" class="w-5 h-5"></i> Mounts & Pets
+                </h2>
+            </div>
+            <ul class="space-y-2 text-sm">
+                <li><strong class="text-white">Transformations:</strong> Wolf, Bat, Rat, Fairy, Velociraptor (dyeable).</li>
+                <li><strong class="text-white">Mounts:</strong> Roller Skates (grind rails), Kites on sticks.</li>
+                <li><strong class="text-white">Pets:</strong> Axe Fairy (Cenx avatar), Pufferfish.</li>
+                <li><strong class="text-white">Accessories:</strong> Stress Ball (auto-attack), Audio changers (Goat, Zombie, Turkey, Chicken, Arcade).</li>
+            </ul>
+        </article>
+
+        <!-- Visuals -->
+        <article class="bg-[#2a2a3e] p-6 rounded-lg panel-border card-hover transition-all" data-category="world">
+            <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-bold text-indigo-400 flex items-center gap-2">
+                    <i data-lucide="eye" class="w-5 h-5"></i> Visuals & Audio
+                </h2>
+            </div>
+            <ul class="space-y-2 text-sm">
+                <li>• <strong>Resprites:</strong> Moon Lord, Imp Staff, Slime Staff, Trophies, Banners, Demon Altars.</li>
+                <li>• <strong>New Music:</strong> 10+ new tracks including Boss themes (Twins, EoW, Skeletron).</li>
+                <li>• <strong>Ambience:</strong> Fireflies/insects in grass, Film Noir shader.</li>
+                <li>• <strong>Paintings:</strong> New community art + r/place 2023 canvas.</li>
+                <li>• <strong>Character Creation:</strong> Voice pitch slider, new voice option.</li>
+            </ul>
+        </article>
+
+    </main>
+
+    <footer class="max-w-5xl mx-auto mt-12 text-center text-gray-500 text-xs pb-8">
+        <p>Generated based on community spoilers and teaser images.</p>
+        <p class="mt-2">Terraria is a trademark of Re-Logic.</p>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Search and Filter Logic
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.category-btn');
+        const cards = document.querySelectorAll('#changelogGrid article');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function updateDisplay() {
+            cards.forEach(card => {
+                const category = card.dataset.category;
+                const text = card.innerText.toLowerCase();
+                
+                // Custom logic: "weapons" filter should also show crossover weapons if applicable
+                let matchesFilter = currentFilter === 'all' || category === currentFilter;
+                
+                if (currentFilter === 'weapons' && text.includes('weapon')) matchesFilter = true;
+
+                const matchesSearch = text.includes(currentSearch);
+
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'block';
+                    card.style.opacity = '0';
+                    setTimeout(() => card.style.opacity = '1', 50);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search Event
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            updateDisplay();
+        });
+
+        // Filter Events
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                updateDisplay();
+            });
+        });
+    </script>
+</body>
+</html>
