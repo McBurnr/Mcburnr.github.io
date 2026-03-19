@@ -2,7 +2,7 @@
   {
     "Name": "Ratclops",
     "Author": "McBurn",
-    "ModVersion": "1.2.0",
+    "ModVersion": "1.0.0",
     "GameVersion": "1.0.0.0",
     "ThumbnailUrl": "https://cdn.imgchest.com/files/941d8e4cc101.png",
     "BannerUrl": "https://cdn.imgchest.com/files/fbc75aa4b926.png",
@@ -10,13 +10,13 @@
     "Description": "Something new, wicked, and...squeaky? has been stirring in the cyclops dungeon."
   },
   {
-    "Name": "Better Farming Textures",
-    "Author": "PixelWizard",
-    "ModVersion": "2.0.1",
+    "Name": "Shrekstead",
+    "Author": "McBurn",
+    "ModVersion": "1.0.0",
     "GameVersion": "1.0.0.0",
-    "ThumbnailUrl": "https://picsum.photos/seed/farm/200/150",
-    "BannerUrl": "https://picsum.photos/seed/farm/700/180",
-    "DownloadUrl": "https://github.com/microsoft/calculator/archive/refs/tags/v11.2401.0.0.zip",
-    "Description": "Upgrades all crop, soil, and farming equipment sprites to high-definition 32x32 textures. Includes seasonal variations for all standard Romestead crops."
+    "ThumbnailUrl": "https://cdn.imgchest.com/files/3b8e8bd71604.png",
+    "BannerUrl": "https://cdn.imgchest.com/files/e0ffa7d7500d.png",
+    "DownloadUrl": "http://mcburnr.github.io/Shrekstead_v1_0_0_0.zip",
+    "Description": "Somebody once told me..."
   }
 ]
