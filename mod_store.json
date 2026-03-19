@@ -1,13 +1,13 @@
 [
   {
-    "Name": "Expanded Dungeons",
+    "Name": "Ratclops",
     "Author": "McBurn",
     "ModVersion": "1.2.0",
     "GameVersion": "1.0.0.0",
-    "ThumbnailUrl": "https://picsum.photos/seed/dungeon/200/150",
-    "BannerUrl": "https://picsum.photos/seed/dungeon/700/180",
-    "DownloadUrl": "https://github.com/microsoft/calculator/archive/refs/tags/v11.2401.0.0.zip",
-    "Description": "This mod completely revamps the underground dungeon systems in Romestead! Dive into deeper levels, discover new loot, and fight 3 brand new boss types. Make sure you bring extra torches!"
+    "ThumbnailUrl": "https://cdn.imgchest.com/files/941d8e4cc101.png",
+    "BannerUrl": "https://cdn.imgchest.com/files/fbc75aa4b926.png",
+    "DownloadUrl": "https://mcburnr.github.io/Ratclops_v1_0_0_0.zip",
+    "Description": "Something new, wicked, and...squeaky? has been stirring in the cyclops dungeon."
   },
   {
     "Name": "Better Farming Textures",
