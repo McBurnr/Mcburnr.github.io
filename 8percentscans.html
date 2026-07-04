@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manga A/B Reader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+/* ============================================================
+   CONFIG — this is the only part you need to touch.
+   ============================================================
+   albumA / albumB : imgchest album URL or bare ID for each set.
+   labelA / labelB : names shown in the UI for each version.
+   apiToken        : your imgchest personal access token.
+                     ⚠ SECURITY WARNING: anyone who views this
+                     page's source can copy this token, and it
+                     grants FULL access to your imgchest account
+                     (upload/delete posts). Use a token you're
+                     willing to burn, and regenerate it from your
+                     profile > Security tab if you ever suspect
+                     abuse. Leave it as "" to skip the API and
+                     rely on the scrape/manual fallbacks.
+   manualA/manualB : optional fallback — paste direct image links
+                     (in order) and they'll be used if albums
+                     can't be loaded, or exclusively if albumA/B
+                     are set to "".
+   You can also override albums per-visit via the URL:
+   index.html?a=ALBUM_ID_OR_URL&b=ALBUM_ID_OR_URL
+   ============================================================ */
+const CONFIG = {
+  title:  "Manga A/B Reader",
+  albumA: "https://imgchest.com/p/agyvp2qpjy8",
+  albumB: "https://imgchest.com/p/dl7ppvepp7o",
+  labelA: "Version A",
+  labelB: "Version B",
+  apiToken: "lL2AJbTZfE8PQSINcL4RgU0KP9WumvZ3LwKhDaMee0080177",
+  manualA: [
+    // "https://cdn.imgchest.com/files/xxxxxxxxxxx.png",
+  ],
+  manualB: [
+    // "https://cdn.imgchest.com/files/xxxxxxxxxxx.png",
+  ],
+  cacheMinutes: 60,   // resolved albums are cached in the browser this long
+};
+</script>
+
+<style>
+:root{
+  --bg:#0d0e11; --panel:#16181d; --panel-2:#1c1f26; --line:#282c35;
+  --text:#e9e7e0; --muted:#8b8e98; --dim:#5a5d66;
+  --a:#e6a23c;  --a-soft:rgba(230,162,60,.16);
+  --b:#46b5c8;  --b-soft:rgba(70,181,200,.16);
+  --danger:#e06060;
+  --ui:"Space Grotesk",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--text); font-family:var(--ui);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+
+/* ---------- top bar ---------- */
+header{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:8px 14px; background:var(--panel); border-bottom:1px solid var(--line);
+  z-index:5;
+}
+header h1{font-size:14px; font-weight:600; letter-spacing:.02em; margin-right:2px}
+.legend{display:flex; gap:10px; font-size:12px; color:var(--muted)}
+.legend span{display:inline-flex; align-items:center; gap:5px}
+.dot{width:8px; height:8px; border-radius:50%}
+.dot.a{background:var(--a)} .dot.b{background:var(--b)}
+.spacer{flex:1}
+.seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.seg button{
+  background:transparent; color:var(--muted); border:0; font:500 12px var(--ui);
+  padding:6px 12px; cursor:pointer;
+}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--panel-2); color:var(--text)}
+.seg button:focus-visible, .btn:focus-visible, .jump:focus-visible{
+  outline:2px solid var(--a); outline-offset:-2px;
+}
+
+/* ---------- stage ---------- */
+main{flex:1; position:relative; min-height:0; display:flex}
+.stage{
+  flex:1; min-width:0; position:relative; overflow:auto;
+  display:flex; scrollbar-width:thin; scrollbar-color:var(--line) transparent;
+}
+.stage > *{margin:auto}   /* safe centering: never clips overflow */
+.stage img{display:block; user-select:none; -webkit-user-drag:none}
+
+/* fit modes: applied on <main> */
+main.fit-screen #flipWrap, main.fit-screen #slideWrap{
+  height:100%; max-width:100%; display:flex; align-items:center; justify-content:center;
+}
+main.fit-screen #flipWrap img, main.fit-screen #slideWrap > img{
+  max-width:100%; max-height:100%; width:auto; height:auto;
+}
+main.fit-screen .pane .scroller img{max-width:100%; max-height:100%; width:auto; height:auto}
+main.fit-width  #flipWrap, main.fit-width #slideWrap{width:100%}
+main.fit-width  #flipWrap img, main.fit-width #slideWrap > img,
+main.fit-width  .pane .scroller img{width:100%; height:auto}
+main.fit-orig   .stage img, main.fit-orig .pane .scroller img{max-width:none; max-height:none}
+
+/* flip mode */
+#flipWrap{position:relative; cursor:pointer}
+.vchip{
+  position:absolute; top:14px; left:14px; z-index:3; pointer-events:none;
+  font:600 13px var(--mono); letter-spacing:.06em; padding:5px 10px;
+  border-radius:6px; color:#0d0e11;
+}
+.vchip.a{background:var(--a)} .vchip.b{background:var(--b)}
+
+/* split mode */
+.split{flex:1; display:flex; min-width:0}
+.split .pane{flex:1; min-width:0; position:relative; display:flex}
+.split .pane + .pane{border-left:1px solid var(--line)}
+.pane .scroller{
+  flex:1; min-width:0; overflow:auto; scrollbar-width:thin; display:flex;
+}
+.pane .scroller > *{margin:auto}
+.pane .tag{
+  position:absolute; top:0; left:0; z-index:3; pointer-events:none;
+  font:600 11px var(--mono); letter-spacing:.06em; padding:4px 8px;
+  border-radius:0 0 6px 0; color:#0d0e11;
+}
+.pane .tag.a{background:var(--a)} .pane .tag.b{background:var(--b)}
+
+/* slider mode */
+#slideWrap{position:relative; touch-action:none; cursor:ew-resize}
+#slideWrap img{pointer-events:none}
+#slideTop{position:absolute; overflow:hidden}
+#slideTop img{position:absolute; top:0; left:0}
+#slideBar{
+  position:absolute; width:2px; margin-left:-1px;
+  background:linear-gradient(var(--a), var(--b)); z-index:3;
+}
+#slideBar::after{
+  content:"◂ ▸"; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background:var(--panel-2); border:1px solid var(--line); color:var(--text);
+  font:600 11px var(--mono); padding:5px 7px; border-radius:999px; white-space:nowrap;
+}
+.slide-tag{
+  position:absolute; z-index:2; pointer-events:none;
+  font:600 12px var(--mono); letter-spacing:.06em; padding:4px 9px;
+  border-radius:6px; color:#0d0e11;
+}
+.slide-tag.a{background:var(--a)}
+.slide-tag.b{background:var(--b)}
+
+/* placeholders / status */
+.placeholder{
+  display:flex; align-items:center; justify-content:center;
+  color:var(--dim); font:500 13px var(--mono); padding:60px 20px; text-align:center;
+}
+#status{
+  position:absolute; inset:0; display:flex; flex-direction:column; gap:10px;
+  align-items:center; justify-content:center; background:var(--bg); z-index:8;
+  padding:24px; text-align:center;
+}
+#status .big{font:600 15px var(--ui)}
+#status .sub{font:400 12px var(--mono); color:var(--muted); max-width:640px; line-height:1.7; white-space:pre-wrap}
+#status.err .big{color:var(--danger)}
+.pulse{width:34px;height:34px;border-radius:50%;
+  background:conic-gradient(var(--a), var(--b), var(--a));
+  animation:spin 1.2s linear infinite; mask:radial-gradient(farthest-side,transparent 62%,#000 64%)}
+@keyframes spin{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+
+/* ---------- bottom bar ---------- */
+footer{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:8px 14px; background:var(--panel); border-top:1px solid var(--line); z-index:5;
+}
+.btn{
+  background:var(--panel-2); border:1px solid var(--line); color:var(--text);
+  font:500 12px var(--ui); padding:6px 14px; border-radius:8px; cursor:pointer;
+}
+.btn:disabled{opacity:.35; cursor:default}
+.counter{font:500 13px var(--mono); color:var(--text)}
+.counter b.a{color:var(--a)} .counter b.b{color:var(--b)}
+.jump{
+  width:56px; background:var(--bg); border:1px solid var(--line); color:var(--text);
+  font:500 12px var(--mono); padding:5px 7px; border-radius:6px; text-align:center;
+}
+.hints{margin-left:auto; font:400 11px var(--mono); color:var(--dim)}
+kbd{
+  border:1px solid var(--line); border-bottom-width:2px; border-radius:4px;
+  padding:1px 5px; font:500 10px var(--mono); color:var(--muted); background:var(--panel-2);
+}
+@media (max-width:700px){ .hints{display:none} header h1{display:none} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="pageTitle"></h1>
+  <div class="legend">
+    <span><i class="dot a"></i><span id="legendA"></span></span>
+    <span><i class="dot b"></i><span id="legendB"></span></span>
+  </div>
+  <div class="spacer"></div>
+  <div class="seg" role="group" aria-label="Compare mode">
+    <button id="mFlip"  class="on">Flip</button>
+    <button id="mSplit">Side by side</button>
+    <button id="mSlide">Slider</button>
+  </div>
+  <div class="seg" role="group" aria-label="Fit mode">
+    <button id="fScreen" class="on">Fit screen</button>
+    <button id="fWidth">Fit width</button>
+    <button id="fOrig">1:1</button>
+  </div>
+</header>
+
+<main id="main" class="fit-screen">
+  <div id="status"><div class="pulse"></div><div class="big">Loading albums…</div><div class="sub" id="statusSub"></div></div>
+</main>
+
+<footer>
+  <button class="btn" id="prevBtn">◂ Prev</button>
+  <span class="counter">page <input class="jump" id="jump" inputmode="numeric"> / <span id="total">–</span> · showing <b id="curVer" class="a">A</b></span>
+  <button class="btn" id="nextBtn">Next ▸</button>
+  <span class="hints">
+    <kbd>←</kbd><kbd>→</kbd> page &nbsp; <kbd>V</kbd>/click flip A·B &nbsp; <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> mode &nbsp; <kbd>F</kbd> fit
+  </span>
+</footer>
+
+<script>
+"use strict";
+/* ================= album resolution ================= */
+
+const params = new URLSearchParams(location.search);
+const srcA = params.get("a") || CONFIG.albumA;
+const srcB = params.get("b") || CONFIG.albumB;
+
+function albumId(src){
+  if(!src) return null;
+  const m = String(src).match(/imgchest\.com\/p\/([a-z0-9]+)/i);
+  return m ? m[1] : String(src).trim().match(/^[a-z0-9]+$/i)?.[0] || null;
+}
+
+function cacheGet(id){
+  try{
+    const raw = localStorage.getItem("abreader:"+id);
+    if(!raw) return null;
+    const {t, links} = JSON.parse(raw);
+    if(Date.now() - t > CONFIG.cacheMinutes*60*1000) return null;
+    return links;
+  }catch(e){ return null; }
+}
+function cachePut(id, links){
+  try{ localStorage.setItem("abreader:"+id, JSON.stringify({t:Date.now(), links})); }catch(e){}
+}
+
+/* Strategy 1 — official API (needs token; needs imgchest to allow CORS) */
+async function viaApi(id){
+  if(!CONFIG.apiToken) throw new Error("no token set");
+  const r = await fetch("https://api.imgchest.com/v1/post/"+id, {
+    headers:{ "Authorization":"Bearer "+CONFIG.apiToken }
+  });
+  if(!r.ok) throw new Error("API HTTP "+r.status);
+  const j = await r.json();
+  const imgs = (j.data && j.data.images || []).slice()
+    .sort((x,y)=>(x.position||0)-(y.position||0))
+    .map(i=>i.link);
+  if(!imgs.length) throw new Error("API returned no images");
+  return imgs;
+}
+
+/* Strategy 2 — official API through a CORS proxy (in case imgchest blocks browsers) */
+async function viaApiProxy(id){
+  if(!CONFIG.apiToken) throw new Error("no token set");
+  const url = "https://corsproxy.io/?url=" + encodeURIComponent("https://api.imgchest.com/v1/post/"+id);
+  const r = await fetch(url, { headers:{ "Authorization":"Bearer "+CONFIG.apiToken } });
+  if(!r.ok) throw new Error("proxy HTTP "+r.status);
+  const j = await r.json();
+  const imgs = (j.data && j.data.images || []).slice()
+    .sort((x,y)=>(x.position||0)-(y.position||0))
+    .map(i=>i.link);
+  if(!imgs.length) throw new Error("proxied API returned no images");
+  return imgs;
+}
+
+/* Strategy 3 — scrape the public album page through CORS proxies (no token needed) */
+async function viaScrape(id){
+  const target = "https://imgchest.com/p/"+id;
+  const proxies = [
+    u => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
+    u => "https://corsproxy.io/?url=" + encodeURIComponent(u),
+    u => "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(u),
+  ];
+  let lastErr;
+  for(const p of proxies){
+    try{
+      const r = await fetch(p(target));
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const html = await r.text();
+      const seen = new Set(), links = [];
+      const re = /cdn\.imgchest\.com\/files\/(?:thumb\/)?([a-z0-9]+)\.(png|jpe?g|gif|webp|avif)/gi;
+      let m;
+      while((m = re.exec(html))){
+        if(!seen.has(m[1])){ seen.add(m[1]); links.push(`https://cdn.imgchest.com/files/${m[1]}.${m[2].toLowerCase()}`); }
+      }
+      if(links.length) return links;
+      throw new Error("no image links found in page");
+    }catch(e){ lastErr = e; }
+  }
+  throw lastErr || new Error("all scrape proxies failed");
+}
+
+async function resolveAlbum(src, manual, log){
+  const id = albumId(src);
+  if(!id){
+    if(manual && manual.length){ log.push("→ using manual link list"); return manual.slice(); }
+    throw new Error("No album and no manual links configured.");
+  }
+  const cached = cacheGet(id);
+  if(cached){ log.push(`${id}: from cache (${cached.length} pages)`); return cached; }
+
+  const attempts = [["API direct", viaApi], ["API via proxy", viaApiProxy], ["page scrape", viaScrape]];
+  for(const [name, fn] of attempts){
+    try{
+      const links = await fn(id);
+      log.push(`${id}: ${name} ✓ (${links.length} pages)`);
+      cachePut(id, links);
+      return links;
+    }catch(e){
+      log.push(`${id}: ${name} ✗ (${e.message})`);
+    }
+  }
+  if(manual && manual.length){ log.push(`${id}: → using manual link list`); return manual.slice(); }
+  throw new Error("Every loading strategy failed for album "+id);
+}
+
+/* ================= reader state ================= */
+
+const S = {
+  A:[], B:[],
+  page:0, total:0,
+  ver:"A",            // which version is on top in flip mode
+  mode:"flip",        // flip | split | slide
+  fit:"screen",       // screen | width | orig
+  slideX:.5,
+};
+
+const $ = s => document.querySelector(s);
+const main = $("#main");
+
+function img(src, alt){
+  const i = new Image();
+  i.src = src; i.alt = alt; i.draggable = false;
+  return i;
+}
+function missing(label){
+  const d = document.createElement("div");
+  d.className = "placeholder";
+  d.textContent = "no page " + (S.page+1) + " in " + label;
+  return d;
+}
+const pageA = () => S.A[S.page];
+const pageB = () => S.B[S.page];
+
+function preload(){
+  for(const off of [1,2,-1]){
+    const p = S.page + off;
+    if(p<0 || p>=S.total) continue;
+    if(S.A[p]) (new Image()).src = S.A[p];
+    if(S.B[p]) (new Image()).src = S.B[p];
+  }
+}
+
+/* ================= renderers ================= */
+
+function render(){
+  main.className = "fit-"+S.fit;
+  main.innerHTML = "";
+  if(S.mode==="flip") renderFlip();
+  else if(S.mode==="split") renderSplit();
+  else renderSlide();
+
+  $("#jump").value = S.page+1;
+  $("#total").textContent = S.total;
+  $("#prevBtn").disabled = S.page<=0;
+  $("#nextBtn").disabled = S.page>=S.total-1;
+  const cv = $("#curVer");
+  cv.textContent = S.ver;
+  cv.className = S.ver.toLowerCase();
+  preload();
+}
+
+function stage(centerWhenFitScreen=true){
+  const st = document.createElement("div");
+  st.className = "stage";
+  main.appendChild(st);
+  return st;
+}
+
+function renderFlip(){
+  const st = stage();
+  const src = S.ver==="A" ? pageA() : pageB();
+  const wrap = document.createElement("div");
+  wrap.id = "flipWrap";
+  const chip = document.createElement("div");
+  chip.className = "vchip " + S.ver.toLowerCase();
+  chip.textContent = S.ver==="A" ? CONFIG.labelA : CONFIG.labelB;
+  wrap.appendChild(chip);
+  if(src) wrap.appendChild(img(src, "page "+(S.page+1)));
+  else wrap.appendChild(missing(S.ver==="A"?CONFIG.labelA:CONFIG.labelB));
+  wrap.addEventListener("click", toggleVer);
+  st.appendChild(wrap);
+}
+
+function renderSplit(){
+  const box = document.createElement("div");
+  box.className = "split";
+  main.appendChild(box);
+  const mk = (src,label,cls)=>{
+    const pane = document.createElement("div");
+    pane.className = "pane";
+    const tag = document.createElement("div");
+    tag.className = "tag "+cls; tag.textContent = label;
+    const sc = document.createElement("div");
+    sc.className = "scroller";
+    sc.appendChild(src ? img(src,label+" page "+(S.page+1)) : missing(label));
+    pane.append(sc, tag);
+    box.appendChild(pane);
+    return sc;
+  };
+  const pa = mk(pageA(), CONFIG.labelA, "a");
+  const pb = mk(pageB(), CONFIG.labelB, "b");
+  // synced scrolling
+  let lock = false;
+  const sync = (from,to)=>()=>{ if(lock) return; lock=true;
+    const fm = from.scrollHeight-from.clientHeight, tm = to.scrollHeight-to.clientHeight;
+    if(fm>0) to.scrollTop = (from.scrollTop/fm)*tm;
+    requestAnimationFrame(()=>lock=false);
+  };
+  pa.addEventListener("scroll", sync(pa,pb));
+  pb.addEventListener("scroll", sync(pb,pa));
+}
+
+function renderSlide(){
+  const st = stage();
+  const a = pageA(), b = pageB();
+  if(!a || !b){
+    st.appendChild(missing(!a?CONFIG.labelA:CONFIG.labelB));
+    return;
+  }
+  const wrap = document.createElement("div"); wrap.id = "slideWrap";
+  const base = img(a, CONFIG.labelA);                 // A = base (left of bar)
+  const top  = document.createElement("div"); top.id = "slideTop";
+  const topImg = img(b, CONFIG.labelB);               // B revealed right of bar
+  const bar = document.createElement("div"); bar.id = "slideBar";
+  const ta = document.createElement("div"); ta.className="slide-tag a"; ta.textContent=CONFIG.labelA;
+  const tb = document.createElement("div"); tb.className="slide-tag b"; tb.textContent=CONFIG.labelB;
+  top.appendChild(topImg);
+  wrap.append(base, top, bar, ta, tb);
+  st.appendChild(wrap);
+
+  function layout(){
+    const w = base.clientWidth, h = base.clientHeight;
+    const ox = base.offsetLeft, oy = base.offsetTop;
+    Object.assign(top.style, {left:ox+"px", top:oy+"px", width:w+"px", height:h+"px"});
+    Object.assign(topImg.style, {width:w+"px", height:h+"px"});
+    const x = S.slideX * w;
+    top.style.clipPath = `inset(0 0 0 ${x}px)`;
+    Object.assign(bar.style, {left:(ox+x)+"px", top:oy+"px", height:h+"px"});
+    Object.assign(ta.style, {left:(ox+14)+"px", top:(oy+14)+"px"});
+    Object.assign(tb.style, {left:(ox+w-tb.offsetWidth-14)+"px", top:(oy+14)+"px"});
+  }
+  base.addEventListener("load", layout);
+  if(base.complete) layout();
+  new ResizeObserver(layout).observe(base);
+
+  function move(clientX){
+    const r = base.getBoundingClientRect();
+    S.slideX = Math.min(1, Math.max(0, (clientX - r.left)/r.width));
+    layout();
+  }
+  wrap.addEventListener("pointerdown", e=>{
+    wrap.setPointerCapture(e.pointerId);
+    move(e.clientX);
+    const mv = ev=>move(ev.clientX);
+    const up = ()=>{ wrap.removeEventListener("pointermove",mv); wrap.removeEventListener("pointerup",up); };
+    wrap.addEventListener("pointermove", mv);
+    wrap.addEventListener("pointerup", up);
+  });
+}
+
+/* ================= actions ================= */
+
+function go(p){
+  const np = Math.min(S.total-1, Math.max(0, p));
+  if(np===S.page) return;
+  S.page = np; render();
+  main.querySelectorAll(".stage,.pane").forEach(el=>el.scrollTop=0);
+}
+function toggleVer(){ S.ver = S.ver==="A"?"B":"A"; render(); }
+function setMode(m){
+  S.mode = m;
+  for(const [id,v] of [["#mFlip","flip"],["#mSplit","split"],["#mSlide","slide"]])
+    $(id).classList.toggle("on", v===m);
+  render();
+}
+function setFit(f){
+  S.fit = f;
+  for(const [id,v] of [["#fScreen","screen"],["#fWidth","width"],["#fOrig","orig"]])
+    $(id).classList.toggle("on", v===f);
+  render();
+}
+
+$("#prevBtn").onclick = ()=>go(S.page-1);
+$("#nextBtn").onclick = ()=>go(S.page+1);
+$("#jump").onchange = e=>go((parseInt(e.target.value,10)||1)-1);
+$("#mFlip").onclick  = ()=>setMode("flip");
+$("#mSplit").onclick = ()=>setMode("split");
+$("#mSlide").onclick = ()=>setMode("slide");
+$("#fScreen").onclick= ()=>setFit("screen");
+$("#fWidth").onclick = ()=>setFit("width");
+$("#fOrig").onclick  = ()=>setFit("orig");
+
+document.addEventListener("keydown", e=>{
+  if(e.target.tagName==="INPUT") return;
+  switch(e.key){
+    case "ArrowLeft": go(S.page-1); break;
+    case "ArrowRight": go(S.page+1); break;
+    case "v": case "V": toggleVer(); break;
+    case "1": setMode("flip"); break;
+    case "2": setMode("split"); break;
+    case "3": setMode("slide"); break;
+    case "f": case "F":
+      setFit(S.fit==="screen"?"width":S.fit==="width"?"orig":"screen"); break;
+  }
+});
+
+/* touch swipe for page turns (flip & split modes) */
+let tx=null, ty=null;
+main.addEventListener("touchstart", e=>{ if(S.mode==="slide") return;
+  tx=e.touches[0].clientX; ty=e.touches[0].clientY; }, {passive:true});
+main.addEventListener("touchend", e=>{
+  if(tx===null || S.mode==="slide") return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx)>60 && Math.abs(dx)>2*Math.abs(dy)) go(S.page + (dx<0?1:-1));
+  tx=ty=null;
+}, {passive:true});
+
+/* ================= boot ================= */
+
+(async ()=>{
+  document.title = CONFIG.title;
+  $("#pageTitle").textContent = CONFIG.title;
+  $("#legendA").textContent = CONFIG.labelA;
+  $("#legendB").textContent = CONFIG.labelB;
+
+  const log = [];
+  const tick = ()=>{ $("#statusSub").textContent = log.join("\n"); };
+  const logPush = log.push.bind(log);
+  log.push = (...x)=>{ const r = logPush(...x); tick(); return r; };
+
+  try{
+    const [A,B] = await Promise.all([
+      resolveAlbum(srcA, CONFIG.manualA, log),
+      resolveAlbum(srcB, CONFIG.manualB, log),
+    ]);
+    S.A = A; S.B = B;
+    S.total = Math.max(A.length, B.length);
+    if(!S.total) throw new Error("Both sets are empty.");
+    $("#status").remove();
+    render();
+  }catch(e){
+    const st = $("#status");
+    st.classList.add("err");
+    st.querySelector(".pulse")?.remove();
+    st.querySelector(".big").textContent = "Couldn't load the albums";
+    log.push("", String(e.message||e),
+      "Fix: check the album IDs, or paste direct image links into manualA / manualB in the CONFIG block at the top of this file.");
+  }
+})();
+</script>
+</body>
+</html>
